@@ -1,0 +1,88 @@
+# Operating-system metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+
+# Editor and IDE state
+.idea/
+.vscode/*.log
+.vscode/ipch/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# Local AI and developer tool state
+.agents/
+.claude/
+.codex/
+.impeccable/
+
+# CMake, Ninja, and build output
+build/
+build-*/
+out/
+dist/
+CMakeCache.txt
+CMakeFiles/
+CTestTestfile.cmake
+Testing/
+cmake_install.cmake
+compile_commands.json
+install_manifest.txt
+Makefile
+.ninja_deps
+.ninja_log
+build.ninja
+
+# Compiled output
+*.a
+*.app
+*.dll
+*.dylib
+*.exe
+*.lib
+*.o
+*.obj
+*.pdb
+*.so
+
+# Test and coverage output
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+coverage/
+test-results/
+
+# Documentation build and Python environment
+docs/_build/
+docs/.doctrees/
+docs/.venv/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Logs, temporary files, and generated archives
+*.log
+*.tmp
+*.bak
+*.old
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Documentation and source assets are intentionally trackable.
+!docs/
+!docs/**/*.md
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.jpeg
+!docs/**/*.gif
+!docs/**/*.svg
+!docs/**/*.ico
+!docs/**/*.pdf
