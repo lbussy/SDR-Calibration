@@ -18,4 +18,5 @@ superseded decision remains in the log and points to its replacement.
 0010-offline-update-and-failure-policy
 0011-evidence-retention-and-privacy
 0012-platform-and-dependency-baselines
+0013-bounded-iq-capture-artifact
 ```

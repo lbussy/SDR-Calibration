@@ -22,6 +22,7 @@ development/index
 development/status
 development/repository-layout
 development/application-architecture
+development/capture-contract
 development/profile-contract
 development/measurement-model
 development/uncertainty-model

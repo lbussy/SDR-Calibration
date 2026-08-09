@@ -81,6 +81,7 @@ CMakeLists.txt
 cmake/
 src/
   core/
+  capture/
   soapy/
   application/
   platform/
@@ -96,6 +97,11 @@ tests/
 
 This is a target layout, not an instruction to create empty production
 components before their contracts and tests exist.
+
+`capture/` owns Soapy-independent request/result types, the normalized sample
+source interface, bounded recording, and capture-artifact writers. `soapy/`
+implements that source interface. The detailed planned contract is defined in
+[Complex-IQ Capture Contract](capture-contract.md).
 
 ## 5. SoapySDR contract
 
@@ -186,7 +192,9 @@ Dependencies point inward:
 
 ```text
 UI/CLI -> application services -> calibration core
+Capture CLI -> capture service -> capture recorder and artifact writers
 SoapySDR adapter -------------> normalized core interfaces
+SoapySDR RX adapter ----------> capture sample-source interface
 WSJT-X adapters --------------> profile and observation interfaces
 ```
 
@@ -194,3 +202,7 @@ The calibration core must build and run its unit tests without SoapySDR,
 network access, WSJT-X, or physical hardware. This keeps the scientific model
 independently reviewable and allows consumers to reuse the profile evaluator
 without acquiring samples.
+
+The calibration core does not depend on the capture component. Capture output is
+diagnostic evidence and does not become a calibration profile without a later
+application workflow that evaluates and records it under the profile contract.

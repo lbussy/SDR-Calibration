@@ -8,6 +8,7 @@ operating-system paths, and interoperability formats.
 
 Start with the [implementation status](status.md), then consult the
 [repository layout](repository-layout.md), [application architecture](application-architecture.md),
+[complex-IQ capture contract](capture-contract.md),
 [measurement model](measurement-model.md), [uncertainty model](uncertainty-model.md),
 [reference registry contract](reference-registry-contract.md),
 [failure-state model](failure-state-model.md), [testing strategy](testing.md), and

@@ -54,6 +54,9 @@ Planned fixtures include:
 - positive and negative WSJT-X sign-convention cases;
 - valid, rejected, malformed, and partially understood `fmt.all` lines;
 - mocked SoapySDR capability and stream failures;
+- fake capture sources covering exact reads, short reads, timeouts,
+  discontinuities, cancellation, and cleanup failures;
+- complete and explicitly incomplete CF32 capture artifacts with manifests;
 - atomic-write and interrupted-update cases.
 
 Fixtures must be small, reviewable, redistributable, and free of credentials or

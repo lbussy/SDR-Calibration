@@ -11,6 +11,8 @@
 - Contributor, formatting, static-analysis, and testing policy
 - Accepted scope, claim-level, reference-assurance, uncertainty, validity,
   integrity, offline, evidence, and platform policies
+- Planned bounded complex-IQ capture request, artifact, failure, and reusable
+  component contracts
 
 ## Planned, not implemented
 
@@ -19,7 +21,9 @@
 - Uncertainty calculation and model fitting
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
-- SoapySDR discovery and sample acquisition
+- SoapySDR discovery, configuration, and sample acquisition
+- Reusable bounded capture recorder, CF32 writer, and capture-manifest writer
+- Thin diagnostic capture command-line interface
 - Command-line application
 - Qt 6 Widgets application
 - WSJT-X settings and `fmt.all` adapters
