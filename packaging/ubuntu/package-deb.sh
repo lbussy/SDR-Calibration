@@ -108,8 +108,8 @@ EOF
     cd "$output_dir"
     dpkg-shlibdeps -psdrcal -O -e"$stage_dir/usr/bin/sdrcal" \
         -e"$stage_dir/usr/bin/sdrcal-gui" 2>"$evidence_dir/dpkg-shlibdeps.txt"
-) | sed -n 's/^shlibs:Depends=//p' >"$output_dir/depends.txt"
-depends=$(<"$output_dir/depends.txt")
+) | sed -n 's/^[^:]*:Depends=//p' >"$evidence_dir/dependencies.txt"
+depends=$(<"$evidence_dir/dependencies.txt")
 if [[ -z "$depends" || "$depends" != *libqt6widgets6* ]]; then
     echo "derived Debian dependencies are missing the Qt Widgets runtime" >&2
     exit 1

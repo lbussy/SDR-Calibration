@@ -76,3 +76,8 @@ last adversarial pass found no open issue, not that later Phase 14 gates passed.
    record named the contributor group without a contact address. Corrected by
    using a stable project-owner contact in both the source and binary control
    records.
+5. **Derived dependencies were parsed under the wrong substitution prefix:**
+   the first Ubuntu CI run correctly failed because `dpkg-shlibdeps -p sdrcal`
+   emits `sdrcal:Depends`, while the script accepted only `shlibs:Depends`.
+   Corrected by accepting the package-qualified Debian substitution prefix and
+   retaining the derived dependency inventory as evidence.
