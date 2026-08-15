@@ -5,6 +5,8 @@ set(SDRCAL_SOURCE_COMPONENTS
     capture
     core
     profile
+    reference
+    evidence
     soapy
     application
     adapters

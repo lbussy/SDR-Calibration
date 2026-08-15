@@ -40,3 +40,18 @@ global update cannot erase operator-controlled references.
 
 Conflicts, expiration, and missing sources fail visibly. Source absence does not
 prove a transmitter has ceased operation.
+
+## Implemented Phase 9 boundary
+
+The hardware-free reference library implements registry domain records,
+semantic and digest validation, deterministic serialization, injected signature
+verification, atomic activation, separate local overlays, and cached/offline
+resolution with explicit expiry and assurance ceilings. Network retrieval, TLS
+transport, production signing keys and trust stores, and application workflow
+integration remain planned.
+
+The evidence library produces bounded, reviewable manifest JSON. Reduced
+evidence is the default; raw IQ and expanded diagnostics require separate opt-in
+and raw IQ requires explicit byte and duration bounds. The library rejects
+secret-bearing metadata and records partial failures and atomic-write status.
+Archive/container generation and workflow integration remain planned.

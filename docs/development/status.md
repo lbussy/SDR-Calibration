@@ -40,18 +40,25 @@
   validation, deterministic RFC 8785 serialization, SHA-256 integrity,
   injected Ed25519 signing and verification hooks, revocation-aware bounded
   evaluation, schema-major compatibility checks, and atomic replacement
+- Hardware-free reference-registry domain types, semantic validation,
+  deterministic serialization and integrity, injected signature verification,
+  atomic activation, separate local overlays, offline resolution, expiry, and
+  assurance-ceiling enforcement
+- Hardware-free bounded evidence-bundle manifests with explicit reduced,
+  raw-IQ, and expanded-diagnostic classes, privacy filtering, byte and time
+  limits, partial-failure reporting, and atomic-write status
 
 ## Planned, not implemented
 
 - Profile creation and evaluation integration in shared application services
 - Production Ed25519 key-provider and trust-store integration
-- Reference-station manifest and registry updater
+- Network reference-registry transport and production trust-store integration
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
 - Command-line application
 - Qt 6 Widgets application
 - WSJT-X settings and `fmt.all` adapters
-- Evidence bundle generation
+- Evidence archive/container production and application-service integration
 - Packaging and binary-license compliance automation
 
 ## Not established

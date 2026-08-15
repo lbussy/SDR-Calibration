@@ -151,6 +151,10 @@ or evaluation record rather than the semi-durable device profile.
 
 ## Phase 9: References and evidence
 
+**Status: Implemented and hardware-free validated; network transport,
+production trust-store integration, application integration, and calibration
+qualification remain separate gates.**
+
 Implement reference manifests, reference-registry handling, locally generated
 and ad-hoc reference classes, provenance, evidence bundles, privacy controls,
 assurance ceilings, authenticated registry updates, and offline behavior.
