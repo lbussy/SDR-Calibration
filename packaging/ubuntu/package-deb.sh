@@ -82,7 +82,16 @@ DESTDIR="$stage_dir" cmake --install "$build_dir" --prefix /usr --strip
 
 for required in usr/bin/sdrcal usr/bin/sdrcal-gui usr/share/sdrcal/LICENSE \
     usr/share/sdrcal/THIRD_PARTY_NOTICES.md usr/share/sdrcal/sdrcal.spdx.json \
-    usr/share/applications/sdrcal.desktop; do
+    usr/share/applications/sdrcal.desktop \
+    usr/share/icons/hicolor/16x16/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/24x24/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/32x32/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/48x48/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/64x64/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/128x128/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/256x256/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/512x512/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/1024x1024/apps/sdr-calibration.png; do
     if [[ ! -f "$stage_dir/$required" ]]; then
         echo "required Debian payload is missing: $required" >&2
         exit 1
@@ -198,7 +207,16 @@ for required in usr/bin/sdrcal usr/bin/sdrcal-gui usr/share/sdrcal/LICENSE \
     usr/share/sdrcal/license-disposition/README.md \
     usr/share/sdrcal/license-disposition/dependency-license-disposition.tsv \
     usr/share/sdrcal/license-disposition/QT_LIBRARY_REPLACEMENT.md \
-    usr/share/applications/sdrcal.desktop; do
+    usr/share/applications/sdrcal.desktop \
+    usr/share/icons/hicolor/16x16/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/24x24/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/32x32/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/48x48/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/64x64/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/128x128/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/256x256/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/512x512/apps/sdr-calibration.png \
+    usr/share/icons/hicolor/1024x1024/apps/sdr-calibration.png; do
     if [[ ! -f "$extract_dir/$required" ]]; then
         echo "required extracted Debian payload is missing: $required" >&2
         exit 1

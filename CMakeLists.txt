@@ -169,6 +169,13 @@ endif()
 if(UNIX AND NOT APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
     install(FILES "${PROJECT_SOURCE_DIR}/packaging/ubuntu/sdrcal.desktop"
         DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
+    foreach(icon_size 16 24 32 48 64 128 256 512 1024)
+        install(FILES
+            "${PROJECT_SOURCE_DIR}/assets/icons/linux/sdr-calibration-${icon_size}.png"
+            DESTINATION
+                "${CMAKE_INSTALL_DATADIR}/icons/hicolor/${icon_size}x${icon_size}/apps"
+            RENAME "sdr-calibration.png")
+    endforeach()
     set(SDRCAL_UBUNTU_DEB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/ubuntu-package")
     add_custom_target(ubuntu-deb
         COMMAND "${PROJECT_SOURCE_DIR}/packaging/ubuntu/package-deb.sh"

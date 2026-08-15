@@ -23,10 +23,20 @@ if(SDRCAL_EXPECT_CAPTURE)
 endif()
 if(SDRCAL_EXPECT_GUI)
     if(SDRCAL_GUI_IS_BUNDLE)
-        list(APPEND required_files "${SDRCAL_STAGE_DIR}/sdrcal-gui.app")
+        list(APPEND required_files
+            "${SDRCAL_STAGE_DIR}/sdrcal-gui.app"
+            "${SDRCAL_STAGE_DIR}/sdrcal-gui.app/Contents/Resources/SDRCalibration.icns")
     else()
         list(APPEND required_files
             "${SDRCAL_STAGE_DIR}/${SDRCAL_BINDIR}/sdrcal-gui${SDRCAL_EXECUTABLE_SUFFIX}")
+        if(UNIX AND NOT APPLE)
+            list(APPEND required_files
+                "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/applications/sdrcal.desktop")
+            foreach(icon_size 16 24 32 48 64 128 256 512 1024)
+                list(APPEND required_files
+                    "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/icons/hicolor/${icon_size}x${icon_size}/apps/sdr-calibration.png")
+            endforeach()
+        endif()
     endif()
 endif()
 foreach(required_file IN LISTS required_files)
