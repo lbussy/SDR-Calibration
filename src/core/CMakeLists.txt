@@ -1,5 +1,6 @@
 add_library(sdrcal_core
     CarrierEstimator.cpp
+    ObservationAcceptance.cpp
 )
 
 target_include_directories(sdrcal_core PUBLIC "${PROJECT_SOURCE_DIR}/src")

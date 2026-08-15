@@ -107,6 +107,9 @@ clipping, interference, and unsuitable signals.
 
 ## Phase 6: Observation acceptance
 
+**Status: Implemented and hardware-free validated; external metric derivation,
+recorded-input review, and model integration remain separate gates.**
+
 Implement deterministic observation-quality policy for signal-to-noise ratio,
 clipping, discontinuities, instability, interference, effective-configuration
 validity, and reference suitability.

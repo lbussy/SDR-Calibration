@@ -11,6 +11,7 @@ Start with the [implementation status](status.md) and
 [repository layout](repository-layout.md), [application architecture](application-architecture.md),
 [complex-IQ capture contract](capture-contract.md),
 [carrier estimator](carrier-estimator.md),
+[observation acceptance](observation-acceptance.md),
 [measurement model](measurement-model.md), [uncertainty model](uncertainty-model.md),
 [reference registry contract](reference-registry-contract.md),
 [failure-state model](failure-state-model.md), [testing strategy](testing.md), and

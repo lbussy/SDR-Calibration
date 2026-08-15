@@ -11,7 +11,8 @@ whether an observation is acceptable, or calculate measurement uncertainty.
 The estimator reports the carrier offset at the temporal midpoint of the input
 and a linear drift rate. A later application service is responsible for
 combining the offset with the effective tuned frequency and reference metadata.
-Phase 6 remains responsible for observation-quality policy.
+The separate Phase 6 observation-acceptance component owns observation-quality
+policy.
 
 ## Input contract
 
@@ -44,8 +45,9 @@ This estimator makes no uncertainty, confidence, accuracy, reference-
 suitability, device-support, or calibration claim. Its coherence floor rejects
 inputs that cannot support a single drifting-carrier estimate; passing that
 floor does not make an observation acceptable. Clipping, SNR, discontinuity,
-instability, and interference policy remain Phase 6 work even though fixtures
-exercise estimator behavior under representative conditions.
+instability, and interference are evaluated by the separate observation-
+acceptance policy even though estimator fixtures exercise representative
+conditions.
 
 ## Failure behavior
 

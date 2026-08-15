@@ -25,6 +25,7 @@ development/repository-layout
 development/application-architecture
 development/capture-contract
 development/carrier-estimator
+development/observation-acceptance
 development/profile-contract
 development/measurement-model
 development/uncertainty-model

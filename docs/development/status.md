@@ -24,10 +24,13 @@
 - Hardware-free carrier estimator for in-memory complex samples, including
   midpoint frequency, linear drift, explicit failure states, diagnostics, and
   deterministic synthetic golden fixtures
+- Versioned, hardware-free observation-acceptance policy with deterministic
+  thresholds, fail-closed configuration and reference checks, and reviewable
+  rejection codes and reasons
 
 ## Planned, not implemented
 
-- Observation acceptance and versioned reliability-quotient component scoring
+- Versioned reliability-quotient component scoring
 - Uncertainty calculation and model fitting
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
