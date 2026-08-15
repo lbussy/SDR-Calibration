@@ -140,7 +140,8 @@ cmake --build build/raspberry-pi-cli-release --target package-archive-audit
 cmake --build build/raspberry-pi-cli-release --target raspberry-pi-deb
 ```
 
-The preset applies a provisional 256 MiB per-observation declared-input ceiling.
+The preset applies a 128 MiB per-observation declared-input ceiling selected
+from native resource measurement on the first Raspberry Pi fixture.
 The DEB target rejects a dirty tree, wrong platform or architecture, mismatched
 configuration, GUI/Qt/SoapySDR content, conveyed shared libraries, unresolved
 dependencies, RPATH/RUNPATH, wrong-architecture ELF files, build-path leakage,

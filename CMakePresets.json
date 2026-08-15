@@ -88,7 +88,7 @@
         "SDRCAL_REQUIRE_GUI": "OFF",
         "SDRCAL_ENABLE_SOAPYSDR": "OFF",
         "SDRCAL_ENABLE_PACKAGING": "ON",
-        "SDRCAL_RECORDED_INPUT_MAX_BYTES": "268435456"
+        "SDRCAL_RECORDED_INPUT_MAX_BYTES": "134217728"
       },
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
     }

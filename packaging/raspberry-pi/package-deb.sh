@@ -68,7 +68,7 @@ for required in \
     'SDRCAL_BUILD_GUI:BOOL=OFF' \
     'SDRCAL_ENABLE_SOAPYSDR:BOOL=OFF' \
     'SDRCAL_ENABLE_PACKAGING:BOOL=ON' \
-    'SDRCAL_RECORDED_INPUT_MAX_BYTES:STRING=268435456'; do
+    'SDRCAL_RECORDED_INPUT_MAX_BYTES:STRING=134217728'; do
     if ! grep -q "^${required}$" <<<"$cache"; then
         echo "Raspberry Pi production package requires ${required}" >&2
         exit 1
@@ -268,7 +268,7 @@ manifest = {
     "rpi_issue": pathlib.Path("/etc/rpi-issue").read_text(encoding="utf-8").strip(),
     "artifact": "$(basename "$deb")",
     "sha256": "$deb_sha256",
-    "recorded_input_maximum_bytes": 268435456,
+    "recorded_input_maximum_bytes": 134217728,
     "cmake_version": subprocess.check_output(["cmake", "--version"], text=True).splitlines()[0],
     "compiler": subprocess.check_output(["$compiler", "--version"], text=True).splitlines()[0],
     "dependency_policy": "dpkg-shlibdeps derived system runtime dependencies",

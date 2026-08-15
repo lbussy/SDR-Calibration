@@ -48,9 +48,10 @@ of non-finite samples, and identical to its declared SHA-256 digest.
 The source default permits a declared bound through 2 GiB. A distribution may
 configure a smaller fail-closed ceiling to match a measured resource envelope;
 the request is rejected before sample input or staging output when any declared
-`maximum_bytes` exceeds that build's ceiling. The provisional Raspberry Pi CLI
-configuration uses 256 MiB. That value is an engineering bound pending native
-resource measurement, not a Raspberry Pi support or maximum-artifact claim.
+`maximum_bytes` exceeds that build's ceiling. The Raspberry Pi CLI configuration
+uses 128 MiB, selected from the first native resource measurement and subject to
+the exact fixture's retained qualification. It is not a general Raspberry Pi
+support or maximum-artifact claim.
 
 ## Output transaction
 
