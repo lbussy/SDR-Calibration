@@ -32,6 +32,17 @@ if(TARGET sdrcal_core)
             observation_acceptance_unit_tests PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
     endif()
     add_test(NAME observation_acceptance_unit_tests COMMAND observation_acceptance_unit_tests)
+
+    add_executable(model_uncertainty_unit_tests ModelUncertaintyTests.cpp)
+    target_link_libraries(model_uncertainty_unit_tests PRIVATE sdrcal_core)
+    target_compile_features(model_uncertainty_unit_tests PRIVATE cxx_std_20)
+    if(MSVC)
+        target_compile_options(model_uncertainty_unit_tests PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(
+            model_uncertainty_unit_tests PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
+    endif()
+    add_test(NAME model_uncertainty_unit_tests COMMAND model_uncertainty_unit_tests)
 endif()
 
 if(TARGET sdrcal_capture_cli_args)

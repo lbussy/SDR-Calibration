@@ -119,6 +119,10 @@ unusable or unverifiable observation must not reach model fitting.
 
 ## Phase 7: Model and uncertainty
 
+**Status: Implemented and hardware-free validated; application integration,
+recorded-observation review, and calibration qualification remain separate
+gates.**
+
 Implement the supported frequency-error model, uncertainty budget, validity
 range, extrapolation prohibition, and versioned reliability-quotient scoring.
 

@@ -27,11 +27,15 @@
 - Versioned, hardware-free observation-acceptance policy with deterministic
   thresholds, fail-closed configuration and reference checks, and reviewable
   rejection codes and reasons
+- Hardware-free frequency-error fitting and bounded evaluation for local and
+  linear models, with accepted-observation and independence provenance
+- Versioned uncertainty-budget combination with explicit correlation-matrix
+  validation, coverage factor, and incomplete-component flag
+- Versioned reliability-quotient scoring with the complete required component
+  set, weakest-component rule, and reference-class ceilings
 
 ## Planned, not implemented
 
-- Versioned reliability-quotient component scoring
-- Uncertainty calculation and model fitting
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
 - Real-device SoapySDR discovery, configuration, and sample acquisition

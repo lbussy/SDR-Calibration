@@ -1,6 +1,9 @@
 add_library(sdrcal_core
+    CalibrationModel.cpp
     CarrierEstimator.cpp
     ObservationAcceptance.cpp
+    ReliabilityQuotient.cpp
+    Uncertainty.cpp
 )
 
 target_include_directories(sdrcal_core PUBLIC "${PROJECT_SOURCE_DIR}/src")

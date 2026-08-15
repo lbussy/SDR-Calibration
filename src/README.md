@@ -14,4 +14,5 @@ The calibration core remains independent of Qt, SoapySDR, operating-system
 paths, and WSJT-X formats.
 
 The current `core/` implementation includes the Phase 5 in-memory carrier
-estimator and the Phase 6 observation-acceptance policy.
+estimator, the Phase 6 observation-acceptance policy, and the Phase 7
+frequency-error model, uncertainty budget, and reliability quotient.

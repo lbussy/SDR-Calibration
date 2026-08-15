@@ -44,6 +44,40 @@ local correction; a slope or more complex model requires sufficient accepted
 frequency span and independent observations. Tuner or clock-path discontinuities
 create separate segments when evidence shows they affect behavior.
 
+## Phase 7 implementation
+
+The hardware-free core implements `frequency-error-model-v1` with a local
+constant correction from one accepted observation and an ordinary least-squares
+linear model from at least two accepted, independently identified observations
+with nonzero indicated-frequency span. The linear form is:
+
+```text
+indicated_error_hz
+    = intercept_error_hz
+    + slope_ppm * (indicated_frequency_hz - reference_frequency_hz) / 1,000,000
+```
+
+The linear model uses the observed range midpoint as its reference. Its validity
+domain is the inclusive minimum-to-maximum indicated-frequency range of the
+fitted observations; a local correction is valid only at its observation's
+frequency. The core has no extrapolation option. Inputs must explicitly carry
+successful observation-acceptance provenance and an independence identifier.
+The API does not establish that those assertions are truthful; application
+services and retained evidence remain planned.
+
+For more than two observations the model records residual standard uncertainty
+and its residual degrees of freedom. A two-point line marks residual uncertainty
+unavailable rather than presenting zero as an estimate. A present residual
+value is only one input to a full uncertainty budget.
+
+`reliability-quotient-v1` requires exactly these named assurance components:
+reference provenance, received-signal suitability, device binding,
+environmental validity, observation quality, model quality, artifact integrity,
+and evidence completeness. Each integer score is from 0 through 100. The
+quotient is their minimum further limited by the reference-class ceiling in
+decision 0006. Incomplete or unknown-version inputs are rejected rather than
+scored.
+
 ## Time semantics
 
 Use UTC for evidence timestamps and a monotonic clock for durations, warm-up,
