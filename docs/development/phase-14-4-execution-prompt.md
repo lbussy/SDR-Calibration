@@ -96,4 +96,5 @@ gate.
     the first notarized DMG passed signature, stapling, and Gatekeeper
     assessment while its main executable had no `LC_RPATH`; launch therefore
     failed before application code ran. Corrected by installing and verifying
-    `@executable_path/../Frameworks` before signing the application.
+    `@executable_path/../Frameworks` before signing the application and by
+    requiring a bounded launch of the mounted application to remain alive.

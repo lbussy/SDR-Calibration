@@ -196,6 +196,19 @@ spctl --assess --type execute --verbose=4 "$mount_point/sdrcal-gui.app" \
     >"$evidence_dir/gatekeeper-app.txt" 2>&1
 codesign --verify --deep --strict --verbose=2 "$mount_point/sdrcal-gui.app" \
     2>"$evidence_dir/mounted-app-codesign-verify.txt"
+"$mount_point/sdrcal-gui.app/Contents/MacOS/sdrcal-gui" \
+    >"$evidence_dir/mounted-app-launch.stdout" \
+    2>"$evidence_dir/mounted-app-launch.stderr" &
+launch_pid=$!
+sleep 3
+if ! kill -0 "$launch_pid" 2>/dev/null; then
+    wait "$launch_pid" || true
+    echo "mounted application exited during launch smoke test" >&2
+    cat "$evidence_dir/mounted-app-launch.stderr" >&2
+    exit 1
+fi
+kill -TERM "$launch_pid"
+wait "$launch_pid" || true
 cleanup
 trap - EXIT
 
@@ -218,6 +231,7 @@ cat >"$evidence_dir/manifest.json" <<EOF
   "signing": "Developer ID Application hardened runtime with secure timestamp",
   "notarization": "Application and DMG accepted and stapled",
   "gatekeeper": "DMG open and mounted application execution assessments passed",
+  "launch_smoke": "Mounted application remained running for three seconds without hardware access",
   "hardware_access": false,
   "distribution_license_gate": "passed; see license-manifest.json"
 }
