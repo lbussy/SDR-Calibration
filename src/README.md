@@ -25,3 +25,7 @@ keys, reference registries, application workflows, or external adapters.
 injected discovery and acquisition. It produces validated profile and evidence
 candidates and optional WSJT-X projections; durable publication and production
 device integration remain outside that library.
+
+`cli/` retains the separate `sdrcal-capture` diagnostic tool and implements the
+Phase 12 `sdrcal` recorded-input production application over `application/`.
+The production command does not access SoapySDR.

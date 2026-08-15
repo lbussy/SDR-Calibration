@@ -165,6 +165,12 @@ production policies remain outside the hardware-free coordinator. The service
 currently produces linear native profiles only because schema 1.0 cannot
 represent a zero-span local-constant model without inventing a validity range.
 
+The Phase 12 production CLI supplies this boundary from explicitly selected,
+digest-verified recorded CF32LE observations. It finalizes the evidence digest,
+refreshes native-profile integrity, synchronizes staged files, and publishes a
+new output directory atomically. Live SoapySDR calibration remains a later
+integration and qualification gate.
+
 ## 8. External interoperability
 
 The native SDR Calibration Profile is authoritative. `wsjt-x-settings` and

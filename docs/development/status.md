@@ -56,6 +56,10 @@
   checks, estimation and acceptance, linear fitting, uncertainty and assurance,
   validated native profile and bounded evidence candidates, cancellation and
   stage tracing, reduced-assurance handling, and optional lossy WSJT-X export
+- Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
+  recorded CF32LE observations, with an independent local registry-signature
+  pin file, canonical terminal JSON, stable exit categories, progress,
+  cancellation, and coordinated new-directory artifact publication
 
 ## Planned, not implemented
 
@@ -64,12 +68,12 @@
 - Network reference-registry transport and production trust-store integration
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
-- Command-line application
+- Live-device integration for the production command-line application
 - Qt 6 Widgets application
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,
   and readback verification
-- Profile/evidence destination policy, coordinated durable publication, and
-  evidence archive/container production
+- Evidence archive/container production beyond the Phase 12 coordinated
+  profile/evidence/summary directory
 - Native-profile representation for zero-span local-constant fitted models
 - Packaging and binary-license compliance automation
 

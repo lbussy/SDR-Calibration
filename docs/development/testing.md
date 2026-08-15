@@ -90,3 +90,9 @@ acquisition and safe final state, estimator/acceptance rejection, model and
 uncertainty gates, evidence privacy, cancellation, reduced assurance, optional
 WSJT-X failure, deterministic native profiles, and repeatable evidence. It does
 not load SoapySDR, access files or networks, or establish calibration accuracy.
+
+The Phase 12 `production_cli_tests` target exercises the product argument and
+recorded-input path, strict request and independent trust input, CF32LE digest
+verification, stable JSON/exit behavior, shared-workflow success, cancellation,
+existing-output refusal, staging cleanup, and finalized artifact publication.
+It uses synthetic local files only and performs no device, network, or RF work.

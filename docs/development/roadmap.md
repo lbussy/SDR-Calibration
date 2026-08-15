@@ -208,12 +208,24 @@ fixtures without Qt, network access, or physical hardware.
 
 ## Phase 12: Production CLI
 
+**Status: Implemented and hardware-free validated for recorded CF32LE input;
+live-device integration, production trust management, and calibration
+qualification remain separate gates.**
+
 Deliver the supported command-line application over the shared services.
 Define stable arguments, automation-safe exit statuses, progress reporting,
 cancellation, diagnostics, and output behavior.
 
 Exit requires the CLI and planned GUI to use the same application-service
 contracts and product semantics.
+
+The implemented `sdrcal calibrate` command accepts a strict versioned run
+request, an independently selected local registry-signature pin file, and
+bounded digest-verified recorded observations. It emits canonical terminal
+JSON, stable exit categories, progress diagnostics, cancellation, and a
+coordinated new-directory publication containing the native profile, finalized
+evidence, reduced summary, and optional lossy WSJT-X projection. It does not
+enumerate or access SDR hardware.
 
 ## Phase 13: Qt desktop application
 

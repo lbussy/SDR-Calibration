@@ -17,3 +17,6 @@ Start with the [implementation status](status.md) and
 [reference registry contract](reference-registry-contract.md),
 [failure-state model](failure-state-model.md), [testing strategy](testing.md), and
 [decision log](decisions/index.md).
+
+Phase execution records include the
+[Phase 12 production CLI prompt](phase-12-execution-prompt.md).

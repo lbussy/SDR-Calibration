@@ -12,6 +12,7 @@ workflow.
 user-guide/index
 user-guide/calibration-profiles
 user-guide/wsjtx-interoperability
+user-guide/production-cli
 ```
 
 ```{toctree}
@@ -22,6 +23,7 @@ development/index
 development/status
 development/roadmap
 development/phase-11-execution-prompt
+development/phase-12-execution-prompt
 development/phase-10-execution-prompt
 development/phase-9-execution-prompt
 development/repository-layout
