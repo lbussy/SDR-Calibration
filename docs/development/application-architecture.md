@@ -4,8 +4,11 @@ Status: Draft 0.1
 
 ## 1. Product target
 
-The project will produce a multi-platform C++ application that runs on macOS,
-Linux, and Windows. It will use SoapySDR as its SDR support boundary.
+The project will produce a C++ application for macOS 14.0 or later on Apple
+Silicon, Windows 11 x64, Ubuntu 24.04 LTS x86_64, and Raspberry Pi OS 13 ARM64
+on Raspberry Pi 4. The Raspberry Pi target provides the recorded-input CLI only;
+the three desktop targets provide both the GUI and CLI. SoapySDR is the desktop
+SDR support boundary and is outside the Raspberry Pi target.
 
 The application will:
 
@@ -28,7 +31,8 @@ or in explicit, testable capability policies.
 - Build system: CMake.
 - SDR interface: SoapySDR public API.
 - GUI toolkit: Qt 6 Widgets.
-- Supported operating systems: macOS, Linux, and Windows.
+- Initial targets: macOS 14.0 or later on Apple Silicon, Windows 11 x64,
+  Ubuntu 24.04 LTS x86_64, and Raspberry Pi OS 13 ARM64 on Raspberry Pi 4.
 - Native profile encoding: JSON conforming to the published JSON Schema.
 - Platform-specific paths, locking, and atomic replacement remain isolated from
   calibration and profile-model code.

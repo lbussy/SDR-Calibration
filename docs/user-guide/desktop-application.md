@@ -6,6 +6,11 @@ same recorded-input calibration and atomic publication service used by the
 files or trust material, modify an installed WSJT-X instance, or establish
 calibration accuracy.
 
+The initial desktop targets are macOS 14.0 or later on Apple Silicon, Windows
+11 x64, and Ubuntu 24.04 LTS x86_64. Raspberry Pi OS is not a desktop target;
+its initial scope is the recorded-input CLI only. These are product targets,
+not claims that every target has completed clean-host qualification.
+
 ## macOS package status
 
 The Phase 14.1 macOS DMG is a Developer ID-signed and Apple-notarized package

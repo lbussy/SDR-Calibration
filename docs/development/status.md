@@ -125,7 +125,8 @@
 ## Not established
 
 - Supported SDR device matrix
-- Raspberry Pi models and Raspberry Pi OS releases that have passed qualification
+- A clean-host lifecycle or end-to-end calibration-qualified Raspberry Pi
+  combination
 - Calibration accuracy claims
 - Release schedule or stable artifact compatibility guarantee
 

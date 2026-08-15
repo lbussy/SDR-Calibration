@@ -6,6 +6,11 @@ the planned desktop interface will use. This path does not discover or access
 an SDR, and completing it does not qualify a device or establish calibration
 accuracy.
 
+The CLI is included in the initial macOS 14.0 or later Apple Silicon, Windows
+11 x64, and Ubuntu 24.04 LTS x86_64 desktop targets. Raspberry Pi OS 13 ARM64
+on Raspberry Pi 4 is a recorded-input CLI-only target; SoapySDR and live-device
+operation are outside that Raspberry Pi scope.
+
 ## Invocation
 
 ```shell

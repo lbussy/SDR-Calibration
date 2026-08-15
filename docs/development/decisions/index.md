@@ -24,4 +24,5 @@ superseded decision remains in the log and points to its replacement.
 0016-windows-msi-signing
 0017-ubuntu-deb-system-dependencies
 0018-exact-payload-license-disposition
+0019-initial-platform-target-boundary
 ```

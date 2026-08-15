@@ -5,6 +5,18 @@ This matrix is the authoritative index of positive platform and device claims.
 hardware-free tests. `Capture-qualified` is narrower than end-to-end calibration
 qualification. A blank or planned CI job never creates evidence.
 
+## Initial target boundary
+
+The initial desktop targets are macOS 14.0 or later on Apple Silicon, Windows
+11 x64, and Ubuntu 24.04 LTS x86_64. Raspberry Pi OS 13 ARM64 on Raspberry Pi 4
+is a recorded-input CLI-only target. Target status does not make a matrix cell
+positive; only retained evidence does.
+
+Intel macOS, Windows ARM64, Windows 10 unless deliberately retained later,
+generic Linux distributions, Ubuntu ARM64 desktop, 32-bit Raspberry Pi OS,
+other Raspberry Pi models, and Raspberry Pi SoapySDR/live-device operation are
+outside the initial supported matrix.
+
 ## Platform matrix
 
 | Platform | Architecture | Build state | Packaging state | Signing state | Evidence |

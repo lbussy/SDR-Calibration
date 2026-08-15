@@ -1,6 +1,7 @@
 # 0001 — Application platform
 
-Status: Accepted
+Status: Accepted; platform-target scope superseded by
+[0019](0019-initial-platform-target-boundary.md)
 
 Date: 2026-08-07
 
@@ -10,8 +11,9 @@ Implement the application in C++20 with CMake. Use SoapySDR as the SDR support
 boundary and Qt 6 Widgets as the cross-platform GUI. Provide a headless CLI over
 the same application services.
 
-Target Windows, macOS, and Linux. Use Raspberry Pi OS as a project-qualified
-Linux test fixture rather than assuming it inherits another platform's support.
+The original target statement was Windows, macOS, and Linux, with Raspberry Pi
+OS treated as a separately qualified Linux fixture. Decision 0019 replaces that
+broad statement with exact operating-system, architecture, and interface targets.
 
 ## Consequences
 
