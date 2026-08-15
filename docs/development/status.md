@@ -64,6 +64,13 @@
   service, with explicit path selection, bounded request/device/measurement
   review, responsive execution, cooperative cancellation, live progress,
   accessible controls, and read-only published-artifact review
+- Phase 14 packaging foundation with explicit CMake 3.20, Qt 6.2, and SoapySDR
+  0.8 baselines; strict full-release dependency checks; install rules; portable
+  CPack archives; deterministic configured SPDX 2.3 inventory; isolated staged-
+  package audit; and macOS/Linux/Windows hardware-free CI definitions
+- Evidence-indexed platform/device matrix and a fail-closed end-to-end
+  calibration qualification record that keeps build, package, signing, capture,
+  and calibration claims separate
 
 ## Planned, not implemented
 
@@ -81,12 +88,16 @@
 - Evidence archive/container production beyond the Phase 12 coordinated
   profile/evidence/summary directory
 - Native-profile representation for zero-span local-constant fitted models
-- Packaging and binary-license compliance automation
+- Completed binary-license disposition and corresponding-source bundle for the
+  exact dependencies redistributed by a release
+- Native installers, runtime dependency deployment, platform signing,
+  notarization, and clean-host installation evidence
 
 ## Not established
 
 - Supported SDR device matrix
-- Minimum supported Qt and SoapySDR versions
+- Passing macOS/Linux/Windows CI evidence beyond the locally validated macOS
+  arm64 configuration
 - Raspberry Pi models and Raspberry Pi OS releases that have passed qualification
 - Calibration accuracy claims
 - Release schedule or stable artifact compatibility guarantee

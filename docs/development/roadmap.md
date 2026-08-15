@@ -252,6 +252,11 @@ does not establish calibration accuracy or device qualification.
 
 ## Phase 14: Portability, packaging, and qualification
 
+**Status: Packaging and qualification foundation implemented and locally
+hardware-free validated on macOS arm64; cross-platform, clean-install,
+distribution-license, signing, device, and end-to-end qualification gates remain
+open.**
+
 Establish supported macOS, Linux, and Windows builds; minimum Qt and SoapySDR
 baselines; dependency pinning; dependency inventories or SBOMs; third-party
 notices; installers; applicable platform signing; and the supported-device and
@@ -265,6 +270,14 @@ End-to-end calibration qualification must separately exercise acquisition,
 estimation, acceptance, fitting, uncertainty, profile generation, and profile
 evaluation against an authoritative reference. Capture-only qualification from
 the earlier hardware gate cannot satisfy this requirement.
+
+The implemented foundation provides strict dependency baselines, install rules,
+portable CPack archives, a configured SPDX inventory, isolated package-content
+audit, three-OS hardware-free CI definitions, an evidence-indexed support
+matrix, and the full calibration qualification record contract. CI definitions
+are not passing evidence until executed. The archives do not yet deploy runtime
+dependencies or constitute native signed installers, and the current notice
+bundle is not a completed binary-distribution license disposition.
 
 ## Release candidate
 

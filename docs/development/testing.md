@@ -45,6 +45,25 @@ Documentation validation is:
 sphinx-build -W -b html docs docs/_build/html
 ```
 
+The strict release and portable-package checks are:
+
+```shell
+cmake --preset release
+cmake --build --preset release
+ctest --preset release
+cmake --build build/release --target package-audit
+cmake --build build/release --target package-archive-audit
+```
+
+`package-audit` performs an isolated staged install, required-content and SPDX
+syntax checks, build-path leakage detection, and CLI startup.
+`package-archive-audit` additionally creates, extracts, and checks the portable
+archive. These checks do not prove
+runtime dependency deployment, clean-host installation, binary-license
+compliance, native installer behavior, signing, notarization, hardware support,
+or calibration accuracy. Those results require retained evidence in the
+platform/device matrix and qualification record.
+
 ## Required fixtures
 
 Planned fixtures include:

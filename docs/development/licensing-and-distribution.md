@@ -57,6 +57,14 @@ The build system must keep project targets distinct from third-party targets.
 CI should eventually produce a machine-readable software bill of materials and
 a release-specific third-party notice bundle.
 
+Phase 14 generates a deterministic configured SPDX 2.3 inventory and installs
+it with the project license and third-party notice file. The inventory records
+direct configured dependencies and deliberately uses `NOASSERTION` where the
+exact package license or copyright evidence has not been supplied. It is an
+audit input, not proof that the binary distribution gate has passed. A release
+must replace every unresolved disposition with evidence for the actual staged
+payload and its transitive runtime dependencies.
+
 Dependency versions and licenses must be pinned or otherwise reproducible for
 release builds. Packaging checks must fail when a distributed library lacks a
 recorded license, notice, or corresponding-source disposition.

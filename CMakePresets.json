@@ -23,7 +23,11 @@
       "binaryDir": "${sourceDir}/build/release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "BUILD_TESTING": "ON"
+        "BUILD_TESTING": "ON",
+        "SDRCAL_BUILD_GUI": "ON",
+        "SDRCAL_REQUIRE_GUI": "ON",
+        "SDRCAL_ENABLE_SOAPYSDR": "ON",
+        "SDRCAL_ENABLE_PACKAGING": "ON"
       }
     }
   ],

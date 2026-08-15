@@ -11,6 +11,8 @@ Start with the [implementation status](status.md) and
 [repository layout](repository-layout.md), [application architecture](application-architecture.md),
 [complex-IQ capture contract](capture-contract.md),
 [Qualification Gate 1 Airspy HF+ Discovery record](qualification-gate-1-airspyhf.md),
+[platform and device matrix](platform-and-device-matrix.md),
+[end-to-end calibration qualification gate](end-to-end-qualification.md),
 [carrier estimator](carrier-estimator.md),
 [observation acceptance](observation-acceptance.md),
 [measurement model](measurement-model.md), [uncertainty model](uncertainty-model.md),
@@ -21,3 +23,5 @@ Start with the [implementation status](status.md) and
 Phase execution records include the
 [Phase 12 production CLI prompt](phase-12-execution-prompt.md) and
 [Phase 13 Qt desktop prompt](phase-13-execution-prompt.md).
+The current packaging and qualification foundation is governed by the
+[Phase 14 execution prompt](phase-14-execution-prompt.md).

@@ -19,6 +19,7 @@ obligations; see [Third-party notices](THIRD_PARTY_NOTICES.md).
 - [Application architecture](docs/development/application-architecture.md)
 - [Licensing and distribution policy](docs/development/licensing-and-distribution.md)
 - [Implementation status](docs/development/status.md)
+- [Platform and device matrix](docs/development/platform-and-device-matrix.md)
 - [Contributing](CONTRIBUTING.md)
 
 The native calibration profile is authoritative. External formats such as

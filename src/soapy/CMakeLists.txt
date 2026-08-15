@@ -1,4 +1,5 @@
-find_package(SoapySDR CONFIG REQUIRED)
+find_package(SoapySDR ${SDRCAL_MINIMUM_SOAPYSDR_VERSION} CONFIG REQUIRED)
+set_property(GLOBAL PROPERTY SDRCAL_CONFIGURED_SOAPYSDR_VERSION "${SoapySDR_VERSION}")
 
 add_library(sdrcal_soapy
     RealSoapyApi.cpp

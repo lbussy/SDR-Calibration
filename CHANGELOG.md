@@ -11,3 +11,6 @@ artifact compatibility policy are established.
 ### Added
 
 - Initial project, documentation, schema, licensing, and build scaffold.
+- Portable install/archive packaging, configured SPDX dependency inventory,
+  staged-package auditing, cross-platform hardware-free CI definitions, and
+  evidence-indexed platform/device and end-to-end qualification gates.

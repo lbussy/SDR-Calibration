@@ -1,0 +1,61 @@
+name: Portable hardware-free build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            generator: Ninja
+          - os: macos-15
+            generator: Ninja
+          - os: windows-2025
+            generator: Ninja
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure portable core
+        run: >-
+          cmake -S . -B build/portable -G "${{ matrix.generator }}"
+          -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+          -DSDRCAL_BUILD_GUI=OFF -DSDRCAL_ENABLE_SOAPYSDR=OFF
+      - name: Build
+        run: cmake --build build/portable --config Release
+      - name: Test
+        run: ctest --test-dir build/portable -C Release --output-on-failure
+      - name: Audit staged package
+        run: cmake --build build/portable --config Release --target package-audit
+      - name: Create portable archive
+        run: cmake --build build/portable --config Release --target package-archive-audit
+
+  docs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build documentation with warnings as errors
+        run: pip install -r docs/requirements.txt && sphinx-build -W -b html docs docs/_build/html
+
+  full-linux-release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install declared build dependencies
+        run: sudo apt-get update && sudo apt-get install -y ninja-build qt6-base-dev libsoapysdr-dev
+      - name: Configure strict full release
+        run: >-
+          cmake -S . -B build/full -G Ninja -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_TESTING=ON -DSDRCAL_BUILD_GUI=ON -DSDRCAL_REQUIRE_GUI=ON
+          -DSDRCAL_ENABLE_SOAPYSDR=ON
+      - name: Build, test, and package audit
+        run: cmake --build build/full --target all package-audit && ctest --test-dir build/full --output-on-failure
