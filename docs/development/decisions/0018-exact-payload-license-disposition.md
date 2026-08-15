@@ -13,6 +13,11 @@ actual runtime inventory, state the no-modification disposition, and provide
 practical shared-library replacement instructions. A URL or configured SPDX
 entry is not a substitute for corresponding source.
 
+When the deployed closure includes another Qt module, require and convey that
+module's separately hash-pinned source archive as well. The current official
+macOS Qt 6.11.1 closure includes QtSvg through its standard icon/style plug-ins,
+so qtsvg source is mandatory for that payload.
+
 Do not deploy the Windows compiler runtime or software OpenGL library in this
 package. Reject any deployed DLL that is neither project code nor in the Qt
 library/plug-in naming family so a new third-party payload reopens review rather

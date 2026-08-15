@@ -85,3 +85,10 @@ gate.
    still acquire an unexpected bundled shared library without reopening its
    disposition. Corrected by allowlisting project/Qt Mach-O paths on macOS and
    rejecting every conveyed shared-object file in the Ubuntu stage.
+9. **The first real macOS run exposed incomplete module source and invalid
+   nested signing:** the official SDK deployed QtSvg plug-ins while the gate
+   accepted only qtbase source, and `macdeployqt` signing left a modified
+   framework signature. Corrected by requiring hash-pinned qtsvg source when
+   QtSvg is present, providing the official plug-in framework compatibility
+   path, disabling deployment-time signing, and signing plug-ins, frameworks,
+   executables, and the application explicitly from the inside out.

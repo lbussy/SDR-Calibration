@@ -3,7 +3,7 @@
 set -euo pipefail
 
 usage() {
-    echo "usage: $0 --build-dir DIR --output-dir DIR --signing-identity ID --notary-profile PROFILE --version VERSION --source-dir DIR --qt-source-archive FILE --qt-source-sha256 SHA256" >&2
+    echo "usage: $0 --build-dir DIR --output-dir DIR --signing-identity ID --notary-profile PROFILE --version VERSION --source-dir DIR --qt-source-archive FILE --qt-source-sha256 SHA256 [--qt-additional-source-archives LIST --qt-additional-source-sha256 LIST]" >&2
 }
 
 build_dir=
@@ -14,6 +14,8 @@ version=
 source_dir=
 qt_source_archive=
 qt_source_sha256=
+qt_additional_source_archives=
+qt_additional_source_sha256=
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --build-dir) build_dir=${2-}; shift 2 ;;
@@ -24,6 +26,8 @@ while [[ $# -gt 0 ]]; do
         --source-dir) source_dir=${2-}; shift 2 ;;
         --qt-source-archive) qt_source_archive=${2-}; shift 2 ;;
         --qt-source-sha256) qt_source_sha256=${2-}; shift 2 ;;
+        --qt-additional-source-archives) qt_additional_source_archives=${2-}; shift 2 ;;
+        --qt-additional-source-sha256) qt_additional_source_sha256=${2-}; shift 2 ;;
         *) usage; exit 2 ;;
     esac
 done
@@ -76,12 +80,21 @@ if [[ ! -d "$app" ]]; then
     exit 1
 fi
 
-"$macdeployqt" "$app" -always-overwrite -sign-for-notarization="$signing_identity"
+ln -s Frameworks "$app/Contents/lib"
+"$macdeployqt" "$app" -always-overwrite -no-codesign
 ln -s /Applications "$stage_dir/Applications"
 
-while IFS= read -r -d '' executable; do
-    codesign --force --sign "$signing_identity" --options runtime --timestamp "$executable"
-done < <(find "$stage_dir" -type f -perm -111 ! -path "$app/*" -print0)
+while IFS= read -r -d '' nested_code; do
+    codesign --force --sign "$signing_identity" --options runtime --timestamp "$nested_code"
+done < <(find "$app/Contents/PlugIns" -type f -print0)
+while IFS= read -r -d '' framework; do
+    codesign --force --sign "$signing_identity" --options runtime --timestamp "$framework"
+done < <(find "$app/Contents/Frameworks" -type d -name '*.framework' -print0)
+codesign --force --sign "$signing_identity" --options runtime --timestamp \
+    "$app/Contents/MacOS/sdrcal-gui"
+codesign --force --sign "$signing_identity" --options runtime --timestamp "$app"
+codesign --force --sign "$signing_identity" --options runtime --timestamp \
+    "$stage_dir/bin/sdrcal"
 
 runtime_inventory="$evidence_dir/runtime-closure.txt"
 : >"$runtime_inventory"
@@ -109,6 +122,8 @@ cmake -DSDRCAL_STAGE_DIR="$stage_dir" -DSDRCAL_OUTPUT_DIR="$evidence_dir" \
     -DSDRCAL_PLATFORM=macOS -DSDRCAL_QT_VERSION="$qt_version" \
     -DSDRCAL_QT_SOURCE_ARCHIVE="$qt_source_archive" \
     -DSDRCAL_QT_SOURCE_SHA256="$qt_source_sha256" \
+    -DSDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES="$qt_additional_source_archives" \
+    -DSDRCAL_QT_ADDITIONAL_SOURCE_SHA256="$qt_additional_source_sha256" \
     -DSDRCAL_RUNTIME_INVENTORY="$runtime_inventory" \
     -DSDRCAL_REPLACEMENT_INSTRUCTIONS="$source_dir/packaging/licenses/qt-library-replacement.md" \
     -P "$source_dir/packaging/licenses/assemble-qt-disposition.cmake"

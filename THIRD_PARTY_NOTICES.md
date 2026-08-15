@@ -20,8 +20,9 @@ Initial permitted Qt module set:
 - Qt OpenGLWidgets, when required
 
 The macOS and Windows release gates convey the exact deployed Qt closure under
-LGPL-3.0-only and require the complete, hash-pinned qtbase source archive to
-accompany each binary package. That archive supplies the authoritative license,
+LGPL-3.0-only and require complete, hash-pinned source archives for qtbase and
+every additional deployed Qt module to accompany each binary package. Those
+archives supply the authoritative license,
 copyright, and file-level REUSE metadata for Qt and its embedded third-party
 code. The package also records the deployed-code inventory and shared-library
 replacement instructions. SDR Calibration makes no modifications to Qt.

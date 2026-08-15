@@ -6,7 +6,9 @@ param(
     [Parameter(Mandatory = $true)][string]$Version,
     [Parameter(Mandatory = $true)][string]$SourceDir,
     [Parameter(Mandatory = $true)][string]$QtSourceArchive,
-    [Parameter(Mandatory = $true)][string]$QtSourceSha256
+    [Parameter(Mandatory = $true)][string]$QtSourceSha256,
+    [string]$QtAdditionalSourceArchives = '',
+    [string]$QtAdditionalSourceSha256 = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -96,6 +98,8 @@ $qtVersion = (& (Join-Path $qtDir 'bin\qmake.exe') -query QT_VERSION).Trim()
     '-DSDRCAL_PLATFORM=Windows' "-DSDRCAL_QT_VERSION=$qtVersion" `
     "-DSDRCAL_QT_SOURCE_ARCHIVE=$QtSourceArchive" `
     "-DSDRCAL_QT_SOURCE_SHA256=$QtSourceSha256" `
+    "-DSDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES=$QtAdditionalSourceArchives" `
+    "-DSDRCAL_QT_ADDITIONAL_SOURCE_SHA256=$QtAdditionalSourceSha256" `
     "-DSDRCAL_RUNTIME_INVENTORY=$runtimeInventory" `
     "-DSDRCAL_REPLACEMENT_INSTRUCTIONS=$SourceDir\packaging\licenses\qt-library-replacement.md" `
     -P "$SourceDir\packaging\licenses\assemble-qt-disposition.cmake"

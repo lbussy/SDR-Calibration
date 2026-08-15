@@ -40,6 +40,10 @@ set(SDRCAL_QT_SOURCE_ARCHIVE "" CACHE FILEPATH
     "Complete qtbase source archive matching the Qt binaries conveyed by a release")
 set(SDRCAL_QT_SOURCE_SHA256 "" CACHE STRING
     "Pinned SHA-256 of SDRCAL_QT_SOURCE_ARCHIVE")
+set(SDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES "" CACHE STRING
+    "Semicolon-separated additional Qt module source archives conveyed by a release")
+set(SDRCAL_QT_ADDITIONAL_SOURCE_SHA256 "" CACHE STRING
+    "Semicolon-separated SHA-256 values for additional Qt module source archives")
 
 set(SDRCAL_MINIMUM_QT_VERSION "6.2")
 set(SDRCAL_MINIMUM_SOAPYSDR_VERSION "0.8")
@@ -133,6 +137,8 @@ if(APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             --source-dir "${PROJECT_SOURCE_DIR}"
             --qt-source-archive "${SDRCAL_QT_SOURCE_ARCHIVE}"
             --qt-source-sha256 "${SDRCAL_QT_SOURCE_SHA256}"
+            --qt-additional-source-archives "${SDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES}"
+            --qt-additional-source-sha256 "${SDRCAL_QT_ADDITIONAL_SOURCE_SHA256}"
         DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
         VERBATIM
     )
@@ -153,6 +159,8 @@ if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             -SourceDir "${PROJECT_SOURCE_DIR}"
             -QtSourceArchive "${SDRCAL_QT_SOURCE_ARCHIVE}"
             -QtSourceSha256 "${SDRCAL_QT_SOURCE_SHA256}"
+            -QtAdditionalSourceArchives "${SDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES}"
+            -QtAdditionalSourceSha256 "${SDRCAL_QT_ADDITIONAL_SOURCE_SHA256}"
         DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
         VERBATIM
     )

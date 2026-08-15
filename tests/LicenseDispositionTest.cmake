@@ -33,6 +33,10 @@ if(NOT pass_result EQUAL 0 OR
    NOT EXISTS "${root}/stage/share/sdrcal/license-disposition/license-manifest.json")
     message(FATAL_ERROR "valid synthetic disposition did not pass")
 endif()
+file(READ "${root}/evidence/license-manifest.json" license_manifest)
+if(NOT license_manifest MATCHES "\"additional_qt_sources\": \\[")
+    message(FATAL_ERROR "license manifest does not record additional Qt sources")
+endif()
 execute_process(COMMAND "${CMAKE_COMMAND}"
     -DSDRCAL_QT_SOURCE_SHA256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     ${common_args} RESULT_VARIABLE mismatch_result OUTPUT_QUIET ERROR_QUIET)
@@ -44,4 +48,32 @@ execute_process(COMMAND "${CMAKE_COMMAND}" -DSDRCAL_QT_SOURCE_SHA256=${archive_s
     ${common_args} RESULT_VARIABLE soapy_result OUTPUT_QUIET ERROR_QUIET)
 if(soapy_result EQUAL 0)
     message(FATAL_ERROR "unexpected SoapySDR payload did not fail closed")
+endif()
+file(WRITE "${root}/runtime.txt" "FILE Qt6Core.dll\nFILE Qt6Svg.dll\n")
+execute_process(COMMAND "${CMAKE_COMMAND}" -DSDRCAL_QT_SOURCE_SHA256=${archive_sha256}
+    ${common_args} RESULT_VARIABLE svg_without_source_result
+    OUTPUT_QUIET ERROR_QUIET)
+if(svg_without_source_result EQUAL 0)
+    message(FATAL_ERROR "QtSvg payload without qtsvg source did not fail closed")
+endif()
+set(svg_source_root "${root}/fixture/qtsvg-everywhere-src-6.2.0")
+file(MAKE_DIRECTORY "${svg_source_root}/LICENSES")
+file(WRITE "${svg_source_root}/LICENSES/LGPL-3.0-only.txt" "synthetic LGPL\n")
+file(WRITE "${svg_source_root}/REUSE.toml" "version = 1\n")
+set(svg_archive "${root}/qtsvg-everywhere-src-6.2.0.tar")
+execute_process(COMMAND "${CMAKE_COMMAND}" -E tar cf "${svg_archive}"
+    "qtsvg-everywhere-src-6.2.0" WORKING_DIRECTORY "${root}/fixture"
+    RESULT_VARIABLE svg_archive_result)
+if(NOT svg_archive_result EQUAL 0)
+    message(FATAL_ERROR "could not create synthetic QtSvg source archive")
+endif()
+file(SHA256 "${svg_archive}" svg_archive_sha256)
+execute_process(COMMAND "${CMAKE_COMMAND}"
+    -DSDRCAL_QT_SOURCE_SHA256=${archive_sha256}
+    -DSDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES=${svg_archive}
+    -DSDRCAL_QT_ADDITIONAL_SOURCE_SHA256=${svg_archive_sha256}
+    ${common_args} RESULT_VARIABLE svg_with_source_result)
+if(NOT svg_with_source_result EQUAL 0 OR
+   NOT EXISTS "${root}/stage/share/sdrcal/license-disposition/corresponding-source/qtsvg-everywhere-src-6.2.0.tar")
+    message(FATAL_ERROR "QtSvg payload with matching qtsvg source did not pass")
 endif()
