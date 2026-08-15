@@ -320,10 +320,10 @@ can satisfy those later gates; earlier packages remain historical evidence.
 The Raspberry Pi CLI track may advance before the Phase 14.5 multi-platform
 clean-host matrix. Its Phase 1 source foundation provides a CLI-only ARM64
 preset, a provisional fail-closed resource ceiling, payload absence checks, and
-rootless Raspberry Pi OS DEB tooling. It remains incomplete until one exact Pi
-fixture supplies a native passing build, measured resource envelope, audited
-package, and later clean-host lifecycle evidence. SoapySDR capture and
-end-to-end calibration remain separate later gates.
+rootless Raspberry Pi OS DEB tooling. Raspberry Pi 4 fixture `wspr4` now supplies
+a native passing build, measured 128 MiB-per-observation resource envelope, and
+an audited exact ARM64 DEB. Clean-host installation remains open. SoapySDR
+capture and end-to-end calibration remain separate later gates.
 
 ## Release candidate
 

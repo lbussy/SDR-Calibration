@@ -119,8 +119,8 @@
   not replace those later platform runs
 - Retained human visual-review evidence for every final platform size and
   scaling context
-- Native Raspberry Pi build/resource evidence, an audited ARM64 DEB, and
-  clean-host lifecycle evidence for the recorded-input CLI
+- Clean-host installation, upgrade, removal, and clean-state evidence for the
+  exact Raspberry Pi recorded-input CLI DEB
 
 ## Not established
 
