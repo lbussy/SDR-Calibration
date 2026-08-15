@@ -60,6 +60,10 @@
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,
   cancellation, and coordinated new-directory artifact publication
+- Qt 6 Widgets `sdrcal-gui` application over the same recorded-input production
+  service, with explicit path selection, bounded request/device/measurement
+  review, responsive execution, cooperative cancellation, live progress,
+  accessible controls, and read-only published-artifact review
 
 ## Planned, not implemented
 
@@ -69,7 +73,9 @@
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
 - Live-device integration for the production command-line application
-- Qt 6 Widgets application
+- Live-device integration for the Qt desktop application
+- Production profile activation, signing, revocation, replacement, and
+  evaluation orchestration in desktop clients
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,
   and readback verification
 - Evidence archive/container production beyond the Phase 12 coordinated

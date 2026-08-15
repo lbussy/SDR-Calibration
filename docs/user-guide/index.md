@@ -10,3 +10,4 @@ kept distinct from released functionality.
 Implemented workflows:
 
 - [Production command-line application](production-cli.md)
+- [Qt desktop application](desktop-application.md)

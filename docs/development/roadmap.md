@@ -229,8 +229,22 @@ enumerate or access SDR hardware.
 
 ## Phase 13: Qt desktop application
 
+**Status: Implemented and hardware-free validated for the recorded-input
+workflow; live-device integration, production trust/profile management, and
+calibration qualification remain separate gates.**
+
 Deliver the Qt 6 Widgets workflow for device selection, measurement review,
 calibration, profile management, evidence review, and interoperability.
+
+The implemented application explicitly selects and reviews a Phase 12 run
+request, its independent trust-pin file, and a new output directory. It uses
+the same production service as the CLI, runs asynchronously with cooperative
+cancellation and live progress, and reviews the published native profile,
+evidence, summary, and optional lossy WSJT-X projection. Device selection and
+measurements are the recorded identities and observations in the request;
+profile management is read-only inspection. It does not discover or access
+live SDRs, mutate profiles or installed applications, or provide production
+trust and signing.
 
 Exit requires accessibility, cancellation, failure recovery, long-operation
 behavior, and CLI/GUI alignment to be reviewed and tested. UI completion alone

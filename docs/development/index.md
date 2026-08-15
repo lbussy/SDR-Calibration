@@ -19,4 +19,5 @@ Start with the [implementation status](status.md) and
 [decision log](decisions/index.md).
 
 Phase execution records include the
-[Phase 12 production CLI prompt](phase-12-execution-prompt.md).
+[Phase 12 production CLI prompt](phase-12-execution-prompt.md) and
+[Phase 13 Qt desktop prompt](phase-13-execution-prompt.md).

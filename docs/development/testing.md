@@ -96,3 +96,10 @@ recorded-input path, strict request and independent trust input, CF32LE digest
 verification, stable JSON/exit behavior, shared-workflow success, cancellation,
 existing-output refusal, staging cleanup, and finalized artifact publication.
 It uses synthetic local files only and performs no device, network, or RF work.
+
+The Phase 13 `gui_workflow_tests` target verifies exact CLI argument/exit
+delegation, thread-safe cancellation state, bounded regular-file review,
+symbolic-link refusal, and required/optional result artifacts. The
+`gui_widget_tests` target runs with Qt's offscreen platform and verifies the
+initial control state, read-only review surfaces, and accessibility metadata.
+Neither test requires a window server, network, SDR, vendor driver, or RF.

@@ -171,6 +171,14 @@ refreshes native-profile integrity, synchronizes staged files, and publishes a
 new output directory atomically. Live SoapySDR calibration remains a later
 integration and qualification gate.
 
+The Phase 13 Qt Widgets application delegates to that same Phase 12 production
+service for recorded input, request validation, trust checks, scientific
+workflow, exit classification, and coordinated publication. Qt Concurrent
+keeps the event loop responsive and carries a thread-safe cooperative
+cancellation token into the service. The GUI adds bounded read-only request and
+artifact presentation; it does not duplicate policy, access hardware, or
+activate and mutate profiles.
+
 ## 8. External interoperability
 
 The native SDR Calibration Profile is authoritative. `wsjt-x-settings` and
@@ -195,6 +203,8 @@ Required test surfaces include:
 - malformed and partially understood `fmt.all` fixtures;
 - mocked SoapySDR discovery and stream failures;
 - opt-in integration tests for installed SoapySDR modules and real hardware.
+- offscreen Qt widget structure, accessibility metadata, control state, and
+  GUI/CLI service-alignment tests.
 
 Normal unit tests must not tune hardware, start streams, transmit RF, or require
 a vendor driver.

@@ -29,3 +29,8 @@ device integration remain outside that library.
 `cli/` retains the separate `sdrcal-capture` diagnostic tool and implements the
 Phase 12 `sdrcal` recorded-input production application over `application/`.
 The production command does not access SoapySDR.
+
+`gui/` implements the Phase 13 Qt 6 Widgets application over that same
+recorded-input production service. It provides asynchronous execution,
+cooperative cancellation, and bounded read-only request and result review; it
+does not access live SDR hardware or mutate installed profiles and applications.

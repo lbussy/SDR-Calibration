@@ -58,6 +58,10 @@ algorithms.
 `src/adapters` owns lossy external formats. `src/cli` and `src/gui` are thin
 delivery surfaces over application services.
 
+`src/gui` implements the optional Qt 6 Widgets recorded-input interface and its
+bounded read-only review support. It delegates calibration and publication to
+the production service shared with `src/cli`.
+
 ## Documentation ownership
 
 `docs/user-guide` describes released operator behavior. Planned behavior must be
