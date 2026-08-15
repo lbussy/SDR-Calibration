@@ -10,6 +10,19 @@ endif()
 
 add_test(NAME capture_unit_tests COMMAND capture_unit_tests)
 
+if(TARGET sdrcal_core)
+    add_executable(carrier_estimator_unit_tests CarrierEstimatorTests.cpp)
+    target_link_libraries(carrier_estimator_unit_tests PRIVATE sdrcal_core)
+    target_compile_features(carrier_estimator_unit_tests PRIVATE cxx_std_20)
+    if(MSVC)
+        target_compile_options(carrier_estimator_unit_tests PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(
+            carrier_estimator_unit_tests PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
+    endif()
+    add_test(NAME carrier_estimator_unit_tests COMMAND carrier_estimator_unit_tests)
+endif()
+
 if(TARGET sdrcal_capture_cli_args)
     add_executable(capture_cli_argument_tests CaptureCliArgumentTests.cpp)
     target_link_libraries(capture_cli_argument_tests PRIVATE sdrcal_capture_cli_args)

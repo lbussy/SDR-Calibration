@@ -95,6 +95,9 @@ does not establish a general supported-device matrix.
 
 ## Phase 5: Carrier estimator
 
+**Status: Implemented and hardware-free validated; recorded-input review and
+observation acceptance remain separate gates.**
+
 Estimate carrier frequency from deterministic synthetic and reviewed recorded
 complex-IQ inputs. Keep the estimator independent of SoapySDR, Qt,
 operating-system paths, and calibration-profile serialization.

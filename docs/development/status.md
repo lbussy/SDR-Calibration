@@ -21,11 +21,13 @@
 - Thin `sdrcal-capture` diagnostic CLI with explicit device selection, bounded
   request parsing, requested/effective reporting, cancellation, stable exit
   categories, and hardware-free parser and injected-workflow tests
+- Hardware-free carrier estimator for in-memory complex samples, including
+  midpoint frequency, linear drift, explicit failure states, diagnostics, and
+  deterministic synthetic golden fixtures
 
 ## Planned, not implemented
 
-- Calibration core and carrier estimator, including versioned reliability
-  quotient component scoring
+- Observation acceptance and versioned reliability-quotient component scoring
 - Uncertainty calculation and model fitting
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater

@@ -12,3 +12,5 @@ All project-owned C++ implementation and public headers live under `src/`.
 
 The calibration core remains independent of Qt, SoapySDR, operating-system
 paths, and WSJT-X formats.
+
+The current `core/` implementation is the Phase 5 in-memory carrier estimator.
