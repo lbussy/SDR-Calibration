@@ -51,19 +51,26 @@
   and deterministic single-linear-segment export, explicit loss reports,
   verified sign-convention fixtures, source hashes, and line-preserving
   eight-column `fmt.all` import with manual-review states
+- Hardware-free shared calibration workflow with injected exact-device
+  discovery/acquisition, authenticated reference resolution, effective-setting
+  checks, estimation and acceptance, linear fitting, uncertainty and assurance,
+  validated native profile and bounded evidence candidates, cancellation and
+  stage tracing, reduced-assurance handling, and optional lossy WSJT-X export
 
 ## Planned, not implemented
 
-- Profile creation and evaluation integration in shared application services
 - Production Ed25519 key-provider and trust-store integration
+- Profile-evaluation orchestration for production clients
 - Network reference-registry transport and production trust-store integration
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
 - Command-line application
 - Qt 6 Widgets application
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,
-  readback verification, and application-service integration
-- Evidence archive/container production and application-service integration
+  and readback verification
+- Profile/evidence destination policy, coordinated durable publication, and
+  evidence archive/container production
+- Native-profile representation for zero-span local-constant fitted models
 - Packaging and binary-license compliance automation
 
 ## Not established

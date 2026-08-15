@@ -8,8 +8,8 @@ set(SDRCAL_SOURCE_COMPONENTS
     reference
     evidence
     soapy
-    application
     adapters
+    application
     cli
     gui
 )

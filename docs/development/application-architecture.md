@@ -158,6 +158,13 @@ The initial workflow is:
 
 Failure at any step must not overwrite the last known-good profile.
 
+The Phase 11 shared service implements this sequence through an injected device
+boundary and returns validated native-profile and evidence candidates. It does
+not choose filesystem destinations or claim a coordinated durable write; those
+production policies remain outside the hardware-free coordinator. The service
+currently produces linear native profiles only because schema 1.0 cannot
+represent a zero-span local-constant model without inventing a validity range.
+
 ## 8. External interoperability
 
 The native SDR Calibration Profile is authoritative. `wsjt-x-settings` and

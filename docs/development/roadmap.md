@@ -186,9 +186,22 @@ weaken it.
 
 ## Phase 11: Shared application services
 
+**Status: Implemented and hardware-free validated with an injected fake-device
+boundary; production persistence and device integration remain separate gates.**
+
 Implement the common workflow coordinator used by every user interface:
 discovery, configuration, acquisition, estimation, observation acceptance,
 model fitting, profile generation, evidence production, and interoperability.
+
+The implemented coordinator performs authenticated reference resolution, exact
+device selection, bounded acquisition through an injected boundary, effective-
+configuration verification, estimation, acceptance, linear fitting,
+uncertainty and assurance calculation, native profile candidate generation,
+bounded evidence candidate generation, cancellation, stage tracing, and
+optional lossy WSJT-X export. It does not persist artifacts, access hardware,
+or expose a production user interface. Local-constant profile generation
+remains unavailable because the current native schema cannot truthfully encode
+its zero-span validity domain.
 
 Exit requires a complete deterministic workflow using fake devices and
 fixtures without Qt, network access, or physical hardware.

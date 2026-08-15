@@ -20,3 +20,8 @@ frequency-error model, uncertainty budget, and reliability quotient. `profile/`
 now implements the Phase 8 native profile domain, validation, canonical JSON,
 integrity hooks, bounded evaluation, and atomic replacement. It does not own
 keys, reference registries, application workflows, or external adapters.
+
+`application/` implements the Phase 11 hardware-free shared workflow over
+injected discovery and acquisition. It produces validated profile and evidence
+candidates and optional WSJT-X projections; durable publication and production
+device integration remain outside that library.

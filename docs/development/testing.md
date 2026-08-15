@@ -82,3 +82,11 @@ ambiguous, and excessive requests. When SoapySDR is enabled,
 `capture_cli_workflow_tests` uses an injected fake API to verify pre-device
 failure, preparation failure, requested/effective reporting, bounded recording,
 cancellation, artifacts, and cleanup without constructing a real device.
+
+The Phase 11 `application_workflow_unit_tests` target exercises the complete
+shared calibration sequence through an injected fake-device boundary. It
+covers exact and ambiguous discovery, authenticated references, bounded
+acquisition and safe final state, estimator/acceptance rejection, model and
+uncertainty gates, evidence privacy, cancellation, reduced assurance, optional
+WSJT-X failure, deterministic native profiles, and repeatable evidence. It does
+not load SoapySDR, access files or networks, or establish calibration accuracy.
