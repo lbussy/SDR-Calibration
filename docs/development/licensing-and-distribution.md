@@ -57,6 +57,11 @@ an input to the Phase 14.4 disposition audit. The DMG must not be published
 until that audit supplies all applicable license texts, notices, source and
 modification dispositions, and shared-library replacement instructions.
 
+Phase 14.2 likewise deploys dynamically linked Qt libraries into a signed
+Windows MSI without closing this gate. Authenticode must not restrict lawful
+replacement of the shared libraries, and the exact MSI payload remains an
+input to the Phase 14.4 disposition audit.
+
 ## 4. Build and CI policy
 
 The build system must keep project targets distinct from third-party targets.

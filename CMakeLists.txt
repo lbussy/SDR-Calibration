@@ -32,6 +32,10 @@ set(SDRCAL_MACOS_SIGNING_IDENTITY "" CACHE STRING
     "Developer ID Application identity used by the notarized macOS package")
 set(SDRCAL_MACOS_NOTARY_PROFILE "" CACHE STRING
     "notarytool Keychain profile used by the notarized macOS package")
+set(SDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT "" CACHE STRING
+    "SHA-1 certificate thumbprint used by the signed Windows package")
+set(SDRCAL_WINDOWS_TIMESTAMP_URL "" CACHE STRING
+    "RFC 3161 timestamp service used by the signed Windows package")
 
 set(SDRCAL_MINIMUM_QT_VERSION "6.2")
 set(SDRCAL_MINIMUM_SOAPYSDR_VERSION "0.8")
@@ -123,6 +127,24 @@ if(APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             --notary-profile "${SDRCAL_MACOS_NOTARY_PROFILE}"
             --version "${PROJECT_VERSION}"
             --source-dir "${PROJECT_SOURCE_DIR}"
+        DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
+        VERBATIM
+    )
+endif()
+
+if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
+    find_program(SDRCAL_POWERSHELL_EXECUTABLE NAMES pwsh powershell REQUIRED)
+    set(SDRCAL_WINDOWS_MSI_OUTPUT_DIR "${PROJECT_BINARY_DIR}/windows-package")
+    add_custom_target(windows-msi
+        COMMAND "${SDRCAL_POWERSHELL_EXECUTABLE}" -NoProfile -NonInteractive
+            -ExecutionPolicy Bypass
+            -File "${PROJECT_SOURCE_DIR}/packaging/windows/package-msi.ps1"
+            -BuildDir "${PROJECT_BINARY_DIR}"
+            -OutputDir "${SDRCAL_WINDOWS_MSI_OUTPUT_DIR}"
+            -CertificateThumbprint "${SDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT}"
+            -TimestampUrl "${SDRCAL_WINDOWS_TIMESTAMP_URL}"
+            -Version "${PROJECT_VERSION}"
+            -SourceDir "${PROJECT_SOURCE_DIR}"
         DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
         VERBATIM
     )

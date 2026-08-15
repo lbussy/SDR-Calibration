@@ -12,6 +12,8 @@ artifact compatibility policy are established.
 
 - Phase 14.1 signed and notarized macOS DMG production with dynamic Qt
   deployment, Gatekeeper verification, and hash-indexed evidence.
+- Phase 14.2 signed Windows x64 MSI production tooling with dynamic Qt,
+  Authenticode timestamp verification, and extracted-payload evidence.
 - Initial project, documentation, schema, licensing, and build scaffold.
 - Portable install/archive packaging, configured SPDX dependency inventory,
   staged-package auditing, cross-platform hardware-free CI definitions, and

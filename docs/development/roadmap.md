@@ -284,6 +284,12 @@ metadata, dynamic Qt deployment, Developer ID signing, notarization, stapling,
 Gatekeeper checks, and hash-indexed evidence. Its result applies only to the
 exact retained DMG and does not close clean-install or licensing gates.
 
+Phase 14.2 adds the fail-closed Windows x64 MSI production path: dynamic Qt
+deployment, Authenticode signing with an RFC 3161 timestamp, MSI construction,
+administrative extraction, payload and startup auditing, and hash-indexed
+evidence. Its result applies only to an exact retained MSI and does not close
+clean-install, distribution-license, or general Windows-support gates.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility

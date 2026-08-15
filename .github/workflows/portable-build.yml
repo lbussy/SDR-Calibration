@@ -35,6 +35,14 @@ jobs:
         run: cmake --build build/portable --config Release --target package-audit
       - name: Create portable archive
         run: cmake --build build/portable --config Release --target package-archive-audit
+      - name: Parse Windows MSI production script
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $errors = $null
+          [void][Management.Automation.Language.Parser]::ParseFile(
+            "$PWD/packaging/windows/package-msi.ps1", [ref]$null, [ref]$errors)
+          if ($errors.Count -ne 0) { $errors | Out-String | Write-Error }
 
   docs:
     runs-on: ubuntu-24.04

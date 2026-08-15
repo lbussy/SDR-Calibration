@@ -74,6 +74,9 @@
 - Fail-closed macOS DMG tooling with stable bundle metadata, dynamic Qt
   deployment, Developer ID signing, notarization, stapling, Gatekeeper checks,
   runtime-path audit, and retained hash/evidence output
+- Fail-closed Windows x64 MSI tooling with dynamic Qt deployment, Authenticode
+  signing and RFC 3161 timestamp verification, extracted-payload audit, and
+  retained hash/environment evidence
 
 ## Planned, not implemented
 
@@ -93,8 +96,8 @@
 - Native-profile representation for zero-span local-constant fitted models
 - Completed binary-license disposition and corresponding-source bundle for the
   exact dependencies redistributed by a release
-- Native installers, runtime dependency deployment, platform signing,
-  notarization, and clean-host installation evidence
+- Ubuntu DEB packaging, clean-host installation evidence, and completed
+  distribution-license disposition for the macOS and Windows packages
 
 ## Not established
 

@@ -1,0 +1,139 @@
+param(
+    [Parameter(Mandatory = $true)][string]$BuildDir,
+    [Parameter(Mandatory = $true)][string]$OutputDir,
+    [Parameter(Mandatory = $true)][string]$CertificateThumbprint,
+    [Parameter(Mandatory = $true)][string]$TimestampUrl,
+    [Parameter(Mandatory = $true)][string]$Version,
+    [Parameter(Mandatory = $true)][string]$SourceDir
+)
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+function Require-Command([string]$Name) {
+    $command = Get-Command $Name -ErrorAction SilentlyContinue
+    if ($null -eq $command) { throw "required tool is unavailable: $Name" }
+    return $command.Source
+}
+
+$cmake = Require-Command 'cmake.exe'
+$git = Require-Command 'git.exe'
+$msiexec = Require-Command 'msiexec.exe'
+$signtool = Require-Command 'signtool.exe'
+$wix = Require-Command 'wix.exe'
+
+$BuildDir = [IO.Path]::GetFullPath($BuildDir).TrimEnd([IO.Path]::DirectorySeparatorChar)
+$OutputDir = [IO.Path]::GetFullPath($OutputDir).TrimEnd([IO.Path]::DirectorySeparatorChar)
+$SourceDir = [IO.Path]::GetFullPath($SourceDir).TrimEnd([IO.Path]::DirectorySeparatorChar)
+$outputParent = [IO.Directory]::GetParent($OutputDir)
+if ($null -eq $outputParent -or $outputParent.FullName -ne $BuildDir) {
+    throw 'output directory must be a direct child of the build directory'
+}
+if ($CertificateThumbprint -notmatch '^[0-9A-Fa-f]{40}$') {
+    throw 'certificate thumbprint must contain exactly 40 hexadecimal characters'
+}
+if ($TimestampUrl -notmatch '^https://') { throw 'timestamp URL must use HTTPS' }
+
+$sourceRevision = (& $git -C $SourceDir rev-parse HEAD).Trim()
+if ($LASTEXITCODE -ne 0) { throw 'could not resolve the source revision' }
+if ((& $git -C $SourceDir status --porcelain).Count -ne 0) {
+    throw 'refusing to package a dirty source tree'
+}
+
+$cache = & $cmake -LA -N $BuildDir
+$qtMatch = $cache | Select-String '^Qt6_DIR:PATH=(.*)[\\/]lib[\\/]cmake[\\/]Qt6$' | Select-Object -First 1
+$qtDir = if ($null -eq $qtMatch) { '' } else { $qtMatch.Matches.Groups[1].Value }
+if ([string]::IsNullOrWhiteSpace($qtDir)) { throw 'configured Qt prefix was not found' }
+$windeployqt = Join-Path $qtDir 'bin\windeployqt.exe'
+if (-not (Test-Path -LiteralPath $windeployqt -PathType Leaf)) {
+    throw 'windeployqt for the configured Qt was not found'
+}
+
+if (Test-Path -LiteralPath $OutputDir) { Remove-Item -LiteralPath $OutputDir -Recurse -Force }
+$stage = Join-Path $OutputDir 'stage'
+$evidence = Join-Path $OutputDir 'evidence'
+$extract = Join-Path $OutputDir 'extracted'
+New-Item -ItemType Directory -Path $stage, $evidence | Out-Null
+
+& $cmake --install $BuildDir --prefix $stage --config Release
+if ($LASTEXITCODE -ne 0) { throw 'isolated package install failed' }
+$gui = Join-Path $stage 'bin\sdrcal-gui.exe'
+if (-not (Test-Path -LiteralPath $gui -PathType Leaf)) { throw 'installed GUI is missing' }
+& $windeployqt --release --no-translations --no-system-d3d-compiler --compiler-runtime $gui
+if ($LASTEXITCODE -ne 0) { throw 'windeployqt failed' }
+
+$binaries = Get-ChildItem -LiteralPath $stage -Recurse -File |
+    Where-Object { $_.Extension -in '.exe', '.dll' }
+if ($binaries.Count -eq 0) { throw 'deployed runtime contains no signable binaries' }
+$payloadSignatureEvidence = Join-Path $evidence 'payload-signatures.txt'
+foreach ($binary in $binaries) {
+    $relativeBinary = $binary.FullName.Substring($stage.Length + 1)
+    $initialVerification = & $signtool verify /pa /all /tw $binary.FullName 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        & $signtool sign /sha1 $CertificateThumbprint /fd SHA256 /tr $TimestampUrl /td SHA256 $binary.FullName
+        if ($LASTEXITCODE -ne 0) { throw "signing failed: $($binary.FullName)" }
+    }
+    "FILE $relativeBinary" | Add-Content -LiteralPath $payloadSignatureEvidence -Encoding utf8
+    & $signtool verify /pa /all /tw /v $binary.FullName *>> $payloadSignatureEvidence
+    if ($LASTEXITCODE -ne 0) { throw "signature verification failed: $($binary.FullName)" }
+}
+
+$wxs = Join-Path $OutputDir 'product.wxs'
+$wixStage = [Security.SecurityElement]::Escape($stage)
+$upgradeCode = '9B68E922-9277-4C40-BB3C-527C2AE236AC'
+@"
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="SDR Calibration" Manufacturer="SDR Calibration contributors"
+           Version="$Version" UpgradeCode="$upgradeCode" Scope="perMachine">
+    <MajorUpgrade DowngradeErrorMessage="A newer SDR Calibration version is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="SDR Calibration" />
+    </StandardDirectory>
+    <Feature Id="Main" Title="SDR Calibration" Level="1">
+      <Files Directory="INSTALLFOLDER" Include="$wixStage\**" />
+    </Feature>
+  </Package>
+</Wix>
+"@ | Set-Content -LiteralPath $wxs -Encoding utf8
+
+$msi = Join-Path $OutputDir "SDRCalibration-$Version-Windows-x64.msi"
+& $wix build -arch x64 -o $msi $wxs
+if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $msi)) { throw 'MSI creation failed' }
+& $signtool sign /sha1 $CertificateThumbprint /fd SHA256 /tr $TimestampUrl /td SHA256 $msi
+if ($LASTEXITCODE -ne 0) { throw 'MSI signing failed' }
+& $signtool verify /pa /all /tw /v $msi *> (Join-Path $evidence 'msi-signature.txt')
+if ($LASTEXITCODE -ne 0) { throw 'MSI signature verification failed' }
+
+New-Item -ItemType Directory -Path $extract | Out-Null
+$process = Start-Process -FilePath $msiexec -ArgumentList @('/a', "`"$msi`"", '/qn', "TARGETDIR=`"$extract`"") -Wait -PassThru
+if ($process.ExitCode -ne 0) { throw "MSI administrative extraction failed: $($process.ExitCode)" }
+foreach ($required in 'sdrcal.exe', 'sdrcal-gui.exe', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'sdrcal.spdx.json') {
+    if ($null -eq (Get-ChildItem -LiteralPath $extract -Recurse -File -Filter $required | Select-Object -First 1)) {
+        throw "required MSI payload is missing: $required"
+    }
+}
+$extractedCli = Get-ChildItem -LiteralPath $extract -Recurse -File -Filter 'sdrcal.exe' | Select-Object -First 1
+& $extractedCli.FullName --help | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'extracted sdrcal CLI startup check failed' }
+foreach ($binary in Get-ChildItem -LiteralPath $extract -Recurse -File | Where-Object { $_.Extension -in '.exe', '.dll' }) {
+    & $signtool verify /pa /all /tw $binary.FullName | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "extracted payload signature is invalid: $($binary.FullName)" }
+}
+
+$hash = (Get-FileHash -LiteralPath $msi -Algorithm SHA256).Hash.ToLowerInvariant()
+$os = Get-CimInstance Win32_OperatingSystem
+$manifest = [ordered]@{
+    schema_version = 1; source_revision = $sourceRevision; project_version = $Version
+    platform = $os.Caption; platform_version = $os.Version; platform_build = $os.BuildNumber
+    architecture = $env:PROCESSOR_ARCHITECTURE; artifact = [IO.Path]::GetFileName($msi)
+    sha256 = $hash; qt_version = (& (Join-Path $qtDir 'bin\qmake.exe') -query QT_VERSION).Trim()
+    cmake_version = (& $cmake --version | Select-Object -First 1); payload_binary_count = $binaries.Count
+    signing = 'Authenticode SHA-256 with RFC 3161 timestamp; verified'; clean_install_qualified = $false
+    distribution_license_gate = 'open'; device_qualified = $false
+}
+$manifest | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath (Join-Path $evidence 'manifest.json') -Encoding utf8
+Get-ChildItem -LiteralPath $stage -Recurse -File | ForEach-Object {
+    $relative = $_.FullName.Substring($stage.Length + 1)
+    "$( (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant() )  $relative"
+} | Sort-Object | Set-Content -LiteralPath (Join-Path $evidence 'payload-sha256.txt') -Encoding utf8

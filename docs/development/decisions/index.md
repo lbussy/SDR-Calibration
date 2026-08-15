@@ -21,4 +21,5 @@ superseded decision remains in the log and points to its replacement.
 0013-bounded-iq-capture-artifact
 0014-portable-distribution-evidence
 0015-macos-dmg-signing
+0016-windows-msi-signing
 ```

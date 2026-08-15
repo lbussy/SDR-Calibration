@@ -82,6 +82,24 @@ staples the ticket, runs Gatekeeper assessments, and writes evidence under
 `build/macos-release/macos-package/evidence`. A passing run applies only to the
 recorded DMG hash and is not clean-host or binary-license qualification.
 
+The Windows signed-package path is Windows-only and also excludes SoapySDR:
+
+```text
+cmake --preset windows-release \
+  -DSDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT=<40-hex-thumbprint> \
+  -DSDRCAL_WINDOWS_TIMESTAMP_URL=<https-rfc3161-service>
+cmake --build --preset windows-release
+ctest --preset windows-release
+cmake --build build/windows-release --target package-audit
+cmake --build build/windows-release --target windows-msi
+```
+
+The final target rejects dirty source, missing tools or credentials, unsafe
+output placement, deployment/signing failures, missing timestamps, invalid
+extracted payloads, and CLI startup failure. Evidence is written below
+`build/windows-release/windows-package/evidence`. Administrative extraction
+does not substitute for a clean-host installation test.
+
 ## Required fixtures
 
 Planned fixtures include:

@@ -13,6 +13,7 @@ qualification. A blank or planned CI job never creates evidence.
 | macOS 15 CI | arm64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Ubuntu 24.04 | x86_64 | Build-covered, including strict Qt/SoapySDR release | Portable archive content audited in CI; clean-host install not qualified | Not applicable to the current portable archive | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Windows Server 2025 CI | x86_64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
+| Windows Phase 14.2 package input | x86_64 | Tooling implemented; exact package run pending | Signed MSI tooling implemented; artifact and clean-host install not qualified | Tooling implemented; exact signed artifact not qualified | No retained Phase 14.2 package run |
 | Raspberry Pi OS | arm64 | Not qualified | Not qualified | Not qualified | No retained passing run |
 
 The minimum source-build baselines are CMake 3.20, a C++20 compiler, Qt 6.2
@@ -25,6 +26,12 @@ The current Phase 14.1 package has a compile-time deployment target of macOS
 floating-point `std::to_chars`, while the configured Qt 6.11.1 frameworks were
 built for 14.0. This exact-input binary baseline is not clean-host or general
 macOS qualification.
+
+The Phase 14.2 Windows gate requires a Windows x64 release build, WiX Toolset
+v4, the configured Qt `windeployqt`, SignTool, a code-signing certificate, and
+an HTTPS RFC 3161 timestamp service. Tooling presence is not retained evidence
+for a signed MSI; only the exact manifest and artifact hash from a passing run
+can establish that narrower claim.
 
 ## Device matrix
 
