@@ -20,6 +20,7 @@ user-guide/wsjtx-interoperability
 
 development/index
 development/status
+development/roadmap
 development/repository-layout
 development/application-architecture
 development/capture-contract

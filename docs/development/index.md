@@ -6,7 +6,8 @@ macOS, and Linux. Raspberry Pi OS is a project-qualified Linux test fixture.
 The calibration core remains independent of the GUI, SDR driver boundary,
 operating-system paths, and interoperability formats.
 
-Start with the [implementation status](status.md), then consult the
+Start with the [implementation status](status.md) and
+[development roadmap](roadmap.md), then consult the
 [repository layout](repository-layout.md), [application architecture](application-architecture.md),
 [complex-IQ capture contract](capture-contract.md),
 [measurement model](measurement-model.md), [uncertainty model](uncertainty-model.md),
