@@ -67,3 +67,27 @@ jobs:
           -DSDRCAL_ENABLE_SOAPYSDR=ON
       - name: Build, test, and package audit
         run: cmake --build build/full --target all package-audit && ctest --test-dir build/full --output-on-failure
+
+  ubuntu-deb:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install declared build and package dependencies
+        run: sudo apt-get update && sudo apt-get install -y ninja-build qt6-base-dev shellcheck
+      - name: Validate Ubuntu package script
+        run: bash -n packaging/ubuntu/package-deb.sh && shellcheck packaging/ubuntu/package-deb.sh
+      - name: Configure Ubuntu production package
+        run: cmake --preset ubuntu-release
+      - name: Build, test, audit, and package
+        run: >-
+          cmake --build --preset ubuntu-release &&
+          ctest --preset ubuntu-release &&
+          cmake --build build/ubuntu-release --target package-audit ubuntu-deb
+      - name: Upload DEB and retained package evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: sdrcal-ubuntu-24.04-amd64-deb
+          path: |
+            build/ubuntu-release/ubuntu-package/*.deb
+            build/ubuntu-release/ubuntu-package/evidence/
+          if-no-files-found: error

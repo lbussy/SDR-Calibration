@@ -290,6 +290,13 @@ administrative extraction, payload and startup auditing, and hash-indexed
 evidence. Its result applies only to an exact retained MSI and does not close
 clean-install, distribution-license, or general Windows-support gates.
 
+Phase 14.3 adds the fail-closed Ubuntu 24.04 x86_64 DEB production path:
+system-package Qt dependencies derived from the staged ELF payload, rootless
+archive construction, extracted-payload/runtime auditing, and hash-indexed
+evidence. Its result applies only to an exact retained DEB and does not close
+clean-install, repository, distribution-license, or general Ubuntu-support
+gates.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility

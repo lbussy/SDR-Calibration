@@ -14,6 +14,8 @@ artifact compatibility policy are established.
   deployment, Gatekeeper verification, and hash-indexed evidence.
 - Phase 14.2 signed Windows x64 MSI production tooling with dynamic Qt,
   Authenticode timestamp verification, and extracted-payload evidence.
+- Phase 14.3 Ubuntu 24.04 x86_64 DEB production tooling with Debian-derived
+  system dependencies and extracted-payload/runtime evidence.
 - Initial project, documentation, schema, licensing, and build scaffold.
 - Portable install/archive packaging, configured SPDX dependency inventory,
   staged-package auditing, cross-platform hardware-free CI definitions, and

@@ -77,6 +77,9 @@
 - Fail-closed Windows x64 MSI tooling with dynamic Qt deployment, Authenticode
   signing and RFC 3161 timestamp verification, extracted-payload audit, and
   retained hash/environment evidence
+- Fail-closed Ubuntu 24.04 x86_64 DEB tooling with Debian-derived system Qt
+  dependencies, extracted-payload/runtime audit, and retained hash/environment
+  evidence
 
 ## Planned, not implemented
 
@@ -96,8 +99,8 @@
 - Native-profile representation for zero-span local-constant fitted models
 - Completed binary-license disposition and corresponding-source bundle for the
   exact dependencies redistributed by a release
-- Ubuntu DEB packaging, clean-host installation evidence, and completed
-  distribution-license disposition for the macOS and Windows packages
+- Clean-host installation evidence and completed distribution-license
+  disposition for the macOS, Windows, and Ubuntu packages
 
 ## Not established
 

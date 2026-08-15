@@ -21,7 +21,9 @@ SDR-Calibration/
 │   └── fixtures/
 ├── schemas/
 ├── packaging/
-│   └── macos/
+│   ├── macos/
+│   ├── ubuntu/
+│   └── windows/
 └── docs/
     ├── user-guide/
     └── development/
@@ -33,6 +35,10 @@ placeholder source files are not required merely to preserve empty directories.
 `packaging/macos` owns the fail-closed Developer ID signing, notarization,
 stapling, Gatekeeper, DMG assembly, and evidence-generation path. Generated
 packages and evidence remain under the selected build directory.
+
+`packaging/windows` owns the fail-closed Qt deployment, Authenticode, MSI, and
+extracted-payload evidence path. `packaging/ubuntu` owns the fail-closed
+system-dependency DEB and extracted-payload/runtime evidence path.
 
 ## Root files
 

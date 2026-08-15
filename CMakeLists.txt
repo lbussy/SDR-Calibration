@@ -150,6 +150,21 @@ if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
     )
 endif()
 
+if(UNIX AND NOT APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
+    install(FILES "${PROJECT_SOURCE_DIR}/packaging/ubuntu/sdrcal.desktop"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
+    set(SDRCAL_UBUNTU_DEB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/ubuntu-package")
+    add_custom_target(ubuntu-deb
+        COMMAND "${PROJECT_SOURCE_DIR}/packaging/ubuntu/package-deb.sh"
+            --build-dir "${PROJECT_BINARY_DIR}"
+            --output-dir "${SDRCAL_UBUNTU_DEB_OUTPUT_DIR}"
+            --version "${PROJECT_VERSION}"
+            --source-dir "${PROJECT_SOURCE_DIR}"
+        DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
+        VERBATIM
+    )
+endif()
+
 set(CPACK_PACKAGE_NAME "SDRCalibration")
 set(CPACK_PACKAGE_VENDOR "SDR Calibration contributors")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Traceable per-device SDR frequency calibration")

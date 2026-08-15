@@ -100,6 +100,26 @@ extracted payloads, and CLI startup failure. Evidence is written below
 `build/windows-release/windows-package/evidence`. Administrative extraction
 does not substitute for a clean-host installation test.
 
+The Ubuntu production-package path is Ubuntu 24.04 x86_64-only and excludes
+SoapySDR:
+
+```shell
+cmake --preset ubuntu-release
+cmake --build --preset ubuntu-release
+ctest --preset ubuntu-release
+cmake --build build/ubuntu-release --target package-audit
+cmake --build build/ubuntu-release --target ubuntu-deb
+```
+
+The final target refuses dirty or mismatched source/platform inputs, stages
+under `/usr` without root, derives system dependencies with `dpkg-shlibdeps`,
+builds and extracts the DEB, rejects missing payloads, build-path leakage,
+RPATH/RUNPATH, wrong-architecture ELF files and unresolved libraries, verifies
+CLI startup, and writes evidence below
+`build/ubuntu-release/ubuntu-package/evidence`. Extraction and build-host
+startup do not substitute for clean-host installation or Phase 14.4 license
+disposition.
+
 ## Required fixtures
 
 Planned fixtures include:

@@ -59,13 +59,29 @@
         "SDRCAL_ENABLE_PACKAGING": "ON"
       },
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    },
+    {
+      "name": "ubuntu-release",
+      "displayName": "Ubuntu 24.04 x86_64 DEB build",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/ubuntu-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "ON",
+        "SDRCAL_BUILD_GUI": "ON",
+        "SDRCAL_REQUIRE_GUI": "ON",
+        "SDRCAL_ENABLE_SOAPYSDR": "OFF",
+        "SDRCAL_ENABLE_PACKAGING": "ON"
+      },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
     }
   ],
   "buildPresets": [
     { "name": "default", "configurePreset": "default" },
     { "name": "release", "configurePreset": "release" },
     { "name": "macos-release", "configurePreset": "macos-release" },
-    { "name": "windows-release", "configurePreset": "windows-release" }
+    { "name": "windows-release", "configurePreset": "windows-release" },
+    { "name": "ubuntu-release", "configurePreset": "ubuntu-release" }
   ],
   "testPresets": [
     {
@@ -86,6 +102,11 @@
     {
       "name": "windows-release",
       "configurePreset": "windows-release",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "ubuntu-release",
+      "configurePreset": "ubuntu-release",
       "output": { "outputOnFailure": true }
     }
   ]

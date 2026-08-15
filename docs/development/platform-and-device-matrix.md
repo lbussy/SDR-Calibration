@@ -12,6 +12,7 @@ qualification. A blank or planned CI job never creates evidence.
 | macOS 26.5.2 | arm64 | Locally build-covered | Portable archive content audited locally; clean-host install not qualified | Not qualified | Phase 14 validation at the committed revision |
 | macOS 15 CI | arm64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Ubuntu 24.04 | x86_64 | Build-covered, including strict Qt/SoapySDR release | Portable archive content audited in CI; clean-host install not qualified | Not applicable to the current portable archive | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
+| Ubuntu Phase 14.3 package input | x86_64 | Tooling implemented; exact package run pending | System-dependency DEB tooling implemented; artifact and clean-host install not qualified | Not applicable; repository/package signing is not implemented | No retained Phase 14.3 package run |
 | Windows Server 2025 CI | x86_64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Windows Phase 14.2 package input | x86_64 | Tooling implemented; exact package run pending | Signed MSI tooling implemented; artifact and clean-host install not qualified | Tooling implemented; exact signed artifact not qualified | No retained Phase 14.2 package run |
 | Raspberry Pi OS | arm64 | Not qualified | Not qualified | Not qualified | No retained passing run |
@@ -32,6 +33,12 @@ v4, the configured Qt `windeployqt`, SignTool, a code-signing certificate, and
 an HTTPS RFC 3161 timestamp service. Tooling presence is not retained evidence
 for a signed MSI; only the exact manifest and artifact hash from a passing run
 can establish that narrower claim.
+
+The Phase 14.3 Ubuntu gate requires Ubuntu 24.04 x86_64, Debian package tools,
+and the configured dynamic Qt runtime. It derives system-package dependencies
+from the exact ELF payload and retains an extracted-package audit. Tooling
+presence is not retained evidence for a DEB; only the exact manifest and
+artifact hash from a passing run can establish that narrower claim.
 
 ## Device matrix
 

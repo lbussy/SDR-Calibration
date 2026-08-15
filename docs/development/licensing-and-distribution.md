@@ -62,6 +62,11 @@ Windows MSI without closing this gate. Authenticode must not restrict lawful
 replacement of the shared libraries, and the exact MSI payload remains an
 input to the Phase 14.4 disposition audit.
 
+Phase 14.3 does not bundle Qt: its Ubuntu DEB declares dynamically linked Qt
+system-package dependencies derived from the staged ELF payload. This reduces
+the redistributed payload but does not itself close the distribution gate; the
+exact dependency, notice, and source disposition remains a Phase 14.4 input.
+
 ## 4. Build and CI policy
 
 The build system must keep project targets distinct from third-party targets.

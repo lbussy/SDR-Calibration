@@ -20,6 +20,20 @@ binary-license disposition, live SDR access, device support, or calibration
 accuracy. Do not redistribute a candidate DMG until the later license and
 clean-host gates are recorded as passing.
 
+## Ubuntu package status
+
+Phase 14.3 provides a production gate for an Ubuntu 24.04 x86_64 DEB containing
+the recorded-input GUI and CLI. It uses dynamically linked Qt libraries from
+Ubuntu system packages and deliberately excludes SoapySDR and vendor modules.
+The package is not a live-device build.
+
+An extracted-payload audit establishes package structure, dependency metadata,
+runtime linkage, and CLI startup for one exact DEB hash on its build host. It
+does not establish clean-host installation, upgrade/removal behavior,
+repository compatibility, binary-license disposition, device support, or
+calibration accuracy. Do not redistribute a candidate DEB until the later
+license and clean-host gates are recorded as passing.
+
 ## Recorded-input workflow
 
 Select three explicit paths:

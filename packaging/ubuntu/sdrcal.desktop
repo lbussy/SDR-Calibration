@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=SDR Calibration
+Comment=Create traceable SDR frequency-calibration profiles
+Exec=sdrcal-gui
+Terminal=false
+Categories=Science;Utility;
