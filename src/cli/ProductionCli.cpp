@@ -3,6 +3,7 @@
 #include "profile/CanonicalJson.h"
 #include "profile/Sha256.h"
 
+#include <algorithm>
 #include <bit>
 #include <cmath>
 #include <fstream>

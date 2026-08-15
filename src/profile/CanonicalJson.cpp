@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdio>
 #include <limits>
+#include <locale>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -421,8 +422,10 @@ class JsonParser {
                 return value;
         }
         double value = 0.0;
-        const auto converted = std::from_chars(token.data(), token.data() + token.size(), value);
-        if (converted.ec != std::errc{} || converted.ptr != token.data() + token.size() ||
+        std::istringstream numberStream{std::string(token)};
+        numberStream.imbue(std::locale::classic());
+        numberStream >> value;
+        if (!numberStream || numberStream.peek() != std::char_traits<char>::eof() ||
             !std::isfinite(value))
             fail("number is outside supported finite range");
         return value;
