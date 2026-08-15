@@ -1,6 +1,6 @@
 # Complex-IQ Capture Contract
 
-Status: Phase 2 hardware-free foundation implemented; SoapySDR integration planned
+Status: Phase 3 SoapySDR adapter implemented and mock-validated; real-device use planned
 
 This contract defines the smallest reusable receive-only capture facility needed
 by SDR Calibration. It does not establish device support, RSP1B qualification,
@@ -253,8 +253,12 @@ Normal tests remain hardware-free and cover:
 - manifest, sample-count, and byte-count consistency.
 
 The reusable capture recorder is tested through a fake sample source. The
-SoapySDR boundary and its mocks remain planned for Phase 3. Installed-module and
-real-device tests are opt-in integration tests. Each
+SoapySDR session is tested through injected fake enumeration, device,
+configuration, stream, failure, and cleanup operations. Native SoapySDR stream
+codes and flags are translated by a pure hardware-free test surface. Ordinary
+tests never instantiate the production API wrapper and therefore cannot
+enumerate or construct a device. Installed-module and real-device tests are
+opt-in integration tests. Each
 real-device test requires separate authorization of exact device identity,
 input arrangement, requested configuration, duration, expected evidence, abort,
 and cleanup. Contract tests and mock tests do not establish RSP1B support.
@@ -284,8 +288,24 @@ The hardware-free implementation uses these bounded policies:
 Callers may impose stricter resource limits. Explicit sample counts and planned
 byte counts must satisfy every applicable limit.
 
-## 12. Remaining implementation boundary
+## 12. Phase 3 SoapySDR boundary
 
-Phase 2 implements no SoapySDR selection, configuration, readback, or streaming
-and no CLI. Those remain planned and require later authorization. No hardware
-activity is authorized by this contract.
+When `SDRCAL_ENABLE_SOAPYSDR=ON`, the build locates the installed SoapySDR CMake
+package and builds a distinct `sdrcal_soapy` library over `sdrcal_capture`.
+When disabled, neither SoapySDR headers nor libraries are required and the
+generic capture tests remain available.
+
+The adapter implements unambiguous selection, resolved construction arguments,
+receive configuration and readback, CF32 stream setup, activation, bounded read
+translation, and reverse-order cleanup. Its injected facade keeps production
+SoapySDR types out of the generic capture interface. Explicitly requested
+unsupported settings remain fatal under both setting policies; permissive mode
+is limited to changed or unverifiable settings. Manual gain is not verified when
+the driver exposes gain mode but cannot confirm that automatic gain is off.
+The final sample and byte plan is computed from effective readback before stream
+setup or activation, so an excessive duration-derived plan cannot start a stream.
+
+The adapter and real wrapper have been compiled and linked, but production
+enumeration, construction, configuration, and streaming paths have not been
+executed. No CLI or real-device integration is implemented. RSP1B support and
+hardware behavior remain unestablished and require separate authorization.

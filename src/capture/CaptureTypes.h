@@ -102,6 +102,8 @@ struct DeviceMetadata {
     std::optional<std::string> serial;
     std::map<std::string, std::string> hardware_info;
     std::optional<std::string> library_version;
+    std::optional<std::string> api_version;
+    std::optional<std::string> abi_version;
     std::optional<std::string> driver_version;
     std::optional<std::string> firmware_version;
     std::optional<std::string> antenna;
@@ -116,6 +118,8 @@ struct CapturePlan {
     std::uint64_t target_samples = 0;
     std::uint64_t target_bytes = 0;
     std::string rounding_rule;
+    std::string stream_format = "CF32";
+    std::optional<std::size_t> stream_mtu;
 };
 
 struct CaptureError {
@@ -127,6 +131,7 @@ struct CleanupResult {
     bool attempted = false;
     bool succeeded = false;
     std::string detail;
+    FinalState final_state = FinalState::unknown;
 };
 
 struct StreamStatistics {

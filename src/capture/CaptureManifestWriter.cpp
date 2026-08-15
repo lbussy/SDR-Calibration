@@ -2,9 +2,12 @@
 
 #include "capture/CapturePlan.h"
 
+#include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+#include <iterator>
 #include <locale>
 #include <sstream>
 #include <stdexcept>
@@ -63,6 +66,20 @@ std::string optionalBool(const std::optional<bool>& value) {
     return *value ? "true" : "false";
 }
 
+bool sensitiveKey(const std::string& key) {
+    std::string lower;
+    lower.reserve(key.size());
+    std::transform(key.begin(), key.end(), std::back_inserter(lower), [](const char character) {
+        return static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    });
+    return lower.find("password") != std::string::npos ||
+           lower.find("passwd") != std::string::npos ||
+           lower.find("token") != std::string::npos ||
+           lower.find("secret") != std::string::npos ||
+           lower.find("credential") != std::string::npos || lower == "api_key" ||
+           lower == "private_key";
+}
+
 std::string stringMap(const std::map<std::string, std::string>& values, int indent) {
     if (values.empty()) {
         return "{}";
@@ -72,7 +89,7 @@ std::string stringMap(const std::map<std::string, std::string>& values, int inde
     std::size_t index = 0;
     for (const auto& [key, value] : values) {
         output << std::string(static_cast<std::size_t>(indent + 2), ' ') << quoted(key) << ": "
-               << quoted(value);
+               << quoted(sensitiveKey(key) ? "<redacted>" : value);
         output << (++index == values.size() ? "\n" : ",\n");
     }
     output << std::string(static_cast<std::size_t>(indent), ' ') << '}';
@@ -150,6 +167,8 @@ std::string CaptureManifestWriter::serialize(
            << "    \"serial\": " << optionalString(device.serial) << ",\n"
            << "    \"hardware_info\": " << stringMap(device.hardware_info, 4) << ",\n"
            << "    \"library_version\": " << optionalString(device.library_version) << ",\n"
+           << "    \"api_version\": " << optionalString(device.api_version) << ",\n"
+           << "    \"abi_version\": " << optionalString(device.abi_version) << ",\n"
            << "    \"driver_version\": " << optionalString(device.driver_version) << ",\n"
            << "    \"firmware_version\": " << optionalString(device.firmware_version) << ",\n"
            << "    \"antenna\": " << optionalString(device.antenna) << ",\n"
@@ -167,8 +186,14 @@ std::string CaptureManifestWriter::serialize(
            << optionalNumber(plan.effective.frequency_correction_ppm) << "\n"
            << "  },\n"
            << "  \"stream\": {\n"
-           << "    \"format\": \"CF32\",\n"
-           << "    \"mtu\": null,\n"
+           << "    \"format\": " << quoted(plan.stream_format) << ",\n"
+           << "    \"mtu\": ";
+    if (plan.stream_mtu.has_value()) {
+        output << *plan.stream_mtu;
+    } else {
+        output << "null";
+    }
+    output << ",\n"
            << "    \"target_samples\": " << result.stream.target_samples << ",\n"
            << "    \"written_samples\": " << result.stream.written_samples << ",\n"
            << "    \"written_bytes\": " << result.stream.written_bytes << ",\n"

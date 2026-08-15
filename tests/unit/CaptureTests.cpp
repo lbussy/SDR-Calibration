@@ -144,6 +144,10 @@ void testValidationAndPlanning() {
     request.sample_count = 268'435'457;
     planned = makeCapturePlan(request, effectiveSettings(10.0));
     CHECK(!planned.ok());
+    CHECK(!validateCaptureRequestBeforeDevice(request).empty());
+    request.sample_count = 1;
+    request.device_arguments = {{"", "invalid"}};
+    CHECK(!validateCaptureRequestBeforeDevice(request).empty());
 }
 
 void testSettingPolicyAndTolerance() {
@@ -157,11 +161,17 @@ void testSettingPolicyAndTolerance() {
           SettingState::applied_unverified);
     CHECK(classifyEffectiveSetting(10.0, std::nullopt, false, false, {0.1, 0.0}).state ==
           SettingState::unsupported);
+    const auto nonfinite = classifyEffectiveSetting(
+        10.0, std::numeric_limits<double>::infinity(), true, true, {0.1, 0.0});
+    CHECK(nonfinite.state == SettingState::applied_unverified);
+    CHECK(!nonfinite.effective.has_value());
     auto settings = effectiveSettings();
     settings.sample_rate_sps.state = SettingState::applied_changed;
     CHECK(evaluateEffectiveSettings(settings, SettingPolicy::strict).size() == 1);
     CHECK(evaluateEffectiveSettings(settings, SettingPolicy::permissive).empty());
     settings.sample_rate_sps.state = SettingState::failed;
+    CHECK(evaluateEffectiveSettings(settings, SettingPolicy::permissive).size() == 1);
+    settings.sample_rate_sps.state = SettingState::unsupported;
     CHECK(evaluateEffectiveSettings(settings, SettingPolicy::permissive).size() == 1);
 }
 
@@ -361,6 +371,7 @@ void testManifestEscapingAndFiniteNumbers() {
     TemporaryDirectory directory("manifest");
     auto plan = planFor(directory.path() / "capture", 1);
     plan.request.purpose = "quote \" slash \\ newline\n";
+    plan.request.device_arguments["access_token"] = "must-not-appear";
     CaptureResult result;
     result.status = CaptureStatus::complete;
     result.stream.target_samples = 1;
@@ -370,6 +381,8 @@ void testManifestEscapingAndFiniteNumbers() {
     result.utc_end = "2026-08-09T00:00:01Z";
     const std::string json = CaptureManifestWriter::serialize(plan, {}, result, "capture.cf32");
     CHECK(json.find("quote \\\" slash \\\\ newline\\n") != std::string::npos);
+    CHECK(json.find("must-not-appear") == std::string::npos);
+    CHECK(json.find("<redacted>") != std::string::npos);
     plan.request.center_frequency_hz = std::numeric_limits<double>::infinity();
     bool threw = false;
     try {

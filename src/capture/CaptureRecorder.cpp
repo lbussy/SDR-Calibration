@@ -217,8 +217,8 @@ CaptureResult CaptureRecorder::record(
     }
 
     result.source_cleanup = source.cleanup();
+    result.final_state = result.source_cleanup.final_state;
     if (!result.source_cleanup.succeeded) {
-        result.final_state = FinalState::unknown;
         if (result.error.category == ErrorCategory::none) {
             setTerminal(
                 result,
@@ -227,7 +227,9 @@ CaptureResult CaptureRecorder::record(
                 result.source_cleanup.detail);
         }
     } else {
-        result.final_state = FinalState::known_safe;
+        if (result.final_state == FinalState::unknown) {
+            result.final_state = FinalState::known_safe;
+        }
     }
     result.utc_end = utcNow();
     result.monotonic_elapsed_seconds =

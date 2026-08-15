@@ -66,3 +66,10 @@ The implemented Phase 2 `capture_unit_tests` target exercises the generic
 sample-source boundary, bounded recorder, CF32LE encoding, manifest generation,
 artifact publication, cancellation, timeout, stream-event, and cleanup paths.
 It does not load SoapySDR or establish real-device behavior.
+
+When SoapySDR support is enabled, `soapy_adapter_unit_tests` exercises only an
+injected fake API and device facade plus the pure native-return-code translator.
+The production wrapper is compiled and linked but never instantiated by normal
+tests, so CTest performs no production enumeration, construction, configuration,
+or stream operation. These tests establish adapter logic, not installed-module,
+RSP1B, or hardware behavior.

@@ -7,6 +7,10 @@
 
 namespace sdrcal::capture {
 
+[[nodiscard]] std::vector<CaptureError> validateCaptureRequestBeforeDevice(
+    const CaptureRequest& request,
+    const ResourceLimits& limits = {});
+
 [[nodiscard]] ValidationResult makeCapturePlan(
     const CaptureRequest& request,
     const EffectiveSettings& effective,

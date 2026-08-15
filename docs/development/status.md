@@ -15,6 +15,9 @@
   component contracts
 - Hardware-free capture request validation, planning, sample-source interface,
   bounded recorder, CF32LE writer, JSON manifest writer, and unit tests
+- Conditional receive-only SoapySDR adapter with unambiguous selection,
+  configuration/readback, CF32 stream lifecycle, error translation, and
+  hardware-free fake-boundary tests
 
 ## Planned, not implemented
 
@@ -23,7 +26,7 @@
 - Uncertainty calculation and model fitting
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
-- SoapySDR discovery, configuration, and sample acquisition
+- Real-device SoapySDR discovery, configuration, and sample acquisition
 - Thin diagnostic capture command-line interface
 - Command-line application
 - Qt 6 Widgets application
