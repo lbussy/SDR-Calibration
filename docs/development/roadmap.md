@@ -252,8 +252,8 @@ does not establish calibration accuracy or device qualification.
 
 ## Phase 14: Portability, packaging, and qualification
 
-**Status: Packaging and qualification foundation implemented and locally
-hardware-free validated on macOS arm64; cross-platform, clean-install,
+**Status: Packaging and qualification foundation implemented; hardware-free
+macOS, Linux, and Windows build/package CI passed. Clean-install,
 distribution-license, signing, device, and end-to-end qualification gates remain
 open.**
 
@@ -274,9 +274,9 @@ the earlier hardware gate cannot satisfy this requirement.
 The implemented foundation provides strict dependency baselines, install rules,
 portable CPack archives, a configured SPDX inventory, isolated package-content
 audit, three-OS hardware-free CI definitions, an evidence-indexed support
-matrix, and the full calibration qualification record contract. CI definitions
-are not passing evidence until executed. The archives do not yet deploy runtime
-dependencies or constitute native signed installers, and the current notice
+matrix, and the full calibration qualification record contract. The passing
+cross-platform run is retained in the matrix. The archives do not yet deploy
+runtime dependencies or constitute native signed installers, and the current notice
 bundle is not a completed binary-distribution license disposition.
 
 ## Release candidate

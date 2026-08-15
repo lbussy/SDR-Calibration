@@ -21,7 +21,7 @@ jobs:
             generator: Ninja
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure portable core
         run: >-
           cmake -S . -B build/portable -G "${{ matrix.generator }}"
@@ -39,8 +39,8 @@ jobs:
   docs:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Build documentation with warnings as errors
@@ -49,7 +49,7 @@ jobs:
   full-linux-release:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install declared build dependencies
         run: sudo apt-get update && sudo apt-get install -y ninja-build qt6-base-dev libsoapysdr-dev
       - name: Configure strict full release

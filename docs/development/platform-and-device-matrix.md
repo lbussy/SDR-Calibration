@@ -10,8 +10,9 @@ qualification. A blank or planned CI job never creates evidence.
 | Platform | Architecture | Build state | Packaging state | Signing state | Evidence |
 | --- | --- | --- | --- | --- | --- |
 | macOS 26.5.2 | arm64 | Locally build-covered | Portable archive content audited locally; clean-host install not qualified | Not qualified | Phase 14 validation at the committed revision |
-| Ubuntu 24.04 | x86_64 | Not qualified; CI defined | Not qualified; CI defined | Not applicable to the current portable archive | No retained passing run |
-| Windows Server 2025 CI | x86_64 | Not qualified; CI defined | Not qualified; CI defined | Not qualified | No retained passing run |
+| macOS 15 CI | arm64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
+| Ubuntu 24.04 | x86_64 | Build-covered, including strict Qt/SoapySDR release | Portable archive content audited in CI; clean-host install not qualified | Not applicable to the current portable archive | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
+| Windows Server 2025 CI | x86_64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Raspberry Pi OS | arm64 | Not qualified | Not qualified | Not qualified | No retained passing run |
 
 The minimum source-build baselines are CMake 3.20, a C++20 compiler, Qt 6.2

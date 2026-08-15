@@ -96,8 +96,6 @@
 ## Not established
 
 - Supported SDR device matrix
-- Passing macOS/Linux/Windows CI evidence beyond the locally validated macOS
-  arm64 configuration
 - Raspberry Pi models and Raspberry Pi OS releases that have passed qualification
 - Calibration accuracy claims
 - Release schedule or stable artifact compatibility guarantee
