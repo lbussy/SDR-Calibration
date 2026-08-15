@@ -73,3 +73,10 @@ The production wrapper is compiled and linked but never instantiated by normal
 tests, so CTest performs no production enumeration, construction, configuration,
 or stream operation. These tests establish adapter logic, not installed-module,
 RSP1B, or hardware behavior.
+
+The Phase 4 `capture_cli_argument_tests` target remains available when SoapySDR
+is disabled and verifies complete, missing, malformed, duplicate, non-finite,
+ambiguous, and excessive requests. When SoapySDR is enabled,
+`capture_cli_workflow_tests` uses an injected fake API to verify pre-device
+failure, preparation failure, requested/effective reporting, bounded recording,
+cancellation, artifacts, and cleanup without constructing a real device.

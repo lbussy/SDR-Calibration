@@ -18,6 +18,9 @@
 - Conditional receive-only SoapySDR adapter with unambiguous selection,
   configuration/readback, CF32 stream lifecycle, error translation, and
   hardware-free fake-boundary tests
+- Thin `sdrcal-capture` diagnostic CLI with explicit device selection, bounded
+  request parsing, requested/effective reporting, cancellation, stable exit
+  categories, and hardware-free parser and injected-workflow tests
 
 ## Planned, not implemented
 
@@ -27,7 +30,6 @@
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
 - Real-device SoapySDR discovery, configuration, and sample acquisition
-- Thin diagnostic capture command-line interface
 - Command-line application
 - Qt 6 Widgets application
 - WSJT-X settings and `fmt.all` adapters

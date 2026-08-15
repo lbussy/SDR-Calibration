@@ -1,6 +1,6 @@
 # Complex-IQ Capture Contract
 
-Status: Phase 3 SoapySDR adapter implemented and mock-validated; real-device use planned
+Status: Phase 4 diagnostic CLI implemented and hardware-free validated; real-device use gated
 
 This contract defines the smallest reusable receive-only capture facility needed
 by SDR Calibration. It does not establish device support, RSP1B qualification,
@@ -236,7 +236,32 @@ calibration-oriented defaults, operator wording, and later evidence-bundle
 integration. The CLI contains parsing and presentation only; it does not own the
 capture loop or SoapySDR lifetime.
 
-## 10. Hardware-free validation
+## 10. Diagnostic CLI
+
+Phase 4 provides the `sdrcal-capture` executable when both
+`SDRCAL_BUILD_CLI` and `SDRCAL_ENABLE_SOAPYSDR` are enabled. Its required
+arguments are one or more explicit `--device key=value` selectors,
+`--frequency-hz`, `--sample-rate`, exactly one of `--duration` or `--samples`,
+and `--output`. Optional arguments select an invocation-local enumeration index,
+RX channel, hardware bandwidth, aggregate manual gain, read timeout,
+strict/permissive effective-setting policy, and a non-semantic purpose note.
+`--help` and `--version` are device-free operations.
+
+Parsing is exact: unknown and positional arguments, repeated scalar options,
+duplicate device keys, malformed selectors, non-finite numbers, and missing or
+excessive bounds fail before SoapySDR enumeration or device construction. The
+CLI labels requested and effective settings separately and reports the capture
+outcome, artifact paths, and final device-state knowledge. Existing artifacts
+are not overwritten. SIGINT requests the recorder's ordinary bounded
+cancellation and cleanup path.
+
+Process exit statuses are `0` for a complete capture or informational action,
+`2` for command-line usage failure, `3` for device selection/preparation
+failure, and `4` for a non-complete capture. These diagnostic categories are
+implemented behavior, not the stable automation contract planned for the Phase
+12 production CLI.
+
+## 11. Hardware-free validation
 
 Normal tests remain hardware-free and cover:
 
@@ -263,7 +288,7 @@ real-device test requires separate authorization of exact device identity,
 input arrangement, requested configuration, duration, expected evidence, abort,
 and cleanup. Contract tests and mock tests do not establish RSP1B support.
 
-## 11. Phase 2 implementation decisions
+## 12. Phase 2 implementation decisions
 
 The hardware-free implementation uses these bounded policies:
 

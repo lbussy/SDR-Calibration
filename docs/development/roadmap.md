@@ -71,6 +71,8 @@ qualified by this phase.
 
 ## Phase 4: Diagnostic capture CLI
 
+**Status: Implemented and hardware-free validated; real-device use remains gated.**
+
 Build a thin diagnostic command-line interface over the capture and SoapySDR
 components. It must expose explicit device selection, channel, frequency,
 sample rate, bandwidth, gain policy, capture bounds, and output paths while
