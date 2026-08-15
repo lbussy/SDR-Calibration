@@ -166,9 +166,19 @@ conditions, limitations, and reliability-quotient ceiling.
 
 ## Phase 10: WSJT-X interoperability
 
+**Status: Implemented and hardware-free validated; safe settings-file
+replacement and application integration remain separate gates.**
+
 Implement explicitly lossy WSJT-X settings and `fmt.all` import/export adapters
 with sign-convention tests, information-loss reporting, source hashes, and
 unknown-format rejection.
+
+The implemented adapter core supports verified WSJT-X 2.6.x and 2.7.x mappings,
+bounded INI and eight-column `fmt.all` parsing, deterministic settings
+projection, source hashes, preserved source lines, explicit manual-review
+states, and loss reports. It does not discover or modify installed WSJT-X
+instances, fit a native model from imported observations, or create an
+authoritative profile from external settings.
 
 Exit requires the native SDR Calibration Profile to remain authoritative.
 Malformed, unknown, or ambiguous external data must not silently replace or

@@ -47,6 +47,10 @@
 - Hardware-free bounded evidence-bundle manifests with explicit reduced,
   raw-IQ, and expanded-diagnostic classes, privacy filtering, byte and time
   limits, partial-failure reporting, and atomic-write status
+- Hardware-free WSJT-X 2.6.x/2.7.x adapter core with bounded settings import
+  and deterministic single-linear-segment export, explicit loss reports,
+  verified sign-convention fixtures, source hashes, and line-preserving
+  eight-column `fmt.all` import with manual-review states
 
 ## Planned, not implemented
 
@@ -57,7 +61,8 @@
   qualification
 - Command-line application
 - Qt 6 Widgets application
-- WSJT-X settings and `fmt.all` adapters
+- Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,
+  readback verification, and application-service integration
 - Evidence archive/container production and application-service integration
 - Packaging and binary-license compliance automation
 

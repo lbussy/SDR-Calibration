@@ -53,6 +53,8 @@ Planned fixtures include:
 - profile examples that pass and fail each contract gate;
 - positive and negative WSJT-X sign-convention cases;
 - valid, rejected, malformed, and partially understood `fmt.all` lines;
+- bounded and unknown-version WSJT-X inputs, source-digest checks, and
+  information-loss reports;
 - mocked SoapySDR capability and stream failures;
 - fake capture sources covering exact reads, short reads, timeouts,
   discontinuities, cancellation, and cleanup failures;

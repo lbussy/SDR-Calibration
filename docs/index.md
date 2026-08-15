@@ -21,6 +21,7 @@ user-guide/wsjtx-interoperability
 development/index
 development/status
 development/roadmap
+development/phase-10-execution-prompt
 development/phase-9-execution-prompt
 development/repository-layout
 development/application-architecture

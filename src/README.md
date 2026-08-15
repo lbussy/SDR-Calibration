@@ -6,7 +6,8 @@ All project-owned C++ implementation and public headers live under `src/`.
 - `profile/` — profile model, validation, serialization, and evaluation
 - `soapy/` — SoapySDR discovery, configuration, and sample acquisition
 - `application/` — workflow coordination and application services
-- `adapters/wsjtx/` — WSJT-X settings and `fmt.all` interoperability
+- `adapters/wsjtx/` — hardware-free, explicitly lossy WSJT-X settings and
+  line-preserving `fmt.all` interoperability
 - `cli/` — headless command-line application
 - `gui/` — Qt 6 Widgets application
 
