@@ -103,6 +103,12 @@
 - Native-profile representation for zero-span local-constant fitted models
 - Clean-host installation and distribution evidence for the macOS, Windows,
   and Ubuntu packages
+- Product-facing `SDR Calibration` identity on every GUI-client platform while
+  retaining `sdrcal-gui` as an internal target/executable name; macOS uses
+  `SDR Calibration.app` with space-safe package/evidence paths
+- One approved project-owned application icon with reproducible macOS, Windows,
+  and Linux assets, provenance/license records, package metadata and inventory,
+  and rendered platform-size review
 
 ## Not established
 

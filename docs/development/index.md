@@ -32,4 +32,6 @@ The signed Windows package slice is governed by the
 The Ubuntu DEB package slice is governed by the
 [Phase 14.3 execution prompt](phase-14-3-execution-prompt.md), and exact payload
 license disposition is governed by the
-[Phase 14.4 execution prompt](phase-14-4-execution-prompt.md).
+[Phase 14.4 execution prompt](phase-14-4-execution-prompt.md). The cross-platform
+GUI product name, icon, and clean-host candidate gate is governed by the
+[Phase 14.5 execution prompt](phase-14-5-execution-prompt.md).

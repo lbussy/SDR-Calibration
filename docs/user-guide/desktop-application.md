@@ -14,6 +14,15 @@ machine-readable dependency inventory. The DMG provides an Applications alias
 for copying `sdrcal-gui.app`; command-line installation remains an operator-
 managed workflow until clean-host packaging qualification is complete.
 
+The current platform-facing identity is provisional. Phase 14.5 will present
+the product as `SDR Calibration` in macOS, Windows, and Linux launchers,
+shortcuts, and installed-application listings while retaining `sdrcal-gui` as
+an internal implementation name. The macOS bundle will be
+`SDR Calibration.app`. Every GUI package must include the same approved,
+project-owned application icon in its native platform formats before clean-host
+qualification; existing packages without the final name and icon remain
+historical package evidence only.
+
 Phase 14.4 requires each new DMG to carry the complete hash-pinned Qt source,
 the exact deployed runtime inventory, license disposition, and Qt replacement
 instructions. Notarization and license disposition still do not establish

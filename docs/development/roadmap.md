@@ -304,6 +304,18 @@ while proving those libraries are not conveyed. Each artifact must retain its
 own passing evidence; implementation does not retroactively qualify earlier
 packages. Clean-host installation is the next Phase 14 gate.
 
+Phase 14.5 prepares the clean-host candidates and prevents the internal
+`sdrcal-gui` target name from becoming any platform's product identity. macOS,
+Windows, and Linux launchers, shortcuts, installed-application listings, and
+package-facing documentation will use `SDR Calibration`; the macOS bundle will
+be `SDR Calibration.app`. `sdrcal-gui` may remain the internal executable and
+CMake target. Before clean-host qualification, every GUI package must carry the
+same approved, project-owned icon with retained editable source, reproducible
+`.icns`, `.ico`, executable/installer, and Linux icon-theme generation,
+explicit license/provenance, payload inventory coverage, and rendered
+platform-size review. Only exact renamed, icon-bearing packages can satisfy the
+clean-host gate; earlier packages remain historical evidence.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility
