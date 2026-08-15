@@ -3,7 +3,7 @@
 set -euo pipefail
 
 usage() {
-    echo "usage: $0 --build-dir DIR --output-dir DIR --signing-identity ID --notary-profile PROFILE --version VERSION --source-dir DIR" >&2
+    echo "usage: $0 --build-dir DIR --output-dir DIR --signing-identity ID --notary-profile PROFILE --version VERSION --source-dir DIR --qt-source-archive FILE --qt-source-sha256 SHA256" >&2
 }
 
 build_dir=
@@ -12,6 +12,8 @@ signing_identity=
 notary_profile=
 version=
 source_dir=
+qt_source_archive=
+qt_source_sha256=
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --build-dir) build_dir=${2-}; shift 2 ;;
@@ -20,11 +22,13 @@ while [[ $# -gt 0 ]]; do
         --notary-profile) notary_profile=${2-}; shift 2 ;;
         --version) version=${2-}; shift 2 ;;
         --source-dir) source_dir=${2-}; shift 2 ;;
+        --qt-source-archive) qt_source_archive=${2-}; shift 2 ;;
+        --qt-source-sha256) qt_source_sha256=${2-}; shift 2 ;;
         *) usage; exit 2 ;;
     esac
 done
 
-for value in "$build_dir" "$output_dir" "$signing_identity" "$notary_profile" "$version" "$source_dir"; do
+for value in "$build_dir" "$output_dir" "$signing_identity" "$notary_profile" "$version" "$source_dir" "$qt_source_archive" "$qt_source_sha256"; do
     if [[ -z "$value" ]]; then
         usage
         exit 2
@@ -91,12 +95,30 @@ while IFS= read -r -d '' candidate; do
     fi
 done < <(find "$stage_dir" -type f -print0)
 
+while IFS= read -r payload_code; do
+    case "$payload_code" in
+        bin/sdrcal|sdrcal-gui.app/Contents/MacOS/sdrcal-gui|\
+        sdrcal-gui.app/Contents/Frameworks/Qt*.framework/Versions/*/Qt*|\
+        sdrcal-gui.app/Contents/PlugIns/*/libq*.dylib) ;;
+        *) echo "deployed Mach-O lacks an exact Qt disposition: $payload_code" >&2; exit 1 ;;
+    esac
+done < <(sed -n 's/^FILE //p' "$runtime_inventory")
+
+qt_version=$("$qt_prefix/bin/qmake" -query QT_VERSION)
+cmake -DSDRCAL_STAGE_DIR="$stage_dir" -DSDRCAL_OUTPUT_DIR="$evidence_dir" \
+    -DSDRCAL_PLATFORM=macOS -DSDRCAL_QT_VERSION="$qt_version" \
+    -DSDRCAL_QT_SOURCE_ARCHIVE="$qt_source_archive" \
+    -DSDRCAL_QT_SOURCE_SHA256="$qt_source_sha256" \
+    -DSDRCAL_RUNTIME_INVENTORY="$runtime_inventory" \
+    -DSDRCAL_REPLACEMENT_INSTRUCTIONS="$source_dir/packaging/licenses/qt-library-replacement.md" \
+    -P "$source_dir/packaging/licenses/assemble-qt-disposition.cmake"
+
 while IFS= read -r dependency; do
     case "$dependency" in
         /System/*|/usr/lib/*|@executable_path/*|@loader_path/*|@rpath/*) ;;
         *) echo "non-portable runtime dependency remains: $dependency" >&2; exit 1 ;;
     esac
-done < <(sed -n 's/^[[:space:]]*\([^[:space:]]*\).*/\1/p' "$runtime_inventory")
+done < <(sed -n 's/^[[:space:]][[:space:]]*\([^[:space:]]*\).*/\1/p' "$runtime_inventory")
 
 codesign --verify --deep --strict --verbose=2 "$app" 2>"$evidence_dir/app-codesign-verify.txt"
 codesign --display --verbose=4 "$app" 2>"$evidence_dir/app-codesign-details.txt"
@@ -157,7 +179,7 @@ cat >"$evidence_dir/manifest.json" <<EOF
   "architecture": "$(uname -m)",
   "artifact": "$(basename "$dmg")",
   "sha256": "$dmg_sha256",
-  "qt_version": "$("$qt_prefix/bin/qmake" -query QT_VERSION)",
+  "qt_version": "$qt_version",
   "cmake_version": "$(cmake --version | awk 'NR == 1 {print $3}')",
   "macos_sdk": "$(xcrun --show-sdk-version)",
   "compiler": "$(clang --version | awk 'NR == 1')",
@@ -165,7 +187,8 @@ cat >"$evidence_dir/manifest.json" <<EOF
   "signing": "Developer ID Application hardened runtime with secure timestamp",
   "notarization": "Application and DMG accepted and stapled",
   "gatekeeper": "DMG open and mounted application execution assessments passed",
-  "hardware_access": false
+  "hardware_access": false,
+  "distribution_license_gate": "passed; see license-manifest.json"
 }
 EOF
 

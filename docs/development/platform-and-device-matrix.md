@@ -12,7 +12,7 @@ qualification. A blank or planned CI job never creates evidence.
 | macOS 26.5.2 | arm64 | Locally build-covered | Portable archive content audited locally; clean-host install not qualified | Not qualified | Phase 14 validation at the committed revision |
 | macOS 15 CI | arm64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Ubuntu 24.04 | x86_64 | Build-covered, including strict Qt/SoapySDR release | Portable archive content audited in CI; clean-host install not qualified | Not applicable to the current portable archive | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
-| Ubuntu 24.04.4 Phase 14.3 DEB | x86_64 | Build-covered at `e16a07d` with GCC 13.3.0, CMake 3.31.6, and Qt 6.4.2 | Extracted DEB payload/runtime audited; SHA-256 `61ba677ef389b7544df9c1d59bc354f917e64f4b39ab8f752f39ac645cfc23d5`; clean-host install not qualified | Not applicable; repository/package signing is not implemented | [Phase 14.3 CI run 31899087299](https://github.com/lbussy/SDR-Calibration/actions/runs/31899087299) |
+| Ubuntu 24.04.4 Phase 14.3 DEB | x86_64 | Build-covered at `e16a07d` with GCC 13.3.0, CMake 3.31.6, and Qt 6.4.2 | Extracted DEB payload/runtime audited; SHA-256 `61ba677ef389b7544df9c1d59bc354f917e64f4b39ab8f752f39ac645cfc23d5`; Phase 14.4 disposition and clean-host install not qualified for this earlier artifact | Not applicable; repository/package signing is not implemented | [Phase 14.3 CI run 31899087299](https://github.com/lbussy/SDR-Calibration/actions/runs/31899087299) |
 | Windows Server 2025 CI | x86_64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Windows Phase 14.2 package input | x86_64 | Tooling implemented; exact package run pending | Signed MSI tooling implemented; artifact and clean-host install not qualified | Tooling implemented; exact signed artifact not qualified | No retained Phase 14.2 package run |
 | Raspberry Pi OS | arm64 | Not qualified | Not qualified | Not qualified | No retained passing run |
@@ -39,6 +39,10 @@ and the configured dynamic Qt runtime. It derives system-package dependencies
 from the exact ELF payload and retains an extracted-package audit. Tooling
 presence is not retained evidence for a DEB; only the exact manifest and
 artifact hash from a passing run can establish that narrower claim.
+
+Phase 14.4 tooling is implemented, but no row is relabeled from source
+inspection. A new macOS or Windows run must retain the exact runtime and Qt
+source hashes; a new Ubuntu run must retain its dependency-license mapping.
 
 ## Device matrix
 

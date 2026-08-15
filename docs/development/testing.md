@@ -117,8 +117,8 @@ builds and extracts the DEB, rejects missing payloads, build-path leakage,
 RPATH/RUNPATH, wrong-architecture ELF files and unresolved libraries, verifies
 CLI startup, and writes evidence below
 `build/ubuntu-release/ubuntu-package/evidence`. Extraction and build-host
-startup do not substitute for clean-host installation or Phase 14.4 license
-disposition.
+startup and Phase 14.4 exact dependency disposition do not substitute for
+clean-host installation.
 
 ## Required fixtures
 

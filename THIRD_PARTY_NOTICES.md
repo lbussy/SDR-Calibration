@@ -19,18 +19,24 @@ Initial permitted Qt module set:
 - Qt Concurrent
 - Qt OpenGLWidgets, when required
 
-Before distributing binaries, release packaging must include the license texts,
-notices, corresponding-source offer or controlled source archive, replacement
-instructions, and other materials required by the exact Qt version and modules
-being distributed.
+The macOS and Windows release gates convey the exact deployed Qt closure under
+LGPL-3.0-only and require the complete, hash-pinned qtbase source archive to
+accompany each binary package. That archive supplies the authoritative license,
+copyright, and file-level REUSE metadata for Qt and its embedded third-party
+code. The package also records the deployed-code inventory and shared-library
+replacement instructions. SDR Calibration makes no modifications to Qt.
+
+The Ubuntu DEB does not convey Qt binaries. Its exact system-package
+dependencies, installed versions, and Debian copyright-file locations are
+recorded in its license-disposition directory.
 
 GPL-only Qt modules must not be introduced without an explicit project license
 and distribution review. Qt Graphs is not part of the initial permitted module
 set.
 
-This file will be expanded with exact versions, copyright notices, source
-archive locations, and transitive third-party licenses when dependencies are
-introduced and before the first binary distribution.
+The exact version, source-archive name and hash, runtime inventory, and platform
+disposition are generated from each release payload and must not be inferred
+from this repository-level notice.
 
 ## SoapySDR and device modules
 

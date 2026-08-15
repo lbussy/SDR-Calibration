@@ -80,6 +80,10 @@
 - Fail-closed Ubuntu 24.04 x86_64 DEB tooling with Debian-derived system Qt
   dependencies, extracted-payload/runtime audit, and retained hash/environment
   evidence
+- Fail-closed Phase 14.4 exact-payload license disposition: bundled macOS and
+  Windows Qt requires complete hash-pinned corresponding source, runtime
+  inventory, no-modification record, and replacement guidance; Ubuntu retains
+  exact system-package versions and Debian copyright dispositions
 
 ## Planned, not implemented
 
@@ -97,10 +101,8 @@
 - Evidence archive/container production beyond the Phase 12 coordinated
   profile/evidence/summary directory
 - Native-profile representation for zero-span local-constant fitted models
-- Completed binary-license disposition and corresponding-source bundle for the
-  exact dependencies redistributed by a release
-- Clean-host installation evidence and completed distribution-license
-  disposition for the macOS, Windows, and Ubuntu packages
+- Clean-host installation and distribution evidence for the macOS, Windows,
+  and Ubuntu packages
 
 ## Not established
 

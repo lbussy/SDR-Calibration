@@ -16,6 +16,8 @@ artifact compatibility policy are established.
   Authenticode timestamp verification, and extracted-payload evidence.
 - Phase 14.3 Ubuntu 24.04 x86_64 DEB production tooling with Debian-derived
   system dependencies and extracted-payload/runtime evidence.
+- Phase 14.4 exact-payload license disposition with accompanying hash-pinned Qt
+  source on macOS/Windows and exact system-package copyright evidence on Ubuntu.
 - Initial project, documentation, schema, licensing, and build scaffold.
 - Portable install/archive packaging, configured SPDX dependency inventory,
   staged-package auditing, cross-platform hardware-free CI definitions, and

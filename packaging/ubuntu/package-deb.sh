@@ -27,7 +27,7 @@ for value in "$build_dir" "$output_dir" "$version" "$source_dir"; do
     fi
 done
 
-for tool in awk basename cmake dirname dpkg-deb dpkg-shlibdeps du file find git grep ldd \
+for tool in awk basename cmake cp dirname dpkg-deb dpkg-query dpkg-shlibdeps du file find git grep ldd \
     mkdir python3 qtpaths6 readelf rm sed sha256sum sort uname xargs; do
     command -v "$tool" >/dev/null || { echo "required tool is unavailable: $tool" >&2; exit 1; }
 done
@@ -92,6 +92,10 @@ if [[ -e "$stage_dir/usr/bin/sdrcal-capture" ]]; then
     echo "SoapySDR capture executable must not enter the Ubuntu production package" >&2
     exit 1
 fi
+if find "$stage_dir" -type f \( -name '*.so' -o -name '*.so.*' \) -print -quit | grep -q .; then
+    echo "Ubuntu production package must not convey a shared library" >&2
+    exit 1
+fi
 
 mkdir -p "$stage_dir/DEBIAN" "$output_dir/debian"
 cat >"$output_dir/debian/control" <<EOF
@@ -114,6 +118,58 @@ if [[ -z "$depends" || "$depends" != *libqt6widgets6* ]]; then
     echo "derived Debian dependencies are missing the Qt Widgets runtime" >&2
     exit 1
 fi
+
+license_dir="$stage_dir/usr/share/sdrcal/license-disposition"
+mkdir -p "$license_dir"
+python3 - "$depends" "$evidence_dir/dependency-license-disposition.tsv" <<'PY'
+import pathlib
+import re
+import subprocess
+import sys
+
+rows = []
+for clause in sys.argv[1].split(","):
+    alternatives = []
+    for alternative in clause.split("|"):
+        match = re.match(r"\s*([a-z0-9][a-z0-9+.-]*(?::[a-z0-9]+)?)", alternative)
+        if match:
+            alternatives.append(match.group(1))
+    selected = None
+    for package in alternatives:
+        query = subprocess.run(
+            ["dpkg-query", "-W", "-f=${Package}\t${Version}\n", package],
+            text=True, capture_output=True)
+        if query.returncode == 0:
+            selected = query.stdout.strip().split("\t", 1)
+            break
+    if selected is None:
+        raise SystemExit(f"no installed package satisfies dependency clause: {clause.strip()}")
+    package, version = selected
+    copyright_file = pathlib.Path("/usr/share/doc") / package.split(":", 1)[0] / "copyright"
+    if not copyright_file.is_file():
+        raise SystemExit(f"installed dependency lacks a copyright disposition: {package}")
+    rows.append((clause.strip(), package, version, str(copyright_file)))
+
+with open(sys.argv[2], "w", encoding="utf-8", newline="\n") as output:
+    output.write("dependency_clause\tinstalled_package\tversion\tcopyright_file\n")
+    for row in rows:
+        output.write("\t".join(row) + "\n")
+PY
+cp "$evidence_dir/dependency-license-disposition.tsv" "$license_dir/"
+cp "$source_dir/packaging/licenses/qt-library-replacement.md" \
+    "$license_dir/QT_LIBRARY_REPLACEMENT.md"
+cat >"$license_dir/README.md" <<EOF
+# Exact binary-license disposition
+
+This Ubuntu DEB conveys only MIT-licensed SDR Calibration project files. It
+does not contain Qt, SoapySDR, an SDR vendor module, or another third-party
+shared library. Qt and the remaining runtime libraries are dynamically loaded
+from the exact Ubuntu packages recorded in
+\`dependency-license-disposition.tsv\`; the package versions and their
+installed Debian copyright records were verified while constructing this DEB.
+Those system packages are not redistributed inside this archive. See
+\`QT_LIBRARY_REPLACEMENT.md\` for the replacement path.
+EOF
 
 installed_size=$(du -sk "$stage_dir/usr" | awk '{print $1}')
 cat >"$stage_dir/DEBIAN/control" <<EOF
@@ -139,6 +195,9 @@ dpkg-deb --control "$deb" "$control_dir"
 
 for required in usr/bin/sdrcal usr/bin/sdrcal-gui usr/share/sdrcal/LICENSE \
     usr/share/sdrcal/THIRD_PARTY_NOTICES.md usr/share/sdrcal/sdrcal.spdx.json \
+    usr/share/sdrcal/license-disposition/README.md \
+    usr/share/sdrcal/license-disposition/dependency-license-disposition.tsv \
+    usr/share/sdrcal/license-disposition/QT_LIBRARY_REPLACEMENT.md \
     usr/share/applications/sdrcal.desktop; do
     if [[ ! -f "$extract_dir/$required" ]]; then
         echo "required extracted Debian payload is missing: $required" >&2
@@ -191,7 +250,7 @@ manifest = {
     "compiler": subprocess.check_output(["$compiler", "--version"], text=True).splitlines()[0],
     "dependency_policy": "dpkg-shlibdeps derived system runtime dependencies",
     "clean_install_qualified": False,
-    "distribution_license_gate": "open",
+    "distribution_license_gate": "passed for the exact DEB payload",
     "device_qualified": False,
     "hardware_access": False,
 }

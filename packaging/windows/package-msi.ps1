@@ -4,7 +4,9 @@ param(
     [Parameter(Mandatory = $true)][string]$CertificateThumbprint,
     [Parameter(Mandatory = $true)][string]$TimestampUrl,
     [Parameter(Mandatory = $true)][string]$Version,
-    [Parameter(Mandatory = $true)][string]$SourceDir
+    [Parameter(Mandatory = $true)][string]$SourceDir,
+    [Parameter(Mandatory = $true)][string]$QtSourceArchive,
+    [Parameter(Mandatory = $true)][string]$QtSourceSha256
 )
 
 $ErrorActionPreference = 'Stop'
@@ -59,12 +61,19 @@ New-Item -ItemType Directory -Path $stage, $evidence | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'isolated package install failed' }
 $gui = Join-Path $stage 'bin\sdrcal-gui.exe'
 if (-not (Test-Path -LiteralPath $gui -PathType Leaf)) { throw 'installed GUI is missing' }
-& $windeployqt --release --no-translations --no-system-d3d-compiler --compiler-runtime $gui
+& $windeployqt --release --no-translations --no-system-d3d-compiler `
+    --no-compiler-runtime --no-opengl-sw $gui
 if ($LASTEXITCODE -ne 0) { throw 'windeployqt failed' }
 
 $binaries = Get-ChildItem -LiteralPath $stage -Recurse -File |
     Where-Object { $_.Extension -in '.exe', '.dll' }
 if ($binaries.Count -eq 0) { throw 'deployed runtime contains no signable binaries' }
+$unclassifiedDlls = $binaries | Where-Object {
+    $_.Extension -eq '.dll' -and $_.BaseName -notmatch '^(Qt6|q)'
+}
+if ($unclassifiedDlls.Count -ne 0) {
+    throw "deployed DLL lacks an exact Qt disposition: $($unclassifiedDlls.Name -join ', ')"
+}
 $payloadSignatureEvidence = Join-Path $evidence 'payload-signatures.txt'
 foreach ($binary in $binaries) {
     $relativeBinary = $binary.FullName.Substring($stage.Length + 1)
@@ -77,6 +86,20 @@ foreach ($binary in $binaries) {
     & $signtool verify /pa /all /tw /v $binary.FullName *>> $payloadSignatureEvidence
     if ($LASTEXITCODE -ne 0) { throw "signature verification failed: $($binary.FullName)" }
 }
+$runtimeInventory = Join-Path $evidence 'runtime-closure.txt'
+$binaries | ForEach-Object {
+    "FILE $($_.FullName.Substring($stage.Length + 1))"
+    (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+} | Set-Content -LiteralPath $runtimeInventory -Encoding utf8
+$qtVersion = (& (Join-Path $qtDir 'bin\qmake.exe') -query QT_VERSION).Trim()
+& $cmake "-DSDRCAL_STAGE_DIR=$stage" "-DSDRCAL_OUTPUT_DIR=$evidence" `
+    '-DSDRCAL_PLATFORM=Windows' "-DSDRCAL_QT_VERSION=$qtVersion" `
+    "-DSDRCAL_QT_SOURCE_ARCHIVE=$QtSourceArchive" `
+    "-DSDRCAL_QT_SOURCE_SHA256=$QtSourceSha256" `
+    "-DSDRCAL_RUNTIME_INVENTORY=$runtimeInventory" `
+    "-DSDRCAL_REPLACEMENT_INSTRUCTIONS=$SourceDir\packaging\licenses\qt-library-replacement.md" `
+    -P "$SourceDir\packaging\licenses\assemble-qt-disposition.cmake"
+if ($LASTEXITCODE -ne 0) { throw 'Qt license disposition failed' }
 
 $wxs = Join-Path $OutputDir 'product.wxs'
 $wixStage = [Security.SecurityElement]::Escape($stage)
@@ -127,10 +150,10 @@ $manifest = [ordered]@{
     schema_version = 1; source_revision = $sourceRevision; project_version = $Version
     platform = $os.Caption; platform_version = $os.Version; platform_build = $os.BuildNumber
     architecture = $env:PROCESSOR_ARCHITECTURE; artifact = [IO.Path]::GetFileName($msi)
-    sha256 = $hash; qt_version = (& (Join-Path $qtDir 'bin\qmake.exe') -query QT_VERSION).Trim()
+    sha256 = $hash; qt_version = $qtVersion
     cmake_version = (& $cmake --version | Select-Object -First 1); payload_binary_count = $binaries.Count
     signing = 'Authenticode SHA-256 with RFC 3161 timestamp; verified'; clean_install_qualified = $false
-    distribution_license_gate = 'open'; device_qualified = $false
+    distribution_license_gate = 'passed; see license-manifest.json'; device_qualified = $false
 }
 $manifest | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath (Join-Path $evidence 'manifest.json') -Encoding utf8
 Get-ChildItem -LiteralPath $stage -Recurse -File | ForEach-Object {

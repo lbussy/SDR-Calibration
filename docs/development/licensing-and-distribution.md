@@ -51,21 +51,24 @@ least:
 
 Passing application tests does not satisfy this distribution gate.
 
-Phase 14.1 deploys dynamically linked Qt frameworks into the notarized macOS
-DMG, but deliberately does not close this gate. The exact deployed closure is
-an input to the Phase 14.4 disposition audit. The DMG must not be published
-until that audit supplies all applicable license texts, notices, source and
-modification dispositions, and shared-library replacement instructions.
+Phase 14.4 makes the macOS and Windows gates require the complete qtbase source
+archive matching the deployed Qt version and a release-input SHA-256. The
+archive accompanies the binary and supplies Qt's license texts, copyright data,
+REUSE inventory, build system, and embedded third-party source. The payload
+also includes its actual runtime inventory, no-modification disposition,
+machine-readable manifest, and platform-specific replacement instructions. A
+URL or configured dependency declaration cannot substitute for the verified
+source archive.
 
-Phase 14.2 likewise deploys dynamically linked Qt libraries into a signed
-Windows MSI without closing this gate. Authenticode must not restrict lawful
-replacement of the shared libraries, and the exact MSI payload remains an
-input to the Phase 14.4 disposition audit.
+Developer ID and Authenticode establish the identity of the original payload,
+not a prohibition on user modification. Replacement guidance explains how to
+copy or extract the payload, replace compatible Qt shared libraries, and apply
+a local signature where the operating system requires one.
 
-Phase 14.3 does not bundle Qt: its Ubuntu DEB declares dynamically linked Qt
-system-package dependencies derived from the staged ELF payload. This reduces
-the redistributed payload but does not itself close the distribution gate; the
-exact dependency, notice, and source disposition remains a Phase 14.4 input.
+The Ubuntu DEB does not bundle Qt. Phase 14.4 retains every dependency clause
+derived from the staged ELF payload, its selected installed package and exact
+version, and its Debian copyright-file location. Construction fails if a clause
+cannot be resolved or its copyright disposition is absent.
 
 ## 4. Build and CI policy
 
@@ -79,7 +82,9 @@ direct configured dependencies and deliberately uses `NOASSERTION` where the
 exact package license or copyright evidence has not been supplied. It is an
 audit input, not proof that the binary distribution gate has passed. A release
 must replace every unresolved disposition with evidence for the actual staged
-payload and its transitive runtime dependencies.
+payload and its transitive runtime dependencies. The Phase 14.4 gate supplies
+this evidence for the current no-SoapySDR package designs; a dependency or
+payload change reopens the gate.
 
 Dependency versions and licenses must be pinned or otherwise reproducible for
 release builds. Packaging checks must fail when a distributed library lacks a

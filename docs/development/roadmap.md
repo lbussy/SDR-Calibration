@@ -252,10 +252,10 @@ does not establish calibration accuracy or device qualification.
 
 ## Phase 14: Portability, packaging, and qualification
 
-**Status: Packaging and qualification foundation implemented; hardware-free
-macOS, Linux, and Windows build/package CI passed. Clean-install,
-distribution-license, signing, device, and end-to-end qualification gates remain
-open.**
+**Status: Packaging foundation and exact-payload license-disposition gates
+implemented; hardware-free macOS, Linux, and Windows build/package CI passed.
+Clean-install, remaining artifact-specific signing evidence, device, and
+end-to-end qualification gates remain open.**
 
 Establish supported macOS, Linux, and Windows builds; minimum Qt and SoapySDR
 baselines; dependency pinning; dependency inventories or SBOMs; third-party
@@ -275,9 +275,8 @@ The implemented foundation provides strict dependency baselines, install rules,
 portable CPack archives, a configured SPDX inventory, isolated package-content
 audit, three-OS hardware-free CI definitions, an evidence-indexed support
 matrix, and the full calibration qualification record contract. The passing
-cross-platform run is retained in the matrix. The archives do not yet deploy
-runtime dependencies or constitute native signed installers, and the current notice
-bundle is not a completed binary-distribution license disposition.
+cross-platform run is retained in the matrix. The portable archives do not
+deploy runtime dependencies or constitute native signed installers.
 
 Phase 14.1 adds the fail-closed macOS DMG production path: stable bundle
 metadata, dynamic Qt deployment, Developer ID signing, notarization, stapling,
@@ -296,6 +295,14 @@ archive construction, extracted-payload/runtime auditing, and hash-indexed
 evidence. Its result applies only to an exact retained DEB and does not close
 clean-install, repository, distribution-license, or general Ubuntu-support
 gates.
+
+Phase 14.4 binds license disposition to the exact staged payload. macOS and
+Windows packages must carry complete hash-pinned corresponding Qt source, the
+deployed-code inventory, license disposition, and replacement instructions.
+Ubuntu records exact system dependency versions and copyright dispositions
+while proving those libraries are not conveyed. Each artifact must retain its
+own passing evidence; implementation does not retroactively qualify earlier
+packages. Clean-host installation is the next Phase 14 gate.
 
 ## Release candidate
 

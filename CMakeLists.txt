@@ -36,6 +36,10 @@ set(SDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT "" CACHE STRING
     "SHA-1 certificate thumbprint used by the signed Windows package")
 set(SDRCAL_WINDOWS_TIMESTAMP_URL "" CACHE STRING
     "RFC 3161 timestamp service used by the signed Windows package")
+set(SDRCAL_QT_SOURCE_ARCHIVE "" CACHE FILEPATH
+    "Complete qtbase source archive matching the Qt binaries conveyed by a release")
+set(SDRCAL_QT_SOURCE_SHA256 "" CACHE STRING
+    "Pinned SHA-256 of SDRCAL_QT_SOURCE_ARCHIVE")
 
 set(SDRCAL_MINIMUM_QT_VERSION "6.2")
 set(SDRCAL_MINIMUM_SOAPYSDR_VERSION "0.8")
@@ -127,6 +131,8 @@ if(APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             --notary-profile "${SDRCAL_MACOS_NOTARY_PROFILE}"
             --version "${PROJECT_VERSION}"
             --source-dir "${PROJECT_SOURCE_DIR}"
+            --qt-source-archive "${SDRCAL_QT_SOURCE_ARCHIVE}"
+            --qt-source-sha256 "${SDRCAL_QT_SOURCE_SHA256}"
         DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
         VERBATIM
     )
@@ -145,6 +151,8 @@ if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             -TimestampUrl "${SDRCAL_WINDOWS_TIMESTAMP_URL}"
             -Version "${PROJECT_VERSION}"
             -SourceDir "${PROJECT_SOURCE_DIR}"
+            -QtSourceArchive "${SDRCAL_QT_SOURCE_ARCHIVE}"
+            -QtSourceSha256 "${SDRCAL_QT_SOURCE_SHA256}"
         DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
         VERBATIM
     )
