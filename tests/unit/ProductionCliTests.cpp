@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <bit>
 #include <cmath>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -268,7 +269,8 @@ void commandTests() {
     CHECK(runProductCommand(bad, badOutput, badDiagnostics) == ProductExit::input);
     CHECK(!std::filesystem::exists(root / "bad-output"));
     CHECK(!std::filesystem::exists(root / "bad-output.staging"));
-    std::filesystem::remove_all(root, ignored);
+    if (std::getenv("SDRCAL_TEST_KEEP_FIXTURE") == nullptr)
+        std::filesystem::remove_all(root, ignored);
 }
 } // namespace
 
