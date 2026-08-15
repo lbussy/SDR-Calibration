@@ -92,3 +92,8 @@ gate.
    QtSvg is present, providing the official plug-in framework compatibility
    path, disabling deployment-time signing, and signing plug-ins, frameworks,
    executables, and the application explicitly from the inside out.
+10. **Static trust checks did not prove that the application could load Qt:**
+    the first notarized DMG passed signature, stapling, and Gatekeeper
+    assessment while its main executable had no `LC_RPATH`; launch therefore
+    failed before application code ran. Corrected by installing and verifying
+    `@executable_path/../Frameworks` before signing the application.

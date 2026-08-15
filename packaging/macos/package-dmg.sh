@@ -82,6 +82,22 @@ fi
 
 ln -s Frameworks "$app/Contents/lib"
 "$macdeployqt" "$app" -always-overwrite -no-codesign
+gui_executable="$app/Contents/MacOS/sdrcal-gui"
+if ! otool -l "$gui_executable" |
+        awk '$1 == "cmd" && $2 == "LC_RPATH" { in_rpath = 1; next }
+             in_rpath && $1 == "path" && $2 == "@executable_path/../Frameworks" { found = 1 }
+             $1 == "cmd" && $2 != "LC_RPATH" { in_rpath = 0 }
+             END { exit(found ? 0 : 1) }'; then
+    install_name_tool -add_rpath @executable_path/../Frameworks "$gui_executable"
+fi
+if ! otool -l "$gui_executable" |
+        awk '$1 == "cmd" && $2 == "LC_RPATH" { in_rpath = 1; next }
+             in_rpath && $1 == "path" && $2 == "@executable_path/../Frameworks" { found = 1 }
+             $1 == "cmd" && $2 != "LC_RPATH" { in_rpath = 0 }
+             END { exit(found ? 0 : 1) }'; then
+    echo "GUI executable cannot resolve bundled Qt frameworks" >&2
+    exit 1
+fi
 ln -s /Applications "$stage_dir/Applications"
 
 while IFS= read -r -d '' nested_code; do
@@ -91,7 +107,7 @@ while IFS= read -r -d '' framework; do
     codesign --force --sign "$signing_identity" --options runtime --timestamp "$framework"
 done < <(find "$app/Contents/Frameworks" -type d -name '*.framework' -print0)
 codesign --force --sign "$signing_identity" --options runtime --timestamp \
-    "$app/Contents/MacOS/sdrcal-gui"
+    "$gui_executable"
 codesign --force --sign "$signing_identity" --options runtime --timestamp "$app"
 codesign --force --sign "$signing_identity" --options runtime --timestamp \
     "$stage_dir/bin/sdrcal"
