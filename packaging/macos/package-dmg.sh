@@ -39,7 +39,7 @@ for value in "$build_dir" "$output_dir" "$signing_identity" "$notary_profile" "$
     fi
 done
 
-for tool in awk clang cmake codesign ditto file find git grep hdiutil otool plutil sed shasum spctl sw_vers xcrun; do
+for tool in awk clang cmake cmp codesign ditto file find git grep hdiutil otool plutil sed shasum spctl sw_vers xcrun; do
     command -v "$tool" >/dev/null || { echo "required tool is unavailable: $tool" >&2; exit 1; }
 done
 
@@ -74,7 +74,12 @@ rm -rf "$output_dir"
 mkdir -p "$stage_dir" "$evidence_dir"
 
 cmake --install "$build_dir" --prefix "$stage_dir"
-app="$stage_dir/sdrcal-gui.app"
+if ! cmp -s "$source_dir/assets/icons/icon-manifest.json" \
+        "$stage_dir/share/sdrcal/icons/icon-manifest.json"; then
+    echo "staged icon provenance manifest differs from the source" >&2
+    exit 1
+fi
+app="$stage_dir/SDR Calibration.app"
 if [[ ! -d "$app" ]]; then
     echo "installed application bundle is missing: $app" >&2
     exit 1
@@ -126,9 +131,9 @@ done < <(find "$stage_dir" -type f -print0)
 
 while IFS= read -r payload_code; do
     case "$payload_code" in
-        bin/sdrcal|sdrcal-gui.app/Contents/MacOS/sdrcal-gui|\
-        sdrcal-gui.app/Contents/Frameworks/Qt*.framework/Versions/*/Qt*|\
-        sdrcal-gui.app/Contents/PlugIns/*/libq*.dylib) ;;
+        bin/sdrcal|"SDR Calibration.app/Contents/MacOS/sdrcal-gui"|\
+        "SDR Calibration.app"/Contents/Frameworks/Qt*.framework/Versions/*/Qt*|\
+        "SDR Calibration.app"/Contents/PlugIns/*/libq*.dylib) ;;
         *) echo "deployed Mach-O lacks an exact Qt disposition: $payload_code" >&2; exit 1 ;;
     esac
 done < <(sed -n 's/^FILE //p' "$runtime_inventory")
@@ -155,7 +160,7 @@ codesign --verify --deep --strict --verbose=2 "$app" 2>"$evidence_dir/app-codesi
 codesign --display --verbose=4 "$app" 2>"$evidence_dir/app-codesign-details.txt"
 plutil -convert xml1 -o "$evidence_dir/Info.plist" "$app/Contents/Info.plist"
 
-app_zip="$output_dir/sdrcal-gui-notarization.zip"
+app_zip="$output_dir/SDRCalibration-notarization.zip"
 ditto -c -k --keepParent "$app" "$app_zip"
 xcrun notarytool submit "$app_zip" --keychain-profile "$notary_profile" --wait \
     --output-format json >"$evidence_dir/app-notarization.json"
@@ -192,11 +197,11 @@ cleanup() {
 }
 trap cleanup EXIT
 hdiutil attach -quiet -nobrowse -readonly -mountpoint "$mount_point" "$dmg"
-spctl --assess --type execute --verbose=4 "$mount_point/sdrcal-gui.app" \
+spctl --assess --type execute --verbose=4 "$mount_point/SDR Calibration.app" \
     >"$evidence_dir/gatekeeper-app.txt" 2>&1
-codesign --verify --deep --strict --verbose=2 "$mount_point/sdrcal-gui.app" \
+codesign --verify --deep --strict --verbose=2 "$mount_point/SDR Calibration.app" \
     2>"$evidence_dir/mounted-app-codesign-verify.txt"
-"$mount_point/sdrcal-gui.app/Contents/MacOS/sdrcal-gui" \
+"$mount_point/SDR Calibration.app/Contents/MacOS/sdrcal-gui" \
     >"$evidence_dir/mounted-app-launch.stdout" \
     2>"$evidence_dir/mounted-app-launch.stderr" &
 launch_pid=$!

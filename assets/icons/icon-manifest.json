@@ -1,0 +1,60 @@
+{
+  "asset_license": "MIT",
+  "conversion": {
+    "generator": "scripts/generate-icons.py",
+    "pillow_version": "12.3.0",
+    "python_version": "3.12.13"
+  },
+  "files": {
+    "assets/icons/linux/sdr-calibration-1024.png": {
+      "sha256": "3d8a10493c078ff9b0529a093847f2eac861806fdd66382d51daafc029153db0"
+    },
+    "assets/icons/linux/sdr-calibration-128.png": {
+      "sha256": "e4f9603e1507e62695363140ee02d4de675e18970d1878d9cf0892e3e3e14666"
+    },
+    "assets/icons/linux/sdr-calibration-16.png": {
+      "sha256": "b9d9cb73ad56f4a357171cf80749f3bdf87439d4102fba045802eeeb0b57250d"
+    },
+    "assets/icons/linux/sdr-calibration-24.png": {
+      "sha256": "8795c6ec59584262edc1e020ca054624a7d459ed150b0ea5ba3e5ebf405c2a5e"
+    },
+    "assets/icons/linux/sdr-calibration-256.png": {
+      "sha256": "448122ab77592d96cc6d852db5b4c94e81b950349bafbba8259501fb7a8c8bbc"
+    },
+    "assets/icons/linux/sdr-calibration-32.png": {
+      "sha256": "316a837bb9e761741cc45039d3de7dd298f25dffc7792a0712dc73858add8f5c"
+    },
+    "assets/icons/linux/sdr-calibration-48.png": {
+      "sha256": "c30b6209e670a806e22fa14dd7f47c9ba9f83988053c541ea79d5195457eea0e"
+    },
+    "assets/icons/linux/sdr-calibration-512.png": {
+      "sha256": "589bb3b42efba69df63ab7c0540cbd93b28cd9c0e7115d41d370cbbb9d75d33d"
+    },
+    "assets/icons/linux/sdr-calibration-64.png": {
+      "sha256": "a446f9bca885cbb52334ca72970f9102d6fd67148ba4505abb40cf2176003335"
+    },
+    "assets/icons/macos/SDRCalibration.icns": {
+      "sha256": "a3e3bca2e65f64da30454c127e82c938d57486ac7fa5655b945b794ac74c0de1"
+    },
+    "assets/icons/source/sdr-calibration-master-1024.png": {
+      "sha256": "ff49bdc7055c89728710a90c033d4508e2ef965e074d852b164c2d3354718c4a"
+    },
+    "assets/icons/source/sdr-calibration-small-master-1024.png": {
+      "sha256": "538ebf9a3c1d4ba54195d33281b13f34becf0054844c6d7f7da3079af791bb87"
+    },
+    "assets/icons/windows/SDRCalibration.ico": {
+      "sha256": "903a0e455e845cada885ca8e43adae5c2bd883894312324dcc6d22c48d4b8592"
+    },
+    "scripts/generate-icons.py": {
+      "sha256": "fe5354e9d92f64d8270ce99069a214db87ebf72d60f98c25710cf66ba2d76455"
+    }
+  },
+  "product": "SDR Calibration",
+  "provenance": {
+    "approval_date": "2026-08-15",
+    "project_owner": "Lee Bussy",
+    "source": "Original project artwork supplied and approved by the project owner",
+    "third_party_artwork_or_fonts": false
+  },
+  "schema_version": 1
+}

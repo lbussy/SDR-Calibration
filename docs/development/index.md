@@ -34,4 +34,6 @@ The Ubuntu DEB package slice is governed by the
 license disposition is governed by the
 [Phase 14.4 execution prompt](phase-14-4-execution-prompt.md). The cross-platform
 GUI product name, icon, and clean-host candidate gate is governed by the
-[Phase 14.5 execution prompt](phase-14-5-execution-prompt.md).
+[Phase 14.5 execution prompt](phase-14-5-execution-prompt.md). Its bounded
+pre-qualification implementation slice is governed by the
+[Phase 14.5 branding prompt](phase-14-5-branding-execution-prompt.md).

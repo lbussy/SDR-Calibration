@@ -14,14 +14,14 @@ machine-readable dependency inventory. The DMG provides an Applications alias
 for copying `sdrcal-gui.app`; command-line installation remains an operator-
 managed workflow until clean-host packaging qualification is complete.
 
-The current platform-facing identity is provisional. Phase 14.5 will present
-the product as `SDR Calibration` in macOS, Windows, and Linux launchers,
-shortcuts, and installed-application listings while retaining `sdrcal-gui` as
-an internal implementation name. The macOS bundle will be
-`SDR Calibration.app`. Every GUI package must include the same approved,
-project-owned application icon in its native platform formats before clean-host
-qualification; existing packages without the final name and icon remain
-historical package evidence only.
+The package definitions now present the product as `SDR Calibration` in macOS,
+Windows, and Linux launchers, shortcuts, and installed-application listings
+while retaining `sdrcal-gui` as an internal implementation name. The installed
+macOS bundle is `SDR Calibration.app`. Every GUI package definition includes
+the same approved, project-owned application icon in its native platform
+formats. Platform-native package execution and clean-host qualification remain
+open; existing packages without the final name and icon remain historical
+package evidence only.
 
 Phase 14.4 requires each new DMG to carry the complete hash-pinned Qt source,
 the exact deployed runtime inventory, license disposition, and Qt replacement
@@ -29,12 +29,28 @@ instructions. Notarization and license disposition still do not establish
 clean-host installation, upgrade/uninstall behavior, live SDR access, device
 support, or calibration accuracy.
 
+## Windows package status
+
+The Windows package definition presents `SDR Calibration` as the installed
+product and Start menu shortcut, uses the project icon for both identities, and
+launches the internal `sdrcal-gui.exe` executable. Source-contract validation
+checks the WiX XML, shortcut target, deterministic component ownership,
+installed-app icon, and uninstall cleanup definition. An exact MSI carrying
+this identity has not yet been constructed and qualified on Windows; the source
+definition is not a clean-host installation, upgrade, removal, signing, or
+platform-support result.
+
 ## Ubuntu package status
 
 Phase 14.3 provides a production gate for an Ubuntu 24.04 x86_64 DEB containing
 the recorded-input GUI and CLI. It uses dynamically linked Qt libraries from
 Ubuntu system packages and deliberately excludes SoapySDR and vendor modules.
 The package is not a live-device build.
+
+The desktop entry presents `SDR Calibration`, launches the internal
+`sdrcal-gui` executable without a terminal, and resolves `sdr-calibration`
+through the installed hicolor icon set. Exact Ubuntu package execution and
+clean-host qualification remain separate gates.
 
 The DEB carries the exact dependency clauses, installed package versions, and
 Debian copyright dispositions used at construction, plus Qt replacement

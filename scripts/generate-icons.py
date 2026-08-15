@@ -4,12 +4,15 @@
 from __future__ import annotations
 
 import io
+import hashlib
+import json
+import platform
 import struct
 from collections import deque
 from pathlib import Path
 
 try:
-    from PIL import Image
+    from PIL import Image, __version__ as PILLOW_VERSION
 except ImportError as error:
     raise SystemExit(
         "Pillow is required; install it for this Python interpreter and rerun the script"
@@ -45,6 +48,12 @@ ICNS_PNG_ENTRIES = (
     (b"ic14", 512, "full"),  # 256x256@2x
     (b"ic09", 512, "full"),
     (b"ic10", 1024, "full"),  # 512x512@2x
+)
+
+GENERATED_ASSETS = (
+    *(Path("assets/icons/linux") / f"sdr-calibration-{size}.png" for size in LINUX_SIZES),
+    Path("assets/icons/macos/SDRCalibration.icns"),
+    Path("assets/icons/windows/SDRCalibration.ico"),
 )
 
 
@@ -261,12 +270,54 @@ def icns_chunk(icon_type: bytes, payload: bytes) -> bytes:
     return icon_type + struct.pack(">I", len(payload) + 8) + payload
 
 
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def write_manifest() -> None:
+    tracked_files = (
+        Path("assets/icons/source/sdr-calibration-master-1024.png"),
+        Path("assets/icons/source/sdr-calibration-small-master-1024.png"),
+        Path("scripts/generate-icons.py"),
+        *GENERATED_ASSETS,
+    )
+    manifest = {
+        "schema_version": 1,
+        "product": "SDR Calibration",
+        "asset_license": "MIT",
+        "provenance": {
+            "project_owner": "Lee Bussy",
+            "source": "Original project artwork supplied and approved by the project owner",
+            "approval_date": "2026-08-15",
+            "third_party_artwork_or_fonts": False,
+        },
+        "conversion": {
+            "generator": "scripts/generate-icons.py",
+            "python_version": platform.python_version(),
+            "pillow_version": PILLOW_VERSION,
+        },
+        "files": {
+            path.as_posix(): {"sha256": sha256(ROOT / path)}
+            for path in tracked_files
+        },
+    }
+    output = ROOT / "assets/icons/icon-manifest.json"
+    output.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+
 def main() -> None:
     full_master = load_master(FULL_MASTER)
     small_master = load_master(SMALL_MASTER)
     write_png_set(full_master, small_master)
     write_ico(full_master, small_master)
     write_icns(full_master, small_master)
+    write_manifest()
 
 
 if __name__ == "__main__":

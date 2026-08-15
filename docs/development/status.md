@@ -84,6 +84,13 @@
   Windows Qt requires complete hash-pinned corresponding source, runtime
   inventory, no-modification record, and replacement guidance; Ubuntu retains
   exact system-package versions and Debian copyright dispositions
+- Cross-platform GUI product identity established in package definitions:
+  `SDR Calibration.app` on macOS with internal `sdrcal-gui`, an icon-bearing
+  Windows installed-app entry and Start menu shortcut named `SDR Calibration`,
+  and a freedesktop `SDR Calibration` launcher with resolved hicolor icons
+- Project-owned icon provenance, retained raster masters, reproducible native
+  asset generation, conversion-tool versions, SHA-256 manifest, installed
+  provenance records, and deterministic hardware-free branding checks
 
 ## Planned, not implemented
 
@@ -103,12 +110,11 @@
 - Native-profile representation for zero-span local-constant fitted models
 - Clean-host installation and distribution evidence for the macOS, Windows,
   and Ubuntu packages
-- Product-facing `SDR Calibration` identity on every GUI-client platform while
-  retaining `sdrcal-gui` as an internal target/executable name; macOS uses
-  `SDR Calibration.app` with space-safe package/evidence paths
-- One approved project-owned application icon with reproducible macOS, Windows,
-  and Linux assets, provenance/license records, package metadata and inventory,
-  and rendered platform-size review
+- Platform-native package execution proving the implemented macOS, Windows, and
+  Linux branding against exact candidate hashes; source and staged checks do
+  not replace those later platform runs
+- Retained human visual-review evidence for every final platform size and
+  scaling context
 
 ## Not established
 

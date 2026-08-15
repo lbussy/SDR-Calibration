@@ -61,6 +61,13 @@ New-Item -ItemType Directory -Path $stage, $evidence | Out-Null
 
 & $cmake --install $BuildDir --prefix $stage --config Release
 if ($LASTEXITCODE -ne 0) { throw 'isolated package install failed' }
+$sourceIconManifest = Join-Path $SourceDir 'assets\icons\icon-manifest.json'
+$stagedIconManifest = Join-Path $stage 'share\sdrcal\icons\icon-manifest.json'
+if (-not (Test-Path -LiteralPath $stagedIconManifest -PathType Leaf) -or
+    (Get-FileHash -LiteralPath $sourceIconManifest -Algorithm SHA256).Hash -ne
+    (Get-FileHash -LiteralPath $stagedIconManifest -Algorithm SHA256).Hash) {
+    throw 'staged icon provenance manifest differs from the source'
+}
 $gui = Join-Path $stage 'bin\sdrcal-gui.exe'
 if (-not (Test-Path -LiteralPath $gui -PathType Leaf)) { throw 'installed GUI is missing' }
 & $windeployqt --release --no-translations --no-system-d3d-compiler `
@@ -107,6 +114,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Qt license disposition failed' }
 
 $wxs = Join-Path $OutputDir 'product.wxs'
 $wixStage = [Security.SecurityElement]::Escape($stage)
+$wixIcon = [Security.SecurityElement]::Escape(
+    (Join-Path $SourceDir 'assets\icons\windows\SDRCalibration.ico'))
 $upgradeCode = '9B68E922-9277-4C40-BB3C-527C2AE236AC'
 @"
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
@@ -117,8 +126,28 @@ $upgradeCode = '9B68E922-9277-4C40-BB3C-527C2AE236AC'
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="SDR Calibration" />
     </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="SDRCalibrationProgramMenuFolder" Name="SDR Calibration">
+        <Component Id="SDRCalibrationStartMenuShortcut"
+                   Guid="DFA5C9F8-7A1B-4D0B-89D8-A806BD8FD2E4">
+          <Shortcut Id="SDRCalibrationStartMenuShortcutLink"
+                    Name="SDR Calibration"
+                    Description="Create traceable SDR frequency-calibration profiles"
+                    Target="[INSTALLFOLDER]bin\sdrcal-gui.exe"
+                    WorkingDirectory="INSTALLFOLDER"
+                    Icon="SDRCalibration.ico" />
+          <RemoveFolder Id="RemoveSDRCalibrationProgramMenuFolder" On="uninstall" />
+          <RegistryValue Root="HKLM" Key="Software\SDR Calibration"
+                         Name="StartMenuShortcut" Type="integer" Value="1"
+                         KeyPath="yes" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+    <Icon Id="SDRCalibration.ico" SourceFile="$wixIcon" />
+    <Property Id="ARPPRODUCTICON" Value="SDRCalibration.ico" />
     <Feature Id="Main" Title="SDR Calibration" Level="1">
       <Files Directory="INSTALLFOLDER" Include="$wixStage\**" />
+      <ComponentRef Id="SDRCalibrationStartMenuShortcut" />
     </Feature>
   </Package>
 </Wix>
@@ -135,7 +164,7 @@ if ($LASTEXITCODE -ne 0) { throw 'MSI signature verification failed' }
 New-Item -ItemType Directory -Path $extract | Out-Null
 $process = Start-Process -FilePath $msiexec -ArgumentList @('/a', "`"$msi`"", '/qn', "TARGETDIR=`"$extract`"") -Wait -PassThru
 if ($process.ExitCode -ne 0) { throw "MSI administrative extraction failed: $($process.ExitCode)" }
-foreach ($required in 'sdrcal.exe', 'sdrcal-gui.exe', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'sdrcal.spdx.json') {
+foreach ($required in 'sdrcal.exe', 'sdrcal-gui.exe', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'sdrcal.spdx.json', 'README.md', 'icon-manifest.json') {
     if ($null -eq (Get-ChildItem -LiteralPath $extract -Recurse -File -Filter $required | Select-Object -First 1)) {
         throw "required MSI payload is missing: $required"
     }

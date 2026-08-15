@@ -27,7 +27,7 @@ for value in "$build_dir" "$output_dir" "$version" "$source_dir"; do
     fi
 done
 
-for tool in awk basename cmake cp dirname dpkg-deb dpkg-query dpkg-shlibdeps du file find git grep ldd \
+for tool in awk basename cmake cmp cp dirname dpkg-deb dpkg-query dpkg-shlibdeps du file find git grep ldd \
     mkdir python3 qtpaths6 readelf rm sed sha256sum sort uname xargs; do
     command -v "$tool" >/dev/null || { echo "required tool is unavailable: $tool" >&2; exit 1; }
 done
@@ -82,6 +82,7 @@ DESTDIR="$stage_dir" cmake --install "$build_dir" --prefix /usr --strip
 
 for required in usr/bin/sdrcal usr/bin/sdrcal-gui usr/share/sdrcal/LICENSE \
     usr/share/sdrcal/THIRD_PARTY_NOTICES.md usr/share/sdrcal/sdrcal.spdx.json \
+    usr/share/sdrcal/icons/README.md usr/share/sdrcal/icons/icon-manifest.json \
     usr/share/applications/sdrcal.desktop \
     usr/share/icons/hicolor/16x16/apps/sdr-calibration.png \
     usr/share/icons/hicolor/24x24/apps/sdr-calibration.png \
@@ -97,6 +98,11 @@ for required in usr/bin/sdrcal usr/bin/sdrcal-gui usr/share/sdrcal/LICENSE \
         exit 1
     fi
 done
+if ! cmp -s "$source_dir/assets/icons/icon-manifest.json" \
+        "$stage_dir/usr/share/sdrcal/icons/icon-manifest.json"; then
+    echo "staged icon provenance manifest differs from the source" >&2
+    exit 1
+fi
 if [[ -e "$stage_dir/usr/bin/sdrcal-capture" ]]; then
     echo "SoapySDR capture executable must not enter the Ubuntu production package" >&2
     exit 1
@@ -204,6 +210,7 @@ dpkg-deb --control "$deb" "$control_dir"
 
 for required in usr/bin/sdrcal usr/bin/sdrcal-gui usr/share/sdrcal/LICENSE \
     usr/share/sdrcal/THIRD_PARTY_NOTICES.md usr/share/sdrcal/sdrcal.spdx.json \
+    usr/share/sdrcal/icons/README.md usr/share/sdrcal/icons/icon-manifest.json \
     usr/share/sdrcal/license-disposition/README.md \
     usr/share/sdrcal/license-disposition/dependency-license-disposition.tsv \
     usr/share/sdrcal/license-disposition/QT_LIBRARY_REPLACEMENT.md \

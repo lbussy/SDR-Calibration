@@ -52,8 +52,15 @@ if(WIN32)
     target_sources(sdrcal-gui PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/sdrcal.rc")
 endif()
 
-install(TARGETS sdrcal-gui RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-    BUNDLE DESTINATION ".")
+if(APPLE)
+    # Keep the build target and executable basename stable while giving the
+    # installed bundle its product-facing Finder name.
+    install(DIRECTORY "$<TARGET_BUNDLE_DIR:sdrcal-gui>/"
+        DESTINATION "SDR Calibration.app"
+        USE_SOURCE_PERMISSIONS)
+else()
+    install(TARGETS sdrcal-gui RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endif()
 
 if(MSVC)
     target_compile_options(sdrcal_gui_support PRIVATE /W4 /permissive-)

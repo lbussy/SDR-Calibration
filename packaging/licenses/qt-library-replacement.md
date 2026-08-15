@@ -5,7 +5,7 @@ Qt libraries in this package with interface-compatible modified builds of the
 same Qt release.
 
 On macOS, copy the application out of the read-only DMG, replace the Qt
-frameworks and Qt plug-ins below `sdrcal-gui.app/Contents`, and re-sign the
+frameworks and Qt plug-ins below `SDR Calibration.app/Contents`, and re-sign the
 modified application with an identity under your control. Apple notarization
 and the project's Developer ID signature apply only to the unmodified package;
 they are not a technical restriction on running a locally re-signed build.

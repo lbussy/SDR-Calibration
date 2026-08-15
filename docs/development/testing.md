@@ -64,6 +64,14 @@ compliance, native installer behavior, signing, notarization, hardware support,
 or calibration accuracy. Those results require retained evidence in the
 platform/device matrix and qualification record.
 
+`branding_contract_tests` is a deterministic, hardware-free source contract
+check. It verifies the product-facing name, macOS bundle and internal executable
+split, Windows installed-app and Start menu shortcut definition, Linux desktop
+entry and icon-theme resolution, native icon container representations, source
+PNG dimensions, provenance fields, and every SHA-256 in
+`assets/icons/icon-manifest.json`. It does not substitute for a native package
+run, human visual review, or clean-host qualification.
+
 The macOS signed-package path is intentionally separate and disables SoapySDR:
 
 ```shell
