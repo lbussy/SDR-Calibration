@@ -15,4 +15,7 @@ paths, and WSJT-X formats.
 
 The current `core/` implementation includes the Phase 5 in-memory carrier
 estimator, the Phase 6 observation-acceptance policy, and the Phase 7
-frequency-error model, uncertainty budget, and reliability quotient.
+frequency-error model, uncertainty budget, and reliability quotient. `profile/`
+now implements the Phase 8 native profile domain, validation, canonical JSON,
+integrity hooks, bounded evaluation, and atomic replacement. It does not own
+keys, reference registries, application workflows, or external adapters.

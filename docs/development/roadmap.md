@@ -136,6 +136,10 @@ not a probability or confidence level.
 
 ## Phase 8: Native profile engine
 
+**Status: Implemented and hardware-free validated; application integration,
+real signing-provider integration, and calibration qualification remain separate
+gates.**
+
 Implement authoritative calibration-profile domain types, semantic validation,
 JSON serialization, RFC 8785 canonicalization, SHA-256 integrity, signing and
 verification hooks, revocation semantics, profile evaluation, compatibility

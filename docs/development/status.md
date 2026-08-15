@@ -36,10 +36,15 @@
   validation, coverage factor, and incomplete-component flag
 - Versioned reliability-quotient scoring with the complete required component
   set, weakest-component rule, and reference-class ceilings
+- Hardware-free native profile domain types, structural and cross-field
+  validation, deterministic RFC 8785 serialization, SHA-256 integrity,
+  injected Ed25519 signing and verification hooks, revocation-aware bounded
+  evaluation, schema-major compatibility checks, and atomic replacement
 
 ## Planned, not implemented
 
-- Profile serialization, validation, signing, and evaluation
+- Profile creation and evaluation integration in shared application services
+- Production Ed25519 key-provider and trust-store integration
 - Reference-station manifest and registry updater
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
