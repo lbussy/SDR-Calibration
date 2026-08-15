@@ -64,6 +64,24 @@ compliance, native installer behavior, signing, notarization, hardware support,
 or calibration accuracy. Those results require retained evidence in the
 platform/device matrix and qualification record.
 
+The macOS signed-package path is intentionally separate and disables SoapySDR:
+
+```shell
+cmake --preset macos-release \
+  -DSDRCAL_MACOS_SIGNING_IDENTITY="Developer ID Application" \
+  -DSDRCAL_MACOS_NOTARY_PROFILE="<notarytool-profile>"
+cmake --build --preset macos-release
+ctest --preset macos-release
+cmake --build build/macos-release --target package-audit
+cmake --build build/macos-release --target macos-dmg
+```
+
+The final target refuses a dirty tree, deploys dynamic Qt frameworks, rejects
+absolute non-system runtime paths, signs and notarizes the application and DMG,
+staples the ticket, runs Gatekeeper assessments, and writes evidence under
+`build/macos-release/macos-package/evidence`. A passing run applies only to the
+recorded DMG hash and is not clean-host or binary-license qualification.
+
 ## Required fixtures
 
 Planned fixtures include:

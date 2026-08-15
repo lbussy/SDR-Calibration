@@ -51,6 +51,12 @@ least:
 
 Passing application tests does not satisfy this distribution gate.
 
+Phase 14.1 deploys dynamically linked Qt frameworks into the notarized macOS
+DMG, but deliberately does not close this gate. The exact deployed closure is
+an input to the Phase 14.4 disposition audit. The DMG must not be published
+until that audit supplies all applicable license texts, notices, source and
+modification dispositions, and shared-library replacement instructions.
+
 ## 4. Build and CI policy
 
 The build system must keep project targets distinct from third-party targets.

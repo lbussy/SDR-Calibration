@@ -71,6 +71,9 @@
 - Evidence-indexed platform/device matrix and a fail-closed end-to-end
   calibration qualification record that keeps build, package, signing, capture,
   and calibration claims separate
+- Fail-closed macOS DMG tooling with stable bundle metadata, dynamic Qt
+  deployment, Developer ID signing, notarization, stapling, Gatekeeper checks,
+  runtime-path audit, and retained hash/evidence output
 
 ## Planned, not implemented
 

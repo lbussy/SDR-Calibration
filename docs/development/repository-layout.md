@@ -20,6 +20,8 @@ SDR-Calibration/
 │   ├── integration/
 │   └── fixtures/
 ├── schemas/
+├── packaging/
+│   └── macos/
 └── docs/
     ├── user-guide/
     └── development/
@@ -27,6 +29,10 @@ SDR-Calibration/
 
 Directories are created when their first substantive file is introduced;
 placeholder source files are not required merely to preserve empty directories.
+
+`packaging/macos` owns the fail-closed Developer ID signing, notarization,
+stapling, Gatekeeper, DMG assembly, and evidence-generation path. Generated
+packages and evidence remain under the selected build directory.
 
 ## Root files
 

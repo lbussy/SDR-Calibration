@@ -20,6 +20,17 @@ add_executable(sdrcal-gui WIN32 MACOSX_BUNDLE main.cpp)
 target_compile_features(sdrcal-gui PRIVATE cxx_std_20)
 target_link_libraries(sdrcal-gui PRIVATE sdrcal_gui_support)
 
+if(APPLE)
+    set_target_properties(sdrcal-gui PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST "${PROJECT_SOURCE_DIR}/packaging/macos/Info.plist.in"
+        MACOSX_BUNDLE_BUNDLE_NAME "SDR Calibration"
+        MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+        MACOSX_BUNDLE_COPYRIGHT "Copyright SDR Calibration contributors"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "com.lbussy.sdrcal"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+    )
+endif()
+
 install(TARGETS sdrcal-gui RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
     BUNDLE DESTINATION ".")
 

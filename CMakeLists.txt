@@ -28,6 +28,11 @@ option(SDRCAL_ENABLE_SOAPYSDR "Enable SoapySDR device support" ON)
 option(SDRCAL_REQUIRE_GUI "Fail configuration when the requested GUI cannot be built" OFF)
 option(SDRCAL_ENABLE_PACKAGING "Enable installable application package targets" ON)
 
+set(SDRCAL_MACOS_SIGNING_IDENTITY "" CACHE STRING
+    "Developer ID Application identity used by the notarized macOS package")
+set(SDRCAL_MACOS_NOTARY_PROFILE "" CACHE STRING
+    "notarytool Keychain profile used by the notarized macOS package")
+
 set(SDRCAL_MINIMUM_QT_VERSION "6.2")
 set(SDRCAL_MINIMUM_SOAPYSDR_VERSION "0.8")
 
@@ -106,6 +111,21 @@ add_custom_target(package-audit
     DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
     VERBATIM
 )
+endif()
+
+if(APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
+    set(SDRCAL_MACOS_DMG_OUTPUT_DIR "${PROJECT_BINARY_DIR}/macos-package")
+    add_custom_target(macos-dmg
+        COMMAND "${PROJECT_SOURCE_DIR}/packaging/macos/package-dmg.sh"
+            --build-dir "${PROJECT_BINARY_DIR}"
+            --output-dir "${SDRCAL_MACOS_DMG_OUTPUT_DIR}"
+            --signing-identity "${SDRCAL_MACOS_SIGNING_IDENTITY}"
+            --notary-profile "${SDRCAL_MACOS_NOTARY_PROFILE}"
+            --version "${PROJECT_VERSION}"
+            --source-dir "${PROJECT_SOURCE_DIR}"
+        DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
+        VERBATIM
+    )
 endif()
 
 set(CPACK_PACKAGE_NAME "SDRCalibration")

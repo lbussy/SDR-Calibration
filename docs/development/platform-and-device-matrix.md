@@ -20,6 +20,12 @@ Core/Widgets/Concurrent for the GUI, and SoapySDR 0.8 for device capture. They
 are accepted build inputs, not claims that every patch release, compiler, OS,
 driver, or package manager combination is supported.
 
+The current Phase 14.1 package has a compile-time deployment target of macOS
+14.0: the project code requires at least 13.3 for Apple standard-library
+floating-point `std::to_chars`, while the configured Qt 6.11.1 frameworks were
+built for 14.0. This exact-input binary baseline is not clean-host or general
+macOS qualification.
+
 ## Device matrix
 
 | Device and driver | Platform | Capture | End-to-end calibration | Evidence |

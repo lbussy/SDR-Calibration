@@ -6,6 +6,20 @@ same recorded-input calibration and atomic publication service used by the
 files or trust material, modify an installed WSJT-X instance, or establish
 calibration accuracy.
 
+## macOS package status
+
+The Phase 14.1 macOS DMG is a Developer ID-signed and Apple-notarized package
+containing the recorded-input application, production CLI, notices, and
+machine-readable dependency inventory. The DMG provides an Applications alias
+for copying `sdrcal-gui.app`; command-line installation remains an operator-
+managed workflow until clean-host packaging qualification is complete.
+
+Notarization establishes Apple's assessment for one exact package hash. It does
+not yet establish clean-host installation, upgrade/uninstall behavior,
+binary-license disposition, live SDR access, device support, or calibration
+accuracy. Do not redistribute a candidate DMG until the later license and
+clean-host gates are recorded as passing.
+
 ## Recorded-input workflow
 
 Select three explicit paths:

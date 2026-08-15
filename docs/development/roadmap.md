@@ -279,6 +279,11 @@ cross-platform run is retained in the matrix. The archives do not yet deploy
 runtime dependencies or constitute native signed installers, and the current notice
 bundle is not a completed binary-distribution license disposition.
 
+Phase 14.1 adds the fail-closed macOS DMG production path: stable bundle
+metadata, dynamic Qt deployment, Developer ID signing, notarization, stapling,
+Gatekeeper checks, and hash-indexed evidence. Its result applies only to the
+exact retained DMG and does not close clean-install or licensing gates.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility

@@ -29,11 +29,27 @@
         "SDRCAL_ENABLE_SOAPYSDR": "ON",
         "SDRCAL_ENABLE_PACKAGING": "ON"
       }
+    },
+    {
+      "name": "macos-release",
+      "displayName": "macOS signed and notarized DMG build",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/macos-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "14.0",
+        "BUILD_TESTING": "ON",
+        "SDRCAL_BUILD_GUI": "ON",
+        "SDRCAL_REQUIRE_GUI": "ON",
+        "SDRCAL_ENABLE_SOAPYSDR": "OFF",
+        "SDRCAL_ENABLE_PACKAGING": "ON"
+      }
     }
   ],
   "buildPresets": [
     { "name": "default", "configurePreset": "default" },
-    { "name": "release", "configurePreset": "release" }
+    { "name": "release", "configurePreset": "release" },
+    { "name": "macos-release", "configurePreset": "macos-release" }
   ],
   "testPresets": [
     {
@@ -44,6 +60,11 @@
     {
       "name": "release",
       "configurePreset": "release",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "macos-release",
+      "configurePreset": "macos-release",
       "output": { "outputOnFailure": true }
     }
   ]

@@ -25,3 +25,5 @@ Phase execution records include the
 [Phase 13 Qt desktop prompt](phase-13-execution-prompt.md).
 The current packaging and qualification foundation is governed by the
 [Phase 14 execution prompt](phase-14-execution-prompt.md).
+The signed macOS package slice is governed by the
+[Phase 14.1 execution prompt](phase-14-1-execution-prompt.md).
