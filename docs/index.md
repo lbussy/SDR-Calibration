@@ -24,6 +24,7 @@ development/roadmap
 development/repository-layout
 development/application-architecture
 development/capture-contract
+development/qualification-gate-1-airspyhf
 development/carrier-estimator
 development/observation-acceptance
 development/profile-contract

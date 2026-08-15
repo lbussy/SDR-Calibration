@@ -86,3 +86,6 @@ __pycache__/
 !docs/**/*.svg
 !docs/**/*.ico
 !docs/**/*.pdf
+
+# Qualification IQ is retained locally; compact manifests and reviews are tracked.
+/evidence/**/*.cf32

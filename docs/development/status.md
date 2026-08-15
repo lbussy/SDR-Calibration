@@ -21,6 +21,9 @@
 - Thin `sdrcal-capture` diagnostic CLI with explicit device selection, bounded
   request parsing, requested/effective reporting, cancellation, stable exit
   categories, and hardware-free parser and injected-workflow tests
+- Qualification Gate 1 evidence for one bounded receive-only capture using the
+  exact Airspy HF+ Discovery, SoapyAirspyHF, macOS, antenna, and settings recorded
+  in the [qualification report](qualification-gate-1-airspyhf.md)
 - Hardware-free carrier estimator for in-memory complex samples, including
   midpoint frequency, linear drift, explicit failure states, diagnostics, and
   deterministic synthetic golden fixtures
@@ -38,7 +41,8 @@
 
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
-- Real-device SoapySDR discovery, configuration, and sample acquisition
+- Additional real-device SoapySDR combinations and end-to-end calibration
+  qualification
 - Command-line application
 - Qt 6 Widgets application
 - WSJT-X settings and `fmt.all` adapters

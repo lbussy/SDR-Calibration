@@ -10,6 +10,7 @@ Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the
 [repository layout](repository-layout.md), [application architecture](application-architecture.md),
 [complex-IQ capture contract](capture-contract.md),
+[Qualification Gate 1 Airspy HF+ Discovery record](qualification-gate-1-airspyhf.md),
 [carrier estimator](carrier-estimator.md),
 [observation acceptance](observation-acceptance.md),
 [measurement model](measurement-model.md), [uncertainty model](uncertainty-model.md),

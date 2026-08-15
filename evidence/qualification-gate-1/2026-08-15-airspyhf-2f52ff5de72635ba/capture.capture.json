@@ -1,0 +1,104 @@
+{
+  "format": {"name": "sdrcal_capture", "version": 1},
+  "artifact": {
+    "raw_filename": "capture.cf32",
+    "datatype": "cf32_le",
+    "layout": "interleaved_iq",
+    "channel_count": 1,
+    "bytes_per_sample": 8,
+    "byte_count": 7680000,
+    "atomic_publication": true
+  },
+  "request": {
+    "device_arguments": {
+      "driver": "airspyhf",
+      "serial": "2f52ff5de72635ba"
+    },
+    "enumeration_index": null,
+    "rx_channel": 0,
+    "center_frequency_hz": 10000000,
+    "sample_rate_sps": 192000,
+    "bandwidth_hz": null,
+    "gain_db": null,
+    "duration_seconds": 5,
+    "sample_count": null,
+    "planned_sample_count": 960000,
+    "rounding_rule": "ceil_duration_times_effective_sample_rate",
+    "read_timeout_ms": 100,
+    "setting_policy": "strict",
+    "output_path": "capture",
+    "purpose": "Qualification Gate 1 bounded Airspy HF+ Discovery capture"
+  },
+  "device": {
+    "resolved_arguments": {
+      "driver": "airspyhf",
+      "label": "AirSpy HF+ [2f52ff5de72635ba]",
+      "serial": "2f52ff5de72635ba"
+    },
+    "driver_key": "AirspyHF",
+    "hardware_key": "AirspyHF",
+    "serial": "2f52ff5de72635ba",
+    "hardware_info": {
+      "serial": "2f52ff5de72635ba"
+    },
+    "library_version": "0.8.1-release",
+    "api_version": "0.8.0",
+    "abi_version": "0.8",
+    "driver_version": null,
+    "firmware_version": null,
+    "antenna": "RX",
+    "clock_source": "",
+    "tuner_path": null
+  },
+  "effective": {
+    "center_frequency_hz": {
+      "requested": 10000000,
+      "effective": 10000000,
+      "state": "applied_verified"
+    },
+    "sample_rate_sps": {
+      "requested": 192000,
+      "effective": 192000,
+      "state": "applied_verified"
+    },
+    "bandwidth_hz": {
+      "requested": null,
+      "effective": null,
+      "state": "applied_unverified"
+    },
+    "gain_db": {
+      "requested": null,
+      "effective": null,
+      "state": "applied_unverified"
+    },
+    "automatic_gain": null,
+    "frequency_correction_ppm": null
+  },
+  "stream": {
+    "format": "CF32",
+    "mtu": 65536,
+    "target_samples": 960000,
+    "written_samples": 960000,
+    "written_bytes": 7680000,
+    "read_calls": 469,
+    "short_reads": 468,
+    "timeouts": 0,
+    "overflows": 0,
+    "discontinuities": 0,
+    "timestamps_available": false
+  },
+  "timing": {
+    "utc_start": "2026-08-15T14:11:22Z",
+    "utc_end": "2026-08-15T14:11:28Z",
+    "monotonic_elapsed_seconds": 5.0818885409999996
+  },
+  "outcome": {
+    "status": "complete",
+    "error_category": "none",
+    "error_message": "",
+    "source_cleanup": {"attempted": true, "succeeded": true, "detail": "deactivation=ok; stream_close=ok; device_release=ok"},
+    "raw_cleanup": {"attempted": true, "succeeded": true, "detail": "raw output flushed and closed"},
+    "manifest_cleanup": {"attempted": false, "succeeded": false, "detail": ""},
+    "final_state": "known_safe"
+  }
+}

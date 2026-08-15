@@ -1,10 +1,11 @@
 # Complex-IQ Capture Contract
 
-Status: Phase 4 diagnostic CLI implemented and hardware-free validated; real-device use gated
+Status: Phase 4 diagnostic CLI implemented and hardware-free validated; one
+exact Airspy HF+ Discovery/macOS capture combination passed Qualification Gate 1
 
 This contract defines the smallest reusable receive-only capture facility needed
-by SDR Calibration. It does not establish device support, RSP1B qualification,
-or implemented behavior.
+by SDR Calibration. It does not establish a general supported-device matrix or
+calibration accuracy.
 
 ## 1. Scope
 
