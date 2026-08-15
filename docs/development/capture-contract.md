@@ -1,6 +1,6 @@
 # Complex-IQ Capture Contract
 
-Status: Planned, not implemented
+Status: Phase 2 hardware-free foundation implemented; SoapySDR integration planned
 
 This contract defines the smallest reusable receive-only capture facility needed
 by SDR Calibration. It does not establish device support, RSP1B qualification,
@@ -202,11 +202,12 @@ reverse acquisition order on every exit. The result separately reports each
 cleanup operation and whether final device state is `known_safe`, `known_open`,
 or `unknown`.
 
-Timeouts are bounded events, not infinite retries. The implementation will set
-a finite retry or elapsed-time policy before Phase 2; until then no particular
-timeout count is part of this contract. Overflows and discontinuities are
-recorded and prevent `complete` status unless a later reviewed policy defines a
-safe exception.
+Timeouts are bounded events, not infinite retries. The hardware-free foundation
+defaults to a 100 ms read timeout and terminates after 10 consecutive timeouts;
+callers may select a positive timeout up to 5 seconds. A successful sample read
+resets the consecutive-timeout count. Overflows and discontinuities are recorded
+and prevent `complete` status unless a later reviewed policy defines a safe
+exception.
 
 ## 9. Reusable component boundary
 
@@ -235,7 +236,7 @@ calibration-oriented defaults, operator wording, and later evidence-bundle
 integration. The CLI contains parsing and presentation only; it does not own the
 capture loop or SoapySDR lifetime.
 
-## 10. Planned validation
+## 10. Hardware-free validation
 
 Normal tests remain hardware-free and cover:
 
@@ -251,23 +252,40 @@ Normal tests remain hardware-free and cover:
 - cleanup after failure at each acquisition stage;
 - manifest, sample-count, and byte-count consistency.
 
-SoapySDR behavior is tested through a fake sample source and mocked boundary.
-Installed-module and real-device tests are opt-in integration tests. Each
+The reusable capture recorder is tested through a fake sample source. The
+SoapySDR boundary and its mocks remain planned for Phase 3. Installed-module and
+real-device tests are opt-in integration tests. Each
 real-device test requires separate authorization of exact device identity,
 input arrangement, requested configuration, duration, expected evidence, abort,
 and cleanup. Contract tests and mock tests do not establish RSP1B support.
 
-## 11. Decisions remaining before implementation
+## 11. Phase 2 implementation decisions
 
-Phase 2 must resolve these narrow implementation details without broadening the
-contract:
+The hardware-free implementation uses these bounded policies:
 
-- the application-wide maximum duration, sample count, and output bytes;
-- the default read timeout and terminal timeout budget;
-- numeric tolerance rules for effective-setting comparison;
-- the collision-free naming convention for retained incomplete artifacts;
-- the JSON serialization approach, including dependency and license review if
-  a new library is proposed;
-- cancellation delivery and the exact representation of cleanup sub-results.
+- maximum duration: 120 seconds;
+- maximum sample count: 268,435,456 complex samples;
+- maximum raw output: 2,147,483,648 bytes (2 GiB at eight bytes per sample);
+- default read timeout: 100 ms, maximum: 5 seconds, with a default terminal
+  budget of 10 consecutive timeouts;
+- setting comparison: the greater of 1 Hz or 1 ppm for center frequency, sample
+  rate, and bandwidth, and 0.1 dB absolute for gain;
+- incomplete names: `<output>.incomplete-<attempt-id>`, where production IDs
+  combine a monotonic-clock value with a process-local atomic sequence and only
+  ASCII letters, digits, hyphen, and underscore are accepted from callers;
+- JSON: a project-owned deterministic serializer for the closed manifest model,
+  with explicit escaping, classic-locale finite numbers, and stable field order;
+- cancellation: a synchronous cooperative callback checked between bounded
+  reads, requiring no recorder-owned thread;
+- cleanup: separate attempted/succeeded/detail results for the sample source,
+  raw artifact, and manifest, plus `known_safe`, `known_open`, or `unknown` final
+  state.
 
-No implementation or hardware activity is authorized by this contract.
+Callers may impose stricter resource limits. Explicit sample counts and planned
+byte counts must satisfy every applicable limit.
+
+## 12. Remaining implementation boundary
+
+Phase 2 implements no SoapySDR selection, configuration, readback, or streaming
+and no CLI. Those remain planned and require later authorization. No hardware
+activity is authorized by this contract.

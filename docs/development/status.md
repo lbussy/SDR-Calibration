@@ -13,6 +13,8 @@
   integrity, offline, evidence, and platform policies
 - Planned bounded complex-IQ capture request, artifact, failure, and reusable
   component contracts
+- Hardware-free capture request validation, planning, sample-source interface,
+  bounded recorder, CF32LE writer, JSON manifest writer, and unit tests
 
 ## Planned, not implemented
 
@@ -22,7 +24,6 @@
 - Profile serialization, validation, signing, and evaluation
 - Reference-station manifest and registry updater
 - SoapySDR discovery, configuration, and sample acquisition
-- Reusable bounded capture recorder, CF32 writer, and capture-manifest writer
 - Thin diagnostic capture command-line interface
 - Command-line application
 - Qt 6 Widgets application

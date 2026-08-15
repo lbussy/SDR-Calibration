@@ -2,6 +2,7 @@
 # All project-owned C++ source remains below this directory.
 
 set(SDRCAL_SOURCE_COMPONENTS
+    capture
     core
     profile
     soapy

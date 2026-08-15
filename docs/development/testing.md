@@ -61,3 +61,8 @@ Planned fixtures include:
 
 Fixtures must be small, reviewable, redistributable, and free of credentials or
 unnecessary personal and hardware identifiers.
+
+The implemented Phase 2 `capture_unit_tests` target exercises the generic
+sample-source boundary, bounded recorder, CF32LE encoding, manifest generation,
+artifact publication, cancellation, timeout, stream-event, and cleanup paths.
+It does not load SoapySDR or establish real-device behavior.
