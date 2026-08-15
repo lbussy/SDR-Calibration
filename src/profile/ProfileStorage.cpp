@@ -24,7 +24,7 @@ namespace {
 
 bool syncFile(const std::filesystem::path& path) {
 #ifdef _WIN32
-    const int descriptor = _open(path.string().c_str(), _O_RDONLY | _O_BINARY);
+    const int descriptor = _open(path.string().c_str(), _O_WRONLY | _O_BINARY);
     if (descriptor < 0)
         return false;
     const bool ok = _commit(descriptor) == 0;

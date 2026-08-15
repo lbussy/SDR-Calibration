@@ -91,6 +91,7 @@ void registryTests() {
     std::ifstream in(target);
     std::string retained;
     in >> retained;
+    in.close();
     CHECK(retained == "known-good");
     auto signed_value = registry();
     signed_value.integrity.signature = profile::SignatureRecord{"ed25519", "test-key", "signature"};

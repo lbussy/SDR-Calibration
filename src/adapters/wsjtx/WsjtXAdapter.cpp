@@ -4,10 +4,10 @@
 #include "profile/Sha256.h"
 
 #include <algorithm>
-#include <charconv>
 #include <cmath>
 #include <iomanip>
 #include <limits>
+#include <locale>
 #include <regex>
 #include <set>
 #include <sstream>
@@ -57,10 +57,10 @@ std::string trim(std::string value) {
     return value.substr(first, last - first + 1U);
 }
 bool number(std::string_view text, double& value) {
-    const auto* begin = text.data();
-    const auto* end = begin + text.size();
-    const auto parsed = std::from_chars(begin, end, value);
-    return parsed.ec == std::errc{} && parsed.ptr == end && std::isfinite(value);
+    std::istringstream input{std::string(text)};
+    input.imbue(std::locale::classic());
+    input >> std::noskipws >> value;
+    return input && input.peek() == std::char_traits<char>::eof() && std::isfinite(value);
 }
 profile::AdapterRecord record(std::string id, std::string direction, const std::string& version,
                               const std::string& created_at, const std::string& digest,

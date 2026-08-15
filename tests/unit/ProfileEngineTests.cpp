@@ -228,10 +228,12 @@ void testAtomicReplacementPreservesKnownGood() {
     CHECK(replaceProfileAtomically(destination, p).succeeded());
     std::ifstream first(destination);
     const std::string original((std::istreambuf_iterator<char>(first)), {});
+    first.close();
     p.integrity.sha256 = std::string(64, '0');
     CHECK(!replaceProfileAtomically(destination, p).succeeded());
     std::ifstream second(destination);
     const std::string retained((std::istreambuf_iterator<char>(second)), {});
+    second.close();
     CHECK(original == retained);
     for (const auto& entry : std::filesystem::directory_iterator(root))
         CHECK(entry.path().filename().string().find(".tmp-native-profile-") == std::string::npos);
