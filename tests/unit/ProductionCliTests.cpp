@@ -3,6 +3,7 @@
 #include "profile/Sha256.h"
 #include "reference/ReferenceRegistry.h"
 
+#include <algorithm>
 #include <bit>
 #include <cmath>
 #include <filesystem>
@@ -190,6 +191,27 @@ void requestValidationTests() {
     const auto position = traversal.find("first.cf32");
     traversal.replace(position, std::string("first.cf32").size(), "../first.cf32");
     CHECK(!sdrcal::cli::parseProductRequest(traversal, "/tmp", trust).ok());
+
+    auto excessive = requestJson(first, second);
+    const std::string configuredBound = "\"maximum_bytes\":10000";
+    const std::string excessiveBound =
+        "\"maximum_bytes\":" +
+        std::to_string(sdrcal::cli::recordedInputMaximumBytes() + 1U);
+    std::size_t boundPosition = 0;
+    std::size_t replacedBounds = 0;
+    while ((boundPosition = excessive.find(configuredBound, boundPosition)) != std::string::npos) {
+        excessive.replace(boundPosition, configuredBound.size(), excessiveBound);
+        boundPosition += excessiveBound.size();
+        ++replacedBounds;
+    }
+    CHECK(replacedBounds == 2U);
+    const auto excessiveResult =
+        sdrcal::cli::parseProductRequest(excessive, "/tmp", trust);
+    CHECK(!excessiveResult.ok());
+    CHECK(std::any_of(excessiveResult.errors.begin(), excessiveResult.errors.end(),
+                      [](const auto& error) {
+        return error.find("recorded-input resource policy") != std::string::npos;
+    }));
 }
 
 void commandTests() {

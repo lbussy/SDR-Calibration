@@ -91,6 +91,10 @@
 - Project-owned icon provenance, retained raster masters, reproducible native
   asset generation, conversion-tool versions, SHA-256 manifest, installed
   provenance records, and deterministic hardware-free branding checks
+- Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
+  preset, configurable fail-closed recorded-input ceiling, deterministic limit
+  test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB
+  tooling
 
 ## Planned, not implemented
 
@@ -115,6 +119,8 @@
   not replace those later platform runs
 - Retained human visual-review evidence for every final platform size and
   scaling context
+- Native Raspberry Pi build/resource evidence, an audited ARM64 DEB, and
+  clean-host lifecycle evidence for the recorded-input CLI
 
 ## Not established
 

@@ -18,14 +18,16 @@ set(required_files
     "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/LICENSE"
     "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/THIRD_PARTY_NOTICES.md"
     "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/sdrcal.spdx.json"
-    "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons/README.md"
-    "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons/icon-manifest.json"
+    "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/schemas/sdr-calibration-profile.schema.json"
 )
 if(SDRCAL_EXPECT_CAPTURE)
     list(APPEND required_files
         "${SDRCAL_STAGE_DIR}/${SDRCAL_BINDIR}/sdrcal-capture${SDRCAL_EXECUTABLE_SUFFIX}")
 endif()
 if(SDRCAL_EXPECT_GUI)
+    list(APPEND required_files
+        "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons/README.md"
+        "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons/icon-manifest.json")
     if(SDRCAL_GUI_IS_BUNDLE)
         list(APPEND required_files
             "${SDRCAL_STAGE_DIR}/SDR Calibration.app"
@@ -53,12 +55,30 @@ foreach(required_file IN LISTS required_files)
     endif()
 endforeach()
 
-file(SHA256 "${SDRCAL_SOURCE_DIR}/assets/icons/icon-manifest.json" source_icon_manifest_hash)
-file(SHA256
-    "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons/icon-manifest.json"
-    staged_icon_manifest_hash)
-if(NOT source_icon_manifest_hash STREQUAL staged_icon_manifest_hash)
-    message(FATAL_ERROR "installed icon provenance manifest differs from the source")
+if(NOT SDRCAL_EXPECT_GUI)
+    foreach(forbidden_path
+            "${SDRCAL_STAGE_DIR}/${SDRCAL_BINDIR}/sdrcal-gui${SDRCAL_EXECUTABLE_SUFFIX}"
+            "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/applications/sdrcal.desktop"
+            "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/icons"
+            "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons")
+        if(EXISTS "${forbidden_path}")
+            message(FATAL_ERROR "CLI-only stage contains forbidden GUI content: ${forbidden_path}")
+        endif()
+    endforeach()
+endif()
+if(NOT SDRCAL_EXPECT_CAPTURE AND
+   EXISTS "${SDRCAL_STAGE_DIR}/${SDRCAL_BINDIR}/sdrcal-capture${SDRCAL_EXECUTABLE_SUFFIX}")
+    message(FATAL_ERROR "stage unexpectedly contains the SoapySDR capture executable")
+endif()
+
+if(SDRCAL_EXPECT_GUI)
+    file(SHA256 "${SDRCAL_SOURCE_DIR}/assets/icons/icon-manifest.json" source_icon_manifest_hash)
+    file(SHA256
+        "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/icons/icon-manifest.json"
+        staged_icon_manifest_hash)
+    if(NOT source_icon_manifest_hash STREQUAL staged_icon_manifest_hash)
+        message(FATAL_ERROR "installed icon provenance manifest differs from the source")
+    endif()
 endif()
 
 if(SDRCAL_EXPECT_GUI AND SDRCAL_GUI_IS_BUNDLE)

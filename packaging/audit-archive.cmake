@@ -18,7 +18,7 @@ endif()
 
 file(GLOB_RECURSE archive_files LIST_DIRECTORIES false "${SDRCAL_AUDIT_ROOT}/*")
 set(required_names LICENSE THIRD_PARTY_NOTICES.md sdrcal.spdx.json
-    "sdrcal${SDRCAL_EXECUTABLE_SUFFIX}")
+    sdr-calibration-profile.schema.json "sdrcal${SDRCAL_EXECUTABLE_SUFFIX}")
 if(SDRCAL_EXPECT_CAPTURE)
     list(APPEND required_names "sdrcal-capture${SDRCAL_EXECUTABLE_SUFFIX}")
 endif()
@@ -38,6 +38,29 @@ foreach(required_name IN LISTS required_names)
         message(FATAL_ERROR "archive is missing required content: ${required_name}")
     endif()
 endforeach()
+
+if(NOT SDRCAL_EXPECT_GUI)
+    foreach(forbidden_name sdrcal-gui sdrcal.desktop SDRCalibration.icns
+            SDRCalibration.ico icon-manifest.json)
+        foreach(archive_file IN LISTS archive_files)
+            get_filename_component(archive_name "${archive_file}" NAME)
+            if(archive_name STREQUAL forbidden_name OR
+               archive_name STREQUAL "${forbidden_name}${SDRCAL_EXECUTABLE_SUFFIX}")
+                message(FATAL_ERROR
+                    "CLI-only archive contains forbidden GUI content: ${archive_file}")
+            endif()
+        endforeach()
+    endforeach()
+endif()
+if(NOT SDRCAL_EXPECT_CAPTURE)
+    foreach(archive_file IN LISTS archive_files)
+        get_filename_component(archive_name "${archive_file}" NAME)
+        if(archive_name STREQUAL "sdrcal-capture${SDRCAL_EXECUTABLE_SUFFIX}")
+            message(FATAL_ERROR
+                "archive unexpectedly contains the SoapySDR capture executable")
+        endif()
+    endforeach()
+endif()
 
 file(GLOB_RECURSE spdx_files "${SDRCAL_AUDIT_ROOT}/*/sdrcal.spdx.json")
 list(LENGTH spdx_files spdx_count)

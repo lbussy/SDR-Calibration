@@ -128,6 +128,26 @@ CLI startup, and writes evidence below
 startup and Phase 14.4 exact dependency disposition do not substitute for
 clean-host installation.
 
+The Raspberry Pi recorded-input CLI path is 64-bit Raspberry Pi OS-only and
+excludes Qt, the GUI, SoapySDR, device modules, desktop integration, and icons:
+
+```shell
+cmake --preset raspberry-pi-cli-release
+cmake --build --preset raspberry-pi-cli-release
+ctest --preset raspberry-pi-cli-release
+cmake --build build/raspberry-pi-cli-release --target package-audit
+cmake --build build/raspberry-pi-cli-release --target package-archive-audit
+cmake --build build/raspberry-pi-cli-release --target raspberry-pi-deb
+```
+
+The preset applies a provisional 256 MiB per-observation declared-input ceiling.
+The DEB target rejects a dirty tree, wrong platform or architecture, mismatched
+configuration, GUI/Qt/SoapySDR content, conveyed shared libraries, unresolved
+dependencies, RPATH/RUNPATH, wrong-architecture ELF files, build-path leakage,
+and failed extracted CLI startup. A native build and audited DEB do not establish
+clean-host installation, device support, calibration accuracy, or general
+Raspberry Pi compatibility.
+
 ## Required fixtures
 
 Planned fixtures include:

@@ -74,6 +74,23 @@
         "SDRCAL_ENABLE_PACKAGING": "ON"
       },
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
+    },
+    {
+      "name": "raspberry-pi-cli-release",
+      "displayName": "Raspberry Pi OS ARM64 recorded-input CLI",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/raspberry-pi-cli-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "ON",
+        "SDRCAL_BUILD_CLI": "ON",
+        "SDRCAL_BUILD_GUI": "OFF",
+        "SDRCAL_REQUIRE_GUI": "OFF",
+        "SDRCAL_ENABLE_SOAPYSDR": "OFF",
+        "SDRCAL_ENABLE_PACKAGING": "ON",
+        "SDRCAL_RECORDED_INPUT_MAX_BYTES": "268435456"
+      },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
     }
   ],
   "buildPresets": [
@@ -81,7 +98,8 @@
     { "name": "release", "configurePreset": "release" },
     { "name": "macos-release", "configurePreset": "macos-release" },
     { "name": "windows-release", "configurePreset": "windows-release" },
-    { "name": "ubuntu-release", "configurePreset": "ubuntu-release" }
+    { "name": "ubuntu-release", "configurePreset": "ubuntu-release" },
+    { "name": "raspberry-pi-cli-release", "configurePreset": "raspberry-pi-cli-release" }
   ],
   "testPresets": [
     {
@@ -107,6 +125,11 @@
     {
       "name": "ubuntu-release",
       "configurePreset": "ubuntu-release",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "raspberry-pi-cli-release",
+      "configurePreset": "raspberry-pi-cli-release",
       "output": { "outputOnFailure": true }
     }
   ]

@@ -31,6 +31,7 @@ development/phase-14-4-execution-prompt
 development/phase-14-5-execution-prompt
 development/phase-14-5-branding-execution-prompt
 development/raspberry-pi-cli-contract
+development/raspberry-pi-cli-phase-1-execution-prompt
 development/platform-and-device-matrix
 development/end-to-end-qualification
 development/phase-11-execution-prompt

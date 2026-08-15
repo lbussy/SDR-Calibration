@@ -45,6 +45,13 @@ Every observation file must be non-empty, no larger than both its declared
 limit and 2 GiB, aligned to complete little-endian complex float32 pairs, free
 of non-finite samples, and identical to its declared SHA-256 digest.
 
+The source default permits a declared bound through 2 GiB. A distribution may
+configure a smaller fail-closed ceiling to match a measured resource envelope;
+the request is rejected before sample input or staging output when any declared
+`maximum_bytes` exceeds that build's ceiling. The provisional Raspberry Pi CLI
+configuration uses 256 MiB. That value is an engineering bound pending native
+resource measurement, not a Raspberry Pi support or maximum-artifact claim.
+
 ## Output transaction
 
 Success atomically publishes one new directory containing `profile.json`,

@@ -27,6 +27,13 @@ option(SDRCAL_BUILD_GUI "Build the Qt 6 Widgets application" ON)
 option(SDRCAL_ENABLE_SOAPYSDR "Enable SoapySDR device support" ON)
 option(SDRCAL_REQUIRE_GUI "Fail configuration when the requested GUI cannot be built" OFF)
 option(SDRCAL_ENABLE_PACKAGING "Enable installable application package targets" ON)
+set(SDRCAL_RECORDED_INPUT_MAX_BYTES "2147483648" CACHE STRING
+    "Maximum declared byte bound for one recorded CF32LE observation")
+if(NOT SDRCAL_RECORDED_INPUT_MAX_BYTES MATCHES "^[1-9][0-9]*$" OR
+   SDRCAL_RECORDED_INPUT_MAX_BYTES GREATER 2147483648)
+    message(FATAL_ERROR
+        "SDRCAL_RECORDED_INPUT_MAX_BYTES must be an integer from 1 through 2147483648")
+endif()
 
 set(SDRCAL_MACOS_SIGNING_IDENTITY "" CACHE STRING
     "Developer ID Application identity used by the notarized macOS package")
@@ -55,8 +62,12 @@ if(BUILD_TESTING)
 endif()
 
 install(FILES LICENSE THIRD_PARTY_NOTICES.md DESTINATION "${CMAKE_INSTALL_DATADIR}/sdrcal")
-install(FILES assets/icons/README.md assets/icons/icon-manifest.json
-    DESTINATION "${CMAKE_INSTALL_DATADIR}/sdrcal/icons")
+install(FILES schemas/sdr-calibration-profile.schema.json
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/sdrcal/schemas")
+if(SDRCAL_BUILD_GUI)
+    install(FILES assets/icons/README.md assets/icons/icon-manifest.json
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/sdrcal/icons")
+endif()
 
 get_property(SDRCAL_CONFIGURED_QT_VERSION GLOBAL PROPERTY SDRCAL_CONFIGURED_QT_VERSION)
 get_property(
@@ -187,6 +198,20 @@ if(UNIX AND NOT APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             --version "${PROJECT_VERSION}"
             --source-dir "${PROJECT_SOURCE_DIR}"
         DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
+        VERBATIM
+    )
+endif()
+
+if(UNIX AND NOT APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal AND
+   NOT SDRCAL_BUILD_GUI AND NOT SDRCAL_ENABLE_SOAPYSDR)
+    set(SDRCAL_RASPBERRY_PI_DEB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/raspberry-pi-package")
+    add_custom_target(raspberry-pi-deb
+        COMMAND "${PROJECT_SOURCE_DIR}/packaging/raspberry-pi/package-deb.sh"
+            --build-dir "${PROJECT_BINARY_DIR}"
+            --output-dir "${SDRCAL_RASPBERRY_PI_DEB_OUTPUT_DIR}"
+            --version "${PROJECT_VERSION}"
+            --source-dir "${PROJECT_SOURCE_DIR}"
+        DEPENDS sdrcal
         VERBATIM
     )
 endif()

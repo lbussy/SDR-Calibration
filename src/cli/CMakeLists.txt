@@ -17,6 +17,8 @@ add_library(sdrcal_product_cli ProductionCli.cpp)
 target_include_directories(sdrcal_product_cli PUBLIC "${PROJECT_SOURCE_DIR}/src")
 target_compile_features(sdrcal_product_cli PUBLIC cxx_std_20)
 target_link_libraries(sdrcal_product_cli PUBLIC sdrcal_application)
+target_compile_definitions(sdrcal_product_cli PRIVATE
+    SDRCAL_RECORDED_INPUT_MAX_BYTES=${SDRCAL_RECORDED_INPUT_MAX_BYTES})
 
 if(SDRCAL_BUILD_CLI)
     add_executable(sdrcal product_main.cpp)

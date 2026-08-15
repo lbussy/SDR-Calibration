@@ -37,3 +37,5 @@ GUI product name, icon, and clean-host candidate gate is governed by the
 [Phase 14.5 execution prompt](phase-14-5-execution-prompt.md). Its bounded
 pre-qualification implementation slice is governed by the
 [Phase 14.5 branding prompt](phase-14-5-branding-execution-prompt.md).
+The hardware-free Raspberry Pi recorded-input CLI implementation is governed by
+the [Raspberry Pi CLI Phase 1 prompt](raspberry-pi-cli-phase-1-execution-prompt.md).

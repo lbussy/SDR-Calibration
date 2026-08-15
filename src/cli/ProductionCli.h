@@ -64,6 +64,8 @@ struct ProductRequestResult {
 
 using ProductCancellationCheck = std::function<bool()>;
 
+[[nodiscard]] std::uint64_t recordedInputMaximumBytes() noexcept;
+
 [[nodiscard]] ProductArguments parseProductArguments(const std::vector<std::string>& arguments);
 [[nodiscard]] ProductRequestResult
 parseProductRequest(std::string_view json, const std::filesystem::path& base_directory,

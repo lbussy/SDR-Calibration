@@ -18,6 +18,13 @@
 
 namespace sdrcal::cli {
 namespace {
+#ifndef SDRCAL_RECORDED_INPUT_MAX_BYTES
+#define SDRCAL_RECORDED_INPUT_MAX_BYTES 2147483648
+#endif
+constexpr std::uint64_t kRecordedInputMaximumBytes = SDRCAL_RECORDED_INPUT_MAX_BYTES;
+static_assert(kRecordedInputMaximumBytes > 0U &&
+              kRecordedInputMaximumBytes <= 2'147'483'648ULL);
+
 using profile::JsonArray;
 using profile::JsonObject;
 using profile::JsonValue;
@@ -585,8 +592,12 @@ ProductRequestResult parseProductRequest(std::string_view json,
             if (!profile::isSha256Hex(record.sha256))
                 reader.errors.push_back(path + ".sha256 is invalid");
             const auto maximumBytes = reader.integer(*item, "maximum_bytes", path);
-            if (maximumBytes <= 0 || maximumBytes > 2'147'483'648LL)
-                reader.errors.push_back(path + ".maximum_bytes must be from 1 through 2147483648");
+            if (maximumBytes <= 0 ||
+                static_cast<std::uint64_t>(maximumBytes) > kRecordedInputMaximumBytes)
+                reader.errors.push_back(
+                    path + ".maximum_bytes must be from 1 through " +
+                    std::to_string(kRecordedInputMaximumBytes) +
+                    " for this build's recorded-input resource policy");
             else
                 record.maximum_bytes = static_cast<std::uint64_t>(maximumBytes);
             const auto sampleCount = reader.integer(*item, "sample_count", path);
@@ -778,6 +789,10 @@ ProductRequestResult parseProductRequest(std::string_view json,
     }
     result.request = std::move(product);
     return result;
+}
+
+std::uint64_t recordedInputMaximumBytes() noexcept {
+    return kRecordedInputMaximumBytes;
 }
 
 std::string productUsage() {
