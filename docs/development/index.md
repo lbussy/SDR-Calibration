@@ -32,7 +32,9 @@ The current packaging and qualification foundation is governed by the
 The signed macOS package slice is governed by the
 [Phase 14.1 execution prompt](phase-14-1-execution-prompt.md).
 The signed Windows package slice is governed by the
-[Phase 14.2 execution prompt](phase-14-2-execution-prompt.md).
+[Phase 14.2 execution prompt](phase-14-2-execution-prompt.md). Preparation and
+bounded execution on the named Windows qualification host are governed by the
+[`ecm-mule` candidate prompt](windows-ecm-mule-candidate-execution-prompt.md).
 The Ubuntu DEB package slice is governed by the
 [Phase 14.3 execution prompt](phase-14-3-execution-prompt.md), and exact payload
 license disposition is governed by the
