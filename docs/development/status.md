@@ -123,6 +123,10 @@
   schema-aware review, unchanged-request gating, explicit live-run confirmation,
   injected production-boundary construction, and hardware-free widget tests.
   Physical execution remains unqualified.
+- Hardware-free readiness review for the exact Airspy HF+ Discovery/macOS
+  end-to-end candidate. It stopped before enumeration because retained driver
+  evidence cannot establish all identity/configuration fields required by the
+  fail-closed live boundary; physical execution remains not started.
 
 ## Planned, not implemented
 

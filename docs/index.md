@@ -30,6 +30,8 @@ development/live-device-integration-phase-1-execution-prompt
 development/live-memory-acquisition-execution-prompt
 development/live-cli-execution-prompt
 development/live-gui-execution-prompt
+development/airspyhf-end-to-end-qualification-prompt
+development/airspyhf-end-to-end-readiness
 development/phase-14-execution-prompt
 development/phase-14-1-execution-prompt
 development/phase-14-2-execution-prompt

@@ -361,6 +361,13 @@ production boundary after schema-aware request review and explicit live-run
 confirmation. Separately authorized physical-device qualification follows as a
 distinct reviewed slice.
 
+The first exact Airspy HF+ Discovery/macOS end-to-end candidate completed its
+hardware-free readiness review and stopped before enumeration. Retained capture
+evidence lacks required manufacturer/model, clock-source, and effective
+frequency-correction readback for the fail-closed production boundary. The
+[readiness record](airspyhf-end-to-end-readiness.md) identifies the blocker;
+capture qualification does not transfer to end-to-end calibration.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility

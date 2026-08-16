@@ -22,6 +22,9 @@ The production live-CLI slice is governed by the
 [live-CLI execution prompt](live-cli-execution-prompt.md).
 The production live-GUI slice is governed by the
 [live-GUI execution prompt](live-gui-execution-prompt.md).
+The first exact local end-to-end candidate is governed by the
+[Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
+with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the
