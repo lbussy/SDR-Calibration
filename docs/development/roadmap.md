@@ -368,6 +368,12 @@ frequency-correction readback for the fail-closed production boundary. The
 [readiness record](airspyhf-end-to-end-readiness.md) identifies the blocker;
 capture qualification does not transfer to end-to-end calibration.
 
+The subsequent hardware-free adapter slice resolves that source blocker with
+explicit provenance-bearing normalization and negative fake-driver tests. It
+does not establish that the currently connected device reports the expected
+capabilities or that either WWV observation is usable; serial-bound enumeration
+and bounded reception remain separately authorized physical gates.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility

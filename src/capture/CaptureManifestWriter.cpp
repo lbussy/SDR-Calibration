@@ -21,13 +21,27 @@ std::string quoted(const std::string& value) {
     for (const char rawCharacter : value) {
         const auto character = static_cast<unsigned char>(rawCharacter);
         switch (character) {
-        case '"': output << "\\\""; break;
-        case '\\': output << "\\\\"; break;
-        case '\b': output << "\\b"; break;
-        case '\f': output << "\\f"; break;
-        case '\n': output << "\\n"; break;
-        case '\r': output << "\\r"; break;
-        case '\t': output << "\\t"; break;
+        case '"':
+            output << "\\\"";
+            break;
+        case '\\':
+            output << "\\\\";
+            break;
+        case '\b':
+            output << "\\b";
+            break;
+        case '\f':
+            output << "\\f";
+            break;
+        case '\n':
+            output << "\\n";
+            break;
+        case '\r':
+            output << "\\r";
+            break;
+        case '\t':
+            output << "\\t";
+            break;
         default:
             if (character < 0x20U) {
                 output << "\\u" << std::hex << std::setw(4) << std::setfill('0')
@@ -73,8 +87,7 @@ bool sensitiveKey(const std::string& key) {
         return static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
     });
     return lower.find("password") != std::string::npos ||
-           lower.find("passwd") != std::string::npos ||
-           lower.find("token") != std::string::npos ||
+           lower.find("passwd") != std::string::npos || lower.find("token") != std::string::npos ||
            lower.find("secret") != std::string::npos ||
            lower.find("credential") != std::string::npos || lower == "api_key" ||
            lower == "private_key";
@@ -111,11 +124,9 @@ std::string setting(const EffectiveSetting& value, int indent) {
 
 } // namespace
 
-std::string CaptureManifestWriter::serialize(
-    const CapturePlan& plan,
-    const DeviceMetadata& device,
-    const CaptureResult& result,
-    const std::filesystem::path& rawFilename) {
+std::string CaptureManifestWriter::serialize(const CapturePlan& plan, const DeviceMetadata& device,
+                                             const CaptureResult& result,
+                                             const std::filesystem::path& rawFilename) {
     std::ostringstream output;
     output.imbue(std::locale::classic());
     output << "{\n"
@@ -127,8 +138,8 @@ std::string CaptureManifestWriter::serialize(
            << "    \"channel_count\": 1,\n"
            << "    \"bytes_per_sample\": 8,\n"
            << "    \"byte_count\": " << result.stream.written_bytes << ",\n"
-           << "    \"atomic_publication\": "
-           << (result.atomic_raw_publication ? "true" : "false") << "\n"
+           << "    \"atomic_publication\": " << (result.atomic_raw_publication ? "true" : "false")
+           << "\n"
            << "  },\n"
            << "  \"request\": {\n"
            << "    \"device_arguments\": " << stringMap(plan.request.device_arguments, 4) << ",\n"
@@ -156,8 +167,8 @@ std::string CaptureManifestWriter::serialize(
            << "    \"rounding_rule\": " << quoted(plan.rounding_rule) << ",\n"
            << "    \"read_timeout_ms\": " << plan.request.read_timeout.count() << ",\n"
            << "    \"setting_policy\": " << quoted(toString(plan.request.setting_policy)) << ",\n"
-           << "    \"output_path\": "
-           << quoted(plan.request.output_path.filename().string()) << ",\n"
+           << "    \"output_path\": " << quoted(plan.request.output_path.filename().string())
+           << ",\n"
            << "    \"purpose\": " << optionalString(plan.request.purpose) << "\n"
            << "  },\n"
            << "  \"device\": {\n"
@@ -173,11 +184,15 @@ std::string CaptureManifestWriter::serialize(
            << "    \"firmware_version\": " << optionalString(device.firmware_version) << ",\n"
            << "    \"antenna\": " << optionalString(device.antenna) << ",\n"
            << "    \"clock_source\": " << optionalString(device.clock_source) << ",\n"
+           << "    \"clock_source_reported\": " << optionalBool(device.clock_source_reported)
+           << ",\n"
+           << "    \"frequency_correction_supported\": "
+           << optionalBool(device.frequency_correction_supported) << ",\n"
            << "    \"tuner_path\": " << optionalString(device.tuner_path) << "\n"
            << "  },\n"
            << "  \"effective\": {\n"
-           << "    \"center_frequency_hz\": "
-           << setting(plan.effective.center_frequency_hz, 4) << ",\n"
+           << "    \"center_frequency_hz\": " << setting(plan.effective.center_frequency_hz, 4)
+           << ",\n"
            << "    \"sample_rate_sps\": " << setting(plan.effective.sample_rate_sps, 4) << ",\n"
            << "    \"bandwidth_hz\": " << setting(plan.effective.bandwidth_hz, 4) << ",\n"
            << "    \"gain_db\": " << setting(plan.effective.gain_db, 4) << ",\n"
@@ -208,8 +223,8 @@ std::string CaptureManifestWriter::serialize(
            << "  \"timing\": {\n"
            << "    \"utc_start\": " << quoted(result.utc_start) << ",\n"
            << "    \"utc_end\": " << quoted(result.utc_end) << ",\n"
-           << "    \"monotonic_elapsed_seconds\": "
-           << number(result.monotonic_elapsed_seconds) << "\n"
+           << "    \"monotonic_elapsed_seconds\": " << number(result.monotonic_elapsed_seconds)
+           << "\n"
            << "  },\n"
            << "  \"outcome\": {\n"
            << "    \"status\": " << quoted(toString(result.status)) << ",\n"
@@ -233,10 +248,8 @@ std::string CaptureManifestWriter::serialize(
     return output.str();
 }
 
-bool CaptureManifestWriter::write(
-    const std::filesystem::path& path,
-    const std::string& json,
-    std::string& error) {
+bool CaptureManifestWriter::write(const std::filesystem::path& path, const std::string& json,
+                                  std::string& error) {
     std::ofstream output(path, std::ios::binary | std::ios::out | std::ios::trunc);
     if (!output) {
         error = "cannot open manifest output: " + path.string();

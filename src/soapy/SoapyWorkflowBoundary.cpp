@@ -58,8 +58,16 @@ std::optional<std::int64_t> wholePositive(const std::optional<double>& value) {
 
 std::optional<application::DeviceCandidate> mapDevice(const capture::DeviceMetadata& metadata,
                                                       const capture::EffectiveSettings& settings) {
-    const auto manufacturer = firstValue(metadata.hardware_info, {"manufacturer", "vendor"});
-    const auto model = firstValue(metadata.hardware_info, {"model", "product"});
+    auto manufacturer = firstValue(metadata.hardware_info, {"manufacturer", "vendor"});
+    auto model = firstValue(metadata.hardware_info, {"model", "product"});
+    const bool airspyHfPolicy =
+        metadata.driver_key == "AirspyHF" && metadata.hardware_key == "AirspyHF";
+    if (airspyHfPolicy) {
+        if (!manufacturer)
+            manufacturer = "Airspy";
+        if (!model)
+            model = "Airspy HF+ family";
+    }
     const auto rate = wholePositive(settings.sample_rate_sps.effective);
     if (!metadata.driver_key || !manufacturer || !model || !metadata.serial || !rate ||
         !metadata.clock_source || !settings.frequency_correction_ppm ||
@@ -79,6 +87,14 @@ std::optional<application::DeviceCandidate> mapDevice(const capture::DeviceMetad
     result.configuration.tuner_path = metadata.tuner_path;
     for (const auto& [key, value] : metadata.resolved_arguments)
         result.configuration.binding_extension["soapy_argument_" + key] = value;
+    if (airspyHfPolicy)
+        result.configuration.binding_extension["identity_normalization_policy"] = "airspyhf-v1";
+    if (metadata.clock_source_reported == false)
+        result.configuration.binding_extension["clock_source_provenance"] =
+            "soapy-no-selectable-source";
+    if (metadata.frequency_correction_supported == false)
+        result.configuration.binding_extension["frequency_correction_provenance"] =
+            "soapy-unsupported-effective-zero";
     if (settings.gain_db.effective)
         result.configuration.binding_extension["effective_gain_db"] = *settings.gain_db.effective;
     if (settings.automatic_gain)

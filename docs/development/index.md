@@ -25,6 +25,8 @@ The production live-GUI slice is governed by the
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).
+The readiness blocker is addressed by the hardware-free
+[AirspyHF normalization prompt](airspyhf-normalization-execution-prompt.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the

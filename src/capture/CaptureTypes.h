@@ -108,6 +108,8 @@ struct DeviceMetadata {
     std::optional<std::string> firmware_version;
     std::optional<std::string> antenna;
     std::optional<std::string> clock_source;
+    std::optional<bool> clock_source_reported;
+    std::optional<bool> frequency_correction_supported;
     std::optional<std::string> tuner_path;
 };
 
@@ -176,7 +178,9 @@ struct ValidationResult {
     std::optional<CapturePlan> plan;
     std::vector<CaptureError> errors;
 
-    [[nodiscard]] bool ok() const { return plan.has_value() && errors.empty(); }
+    [[nodiscard]] bool ok() const {
+        return plan.has_value() && errors.empty();
+    }
 };
 
 } // namespace sdrcal::capture

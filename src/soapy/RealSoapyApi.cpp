@@ -7,7 +7,6 @@
 #include <SoapySDR/Errors.h>
 #include <SoapySDR/Formats.hpp>
 #include <SoapySDR/Version.hpp>
-
 #include <algorithm>
 #include <limits>
 #include <memory>
@@ -26,7 +25,7 @@ KeywordMap fromNative(const SoapySDR::Kwargs& values) {
 }
 
 class RealSoapyDevice final : public SoapyDevice {
-public:
+  public:
     explicit RealSoapyDevice(SoapySDR::Device* device) : device_(device) {
         if (device_ == nullptr) {
             throw std::runtime_error("SoapySDR returned a null device");
@@ -42,8 +41,12 @@ public:
         }
     }
 
-    [[nodiscard]] std::string driverKey() const override { return device_->getDriverKey(); }
-    [[nodiscard]] std::string hardwareKey() const override { return device_->getHardwareKey(); }
+    [[nodiscard]] std::string driverKey() const override {
+        return device_->getDriverKey();
+    }
+    [[nodiscard]] std::string hardwareKey() const override {
+        return device_->getHardwareKey();
+    }
     [[nodiscard]] KeywordMap hardwareInfo() const override {
         return fromNative(device_->getHardwareInfo());
     }
@@ -52,6 +55,9 @@ public:
     }
     [[nodiscard]] std::optional<std::string> clockSource() const override {
         return device_->getClockSource();
+    }
+    [[nodiscard]] std::vector<std::string> clockSources() const override {
+        return device_->listClockSources();
     }
     [[nodiscard]] bool hasFrequencyCorrection(std::size_t channel) const override {
         return device_->hasFrequencyCorrection(SOAPY_SDR_RX, channel);
@@ -130,15 +136,14 @@ public:
         }
         const int result = device_->activateStream(stream_);
         if (result != 0) {
-            throw std::runtime_error(
-                "SoapySDR activateStream failed: " + std::string(SoapySDR_errToStr(result)));
+            throw std::runtime_error("SoapySDR activateStream failed: " +
+                                     std::string(SoapySDR_errToStr(result)));
         }
         active_ = true;
     }
 
-    [[nodiscard]] capture::ReadResult readRxStream(
-        std::size_t maximumSamples,
-        std::chrono::milliseconds timeout) override {
+    [[nodiscard]] capture::ReadResult readRxStream(std::size_t maximumSamples,
+                                                   std::chrono::milliseconds timeout) override {
         if (stream_ == nullptr || !active_) {
             return {capture::ReadStatus::error, {}, std::nullopt, "RX stream is not active"};
         }
@@ -148,11 +153,11 @@ public:
         long long timestamp = 0;
         const auto timeoutMicroseconds =
             std::chrono::duration_cast<std::chrono::microseconds>(timeout);
-        const auto limitedTimeout = std::min<std::int64_t>(
-            timeoutMicroseconds.count(),
-            static_cast<std::int64_t>(std::numeric_limits<long>::max()));
-        const int count = device_->readStream(
-            stream_, buffers, maximumSamples, flags, timestamp, static_cast<long>(limitedTimeout));
+        const auto limitedTimeout =
+            std::min<std::int64_t>(timeoutMicroseconds.count(),
+                                   static_cast<std::int64_t>(std::numeric_limits<long>::max()));
+        const int count = device_->readStream(stream_, buffers, maximumSamples, flags, timestamp,
+                                              static_cast<long>(limitedTimeout));
         return translateSoapyRead(count, flags, timestamp, std::move(samples), maximumSamples);
     }
 
@@ -162,8 +167,8 @@ public:
         }
         const int result = device_->deactivateStream(stream_);
         if (result != 0) {
-            throw std::runtime_error(
-                "SoapySDR deactivateStream failed: " + std::string(SoapySDR_errToStr(result)));
+            throw std::runtime_error("SoapySDR deactivateStream failed: " +
+                                     std::string(SoapySDR_errToStr(result)));
         }
         active_ = false;
     }
@@ -183,7 +188,7 @@ public:
         }
     }
 
-private:
+  private:
     SoapySDR::Device* device_ = nullptr;
     SoapySDR::Stream* stream_ = nullptr;
     bool active_ = false;
@@ -212,8 +217,14 @@ void RealSoapyApi::unmake(SoapyDevice* device) {
     delete real;
 }
 
-std::string RealSoapyApi::libraryVersion() const { return SoapySDR::getLibVersion(); }
-std::string RealSoapyApi::apiVersion() const { return SoapySDR::getAPIVersion(); }
-std::string RealSoapyApi::abiVersion() const { return SoapySDR::getABIVersion(); }
+std::string RealSoapyApi::libraryVersion() const {
+    return SoapySDR::getLibVersion();
+}
+std::string RealSoapyApi::apiVersion() const {
+    return SoapySDR::getAPIVersion();
+}
+std::string RealSoapyApi::abiVersion() const {
+    return SoapySDR::getABIVersion();
+}
 
 } // namespace sdrcal::soapy

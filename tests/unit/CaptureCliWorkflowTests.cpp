@@ -20,40 +20,87 @@ using namespace sdrcal::soapy;
 
 namespace {
 class TestFailure : public std::runtime_error {
-public:
+  public:
     using std::runtime_error::runtime_error;
 };
-#define CHECK(condition)                                                                       \
-    do {                                                                                       \
-        if (!(condition)) {                                                                    \
-            throw TestFailure(std::string("check failed: ") + #condition);                    \
-        }                                                                                      \
+#define CHECK(condition)                                                                           \
+    do {                                                                                           \
+        if (!(condition)) {                                                                        \
+            throw TestFailure(std::string("check failed: ") + #condition);                         \
+        }                                                                                          \
     } while (false)
 
 class FakeDevice final : public SoapyDevice {
-public:
-    std::string driverKey() const override { return "fake"; }
-    std::string hardwareKey() const override { return "fake-hardware"; }
-    KeywordMap hardwareInfo() const override { return {{"serial", "test-only"}}; }
-    std::optional<std::string> antenna(std::size_t) const override { return "fake-input"; }
-    std::optional<std::string> clockSource() const override { return "fake-clock"; }
-    bool hasFrequencyCorrection(std::size_t) const override { return false; }
-    std::optional<double> frequencyCorrection(std::size_t) const override { return {}; }
-    void setSampleRate(std::size_t, double value) override { sampleRate_ = value; }
-    std::optional<double> sampleRate(std::size_t) const override { return sampleRate_; }
-    bool supportsBandwidth(std::size_t) const override { return true; }
-    void setBandwidth(std::size_t, double value) override { bandwidth_ = value; }
-    std::optional<double> bandwidth(std::size_t) const override { return bandwidth_; }
-    void setFrequency(std::size_t, double value) override { frequency_ = value; }
-    std::optional<double> frequency(std::size_t) const override { return frequency_; }
-    bool supportsGain(std::size_t) const override { return true; }
-    bool hasGainMode(std::size_t) const override { return true; }
-    void setAutomaticGain(std::size_t, bool automatic) override { automaticGain_ = automatic; }
-    std::optional<bool> automaticGain(std::size_t) const override { return automaticGain_; }
-    void setGain(std::size_t, double value) override { gain_ = value; }
-    std::optional<double> gain(std::size_t) const override { return gain_; }
-    std::size_t setupRxStream(std::size_t) override { return 16; }
-    void activateRxStream() override { active_ = true; }
+  public:
+    std::string driverKey() const override {
+        return "fake";
+    }
+    std::string hardwareKey() const override {
+        return "fake-hardware";
+    }
+    KeywordMap hardwareInfo() const override {
+        return {{"serial", "test-only"}};
+    }
+    std::optional<std::string> antenna(std::size_t) const override {
+        return "fake-input";
+    }
+    std::optional<std::string> clockSource() const override {
+        return "fake-clock";
+    }
+    std::vector<std::string> clockSources() const override {
+        return {"fake-clock"};
+    }
+    bool hasFrequencyCorrection(std::size_t) const override {
+        return false;
+    }
+    std::optional<double> frequencyCorrection(std::size_t) const override {
+        return {};
+    }
+    void setSampleRate(std::size_t, double value) override {
+        sampleRate_ = value;
+    }
+    std::optional<double> sampleRate(std::size_t) const override {
+        return sampleRate_;
+    }
+    bool supportsBandwidth(std::size_t) const override {
+        return true;
+    }
+    void setBandwidth(std::size_t, double value) override {
+        bandwidth_ = value;
+    }
+    std::optional<double> bandwidth(std::size_t) const override {
+        return bandwidth_;
+    }
+    void setFrequency(std::size_t, double value) override {
+        frequency_ = value;
+    }
+    std::optional<double> frequency(std::size_t) const override {
+        return frequency_;
+    }
+    bool supportsGain(std::size_t) const override {
+        return true;
+    }
+    bool hasGainMode(std::size_t) const override {
+        return true;
+    }
+    void setAutomaticGain(std::size_t, bool automatic) override {
+        automaticGain_ = automatic;
+    }
+    std::optional<bool> automaticGain(std::size_t) const override {
+        return automaticGain_;
+    }
+    void setGain(std::size_t, double value) override {
+        gain_ = value;
+    }
+    std::optional<double> gain(std::size_t) const override {
+        return gain_;
+    }
+    std::size_t setupRxStream(std::size_t) override {
+        return 16;
+    }
+    void activateRxStream() override {
+        active_ = true;
+    }
     ReadResult readRxStream(std::size_t maximum, std::chrono::milliseconds) override {
         const std::size_t count = std::min(maximum, remaining_);
         remaining_ -= count;
@@ -62,7 +109,9 @@ public:
                 std::nullopt,
                 {}};
     }
-    void deactivateRxStream() override { active_ = false; }
+    void deactivateRxStream() override {
+        active_ = false;
+    }
     void closeRxStream() override {}
 
     std::optional<double> sampleRate_;
@@ -75,17 +124,27 @@ public:
 };
 
 class FakeApi final : public SoapyApi {
-public:
+  public:
     std::vector<KeywordMap> enumerate(const KeywordMap&) override {
         ++enumerateCalls_;
         return noMatches_ ? std::vector<KeywordMap>{}
                           : std::vector<KeywordMap>{{{"driver", "fake"}, {"serial", "test-only"}}};
     }
-    SoapyDevice* make(const KeywordMap&) override { return &device_; }
-    void unmake(SoapyDevice* device) override { CHECK(device == &device_); }
-    std::string libraryVersion() const override { return "fake-library"; }
-    std::string apiVersion() const override { return "fake-api"; }
-    std::string abiVersion() const override { return "fake-abi"; }
+    SoapyDevice* make(const KeywordMap&) override {
+        return &device_;
+    }
+    void unmake(SoapyDevice* device) override {
+        CHECK(device == &device_);
+    }
+    std::string libraryVersion() const override {
+        return "fake-library";
+    }
+    std::string apiVersion() const override {
+        return "fake-api";
+    }
+    std::string abiVersion() const override {
+        return "fake-abi";
+    }
 
     FakeDevice device_;
     std::size_t enumerateCalls_ = 0;
@@ -94,14 +153,13 @@ public:
 
 std::filesystem::path uniqueOutput() {
     const auto tick = std::chrono::steady_clock::now().time_since_epoch().count();
-    return std::filesystem::temp_directory_path() /
-           ("sdrcal-cli-workflow-" + std::to_string(tick));
+    return std::filesystem::temp_directory_path() / ("sdrcal-cli-workflow-" + std::to_string(tick));
 }
 
 std::vector<std::string> arguments(const std::filesystem::path& output) {
-    return {"--device", "driver=fake", "--frequency-hz", "10000000", "--sample-rate",
-            "2000000", "--bandwidth", "1800000", "--gain", "20", "--samples", "4",
-            "--output", output.string()};
+    return {"--device",  "driver=fake", "--frequency-hz", "10000000",     "--sample-rate",
+            "2000000",   "--bandwidth", "1800000",        "--gain",       "20",
+            "--samples", "4",           "--output",       output.string()};
 }
 
 void testInvalidRequestNeverTouchesApi() {
@@ -145,9 +203,8 @@ void testCancellationIsNotSuccess() {
     FakeApi api;
     std::ostringstream output;
     std::ostringstream error;
-    CHECK(runCaptureCommand(
-              parseCaptureArguments(arguments(base)), api, output, error, []() { return true; }) ==
-          ExitStatus::capture);
+    CHECK(runCaptureCommand(parseCaptureArguments(arguments(base)), api, output, error,
+                            []() { return true; }) == ExitStatus::capture);
     CHECK(error.str().find("cancellation") != std::string::npos);
     const auto parent = base.parent_path();
     const auto prefix = base.filename().string() + ".incomplete-";

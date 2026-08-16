@@ -78,6 +78,21 @@ is not part of this schema. Expected identity and configuration, including the
 Soapy argument and effective gain/gain-mode binding extension, must match the
 actual readback or the run fails before model fitting.
 
+For an exact `AirspyHF` driver/hardware-key combination, the current adapter
+uses the explicit `airspyhf-v1` identity-normalization policy when generic
+hardware information omits labels. The expected identity is manufacturer
+`Airspy`, model `Airspy HF+ family`, and the exact hardware serial. A driver that
+reports no selectable clock sources binds `clock_source` to
+`soapy-driver-default`; a driver that explicitly reports frequency correction
+unsupported binds effective correction to `0`. The request's
+`binding_extension` must include `identity_normalization_policy` =
+`airspyhf-v1`, `clock_source_provenance` =
+`soapy-no-selectable-source`, and `frequency_correction_provenance` =
+`soapy-unsupported-effective-zero`, in addition to the exact Soapy arguments.
+These are capability classifications, not claims about a retail submodel or a
+physical qualification result. Ambiguous clocks, correction read failures, and
+unknown sparse drivers are rejected.
+
 Reference conditions are not supplied by a live observation. When the
 authenticated registry's condition list is exactly `["none"]`, the application
 records that signed registry fact as condition evidence. Any other condition

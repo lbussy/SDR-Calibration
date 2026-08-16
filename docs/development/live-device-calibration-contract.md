@@ -142,7 +142,13 @@ Implementation is divided into separately reviewed slices:
    implemented with explicit schema review, unchanged-request gating, deliberate
    live-run confirmation, injected boundary construction, and hardware-free
    tests; physical execution remains separately gated.
-6. Only after all hardware-free gates pass, render a device-, reference-,
+6. Normalize sparse driver metadata only through explicit capability evidence.
+   The AirspyHF policy is implemented and hardware-free tested: exact
+   driver/hardware keys bind the Airspy HF+ family identity; no selectable Soapy
+   clock binds the explicit driver-default token; unsupported correction binds
+   effective zero. Each derivation is recorded in the binding extension, while
+   unknown and ambiguous cases fail closed.
+7. Only after all hardware-free gates pass, render a device-, reference-,
    setting-, duration-, abort-, cleanup-, and evidence-bound qualification plan
    for separately authorized execution.
 

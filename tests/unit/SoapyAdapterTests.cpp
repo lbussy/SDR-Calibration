@@ -56,10 +56,15 @@ class FakeDevice final : public SoapyDevice {
         return antenna_;
     }
     [[nodiscard]] std::optional<std::string> clockSource() const override {
+        if (clockSourceThrows_)
+            throw std::runtime_error("clock source read failed");
         return clockSource_;
     }
+    [[nodiscard]] std::vector<std::string> clockSources() const override {
+        return clockSources_;
+    }
     [[nodiscard]] bool hasFrequencyCorrection(std::size_t) const override {
-        return frequencyCorrection_.has_value();
+        return frequencyCorrectionSupported_.value_or(frequencyCorrection_.has_value());
     }
     [[nodiscard]] std::optional<double> frequencyCorrection(std::size_t) const override {
         return frequencyCorrection_;
@@ -175,7 +180,10 @@ class FakeDevice final : public SoapyDevice {
     std::optional<std::string> antenna_ = "Antenna A";
     std::optional<std::string> antennaAfterFrequency_;
     std::optional<std::string> clockSource_ = "internal";
+    std::vector<std::string> clockSources_{"internal"};
+    bool clockSourceThrows_ = false;
     std::optional<double> frequencyCorrection_ = 1.25;
+    std::optional<bool> frequencyCorrectionSupported_;
     std::optional<double> sampleRate_ = 2'000'000.0;
     bool bandwidthSupported_ = true;
     std::optional<double> bandwidth_ = 1'800'000.0;
@@ -718,6 +726,125 @@ void testWorkflowBoundaryComposesEvidenceAndCleanup() {
     CHECK(api.unmakeCalls_ == 1);
 }
 
+SoapyWorkflowOptions sparseAirspyOptions() {
+    auto options = workflowOptions();
+    options.capture_request.device_arguments = {{"driver", "airspyhf"},
+                                                {"serial", "airspy-serial"}};
+    options.capture_request.bandwidth_hz.reset();
+    options.capture_request.gain_db.reset();
+    options.expected_device.identity = {"AirspyHF", "Airspy", "Airspy HF+ family", "airspy-serial",
+                                        sdrcal::profile::IdentityStrength::hardware_serial};
+    auto& configuration = options.expected_device.configuration;
+    configuration.clock_source = "soapy-driver-default";
+    configuration.bandwidth_hz.reset();
+    configuration.frequency_correction_ppm = 0.0;
+    configuration.driver_version.reset();
+    configuration.firmware_version.reset();
+    configuration.antenna_port = "RX";
+    configuration.tuner_path.reset();
+    configuration.binding_extension = {
+        {"soapy_argument_driver", "airspyhf"},
+        {"soapy_argument_serial", "airspy-serial"},
+        {"identity_normalization_policy", "airspyhf-v1"},
+        {"clock_source_provenance", "soapy-no-selectable-source"},
+        {"frequency_correction_provenance", "soapy-unsupported-effective-zero"},
+    };
+    return options;
+}
+
+void configureSparseAirspy(FakeApi& api) {
+    api.matches_ = {{{"driver", "airspyhf"}, {"serial", "airspy-serial"}}};
+    api.device_.driverKey_ = "AirspyHF";
+    api.device_.hardwareKey_ = "AirspyHF";
+    api.device_.hardwareInfo_ = {{"serial", "airspy-serial"}};
+    api.device_.antenna_ = "RX";
+    api.device_.clockSource_.reset();
+    api.device_.clockSources_.clear();
+    api.device_.frequencyCorrection_.reset();
+    api.device_.frequencyCorrectionSupported_ = false;
+    api.device_.bandwidthSupported_ = false;
+    api.device_.gainSupported_ = false;
+    api.device_.gainModeSupported_ = false;
+}
+
+void testAirspyNormalizationPolicy() {
+    FakeApi api;
+    configureSparseAirspy(api);
+    api.device_.reads_.push_back(
+        {ReadStatus::samples, tone(8'192, 2'000'000.0, 100'000.0), 1'000, {}});
+    auto options = sparseAirspyOptions();
+    SoapyWorkflowBoundary boundary(api, options);
+    const auto result =
+        boundary.acquire(options.expected_device, options.expected_device.configuration,
+                         {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+    CHECK(result.status == sdrcal::application::AcquisitionStatus::success);
+    CHECK(result.identity.manufacturer == "Airspy");
+    CHECK(result.identity.model == "Airspy HF+ family");
+    CHECK(result.configuration.clock_source == "soapy-driver-default");
+    CHECK(result.configuration.frequency_correction_ppm == 0.0);
+    CHECK(std::get<std::string>(
+              result.configuration.binding_extension.at("identity_normalization_policy").value) ==
+          "airspyhf-v1");
+    CHECK(result.final_device_state_safe);
+}
+
+void testSparseNormalizationFailsClosed() {
+    {
+        FakeApi api;
+        configureSparseAirspy(api);
+        api.device_.driverKey_ = "unknown";
+        api.device_.hardwareKey_ = "unknown";
+        auto options = sparseAirspyOptions();
+        options.expected_device.identity.driver = "unknown";
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.failure_stage ==
+              sdrcal::application::AcquisitionFailureStage::identity_configuration);
+        CHECK(result.final_device_state_safe);
+    }
+    {
+        FakeApi api;
+        configureSparseAirspy(api);
+        api.device_.clockSources_ = {"internal", "external"};
+        auto options = sparseAirspyOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.failure_stage ==
+              sdrcal::application::AcquisitionFailureStage::identity_configuration);
+        CHECK(result.final_device_state_safe);
+    }
+    {
+        FakeApi api;
+        configureSparseAirspy(api);
+        api.device_.frequencyCorrectionSupported_ = true;
+        auto options = sparseAirspyOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.failure_stage ==
+              sdrcal::application::AcquisitionFailureStage::identity_configuration);
+        CHECK(result.final_device_state_safe);
+    }
+    {
+        FakeApi api;
+        configureSparseAirspy(api);
+        api.device_.clockSourceThrows_ = true;
+        auto options = sparseAirspyOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.failure_stage ==
+              sdrcal::application::AcquisitionFailureStage::identity_configuration);
+        CHECK(result.final_device_state_safe);
+    }
+}
+
 void testWorkflowBoundaryFailsBeforeConstructionAndRejectsIndexIdentity() {
     {
         FakeApi api;
@@ -853,6 +980,8 @@ int main() {
         {"read guard and exception translation", testReadGuardAndExceptionTranslation},
         {"native read translation", testNativeReadTranslation},
         {"workflow evidence and cleanup", testWorkflowBoundaryComposesEvidenceAndCleanup},
+        {"Airspy normalization policy", testAirspyNormalizationPolicy},
+        {"sparse normalization failures", testSparseNormalizationFailsClosed},
         {"workflow preflight and index identity",
          testWorkflowBoundaryFailsBeforeConstructionAndRejectsIndexIdentity},
         {"workflow identity and cleanup failures",

@@ -127,6 +127,10 @@
   end-to-end candidate. It stopped before enumeration because retained driver
   evidence cannot establish all identity/configuration fields required by the
   fail-closed live boundary; physical execution remains not started.
+- Provenance-bearing AirspyHF normalization for sparse Soapy metadata, including
+  exact family policy, explicit driver-default clock classification, unsupported
+  correction as effective zero, capture-manifest capability fields, and
+  negative fake-API cases. Physical behavior remains unverified.
 
 ## Planned, not implemented
 

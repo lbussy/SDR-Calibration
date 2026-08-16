@@ -15,9 +15,8 @@ std::optional<std::string> mapValue(const KeywordMap& values, const std::string&
     return iterator->second;
 }
 
-std::optional<std::string> firstMapValue(
-    const KeywordMap& values,
-    std::initializer_list<const char*> keys) {
+std::optional<std::string> firstMapValue(const KeywordMap& values,
+                                         std::initializer_list<const char*> keys) {
     for (const char* key : keys) {
         if (auto value = mapValue(values, key); value.has_value()) {
             return value;
@@ -26,8 +25,7 @@ std::optional<std::string> firstMapValue(
     return std::nullopt;
 }
 
-template <typename Callable>
-std::optional<std::string> optionalText(Callable&& callable) {
+template <typename Callable> std::optional<std::string> optionalText(Callable&& callable) {
     try {
         std::string value = callable();
         return value.empty() ? std::nullopt : std::optional<std::string>(std::move(value));
@@ -36,8 +34,7 @@ std::optional<std::string> optionalText(Callable&& callable) {
     }
 }
 
-template <typename Callable>
-auto optionalValue(Callable&& callable) -> decltype(callable()) {
+template <typename Callable> auto optionalValue(Callable&& callable) -> decltype(callable()) {
     try {
         return callable();
     } catch (...) {
@@ -55,14 +52,14 @@ capture::SettingState failedState(const std::exception& error) {
 
 } // namespace
 
-SoapyCaptureSession::~SoapyCaptureSession() { cleanupAll(); }
+SoapyCaptureSession::~SoapyCaptureSession() {
+    cleanupAll();
+}
 
-std::optional<double> SoapyCaptureSession::applyAndRead(
-    const std::function<void()>& apply,
-    const std::function<std::optional<double>()>& readback,
-    bool& applicationSucceeded,
-    bool& supported,
-    std::string& error) {
+std::optional<double>
+SoapyCaptureSession::applyAndRead(const std::function<void()>& apply,
+                                  const std::function<std::optional<double>()>& readback,
+                                  bool& applicationSucceeded, bool& supported, std::string& error) {
     try {
         apply();
         applicationSucceeded = true;
@@ -89,10 +86,9 @@ std::optional<double> SoapyCaptureSession::applyAndRead(
     }
 }
 
-PreparationResult SoapyCaptureSession::prepare(
-    const capture::CaptureRequest& request,
-    const capture::SettingTolerances& tolerances,
-    const capture::ResourceLimits& limits) {
+PreparationResult SoapyCaptureSession::prepare(const capture::CaptureRequest& request,
+                                               const capture::SettingTolerances& tolerances,
+                                               const capture::ResourceLimits& limits) {
     PreparationResult result;
     result.requested_arguments = request.device_arguments;
     if (device_ != nullptr || streamCreated_ || active_ || cleaned_) {
@@ -123,8 +119,8 @@ PreparationResult SoapyCaptureSession::prepare(
     std::size_t selectedIndex = 0;
     if (request.enumeration_index.has_value()) {
         if (*request.enumeration_index >= matches.size()) {
-            result.error = {
-                PreparationStage::selection, "device enumeration index is out of range"};
+            result.error = {PreparationStage::selection,
+                            "device enumeration index is out of range"};
             return result;
         }
         selectedIndex = *request.enumeration_index;
@@ -167,9 +163,7 @@ PreparationResult SoapyCaptureSession::prepare(
         firstMapValue(result.device.hardware_info, {"firmware_version", "firmwareVersion"});
     result.device.tuner_path =
         firstMapValue(result.device.hardware_info, {"tuner_path", "tunerPath"});
-    auto configure = [&](const std::string& name,
-                         std::optional<double> requested,
-                         bool supported,
+    auto configure = [&](const std::string& name, std::optional<double> requested, bool supported,
                          const std::function<void()>& apply,
                          const std::function<std::optional<double>()>& readback,
                          const capture::NumericTolerance& tolerance,
@@ -182,8 +176,8 @@ PreparationResult SoapyCaptureSession::prepare(
                 } catch (...) {
                 }
             }
-            destination = capture::classifyEffectiveSetting(
-                requested, effective, supported, true, tolerance);
+            destination =
+                capture::classifyEffectiveSetting(requested, effective, supported, true, tolerance);
             return true;
         }
         if (!supported) {
@@ -195,8 +189,8 @@ PreparationResult SoapyCaptureSession::prepare(
         std::string error;
         const auto effective =
             applyAndRead(apply, readback, applicationSucceeded, remainedSupported, error);
-        destination = capture::classifyEffectiveSetting(
-            requested, effective, remainedSupported, applicationSucceeded, tolerance);
+        destination = capture::classifyEffectiveSetting(requested, effective, remainedSupported,
+                                                        applicationSucceeded, tolerance);
         if (destination.state == capture::SettingState::failed) {
             result.error = {PreparationStage::configuration, name + ": " + error};
             return false;
@@ -205,12 +199,9 @@ PreparationResult SoapyCaptureSession::prepare(
     };
 
     if (!configure(
-            "sample_rate_sps",
-            request.sample_rate_sps,
-            true,
+            "sample_rate_sps", request.sample_rate_sps, true,
             [&]() { device_->setSampleRate(request.rx_channel, request.sample_rate_sps); },
-            [&]() { return device_->sampleRate(request.rx_channel); },
-            tolerances.sample_rate_sps,
+            [&]() { return device_->sampleRate(request.rx_channel); }, tolerances.sample_rate_sps,
             result.effective.sample_rate_sps)) {
         cleanupAll();
         return result;
@@ -228,25 +219,19 @@ PreparationResult SoapyCaptureSession::prepare(
         }
     }
     if (!configure(
-            "bandwidth_hz",
-            request.bandwidth_hz,
-            bandwidthSupported,
+            "bandwidth_hz", request.bandwidth_hz, bandwidthSupported,
             [&]() { device_->setBandwidth(request.rx_channel, *request.bandwidth_hz); },
-            [&]() { return device_->bandwidth(request.rx_channel); },
-            tolerances.bandwidth_hz,
+            [&]() { return device_->bandwidth(request.rx_channel); }, tolerances.bandwidth_hz,
             result.effective.bandwidth_hz)) {
         cleanupAll();
         return result;
     }
 
     if (!configure(
-            "center_frequency_hz",
-            request.center_frequency_hz,
-            true,
+            "center_frequency_hz", request.center_frequency_hz, true,
             [&]() { device_->setFrequency(request.rx_channel, request.center_frequency_hz); },
             [&]() { return device_->frequency(request.rx_channel); },
-            tolerances.center_frequency_hz,
-            result.effective.center_frequency_hz)) {
+            tolerances.center_frequency_hz, result.effective.center_frequency_hz)) {
         cleanupAll();
         return result;
     }
@@ -266,19 +251,15 @@ PreparationResult SoapyCaptureSession::prepare(
         if (request.gain_db.has_value()) {
             result.error = {PreparationStage::configuration,
                             "gain mode: " + std::string(exception.what())};
-            result.effective.gain_db = {
-                request.gain_db, std::nullopt, failedState(exception)};
+            result.effective.gain_db = {request.gain_db, std::nullopt, failedState(exception)};
             cleanupAll();
             return result;
         }
     }
     if (!configure(
-            "gain_db",
-            request.gain_db,
-            gainSupported,
+            "gain_db", request.gain_db, gainSupported,
             [&]() { device_->setGain(request.rx_channel, *request.gain_db); },
-            [&]() { return device_->gain(request.rx_channel); },
-            tolerances.gain_db,
+            [&]() { return device_->gain(request.rx_channel); }, tolerances.gain_db,
             result.effective.gain_db)) {
         cleanupAll();
         return result;
@@ -292,13 +273,32 @@ PreparationResult SoapyCaptureSession::prepare(
     }
 
     result.device.antenna = optionalValue([&]() { return device_->antenna(request.rx_channel); });
-    result.device.clock_source = optionalValue([&]() { return device_->clockSource(); });
     try {
-        if (device_->hasFrequencyCorrection(request.rx_channel)) {
-            result.effective.frequency_correction_ppm =
-                device_->frequencyCorrection(request.rx_channel);
+        result.device.clock_source = device_->clockSource();
+        if (result.device.clock_source && !result.device.clock_source->empty()) {
+            result.device.clock_source_reported = true;
+        } else {
+            result.device.clock_source.reset();
+            if (device_->clockSources().empty()) {
+                result.device.clock_source = "soapy-driver-default";
+                result.device.clock_source_reported = false;
+            }
         }
     } catch (...) {
+        result.device.clock_source.reset();
+        result.device.clock_source_reported.reset();
+    }
+    try {
+        result.device.frequency_correction_supported =
+            device_->hasFrequencyCorrection(request.rx_channel);
+        if (*result.device.frequency_correction_supported) {
+            result.effective.frequency_correction_ppm =
+                device_->frequencyCorrection(request.rx_channel);
+        } else {
+            result.effective.frequency_correction_ppm = 0.0;
+        }
+    } catch (...) {
+        result.device.frequency_correction_supported.reset();
     }
 
     if (request.setting_policy == capture::SettingPolicy::strict) {
@@ -334,9 +334,9 @@ PreparationResult SoapyCaptureSession::prepare(
 
     auto planned = capture::makeCapturePlan(request, result.effective, limits);
     if (!planned.ok()) {
-        result.error = {PreparationStage::planning,
-                        planned.errors.empty() ? "capture planning failed"
-                                               : planned.errors.front().message};
+        result.error = {PreparationStage::planning, planned.errors.empty()
+                                                        ? "capture planning failed"
+                                                        : planned.errors.front().message};
         cleanupAll();
         return result;
     }
@@ -365,9 +365,8 @@ PreparationResult SoapyCaptureSession::prepare(
     return result;
 }
 
-capture::ReadResult SoapyCaptureSession::read(
-    std::size_t maximumSamples,
-    std::chrono::milliseconds timeout) {
+capture::ReadResult SoapyCaptureSession::read(std::size_t maximumSamples,
+                                              std::chrono::milliseconds timeout) {
     if (!active_ || device_ == nullptr) {
         return {capture::ReadStatus::error, {}, std::nullopt, "Soapy RX session is not active"};
     }
@@ -473,17 +472,28 @@ capture::CleanupResult SoapyCaptureSession::cleanup() noexcept {
 
 std::string toString(PreparationStage stage) {
     switch (stage) {
-    case PreparationStage::none: return "none";
-    case PreparationStage::validation: return "validation";
-    case PreparationStage::enumeration: return "enumeration";
-    case PreparationStage::selection: return "selection";
-    case PreparationStage::construction: return "construction";
-    case PreparationStage::configuration: return "configuration";
-    case PreparationStage::readback: return "readback";
-    case PreparationStage::effective_policy: return "effective_policy";
-    case PreparationStage::planning: return "planning";
-    case PreparationStage::stream_setup: return "stream_setup";
-    case PreparationStage::activation: return "activation";
+    case PreparationStage::none:
+        return "none";
+    case PreparationStage::validation:
+        return "validation";
+    case PreparationStage::enumeration:
+        return "enumeration";
+    case PreparationStage::selection:
+        return "selection";
+    case PreparationStage::construction:
+        return "construction";
+    case PreparationStage::configuration:
+        return "configuration";
+    case PreparationStage::readback:
+        return "readback";
+    case PreparationStage::effective_policy:
+        return "effective_policy";
+    case PreparationStage::planning:
+        return "planning";
+    case PreparationStage::stream_setup:
+        return "stream_setup";
+    case PreparationStage::activation:
+        return "activation";
     }
     return "unknown";
 }

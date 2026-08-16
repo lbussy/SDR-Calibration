@@ -75,7 +75,8 @@ The capture manifest records, when exposed by SoapySDR:
 - driver key and hardware key;
 - serial and relevant hardware information;
 - driver, library, firmware, and API versions;
-- RX channel, antenna, clock source, tuner path, and frequency-correction state.
+- RX channel, antenna, clock source, clock-source reporting provenance, tuner
+  path, frequency-correction capability, and effective correction.
 
 Unavailable information is represented explicitly as `null` or an availability
 state, not invented or inferred from a display label. The generic contract does
@@ -158,7 +159,7 @@ contains these top-level sections:
 | `format` | Contract name and version. |
 | `artifact` | Raw filename, `cf32_le`, I/Q layout, channel count, bytes per sample, byte count, and atomic-write state. |
 | `request` | Original device, tuning, gain, bound, timeout, policy, output, and optional purpose fields. |
-| `device` | Resolved arguments, identity evidence, driver, hardware, version, antenna, clock, tuner, and availability states. |
+| `device` | Resolved arguments, identity evidence, driver, hardware, version, antenna, clock, clock/correction capability provenance, tuner, and availability states. |
 | `effective` | Effective center, rate, bandwidth, gain mode/gain, frequency correction, and per-setting application states. |
 | `stream` | Soapy format, MTU, target/written samples, read calls, short reads, timeouts, overflows, discontinuities, and timestamp availability. |
 | `timing` | UTC start/end when available and monotonic elapsed duration. |

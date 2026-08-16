@@ -2,7 +2,8 @@
 
 ## Result
 
-**Status: Not ready; physical execution was not started.**
+**Status: Source blocker resolved with hardware-free tests; current physical
+readiness remains unverified and execution was not started.**
 
 The hardware-free Stage A review of the
 [execution prompt](airspyhf-end-to-end-qualification-prompt.md) found that the
@@ -40,16 +41,21 @@ derive from a common station clock. Station attribution, propagation effects,
 and scientifically honest independence/correlation evidence therefore remain
 unresolved later gates even after device readback is addressed.
 
+## Source resolution
+
+The subsequent hardware-free normalization slice added explicit provenance-
+bearing rules rather than assumed readbacks. Exact `AirspyHF` driver/hardware
+keys may supply the Airspy HF+ family identity policy; an empty current clock is
+normalized only when Soapy reports no selectable sources; and effective
+correction becomes zero only when Soapy explicitly reports correction as
+unsupported. Unknown identities, selectable-but-unreported clocks, and
+supported-but-unreadable correction still fail closed. Fake-API tests cover the
+positive and negative boundaries.
+
 ## Required next decision
 
-Before physical execution, separately review how the SoapyAirspyHF combination
-can truthfully establish the missing identity/configuration fields. Any adapter
-normalization must distinguish driver-reported values, stable capability
-identifiers, explicit unavailable values, and assumptions; it must not silently
-claim effective correction, clock, gain, or device identity.
-
-After that blocker is resolved and hardware-free tests pass, the operator must
-explicitly authorize the exact serial-bound enumeration and bounded receive
-operations listed in the execution prompt. Until both gates pass, the device
-matrix remains capture-qualified only and end-to-end calibration remains not
-qualified.
+The operator must explicitly authorize the exact serial-bound enumeration and
+bounded receive operations listed in the execution prompt. Current physical
+metadata must match the normalized request before streaming proceeds. Until the
+physical gates pass, the device matrix remains capture-qualified only and end-
+to-end calibration remains not qualified.
