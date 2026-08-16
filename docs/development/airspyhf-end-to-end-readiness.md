@@ -2,9 +2,9 @@
 
 ## Result
 
-**Status: Source blocker resolved with hardware-free tests; exact receive-only
-enumeration passed; construction/configuration and streaming remain unverified
-and were not started.**
+**Status: Exact enumeration and bounded 10 MHz transport passed with known-safe
+cleanup; WWV reference suitability was not established, so the end-to-end gate
+stopped before 15 MHz or production calibration.**
 
 The hardware-free Stage A review of the
 [execution prompt](airspyhf-end-to-end-qualification-prompt.md) found that the
@@ -54,13 +54,13 @@ unsupported. Unknown identities, selectable-but-unreported clocks, and
 supported-but-unreadable correction still fail closed. Fake-API tests cover the
 positive and negative boundaries.
 
-## Required next decision
+## Diagnostic authorization gate
 
-The operator must explicitly authorize the bounded receive operations listed in
-the execution prompt. Current post-construction metadata must match the
-normalized request before streaming proceeds. Until the physical gates pass,
-the device matrix remains capture-qualified only and end-to-end calibration
-remains not qualified.
+The operator separately authorized one bounded 10 MHz receive operation from
+the execution prompt. Current post-construction metadata was required to match
+the normalized request before streaming. That authorization did not include a
+15 MHz capture or production calibration. The device matrix remains capture-
+qualified only and end-to-end calibration remains not qualified.
 
 ## Receive-only enumeration record
 
@@ -86,3 +86,48 @@ signal quality, cleanup, or calibration behavior. No device was constructed or
 configured, no stream was created, and no samples or RF were transmitted. The
 next physical step requires separate authorization for an exact bounded
 diagnostic receive capture.
+
+## Bounded 10 MHz diagnostic record
+
+At `2026-08-16T20:38:06Z`, source revision
+`fd1b183838e3aa2414aa6686d1c73bfaa158080b` performed the separately authorized
+single receive-only diagnostic capture. The exact request used Airspy serial
+`2f52ff5de72635ba`, RX channel 0, 10,000,000 Hz center, 192,000 complex
+samples/s, no requested bandwidth or gain, a five-second bound, 100 ms timeout,
+and strict setting policy. Output remained private under
+`/private/tmp/sdrcal-airspy-10mhz.OLD12o`.
+
+The capture transport and normalization checks passed:
+
+- driver and hardware keys were both `AirspyHF`;
+- the exact hardware serial and RX antenna matched;
+- clock normalized to `soapy-driver-default` only after no selectable source
+  was reported;
+- frequency correction was explicitly unsupported and recorded as effective
+  zero;
+- center frequency and sample rate readbacks exactly matched their requests;
+- 960,000 samples and 7,680,000 bytes were atomically published;
+- zero timeouts, overflows, discontinuities, missing samples, and non-finite
+  samples were observed; and
+- deactivation, stream close, and device release succeeded, final state was
+  `known_safe`, and no capture or Soapy utility process remained.
+
+Artifact integrity at review time:
+
+| Private artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `capture.cf32` | 7,680,000 | `c98a446ed4f6e45456a231ede56ed55daf6fdababdf1308f30f1b03f0617bac0` |
+| `capture.capture.json` | 2,975 | `ef582247c4778122dbacfbc2e14a8db5652ef207bc0231e6bcc171cc1a293e3e` |
+
+The signal-suitability preflight did not establish the intended WWV carrier.
+An offline 65,536-point Hann-windowed, block-averaged spectrum found its
+strongest component near -70,013.672 Hz at 22.13 dB above the spectral median.
+The bins at 0 and +2.930 Hz were only 9.49 dB and 10.31 dB above the median,
+respectively. This is not a production analyzer acceptance result, but it shows
+that the intended near-zero-offset carrier was not dominant and does not supply
+positive WWV suitability evidence under the unchanged policy.
+
+**Diagnostic outcome: transport passed; 10 MHz reference suitability not
+established.** In accordance with the no-retry plan, no 15 MHz capture or
+production calibration was attempted. End-to-end calibration remains not
+qualified.
