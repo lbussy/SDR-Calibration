@@ -62,7 +62,7 @@ if ($Action -eq 'Status') {
         has_private_key = $null -ne $personal -and $personal.HasPrivateKey
         trusted_people_store = $null -ne $trusted
         code_signing = ($null -ne $personal) -and
-            ($personal.EnhancedKeyUsageList.ObjectId.Value -contains $codeSigningOid)
+            ($personal.EnhancedKeyUsageList.ObjectId -contains $codeSigningOid)
         subject = if ($null -eq $personal) { $null } else { $personal.Subject }
         expires_utc = if ($null -eq $personal) { $null } else { $personal.NotAfter.ToUniversalTime() }
     } | ConvertTo-Json

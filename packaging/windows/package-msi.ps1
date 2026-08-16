@@ -57,7 +57,7 @@ if (-not $certificate.HasPrivateKey) { throw 'signing certificate has no private
 if ($certificate.NotBefore -gt [DateTime]::Now) { throw 'signing certificate is not valid yet' }
 if ($certificate.NotAfter -le [DateTime]::Now) { throw 'signing certificate is expired' }
 $codeSigningOid = '1.3.6.1.5.5.7.3.3'
-if ($certificate.EnhancedKeyUsageList.ObjectId.Value -notcontains $codeSigningOid) {
+if ($certificate.EnhancedKeyUsageList.ObjectId -notcontains $codeSigningOid) {
     throw 'signing certificate does not permit code signing'
 }
 if ($SigningMode -eq 'SELF_SIGNED' -and
