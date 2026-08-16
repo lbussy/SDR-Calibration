@@ -120,7 +120,7 @@ if (-not (Test-Path -LiteralPath $stagedIconManifest -PathType Leaf) -or
 $gui = Join-Path $stage 'bin\sdrcal-gui.exe'
 if (-not (Test-Path -LiteralPath $gui -PathType Leaf)) { throw 'installed GUI is missing' }
 & $windeployqt --release --no-translations --no-system-d3d-compiler `
-    --no-compiler-runtime --no-opengl-sw $gui
+    --no-system-dxc-compiler --no-compiler-runtime --no-opengl-sw $gui
 if ($LASTEXITCODE -ne 0) { throw 'windeployqt failed' }
 
 $binaries = @(Get-ChildItem -LiteralPath $stage -Recurse -File |
