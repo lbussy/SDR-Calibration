@@ -83,7 +83,13 @@ function Verify-File([string]$Path, [switch]$Verbose) {
     $arguments = @('verify', '/pa', '/all')
     if ($SigningMode -eq 'PUBLIC_TRUST') { $arguments += '/tw' }
     if ($Verbose) { $arguments += '/v' }
-    & $signtool @arguments $Path
+    $previousErrorActionPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        & $signtool @arguments $Path
+    } finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+    }
 }
 
 $sourceRevision = (& $git -C $SourceDir rev-parse HEAD).Trim()
