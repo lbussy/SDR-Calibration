@@ -211,6 +211,7 @@ def verify_windows(root: Path) -> None:
         'KeyPath="yes"',
         '<Icon Id="SDRCalibration.ico" SourceFile="$wixIcon" />',
         '<Property Id="ARPPRODUCTICON" Value="SDRCalibration.ico" />',
+        '<ComponentGroupRef Id="PayloadComponents" />',
         '<ComponentRef Id="SDRCalibrationStartMenuShortcut" />',
     )
     for marker in required:
@@ -222,8 +223,13 @@ def verify_windows(root: Path) -> None:
     wix_xml = script[heredoc_start + 3 : heredoc_end]
     wix_xml = (
         wix_xml.replace("$Version", "0.1.0")
-        .replace("$wixStage", r"C:\\stage")
         .replace("$wixIcon", r"C:\\SDRCalibration.ico")
+        .replace(
+            "$wixPayloadComponents",
+            '      <Component Id="PayloadComponent_test" Guid="*">'
+            '<File Id="PayloadFile_test" Source="C:\\stage\\LICENSE" />'
+            '</Component>',
+        )
     )
     try:
         wix_root = ET.fromstring(wix_xml)

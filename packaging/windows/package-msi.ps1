@@ -167,9 +167,25 @@ $qtVersion = (& (Join-Path $qtDir 'bin\qmake.exe') -query QT_VERSION).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Qt license disposition failed' }
 
 $wxs = Join-Path $OutputDir 'product.wxs'
-$wixStage = [Security.SecurityElement]::Escape($stage)
 $wixIcon = [Security.SecurityElement]::Escape(
     (Join-Path $SourceDir 'assets\icons\windows\SDRCalibration.ico'))
+$payloadFiles = @(Get-ChildItem -LiteralPath $stage -Recurse -File)
+$sha256 = [Security.Cryptography.SHA256]::Create()
+$wixPayloadComponents = ($payloadFiles | ForEach-Object {
+    $relativePath = $_.FullName.Substring($stage.Length + 1)
+    $relativeDirectory = Split-Path -Parent $relativePath
+    $idBytes = [Text.Encoding]::UTF8.GetBytes($relativePath.ToLowerInvariant())
+    $idHash = ([BitConverter]::ToString($sha256.ComputeHash($idBytes)) -replace '-', '').Substring(0, 24)
+    $source = [Security.SecurityElement]::Escape($_.FullName)
+    $subdirectory = if ([string]::IsNullOrWhiteSpace($relativeDirectory)) {
+        ''
+    } else {
+        ' Subdirectory="' + [Security.SecurityElement]::Escape($relativeDirectory) + '"'
+    }
+    "      <Component Id=`"PayloadComponent_$idHash`" Guid=`"*`"$subdirectory>" +
+        "<File Id=`"PayloadFile_$idHash`" Source=`"$source`" /></Component>"
+}) -join "`r`n"
+$sha256.Dispose()
 $upgradeCode = '9B68E922-9277-4C40-BB3C-527C2AE236AC'
 @"
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
@@ -200,10 +216,15 @@ $upgradeCode = '9B68E922-9277-4C40-BB3C-527C2AE236AC'
     <Icon Id="SDRCalibration.ico" SourceFile="$wixIcon" />
     <Property Id="ARPPRODUCTICON" Value="SDRCalibration.ico" />
     <Feature Id="Main" Title="SDR Calibration" Level="1">
-      <Files Directory="INSTALLFOLDER" Include="$wixStage\**" />
+      <ComponentGroupRef Id="PayloadComponents" />
       <ComponentRef Id="SDRCalibrationStartMenuShortcut" />
     </Feature>
   </Package>
+  <Fragment>
+    <ComponentGroup Id="PayloadComponents" Directory="INSTALLFOLDER">
+$wixPayloadComponents
+    </ComponentGroup>
+  </Fragment>
 </Wix>
 "@ | Set-Content -LiteralPath $wxs -Encoding utf8
 
