@@ -138,7 +138,10 @@ Implementation is divided into separately reviewed slices:
 4. Add an explicit live mode to the production CLI through the shared service.
    This slice is implemented with schema discrimination and no fallback;
    physical execution remains a separate authorization and qualification gate.
-5. Add GUI controls over the same service in a separate slice.
+5. Add GUI controls over the same service in a separate slice. This slice is
+   implemented with explicit schema review, unchanged-request gating, deliberate
+   live-run confirmation, injected boundary construction, and hardware-free
+   tests; physical execution remains separately gated.
 6. Only after all hardware-free gates pass, render a device-, reference-,
    setting-, duration-, abort-, cleanup-, and evidence-bound qualification plan
    for separately authorized execution.

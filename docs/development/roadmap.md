@@ -230,9 +230,9 @@ separately authorized and qualified operation.
 
 ## Phase 13: Qt desktop application
 
-**Status: Implemented and hardware-free validated for the recorded-input
-workflow; live-device integration, production trust/profile management, and
-calibration qualification remain separate gates.**
+**Status: Implemented and hardware-free validated for recorded- and live-input
+workflows; production trust/profile management and physical calibration
+qualification remain separate gates.**
 
 Deliver the Qt 6 Widgets workflow for device selection, measurement review,
 calibration, profile management, evidence review, and interoperability.
@@ -242,10 +242,11 @@ request, its independent trust-pin file, and a new output directory. It uses
 the same production service as the CLI, runs asynchronously with cooperative
 cancellation and live progress, and reviews the published native profile,
 evidence, summary, and optional lossy WSJT-X projection. Device selection and
-measurements are the recorded identities and observations in the request;
-profile management is read-only inspection. It does not discover or access
-live SDRs, mutate profiles or installed applications, or provide production
-trust and signing.
+measurements are explicit in the selected request; profile management is
+read-only inspection. Live requests require schema-aware review and deliberate
+confirmation before the shared production service can access an SDR. The
+application does not provide discovery-driven controls, mutate profiles or
+installed applications, or provide production trust and signing.
 
 Exit requires accessibility, cancellation, failure recovery, long-operation
 behavior, and CLI/GUI alignment to be reviewed and tested. UI completion alone
@@ -332,8 +333,8 @@ capture and end-to-end calibration remain separate later gates.
 ## Live-device production integration
 
 **Status: Contract, bounded in-memory acquisition, signal-quality analyzer,
-injected hardware-free Soapy workflow boundary, and production CLI integration
-implemented; GUI integration and physical qualification not started.**
+injected hardware-free Soapy workflow boundary, production CLI integration,
+and Qt GUI integration implemented; physical qualification not started.**
 
 The [live-device calibration contract](live-device-calibration-contract.md)
 defines the boundary among SoapySDR, bounded in-memory acquisition, versioned
@@ -355,8 +356,10 @@ cleanup. The production CLI now selects this boundary only for the explicit
 `sdrcal-live-calibration-request` schema, rejects live mode when Soapy support is
 absent, derives diagnostics rather than accepting them from the request, and
 uses the existing coordinated publication transaction. All validation remains
-fake-API and hardware-free. GUI controls and separately authorized physical-
-device qualification follow as distinct reviewed slices.
+fake-API and hardware-free. The Qt application forwards the same injected
+production boundary after schema-aware request review and explicit live-run
+confirmation. Separately authorized physical-device qualification follows as a
+distinct reviewed slice.
 
 ## Release candidate
 

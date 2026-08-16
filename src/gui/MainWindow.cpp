@@ -18,6 +18,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QtConcurrentRun>
+#include <utility>
 
 namespace sdrcal::gui {
 namespace {
@@ -33,14 +34,17 @@ QPlainTextEdit* readOnlyText(const QString& name, const QString& description) {
 
 } // namespace
 
-MainWindow::MainWindow() {
-    setWindowTitle(tr("SDR Calibration — Recorded Input"));
+MainWindow::MainWindow(cli::LiveBoundaryFactory liveBoundaryFactory)
+    : live_boundary_factory_(std::move(liveBoundaryFactory)) {
+    setWindowTitle(tr("SDR Calibration"));
     resize(980, 720);
     auto* central = new QWidget;
     auto* layout = new QVBoxLayout(central);
 
-    auto* notice = new QLabel(tr("Recorded CF32LE input only. This application does not access an "
-                                 "SDR or establish calibration accuracy."));
+    auto* notice = new QLabel(tr("Explicit recorded or live request input. Live execution can "
+                                 "access the selected SDR; no device or calibration accuracy is "
+                                 "qualified by this application."));
+    notice->setObjectName("scopeNotice");
     notice->setWordWrap(true);
     notice->setAccessibleName(tr("Scope notice"));
     layout->addWidget(notice);
@@ -53,7 +57,8 @@ MainWindow::MainWindow() {
     request_->setObjectName("requestPath");
     trust_->setObjectName("trustPath");
     output_->setObjectName("outputPath");
-    request_->setAccessibleDescription(tr("Versioned recorded-calibration request JSON file"));
+    request_->setAccessibleDescription(
+        tr("Versioned recorded or live calibration request JSON file"));
     trust_->setAccessibleDescription(tr("Independent local registry signature pin file"));
     output_->setAccessibleDescription(tr("New output directory; existing directories are refused"));
     auto addSelector = [&](const QString& labelText, QLineEdit* edit, const QString& buttonText,
@@ -145,6 +150,7 @@ RunSelection MainWindow::selection() const {
 }
 
 void MainWindow::reviewRequest() {
+    reviewed_schema_ = false;
     const auto reviewed = reviewFile(selection().request_path);
     if (!reviewed.ok()) {
         request_review_->setPlainText(
@@ -162,6 +168,17 @@ void MainWindow::reviewRequest() {
         return;
     }
     const auto root = document.object();
+    const auto schema = root.value("schema_name").toString();
+    if (schema == "sdrcal-recorded-calibration-request")
+        reviewed_mode_ = cli::ProductInputMode::recorded;
+    else if (schema == "sdrcal-live-calibration-request")
+        reviewed_mode_ = cli::ProductInputMode::live;
+    else {
+        request_review_->setPlainText(tr("Review failed: unrecognized request schema.\n\n") +
+                                      QString::fromUtf8(document.toJson(QJsonDocument::Indented)));
+        status_->setText(tr("Request review failed."));
+        return;
+    }
     const auto device = root.value("device").toObject();
     const auto summary =
         tr("Schema: %1 %2\nDevice: %3 %4 — %5\nObservations: %6\n"
@@ -174,7 +191,13 @@ void MainWindow::reviewRequest() {
                                                    : tr("no"));
     request_review_->setPlainText(summary +
                                   QString::fromUtf8(document.toJson(QJsonDocument::Indented)));
-    status_->setText(tr("Request reviewed. Execution validation remains authoritative."));
+    reviewed_request_path_ = selection().request_path;
+    reviewed_request_contents_ = reviewed.contents;
+    reviewed_schema_ = true;
+    status_->setText(
+        reviewed_mode_ == cli::ProductInputMode::live
+            ? tr("Live request reviewed. Execution validation remains authoritative.")
+            : tr("Recorded request reviewed. Execution validation remains authoritative."));
 }
 
 void MainWindow::startRun() {
@@ -182,23 +205,53 @@ void MainWindow::startRun() {
         status_->setText(tr("Request, trust pins, and new output directory are required."));
         return;
     }
+    const auto selected = selection();
+    const auto currentRequest = reviewFile(selected.request_path);
+    if (!reviewed_schema_ || reviewed_request_path_ != selected.request_path ||
+        !currentRequest.ok() || currentRequest.contents != reviewed_request_contents_) {
+        reviewRequest();
+        if (!reviewed_schema_)
+            return;
+    }
+    cli::LiveBoundaryFactory executionFactory;
+    if (reviewed_mode_ == cli::ProductInputMode::live) {
+        const auto answer = QMessageBox::warning(
+            this, tr("Start live SDR calibration?"),
+            tr("This reviewed live request can enumerate, configure, and receive from its "
+               "explicitly selected SDR. Continue only under an authorized bounded test plan."),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if (answer != QMessageBox::Yes) {
+            status_->setText(tr("Live calibration not started."));
+            return;
+        }
+        const auto confirmedRequest = reviewFile(selected.request_path);
+        if (!confirmedRequest.ok() || confirmedRequest.contents != reviewed_request_contents_) {
+            reviewed_schema_ = false;
+            status_->setText(tr("Request changed after confirmation; calibration not started."));
+            return;
+        }
+        executionFactory = live_boundary_factory_;
+    }
     cancellation_ = std::make_shared<CancellationToken>();
     diagnostics_->clear();
     terminal_->clear();
     artifacts_->clear();
     setRunning(true);
     status_->setText(tr("Calibration running — cancellation is cooperative."));
-    const auto selected = selection();
-    watcher_.setFuture(QtConcurrent::run([this, selected, token = cancellation_] {
-        return runRecordedCalibration(selected, token, [this](std::string text) {
-            QMetaObject::invokeMethod(
-                this,
-                [this, text = std::move(text)] {
-                    diagnostics_->appendPlainText(QString::fromStdString(text).trimmed());
+    watcher_.setFuture(QtConcurrent::run(
+        [this, selected, token = cancellation_, factory = std::move(executionFactory)] {
+            return runCalibration(
+                selected, token,
+                [this](std::string text) {
+                    QMetaObject::invokeMethod(
+                        this,
+                        [this, text = std::move(text)] {
+                            diagnostics_->appendPlainText(QString::fromStdString(text).trimmed());
+                        },
+                        Qt::QueuedConnection);
                 },
-                Qt::QueuedConnection);
-        });
-    }));
+                std::move(factory));
+        }));
 }
 
 void MainWindow::cancelRun() {

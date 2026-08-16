@@ -60,10 +60,11 @@
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,
   cancellation, and coordinated new-directory artifact publication
-- Qt 6 Widgets `sdrcal-gui` application over the same recorded-input production
-  service, with explicit path selection, bounded request/device/measurement
-  review, responsive execution, cooperative cancellation, live progress,
-  accessible controls, and read-only published-artifact review
+- Qt 6 Widgets `sdrcal-gui` application over the same recorded/live production
+  service, with explicit path selection, schema-aware bounded review,
+  unchanged-request gating, deliberate live-run confirmation, responsive
+  execution, cooperative cancellation, live progress, accessible controls, and
+  read-only published-artifact review
 - Phase 14 packaging foundation with explicit CMake 3.20, Qt 6.2, and SoapySDR
   0.8 baselines; strict full-release dependency checks; install rules; portable
   CPack archives; deterministic configured SPDX 2.3 inventory; isolated staged-
@@ -118,6 +119,10 @@
   fallback, strict bounded acquisition inputs, injected boundary construction,
   authenticated-registry condition evidence, coordinated publication, and
   hardware-free frontend tests. Physical execution remains unqualified.
+- Qt desktop live-request wiring through the same production service, including
+  schema-aware review, unchanged-request gating, explicit live-run confirmation,
+  injected production-boundary construction, and hardware-free widget tests.
+  Physical execution remains unqualified.
 
 ## Planned, not implemented
 
@@ -126,8 +131,6 @@
 - Network reference-registry transport and production trust-store integration
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
-- Live-device integration for the Qt desktop application
-- GUI wiring for the implemented injected live boundary
 - Production profile activation, signing, revocation, replacement, and
   evaluation orchestration in desktop clients
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,

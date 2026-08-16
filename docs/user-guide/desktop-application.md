@@ -1,10 +1,11 @@
 # Qt desktop application
 
-The Phase 13 `sdrcal-gui` application provides a Qt 6 Widgets interface to the
-same recorded-input calibration and atomic publication service used by the
-`sdrcal calibrate` command. It does not enumerate or access an SDR, discover
-files or trust material, modify an installed WSJT-X instance, or establish
-calibration accuracy.
+The `sdrcal-gui` application provides a Qt 6 Widgets interface to the same
+recorded- and live-input calibration and atomic publication service used by the
+`sdrcal calibrate` command. It does not discover files or trust material,
+modify an installed WSJT-X instance, or establish calibration accuracy. A live
+request can enumerate, configure, and receive from its explicitly selected SDR
+only after review and operator confirmation.
 
 The initial desktop targets are macOS 14.0 or later on Apple Silicon and Windows
 11 x64. Raspberry Pi OS is not a desktop target; its initial scope is the
@@ -72,20 +73,29 @@ instructions. An extracted-payload audit does not establish clean-host
 installation, upgrade/removal behavior, repository compatibility, device
 support, or calibration accuracy.
 
-## Recorded-input workflow
+## Recorded- and live-input workflow
 
 Select three explicit paths:
 
-1. A versioned recorded-calibration request JSON file.
+1. A versioned recorded- or live-calibration request JSON file.
 2. The independent local registry-signature pin file.
 3. A new output directory. Existing output destinations are refused.
 
-**Review Request** displays bounded structured request metadata and the exact
-request in a read-only view. This is operator review; the production request
-parser remains authoritative. **Start Calibration** runs the production
-service on a worker while progress is displayed. **Cancel** requests
-cooperative cancellation and waits for the workflow to reach a safe stopping
-point.
+**Review Request** identifies the explicit schema, displays bounded structured
+request metadata, and shows the exact request in a read-only view. An
+unrecognized schema is refused. This is operator review; the production request
+parser remains authoritative. **Start Calibration** re-reviews a missing or
+changed request before execution. A live request then presents a warning that
+continuing may enumerate, configure, and receive from the selected SDR;
+declining performs no production run. Accepted work runs on a worker while
+progress is displayed. **Cancel** requests cooperative cancellation and waits
+for the workflow to reach a safe stopping point.
+
+Soapy-enabled builds inject the same production live boundary used by the CLI.
+Soapy-disabled builds retain recorded mode and reject live requests before
+output staging. Construction and request review do not access hardware. Actual
+live execution requires a separately authorized device-, reference-, settings-,
+duration-, abort-, cleanup-, and evidence-bound plan.
 
 Success loads the fixed published artifacts into read-only tabs:
 `profile.json`, `evidence.json`, `summary.json`, and optional `wsjtx.ini`.

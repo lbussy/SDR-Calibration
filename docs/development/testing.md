@@ -231,9 +231,11 @@ and recorded-mode regression. The Soapy adapter suite separately exercises
 acquisition and cleanup through fake APIs. Neither suite enumerates host
 devices or starts a physical stream.
 
-The Phase 13 `gui_workflow_tests` target verifies exact CLI argument/exit
-delegation, thread-safe cancellation state, bounded regular-file review,
-symbolic-link refusal, and required/optional result artifacts. The
-`gui_widget_tests` target runs with Qt's offscreen platform and verifies the
-initial control state, read-only review surfaces, and accessibility metadata.
-Neither test requires a window server, network, SDR, vendor driver, or RF.
+The Phase 13 `gui_workflow_tests` target verifies exact production-service
+argument/exit and live-factory delegation, thread-safe cancellation state,
+bounded regular-file review, symbolic-link refusal, and required/optional result
+artifacts. The `gui_widget_tests` target runs with Qt's offscreen platform and
+verifies initial control state, recorded/live scope labeling, schema-aware live
+review, changed-request re-review, read-only surfaces, and accessibility
+metadata. Neither test requires a window server, network, SDR, vendor driver,
+or RF.

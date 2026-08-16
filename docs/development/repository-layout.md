@@ -70,9 +70,10 @@ algorithms.
 `src/adapters` owns lossy external formats. `src/cli` and `src/gui` are thin
 delivery surfaces over application services.
 
-`src/gui` implements the optional Qt 6 Widgets recorded-input interface and its
+`src/gui` implements the optional Qt 6 Widgets recorded/live interface and its
 bounded read-only review support. It delegates calibration and publication to
-the production service shared with `src/cli`.
+the production service shared with `src/cli` and injects the live Soapy boundary
+only in Soapy-enabled builds.
 
 ## Documentation ownership
 

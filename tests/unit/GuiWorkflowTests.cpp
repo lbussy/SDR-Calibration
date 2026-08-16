@@ -61,12 +61,18 @@ int main() {
     const RunSelection invalid{root / "missing-request.json", root / "missing-trust.json",
                                root / "new-output"};
     std::string progress;
-    const auto result = runRecordedCalibration(invalid, std::make_shared<CancellationToken>(),
-                                               [&](std::string text) { progress += text; });
+    bool factoryCalled = false;
+    const auto result = runCalibration(
+        invalid, std::make_shared<CancellationToken>(), [&](std::string text) { progress += text; },
+        [&](const auto&) {
+            factoryCalled = true;
+            return std::unique_ptr<sdrcal::application::DeviceWorkflowBoundary>{};
+        });
     CHECK(result.exit == sdrcal::cli::ProductExit::input);
     CHECK(result.terminal_json.find("\"status\":\"input_error\"") != std::string::npos);
     CHECK(progress.ends_with(result.diagnostics));
     CHECK(!progress.empty());
+    CHECK(!factoryCalled);
 
     std::filesystem::create_directory_symlink(root, root / "directory-link", ignored);
     if (!ignored) {

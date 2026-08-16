@@ -1,13 +1,13 @@
 #include "gui/MainWindow.h"
 
 #include <QApplication>
-#include <QElapsedTimer>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QTabWidget>
-#include <QThread>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 
 namespace {
@@ -31,6 +31,8 @@ int main(int argc, char* argv[]) {
     const auto* status = window.findChild<QLabel*>("statusText");
     CHECK(status != nullptr);
     CHECK(status && !status->accessibleName().isEmpty());
+    const auto* notice = window.findChild<QLabel*>("scopeNotice");
+    CHECK(notice && notice->text().contains("recorded or live"));
     const auto texts = window.findChildren<QPlainTextEdit*>();
     CHECK(texts.size() >= 3);
     for (const auto* text : texts) {
@@ -46,6 +48,7 @@ int main(int argc, char* argv[]) {
     };
     auto* start = findButton("Start Calibration");
     auto* cancel = findButton("Cancel");
+    auto* review = findButton("Review Request");
     CHECK(start && start->isEnabled());
     CHECK(cancel && !cancel->isEnabled());
     CHECK(window.findChild<QTabWidget*>() != nullptr);
@@ -53,24 +56,30 @@ int main(int argc, char* argv[]) {
     auto* request = window.findChild<QLineEdit*>("requestPath");
     auto* trust = window.findChild<QLineEdit*>("trustPath");
     auto* output = window.findChild<QLineEdit*>("outputPath");
-    CHECK(request && trust && output && start && cancel);
-    if (request && trust && output && start && cancel) {
-        request->setText("missing-request.json");
+    CHECK(request && trust && output && start && cancel && review);
+    if (request && trust && output && start && cancel && review) {
+        const auto requestPath =
+            std::filesystem::temp_directory_path() / "sdrcal-gui-widget-live-request.json";
+        {
+            std::ofstream stream(requestPath);
+            stream
+                << R"({"schema_name":"sdrcal-live-calibration-request","schema_version":"1.0.0","device":{"manufacturer":"Test","model":"Fake","identifier":"fake-1"},"observations":[]})";
+        }
+        request->setText(QString::fromStdString(requestPath.string()));
         trust->setText("missing-trust.json");
         output->setText("new-output");
-        start->click();
-        CHECK(!start->isEnabled());
-        CHECK(cancel->isEnabled());
-        QElapsedTimer timer;
-        timer.start();
-        while (!start->isEnabled() && timer.elapsed() < 5000) {
-            application.processEvents();
-            QThread::msleep(1);
+        review->click();
+        CHECK(status && status->text().contains("Live request reviewed"));
+        {
+            std::ofstream stream(requestPath);
+            stream << R"({"schema_name":"unrecognized"})";
         }
+        start->click();
         CHECK(start->isEnabled());
         CHECK(!cancel->isEnabled());
-        const auto* terminal = window.findChild<QPlainTextEdit*>("Terminal result");
-        CHECK(terminal && terminal->toPlainText().contains("input_error"));
+        CHECK(status && status->text().contains("review failed"));
+        std::error_code ignored;
+        std::filesystem::remove(requestPath, ignored);
     }
     return failures == 0 ? 0 : 1;
 }

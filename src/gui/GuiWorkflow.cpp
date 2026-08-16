@@ -65,16 +65,17 @@ cli::ProductArguments productArguments(const RunSelection& selection) {
             {}};
 }
 
-RunResult runRecordedCalibration(const RunSelection& selection,
-                                 const std::shared_ptr<CancellationToken>& token,
-                                 ProgressCallback progress) {
+RunResult runCalibration(const RunSelection& selection,
+                         const std::shared_ptr<CancellationToken>& token, ProgressCallback progress,
+                         cli::LiveBoundaryFactory liveBoundaryFactory) {
     std::ostringstream output;
     if (progress)
-        progress("Starting production recorded-input validation.\n");
+        progress("Starting production request validation.\n");
     ProgressBuffer progressBuffer(progress);
     std::ostream diagnostics(&progressBuffer);
-    const auto exit = cli::runProductCommand(productArguments(selection), output, diagnostics,
-                                             [token] { return token && token->cancelled(); });
+    const auto exit = cli::runProductCommand(
+        productArguments(selection), output, diagnostics,
+        [token] { return token && token->cancelled(); }, std::move(liveBoundaryFactory));
     diagnostics.flush();
     return {exit, output.str(), progressBuffer.completeText()};
 }

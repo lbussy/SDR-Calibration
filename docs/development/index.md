@@ -20,6 +20,8 @@ The analyzer slice is retained in the
 [signal-quality execution prompt](signal-quality-analyzer-execution-prompt.md).
 The production live-CLI slice is governed by the
 [live-CLI execution prompt](live-cli-execution-prompt.md).
+The production live-GUI slice is governed by the
+[live-GUI execution prompt](live-gui-execution-prompt.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the

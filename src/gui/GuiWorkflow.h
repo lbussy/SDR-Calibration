@@ -46,9 +46,10 @@ class CancellationToken {
 };
 
 [[nodiscard]] cli::ProductArguments productArguments(const RunSelection& selection);
-[[nodiscard]] RunResult runRecordedCalibration(const RunSelection& selection,
-                                               const std::shared_ptr<CancellationToken>& token,
-                                               ProgressCallback progress = {});
+[[nodiscard]] RunResult runCalibration(const RunSelection& selection,
+                                       const std::shared_ptr<CancellationToken>& token,
+                                       ProgressCallback progress = {},
+                                       cli::LiveBoundaryFactory live_boundary_factory = {});
 [[nodiscard]] ReviewedFile reviewFile(const std::filesystem::path& path,
                                       std::uint64_t limit = review_file_limit);
 [[nodiscard]] std::vector<ReviewedFile> reviewResultDirectory(const std::filesystem::path& path);

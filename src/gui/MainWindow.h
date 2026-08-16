@@ -15,7 +15,7 @@ namespace sdrcal::gui {
 
 class MainWindow final : public QMainWindow {
   public:
-    MainWindow();
+    explicit MainWindow(cli::LiveBoundaryFactory live_boundary_factory = {});
     ~MainWindow() override;
 
   protected:
@@ -46,6 +46,11 @@ class MainWindow final : public QMainWindow {
     QPlainTextEdit* diagnostics_ = nullptr;
     QPlainTextEdit* terminal_ = nullptr;
     QTabWidget* artifacts_ = nullptr;
+    cli::LiveBoundaryFactory live_boundary_factory_;
+    std::filesystem::path reviewed_request_path_;
+    std::string reviewed_request_contents_;
+    cli::ProductInputMode reviewed_mode_ = cli::ProductInputMode::recorded;
+    bool reviewed_schema_ = false;
     QFutureWatcher<RunResult> watcher_;
     std::shared_ptr<CancellationToken> cancellation_;
 };

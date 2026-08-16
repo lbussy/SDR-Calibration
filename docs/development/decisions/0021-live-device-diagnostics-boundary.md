@@ -22,19 +22,20 @@ qualification-grade acceptance.
 
 Recorded-input and live-device modes remain schema-discriminated and may not
 silently fall back to one another. Both modes use the same shared workflow and
-artifact-publication semantics. Production live mode remains unavailable until
-bounded acquisition, diagnostics derivation, lifecycle mapping, and hardware-
-free integration tests are implemented and independently reviewed.
+artifact-publication semantics. Production live mode is available only through
+the explicit schema after bounded acquisition, diagnostics derivation,
+lifecycle mapping, and hardware-free integration review. Physical qualification
+remains a separate gate.
 
 The detailed contract is [live-device calibration](../live-device-calibration-contract.md).
 
 ## Consequences
 
-The first implementation slice is a Soapy-independent bounded in-memory
-acquisition component. Signal-quality analysis, the injected Soapy workflow
-boundary, CLI mode, GUI controls, and physical-device qualification follow as
-separate gates. This avoids trusting user-entered assurance data and preserves
-the calibration core's independence from hardware and user-interface concerns.
+The implementation proceeded through separate bounded in-memory acquisition,
+signal-quality analysis, injected Soapy workflow, CLI, and GUI gates. Physical-
+device qualification remains separate. This avoids trusting user-entered
+assurance data and preserves the calibration core's independence from hardware
+and user-interface concerns.
 
 No source-only or fake-boundary result establishes device support, calibration
 accuracy, or end-to-end qualification.
