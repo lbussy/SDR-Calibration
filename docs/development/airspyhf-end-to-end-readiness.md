@@ -2,15 +2,17 @@
 
 ## Result
 
-**Status: Source blocker resolved with hardware-free tests; current physical
-readiness remains unverified and execution was not started.**
+**Status: Source blocker resolved with hardware-free tests; exact receive-only
+enumeration passed; construction/configuration and streaming remain unverified
+and were not started.**
 
 The hardware-free Stage A review of the
 [execution prompt](airspyhf-end-to-end-qualification-prompt.md) found that the
 exact retained Airspy HF+ Discovery capture does not provide all identity and
-configuration readbacks required by the production live workflow. A requested
-receive-only enumeration was also rejected at the authorization boundary, so
-no current hardware state was inspected.
+configuration readbacks required by the production live workflow. The initial
+requested receive-only enumeration was rejected at the authorization boundary.
+A later exact authorization permitted the bounded enumeration recorded below;
+it did not authorize device construction or streaming.
 
 ## Blocking evidence
 
@@ -54,8 +56,33 @@ positive and negative boundaries.
 
 ## Required next decision
 
-The operator must explicitly authorize the exact serial-bound enumeration and
-bounded receive operations listed in the execution prompt. Current physical
-metadata must match the normalized request before streaming proceeds. Until the
-physical gates pass, the device matrix remains capture-qualified only and end-
-to-end calibration remains not qualified.
+The operator must explicitly authorize the bounded receive operations listed in
+the execution prompt. Current post-construction metadata must match the
+normalized request before streaming proceeds. Until the physical gates pass,
+the device matrix remains capture-qualified only and end-to-end calibration
+remains not qualified.
+
+## Receive-only enumeration record
+
+At `2026-08-16T20:36:06Z`, source revision
+`43ec9d44dda894f5228912a8e3e38479c7da4ccd` performed one serial-bound Soapy
+enumeration on macOS 26.5.2 build 25F84, arm64. The installed stack reported
+SoapySDR library 0.8.1-release, API 0.8.0, ABI 0.8, and SoapyAirspyHF
+0.2.0-7457d69.
+
+The exact enumeration filter was `driver=airspyhf` and
+`serial=2f52ff5de72635ba`. It returned exactly one match:
+
+```text
+driver = airspyhf
+label = AirSpy HF+ [2f52ff5de72635ba]
+serial = 2f52ff5de72635ba
+```
+
+This passes only deterministic selection at the enumeration boundary. It does
+not expose or verify the post-construction driver key, hardware key,
+clock-source capabilities, frequency-correction capability, effective settings,
+signal quality, cleanup, or calibration behavior. No device was constructed or
+configured, no stream was created, and no samples or RF were transmitted. The
+next physical step requires separate authorization for an exact bounded
+diagnostic receive capture.
