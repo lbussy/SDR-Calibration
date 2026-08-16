@@ -6,10 +6,11 @@ same recorded-input calibration and atomic publication service used by the
 files or trust material, modify an installed WSJT-X instance, or establish
 calibration accuracy.
 
-The initial desktop targets are macOS 14.0 or later on Apple Silicon, Windows
-11 x64, and Ubuntu 24.04 LTS x86_64. Raspberry Pi OS is not a desktop target;
-its initial scope is the recorded-input CLI only. These are product targets,
-not claims that every target has completed clean-host qualification.
+The initial desktop targets are macOS 14.0 or later on Apple Silicon and Windows
+11 x64. Raspberry Pi OS is not a desktop target; its initial scope is the
+recorded-input CLI only. Ubuntu GUI implementation remains in the repository
+but is unsupported and currently unvalidated. Product targets are not claims
+that every target has completed clean-host qualification.
 
 ## macOS package status
 
@@ -46,6 +47,11 @@ definition is not a clean-host installation, upgrade, removal, signing, or
 platform-support result.
 
 ## Ubuntu package status
+
+Ubuntu is not a supported product target and no current Ubuntu validation is
+planned. The retained implementation and DEB tooling may be used for future
+portability work, but their presence does not establish current build, package,
+installation, device, or calibration support.
 
 Phase 14.3 provides a production gate for an Ubuntu 24.04 x86_64 DEB containing
 the recorded-input GUI and CLI. It uses dynamically linked Qt libraries from

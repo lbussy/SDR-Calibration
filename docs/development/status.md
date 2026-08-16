@@ -67,7 +67,7 @@
 - Phase 14 packaging foundation with explicit CMake 3.20, Qt 6.2, and SoapySDR
   0.8 baselines; strict full-release dependency checks; install rules; portable
   CPack archives; deterministic configured SPDX 2.3 inventory; isolated staged-
-  package audit; and macOS/Linux/Windows hardware-free CI definitions
+  package audit; and macOS/Windows hardware-free CI definitions
 - Evidence-indexed platform/device matrix and a fail-closed end-to-end
   calibration qualification record that keeps build, package, signing, capture,
   and calibration claims separate
@@ -112,8 +112,8 @@
 - Evidence archive/container production beyond the Phase 12 coordinated
   profile/evidence/summary directory
 - Native-profile representation for zero-span local-constant fitted models
-- Clean-host installation and distribution evidence for the macOS, Windows,
-  and Ubuntu packages
+- Clean-host installation and distribution evidence for the macOS and Windows
+  packages
 - Platform-native package execution proving the implemented macOS, Windows, and
   Linux branding against exact candidate hashes; source and staged checks do
   not replace those later platform runs
@@ -124,6 +124,8 @@
 
 ## Not established
 
+- Current Ubuntu platform, package, installation, device, or calibration support;
+  retained Ubuntu implementation and evidence are historical portability assets
 - Supported SDR device matrix
 - A clean-host lifecycle or end-to-end calibration-qualified Raspberry Pi
   combination

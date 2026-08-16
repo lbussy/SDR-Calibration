@@ -7,13 +7,14 @@ qualification. A blank or planned CI job never creates evidence.
 
 ## Initial target boundary
 
-The initial desktop targets are macOS 14.0 or later on Apple Silicon, Windows
-11 x64, and Ubuntu 24.04 LTS x86_64. Raspberry Pi OS 13 ARM64 on Raspberry Pi 4
-is a recorded-input CLI-only target. Target status does not make a matrix cell
-positive; only retained evidence does.
+The initial desktop targets are macOS 14.0 or later on Apple Silicon and Windows
+11 x64. Raspberry Pi OS 13 ARM64 on Raspberry Pi 4 is a recorded-input CLI-only
+target. Ubuntu implementation remains in the repository as an unsupported,
+currently unvalidated portability path. Target status does not make a matrix
+cell positive; only retained evidence does.
 
 Intel macOS, Windows ARM64, Windows 10 unless deliberately retained later,
-generic Linux distributions, Ubuntu ARM64 desktop, 32-bit Raspberry Pi OS,
+generic Linux distributions, all Ubuntu variants, 32-bit Raspberry Pi OS,
 other Raspberry Pi models, and Raspberry Pi SoapySDR/live-device operation are
 outside the initial supported matrix.
 
@@ -23,9 +24,9 @@ outside the initial supported matrix.
 | --- | --- | --- | --- | --- | --- |
 | macOS 26.5.2 Phase 14.4 DMG | arm64 | Locally build-covered at `3623154` with Apple clang 21.0.0, CMake 4.4.2, and Qt 6.11.1 | Exact DMG payload/runtime and Qt license disposition passed; mounted application launch smoke passed; SHA-256 `7fbcff9f6bbd52ebc02c79227c9fac56f132034783882289b7f5c340405d5a17`; clean-host install not qualified | Developer ID signed with hardened runtime; application and DMG notarized, stapled, and accepted by Gatekeeper | Local Phase 14.4 evidence under `build/macos-official-release/macos-package/evidence` |
 | macOS 15 CI | arm64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
-| Ubuntu 24.04 | x86_64 | Build-covered, including strict Qt/SoapySDR release | Portable archive content audited in CI; clean-host install not qualified | Not applicable to the current portable archive | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
-| Ubuntu 24.04.4 Phase 14.3 DEB | x86_64 | Build-covered at `e16a07d` with GCC 13.3.0, CMake 3.31.6, and Qt 6.4.2 | Extracted DEB payload/runtime audited; SHA-256 `61ba677ef389b7544df9c1d59bc354f917e64f4b39ab8f752f39ac645cfc23d5`; Phase 14.4 disposition and clean-host install not qualified for this earlier artifact | Not applicable; repository/package signing is not implemented | [Phase 14.3 CI run 31899087299](https://github.com/lbussy/SDR-Calibration/actions/runs/31899087299) |
-| Ubuntu 24.04.4 Phase 14.4 DEB | x86_64 | Build-covered at `71a141a` with GCC 13.3.0, CMake 3.31.6, and Qt 6.4.2 | Extracted payload/runtime and exact dependency-license disposition passed; SHA-256 `f736d213c74b985cfada038eef8c1c6928089ea5bc5eb5b9f93954eec6458021`; clean-host install not qualified | Not applicable; repository/package signing is not implemented | [Phase 14.4 CI run 31899855376](https://github.com/lbussy/SDR-Calibration/actions/runs/31899855376) |
+| Ubuntu 24.04 | x86_64 | Historical build evidence only; unsupported and currently unvalidated | Historical portable archive audit; not a current package or clean-host claim | Not applicable | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
+| Ubuntu 24.04.4 Phase 14.3 DEB | x86_64 | Historical build evidence at `e16a07d`; unsupported and currently unvalidated | Historical extracted DEB audit; SHA-256 `61ba677ef389b7544df9c1d59bc354f917e64f4b39ab8f752f39ac645cfc23d5`; not a current package or clean-host claim | Not applicable | [Phase 14.3 CI run 31899087299](https://github.com/lbussy/SDR-Calibration/actions/runs/31899087299) |
+| Ubuntu 24.04.4 Phase 14.4 DEB | x86_64 | Historical build evidence at `71a141a`; unsupported and currently unvalidated | Historical extracted payload/runtime and dependency-license audit; SHA-256 `f736d213c74b985cfada038eef8c1c6928089ea5bc5eb5b9f93954eec6458021`; not a current package or clean-host claim | Not applicable | [Phase 14.4 CI run 31899855376](https://github.com/lbussy/SDR-Calibration/actions/runs/31899855376) |
 | Windows Server 2025 CI | x86_64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
 | Windows Phase 14.2 package input | x86_64 | Tooling implemented; exact package run pending | Signed MSI tooling implemented; artifact and clean-host install not qualified | Tooling implemented; exact signed artifact not qualified | No retained Phase 14.2 package run |
 | Raspberry Pi OS 13 on Raspberry Pi 4 Model B Rev 1.1 | arm64 | Native CLI-only build-covered at `5f50d31` with GCC 14.2.0 and CMake 3.31.6; 12/12 hardware-free tests passed | CLI-only archive and rootless DEB payload audited; DEB SHA-256 `d3de3d6397aaec7c3959e8854ac1871a787e4850706ae7736761a3fa887605ef`; clean-host lifecycle not qualified | Not applicable; repository/package signing is not implemented | [Native build, package, and resource evidence](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/raspberry-pi-cli/2026-08-15-wspr4-5f50d31/README.md) |
@@ -47,11 +48,12 @@ an HTTPS RFC 3161 timestamp service. Tooling presence is not retained evidence
 for a signed MSI; only the exact manifest and artifact hash from a passing run
 can establish that narrower claim.
 
-The Phase 14.3 Ubuntu gate requires Ubuntu 24.04 x86_64, Debian package tools,
+The retained Phase 14.3 Ubuntu gate requires Ubuntu 24.04 x86_64, Debian package tools,
 and the configured dynamic Qt runtime. It derives system-package dependencies
 from the exact ELF payload and retains an extracted-package audit. Tooling
 presence is not retained evidence for a DEB; only the exact manifest and
-artifact hash from a passing run can establish that narrower claim.
+artifact hash from a passing run can establish that narrower historical claim.
+Ubuntu is not a current supported target, and no current validation is planned.
 
 Phase 14.4 tooling is implemented. The exact macOS and Ubuntu rows above retain
 artifact-specific disposition evidence. A Windows row still requires a new

@@ -1,6 +1,6 @@
 # 0019 — Initial platform target boundary
 
-Status: Accepted
+Status: Superseded in part by [0020](0020-remove-ubuntu-target.md)
 
 Date: 2026-08-15
 

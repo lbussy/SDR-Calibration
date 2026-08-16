@@ -2,10 +2,12 @@
 
 This repository targets a C++ application for producing per-device SDR
 frequency-calibration profiles. Its initial desktop targets are macOS 14.0 or
-later on Apple Silicon, Windows 11 x64, and Ubuntu 24.04 LTS x86_64. Raspberry
-Pi OS 13 ARM64 on Raspberry Pi 4 is a recorded-input CLI-only target. SDR
-discovery, configuration, and sample acquisition use SoapySDR on the desktop
-targets; live-device operation is outside the Raspberry Pi target.
+later on Apple Silicon and Windows 11 x64. Raspberry Pi OS 13 ARM64 on
+Raspberry Pi 4 is a recorded-input CLI-only target. Ubuntu implementation and
+packaging remain in the repository as an unsupported, currently unvalidated
+portability path. SDR discovery, configuration, and sample acquisition use
+SoapySDR on the desktop targets; live-device operation is outside the
+Raspberry Pi target.
 
 The native calibration artifact remains language-neutral so C++, Python, and
 other consuming applications can interpret the same results.
