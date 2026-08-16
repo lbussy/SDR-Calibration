@@ -181,8 +181,10 @@ WorkflowResult CalibrationWorkflow::run(const WorkflowRequest& request,
     std::vector<core::ModelObservation> model_observations;
     for (std::size_t index = 0; index < acquisitions.size(); ++index) {
         const auto& acquired = acquisitions[index];
-        const auto estimate = core::estimateCarrier(acquired.samples, acquired.sample_rate_sps,
-                                                    request.estimator_options);
+        const auto& estimate = acquired.carrier_estimate;
+        if (!estimate.ok() || estimate.sample_count != acquired.samples.size())
+            return failure(std::move(result), WorkflowStage::estimate_and_accept,
+                           "acquisition carrier estimate is missing or bound to different samples");
         core::ObservationDiagnostics diagnostics;
         diagnostics.estimate = estimate;
         diagnostics.duration_seconds = acquired.duration_seconds;

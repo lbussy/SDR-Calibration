@@ -22,8 +22,7 @@ namespace {
 #define SDRCAL_RECORDED_INPUT_MAX_BYTES 2147483648
 #endif
 constexpr std::uint64_t kRecordedInputMaximumBytes = SDRCAL_RECORDED_INPUT_MAX_BYTES;
-static_assert(kRecordedInputMaximumBytes > 0U &&
-              kRecordedInputMaximumBytes <= 2'147'483'648ULL);
+static_assert(kRecordedInputMaximumBytes > 0U && kRecordedInputMaximumBytes <= 2'147'483'648ULL);
 
 using profile::JsonArray;
 using profile::JsonObject;
@@ -288,6 +287,9 @@ class RecordedBoundary final : public application::DeviceWorkflowBoundary {
             }
             result.samples.emplace_back(real, imaginary);
         }
+        result.carrier_estimate = core::estimateCarrier(
+            result.samples, static_cast<double>(device.configuration.sample_rate_hz),
+            product_.workflow.estimator_options);
         result.status = application::AcquisitionStatus::success;
         result.effective_indicated_center_frequency_hz =
             found->effective_indicated_center_frequency_hz;
@@ -594,10 +596,9 @@ ProductRequestResult parseProductRequest(std::string_view json,
             const auto maximumBytes = reader.integer(*item, "maximum_bytes", path);
             if (maximumBytes <= 0 ||
                 static_cast<std::uint64_t>(maximumBytes) > kRecordedInputMaximumBytes)
-                reader.errors.push_back(
-                    path + ".maximum_bytes must be from 1 through " +
-                    std::to_string(kRecordedInputMaximumBytes) +
-                    " for this build's recorded-input resource policy");
+                reader.errors.push_back(path + ".maximum_bytes must be from 1 through " +
+                                        std::to_string(kRecordedInputMaximumBytes) +
+                                        " for this build's recorded-input resource policy");
             else
                 record.maximum_bytes = static_cast<std::uint64_t>(maximumBytes);
             const auto sampleCount = reader.integer(*item, "sample_count", path);

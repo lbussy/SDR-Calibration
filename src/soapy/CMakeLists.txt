@@ -5,11 +5,13 @@ add_library(sdrcal_soapy
     RealSoapyApi.cpp
     SoapyCaptureSession.cpp
     SoapyReadTranslator.cpp
+    SoapyWorkflowBoundary.cpp
 )
 
 target_include_directories(sdrcal_soapy PUBLIC "${PROJECT_SOURCE_DIR}/src")
 target_compile_features(sdrcal_soapy PUBLIC cxx_std_20)
-target_link_libraries(sdrcal_soapy PUBLIC sdrcal_capture PRIVATE SoapySDR)
+target_link_libraries(
+    sdrcal_soapy PUBLIC sdrcal_application sdrcal_capture sdrcal_core PRIVATE SoapySDR)
 
 if(MSVC)
     target_compile_options(sdrcal_soapy PRIVATE /W4 /permissive-)

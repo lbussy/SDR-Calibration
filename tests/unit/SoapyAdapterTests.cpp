@@ -1,9 +1,11 @@
 #include "capture/CapturePlan.h"
 #include "soapy/SoapyCaptureSession.h"
 #include "soapy/SoapyReadTranslator.h"
+#include "soapy/SoapyWorkflowBoundary.h"
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <complex>
 #include <cstddef>
 #include <functional>
@@ -28,22 +30,28 @@ constexpr int kSoapyHasTime = 1 << 2;
 constexpr int kSoapyEndAbrupt = 1 << 3;
 
 class TestFailure : public std::runtime_error {
-public:
+  public:
     using std::runtime_error::runtime_error;
 };
 
-#define CHECK(condition)                                                                       \
-    do {                                                                                       \
-        if (!(condition)) {                                                                    \
-            throw TestFailure(std::string("check failed: ") + #condition);                     \
-        }                                                                                      \
+#define CHECK(condition)                                                                           \
+    do {                                                                                           \
+        if (!(condition)) {                                                                        \
+            throw TestFailure(std::string("check failed: ") + #condition);                         \
+        }                                                                                          \
     } while (false)
 
 class FakeDevice final : public SoapyDevice {
-public:
-    [[nodiscard]] std::string driverKey() const override { return driverKey_; }
-    [[nodiscard]] std::string hardwareKey() const override { return hardwareKey_; }
-    [[nodiscard]] KeywordMap hardwareInfo() const override { return hardwareInfo_; }
+  public:
+    [[nodiscard]] std::string driverKey() const override {
+        return driverKey_;
+    }
+    [[nodiscard]] std::string hardwareKey() const override {
+        return hardwareKey_;
+    }
+    [[nodiscard]] KeywordMap hardwareInfo() const override {
+        return hardwareInfo_;
+    }
     [[nodiscard]] std::optional<std::string> antenna(std::size_t) const override {
         return antenna_;
     }
@@ -128,9 +136,8 @@ public:
         operation("activate_stream");
         active_ = true;
     }
-    [[nodiscard]] ReadResult readRxStream(
-        std::size_t maximumSamples,
-        std::chrono::milliseconds timeout) override {
+    [[nodiscard]] ReadResult readRxStream(std::size_t maximumSamples,
+                                          std::chrono::milliseconds timeout) override {
         operation("read_stream");
         lastMaximumSamples_ = maximumSamples;
         lastTimeout_ = timeout;
@@ -162,10 +169,9 @@ public:
 
     std::string driverKey_ = "fake-driver";
     std::string hardwareKey_ = "fake-hardware";
-    KeywordMap hardwareInfo_{{"serial", "hardware-serial"},
-                             {"driver_version", "1.2.3"},
-                             {"firmware_version", "4.5.6"},
-                             {"tuner_path", "RX-A"}};
+    KeywordMap hardwareInfo_{{"serial", "hardware-serial"}, {"manufacturer", "Test Manufacturer"},
+                             {"model", "Fake SDR"},         {"driver_version", "1.2.3"},
+                             {"firmware_version", "4.5.6"}, {"tuner_path", "RX-A"}};
     std::optional<std::string> antenna_ = "Antenna A";
     std::optional<std::string> antennaAfterFrequency_;
     std::optional<std::string> clockSource_ = "internal";
@@ -196,7 +202,7 @@ public:
 };
 
 class FakeApi final : public SoapyApi {
-public:
+  public:
     [[nodiscard]] std::vector<KeywordMap> enumerate(const KeywordMap& filter) override {
         ++enumerateCalls_;
         enumeratedFilter_ = filter;
@@ -220,9 +226,15 @@ public:
             throw std::runtime_error("unmake failed");
         }
     }
-    [[nodiscard]] std::string libraryVersion() const override { return "lib-1"; }
-    [[nodiscard]] std::string apiVersion() const override { return "api-1"; }
-    [[nodiscard]] std::string abiVersion() const override { return "abi-1"; }
+    [[nodiscard]] std::string libraryVersion() const override {
+        return "lib-1";
+    }
+    [[nodiscard]] std::string apiVersion() const override {
+        return "api-1";
+    }
+    [[nodiscard]] std::string abiVersion() const override {
+        return "abi-1";
+    }
 
     FakeDevice device_;
     std::vector<KeywordMap> matches_{{{"driver", "fake"}, {"serial", "resolved-1"}}};
@@ -247,6 +259,50 @@ CaptureRequest request() {
     value.sample_count = 16;
     value.output_path = "capture";
     return value;
+}
+
+std::vector<std::complex<float>> tone(std::size_t count, double sampleRate, double frequency) {
+    std::vector<std::complex<float>> samples;
+    samples.reserve(count);
+    constexpr double pi = 3.14159265358979323846;
+    for (std::size_t index = 0; index < count; ++index) {
+        const double phase = 2.0 * pi * frequency * static_cast<double>(index) / sampleRate;
+        samples.emplace_back(static_cast<float>(0.5 * std::cos(phase)),
+                             static_cast<float>(0.5 * std::sin(phase)));
+    }
+    return samples;
+}
+
+sdrcal::application::DeviceCandidate workflowDevice() {
+    sdrcal::application::DeviceCandidate value;
+    value.identity = {"fake-driver", "Test Manufacturer", "Fake SDR", "resolved-1",
+                      sdrcal::profile::IdentityStrength::hardware_serial};
+    value.configuration.clock_source = "internal";
+    value.configuration.sample_rate_hz = 2'000'000;
+    value.configuration.bandwidth_hz = 1'800'000;
+    value.configuration.frequency_correction_ppm = 1.25;
+    value.configuration.driver_version = "1.2.3";
+    value.configuration.firmware_version = "4.5.6";
+    value.configuration.antenna_port = "Antenna A";
+    value.configuration.tuner_path = "RX-A";
+    value.configuration.binding_extension = {
+        {"soapy_argument_driver", "fake"},
+        {"soapy_argument_serial", "resolved-1"},
+        {"effective_gain_db", 20.0},
+        {"automatic_gain", false},
+    };
+    return value;
+}
+
+SoapyWorkflowOptions workflowOptions() {
+    SoapyWorkflowOptions options;
+    options.capture_request = request();
+    options.capture_request.sample_count = 8'192;
+    options.expected_device = workflowDevice();
+    options.reference_conditions = [](const auto& observation) {
+        return ReferenceConditionEvidence{true, "conditions:" + observation.observation_id};
+    };
+    return options;
 }
 
 void testSelectionFailures() {
@@ -339,16 +395,15 @@ void testNoSerialInferenceFromLabel() {
 void testConfigurationOrderAndRead() {
     FakeApi api;
     api.device_.antennaAfterFrequency_ = "Configured Antenna";
-    api.device_.reads_.push_back(
-        {ReadStatus::samples, {{1.0F, -1.0F}, {2.0F, -2.0F}}, 1234, {}});
+    api.device_.reads_.push_back({ReadStatus::samples, {{1.0F, -1.0F}, {2.0F, -2.0F}}, 1234, {}});
     SoapyCaptureSession session(api);
     const auto prepared = session.prepare(request());
     CHECK(prepared.ready);
     const std::vector<std::string> expected{
-        "set_sample_rate",   "get_sample_rate", "supports_bandwidth", "set_bandwidth",
-        "get_bandwidth",     "set_frequency",   "get_frequency",      "supports_gain",
-        "has_gain_mode",     "set_gain_mode",    "get_gain_mode",      "set_gain",
-        "get_gain",          "setup_stream",     "activate_stream"};
+        "set_sample_rate", "get_sample_rate", "supports_bandwidth", "set_bandwidth",
+        "get_bandwidth",   "set_frequency",   "get_frequency",      "supports_gain",
+        "has_gain_mode",   "set_gain_mode",   "get_gain_mode",      "set_gain",
+        "get_gain",        "setup_stream",    "activate_stream"};
     CHECK(api.device_.operations_ == expected);
     CHECK(prepared.effective.sample_rate_sps.state == SettingState::applied_verified);
     CHECK(prepared.effective.bandwidth_hz.state == SettingState::applied_verified);
@@ -390,16 +445,12 @@ void testUnrequestedEffectiveConfigurationIsRecordedWithoutApplication() {
     CHECK(result.effective.gain_db.effective == 20.0);
     CHECK(result.effective.gain_db.state == SettingState::applied_verified);
     CHECK(result.effective.automatic_gain == true);
-    CHECK(api.device_.operations_.end() ==
-          std::find(
-              api.device_.operations_.begin(),
-              api.device_.operations_.end(),
-              "set_bandwidth"));
-    CHECK(api.device_.operations_.end() ==
-          std::find(
-              api.device_.operations_.begin(),
-              api.device_.operations_.end(),
-              "set_gain_mode"));
+    CHECK(api.device_.operations_.end() == std::find(api.device_.operations_.begin(),
+                                                     api.device_.operations_.end(),
+                                                     "set_bandwidth"));
+    CHECK(api.device_.operations_.end() == std::find(api.device_.operations_.begin(),
+                                                     api.device_.operations_.end(),
+                                                     "set_gain_mode"));
     CHECK(api.device_.operations_.end() ==
           std::find(api.device_.operations_.begin(), api.device_.operations_.end(), "set_gain"));
     session.cleanup();
@@ -414,11 +465,9 @@ void testStrictAndPermissiveReadback() {
         CHECK(!result.ready);
         CHECK(result.error.stage == PreparationStage::effective_policy);
         CHECK(result.effective.sample_rate_sps.state == SettingState::applied_changed);
-        CHECK(api.device_.operations_.end() ==
-              std::find(
-                  api.device_.operations_.begin(),
-                  api.device_.operations_.end(),
-                  "setup_stream"));
+        CHECK(api.device_.operations_.end() == std::find(api.device_.operations_.begin(),
+                                                         api.device_.operations_.end(),
+                                                         "setup_stream"));
         CHECK(api.unmakeCalls_ == 1);
     }
     {
@@ -482,11 +531,9 @@ void testEffectiveRatePlanningPrecedesStreamSetup() {
     const auto result = session.prepare(duration);
     CHECK(!result.ready);
     CHECK(result.error.stage == PreparationStage::planning);
-    CHECK(api.device_.operations_.end() ==
-          std::find(
-              api.device_.operations_.begin(),
-              api.device_.operations_.end(),
-              "setup_stream"));
+    CHECK(api.device_.operations_.end() == std::find(api.device_.operations_.begin(),
+                                                     api.device_.operations_.end(),
+                                                     "setup_stream"));
     CHECK(api.unmakeCalls_ == 1);
 }
 
@@ -599,10 +646,7 @@ void testReadGuardAndExceptionTranslation() {
         SoapyCaptureSession session(api);
         CHECK(session.prepare(request()).ready);
         api.device_.reads_.push_back(
-            {ReadStatus::samples,
-             {{1.0F, 1.0F}, {2.0F, 2.0F}, {3.0F, 3.0F}},
-             std::nullopt,
-             {}});
+            {ReadStatus::samples, {{1.0F, 1.0F}, {2.0F, 2.0F}, {3.0F, 3.0F}}, std::nullopt, {}});
         const auto result = session.read(2, 10ms);
         CHECK(result.status == ReadStatus::error);
         CHECK(result.samples.empty());
@@ -635,13 +679,156 @@ void testNativeReadTranslation() {
 
     CHECK(translateSoapyRead(kSoapyTimeout, 0, 0, {}, 2).status == ReadStatus::timeout);
     CHECK(translateSoapyRead(kSoapyOverflow, 0, 0, {}, 2).status == ReadStatus::overflow);
-    CHECK(translateSoapyRead(kSoapyCorruption, 0, 0, {}, 2).status ==
-          ReadStatus::discontinuity);
-    CHECK(translateSoapyRead(kSoapyStreamError, 0, 0, {}, 2).status ==
-          ReadStatus::error);
+    CHECK(translateSoapyRead(kSoapyCorruption, 0, 0, {}, 2).status == ReadStatus::discontinuity);
+    CHECK(translateSoapyRead(kSoapyStreamError, 0, 0, {}, 2).status == ReadStatus::error);
     CHECK(translateSoapyRead(-999, 0, 0, {}, 2).status == ReadStatus::error);
     CHECK(translateSoapyRead(0, 0, 0, {}, 2).status == ReadStatus::error);
     CHECK(translateSoapyRead(3, 0, 0, buffer, 2).status == ReadStatus::error);
+}
+
+void testWorkflowBoundaryComposesEvidenceAndCleanup() {
+    FakeApi api;
+    api.device_.reads_.push_back(
+        {ReadStatus::samples, tone(8'192, 2'000'000.0, 100'000.0), 1'000, {}});
+    auto options = workflowOptions();
+    SoapyWorkflowBoundary boundary(api, options);
+    const auto discovered = boundary.discover();
+    CHECK(discovered.size() == 1);
+    CHECK(discovered.front().identity.identifier == "resolved-1");
+
+    const sdrcal::application::ObservationRequest observation{"observation-1", "independence-1",
+                                                              "reference-1", 10'000'000.0};
+    const auto result = boundary.acquire(discovered.front(), options.expected_device.configuration,
+                                         observation, {});
+    CHECK(result.status == sdrcal::application::AcquisitionStatus::success);
+    CHECK(result.samples.size() == 8'192);
+    CHECK(result.carrier_estimate.ok());
+    CHECK(result.carrier_estimate.sample_count == result.samples.size());
+    CHECK(result.signal_quality_version == "signal-quality-v1");
+    CHECK(result.stream_evidence.target_samples == 8'192);
+    CHECK(result.stream_evidence.written_samples == 8'192);
+    CHECK(result.missing_samples == 0);
+    CHECK(result.discontinuities == 0);
+    CHECK(result.reference_conditions_met);
+    CHECK(result.reference_conditions_evidence == "conditions:observation-1");
+    CHECK(result.deactivation.succeeded);
+    CHECK(result.stream_close.succeeded);
+    CHECK(result.device_release.succeeded);
+    CHECK(result.final_device_state_safe);
+    CHECK(api.unmakeCalls_ == 1);
+}
+
+void testWorkflowBoundaryFailsBeforeConstructionAndRejectsIndexIdentity() {
+    {
+        FakeApi api;
+        auto options = workflowOptions();
+        options.memory_limits.maximum_bytes = 8;
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.status == sdrcal::application::AcquisitionStatus::failed);
+        CHECK(result.reason.find("memory preflight") != std::string::npos);
+        CHECK(api.makeCalls_ == 0);
+    }
+    {
+        FakeApi api;
+        auto options = workflowOptions();
+        options.capture_request.setting_policy = SettingPolicy::permissive;
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.failure_stage == sdrcal::application::AcquisitionFailureStage::preflight);
+        CHECK(api.makeCalls_ == 0);
+    }
+    {
+        FakeApi api;
+        auto options = workflowOptions();
+        options.capture_request.enumeration_index = 0;
+        SoapyWorkflowBoundary boundary(api, options);
+        CHECK(boundary.discover().empty());
+        CHECK(api.enumerateCalls_ == 0);
+    }
+}
+
+void testWorkflowBoundaryMaintainsMultiObservationIdentity() {
+    FakeApi api;
+    api.device_.reads_.push_back(
+        {ReadStatus::samples, tone(8'192, 2'000'000.0, 100'000.0), 1'000, {}});
+    api.device_.reads_.push_back(
+        {ReadStatus::samples, tone(8'192, 2'000'000.0, 110'000.0), 2'000, {}});
+    auto options = workflowOptions();
+    SoapyWorkflowBoundary boundary(api, options);
+    const auto first =
+        boundary.acquire(options.expected_device, options.expected_device.configuration,
+                         {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+    const auto second =
+        boundary.acquire(options.expected_device, options.expected_device.configuration,
+                         {"observation-2", "independence-2", "reference-2", 10'000'000.0}, {});
+    CHECK(first.status == sdrcal::application::AcquisitionStatus::success);
+    CHECK(second.status == sdrcal::application::AcquisitionStatus::success);
+    CHECK(first.identity.identifier == second.identity.identifier);
+    CHECK(first.configuration.sample_rate_hz == second.configuration.sample_rate_hz);
+    CHECK(api.unmakeCalls_ == 2);
+}
+
+void testWorkflowBoundaryFailsClosedOnIdentityAndCleanup() {
+    {
+        FakeApi api;
+        api.device_.hardwareInfo_["manufacturer"] = "Changed Manufacturer";
+        auto options = workflowOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.status == sdrcal::application::AcquisitionStatus::failed);
+        CHECK(result.reason.find("identity or configuration") != std::string::npos);
+        CHECK(result.device_release.succeeded);
+        CHECK(result.final_device_state_safe);
+    }
+    {
+        FakeApi api;
+        api.device_.reads_.push_back(
+            {ReadStatus::samples, tone(8'192, 2'000'000.0, 100'000.0), 1'000, {}});
+        api.failUnmake_ = true;
+        auto options = workflowOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.status == sdrcal::application::AcquisitionStatus::failed);
+        CHECK(!result.device_release.succeeded);
+        CHECK(!result.final_device_state_safe);
+        CHECK(result.samples.empty());
+    }
+}
+
+void testWorkflowBoundaryCancellationAndStreamFailure() {
+    {
+        FakeApi api;
+        auto options = workflowOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result = boundary.acquire(
+            options.expected_device, options.expected_device.configuration,
+            {"observation-1", "independence-1", "reference-1", 10'000'000.0}, [] { return true; });
+        CHECK(result.status == sdrcal::application::AcquisitionStatus::cancelled);
+        CHECK(api.makeCalls_ == 0);
+    }
+    {
+        FakeApi api;
+        api.device_.reads_.push_back(
+            {ReadStatus::discontinuity, {}, 1'000, "timestamp discontinuity"});
+        auto options = workflowOptions();
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.status == sdrcal::application::AcquisitionStatus::failed);
+        CHECK(result.stream_evidence.discontinuities == 1);
+        CHECK(result.samples.empty());
+        CHECK(result.final_device_state_safe);
+    }
 }
 
 } // namespace
@@ -665,6 +852,15 @@ int main() {
         {"gain mode must be verified", testGainModeMustBeVerified},
         {"read guard and exception translation", testReadGuardAndExceptionTranslation},
         {"native read translation", testNativeReadTranslation},
+        {"workflow evidence and cleanup", testWorkflowBoundaryComposesEvidenceAndCleanup},
+        {"workflow preflight and index identity",
+         testWorkflowBoundaryFailsBeforeConstructionAndRejectsIndexIdentity},
+        {"workflow identity and cleanup failures",
+         testWorkflowBoundaryFailsClosedOnIdentityAndCleanup},
+        {"workflow cancellation and stream failure",
+         testWorkflowBoundaryCancellationAndStreamFailure},
+        {"workflow multi-observation identity",
+         testWorkflowBoundaryMaintainsMultiObservationIdentity},
     };
 
     std::size_t failures = 0;

@@ -22,6 +22,7 @@ class FakeDevices final : public sdrcal::application::DeviceWorkflowBoundary {
     bool unsafe = false;
     bool mismatch = false;
     bool reject_metrics = false;
+    bool mismatched_estimate = false;
     int calls = 0;
 
     std::vector<sdrcal::application::DeviceCandidate> discover() override {
@@ -53,6 +54,9 @@ class FakeDevices final : public sdrcal::application::DeviceWorkflowBoundary {
             value.configuration.sample_rate_hz += 1;
         value.status = sdrcal::application::AcquisitionStatus::success;
         value.samples.assign(1024, {1.0F, 0.0F});
+        value.carrier_estimate = sdrcal::core::estimateCarrier(value.samples, 1024.0);
+        if (mismatched_estimate)
+            --value.carrier_estimate.sample_count;
         value.effective_indicated_center_frequency_hz = request.indicated_center_frequency_hz;
         value.effective_indicated_center_verified = true;
         value.sample_rate_sps = 1024.0;
@@ -200,6 +204,13 @@ void failClosedPaths() {
     CHECK(!result.profile);
 
     fake.reject_metrics = false;
+    fake.mismatched_estimate = true;
+    result = workflow.run(request(), fake);
+    CHECK(result.terminal_stage == application::WorkflowStage::estimate_and_accept);
+    CHECK(result.reason.find("different samples") != std::string::npos);
+    CHECK(!result.profile);
+    fake.mismatched_estimate = false;
+
     auto invalid_reference = request();
     invalid_reference.observations[0].reference_id = "missing";
     result = workflow.run(invalid_reference, fake);

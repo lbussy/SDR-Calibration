@@ -3,8 +3,10 @@
 ## Status and scope
 
 This document freezes the contract for a planned production live-device
-calibration path. The path is not implemented. The current production CLI and
-GUI calibrate only digest-verified recorded CF32LE observations.
+calibration path. Its bounded acquisition, signal-quality analyzer, and
+injected fake-Soapy workflow boundary are implemented and hardware-free tested.
+The production path is not implemented. The current production CLI and GUI
+calibrate only digest-verified recorded CF32LE observations.
 The durable architectural boundary is accepted in
 [decision 0021](decisions/0021-live-device-diagnostics-boundary.md).
 
@@ -129,9 +131,10 @@ Implementation is divided into separately reviewed slices:
 2. The versioned signal-quality analyzer is implemented with synthetic golden
    fixtures; physical-input comparison and qualification remain separate.
 3. Implement the live workflow boundary with an injected Soapy API and fake
-   devices. Prove identity/configuration mapping, multi-observation lifecycle,
-   evidence provenance, failure classification, and safe cleanup without a
-   physical device.
+   devices. This slice is implemented and hardware-free tested for exact
+   identity/configuration mapping, pre-device memory validation, acquisition
+   and analyzer composition, typed stream and cleanup evidence, cancellation,
+   failure classification, and safe cleanup without a physical device.
 4. Add an explicit live mode to the production CLI through the shared service.
    Recorded mode remains supported and schema-discriminated; neither mode may
    silently fall back to the other.

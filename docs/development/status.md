@@ -107,6 +107,12 @@
 - Versioned hardware-free signal-quality analyzer deriving coherent residual
   SNR, normalized clipping, bounded-window frequency instability, and strongest
   non-carrier FFT component with deterministic synthetic golden fixtures
+- Injected hardware-free Soapy workflow boundary composing exact device
+  selection, requested/effective readback, preflighted bounded in-memory
+  acquisition, carrier estimation, versioned signal-quality metrics,
+  stream-derived missing/discontinuity evidence, explicit reference-condition
+  evidence, and reverse-order known-safe cleanup. The shared workflow now
+  requires the returned carrier estimate to be bound to the exact sample count.
 
 ## Planned, not implemented
 
@@ -117,8 +123,8 @@
   qualification
 - Live-device integration for the production command-line application
 - Live-device integration for the Qt desktop application
-- Live-boundary mapping of analyzer metrics plus stream-derived missing-sample
-  and discontinuity evidence into observation diagnostics
+- Production CLI and GUI wiring for the implemented injected live boundary,
+  including coordinated final artifact publication
 - Production profile activation, signing, revocation, replacement, and
   evaluation orchestration in desktop clients
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,

@@ -172,7 +172,12 @@ production policies remain outside the hardware-free coordinator. The service
 currently produces linear native profiles only because schema 1.0 cannot
 represent a zero-span local-constant model without inventing a validity range.
 
-The Phase 12 production CLI supplies this boundary from explicitly selected,
+The injected hardware-free live boundary now composes Soapy preparation and
+readback, bounded in-memory acquisition, carrier estimation, signal-quality
+analysis, stream evidence, and known-safe cleanup. It is not connected to a
+production client and establishes no physical-device qualification.
+
+The Phase 12 production CLI supplies the application boundary from explicitly selected,
 digest-verified recorded CF32LE observations. It finalizes the evidence digest,
 refreshes native-profile integrity, synchronizes staged files, and publishes a
 new output directory atomically. Live SoapySDR calibration remains a later

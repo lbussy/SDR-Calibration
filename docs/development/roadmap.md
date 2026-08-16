@@ -330,8 +330,9 @@ capture and end-to-end calibration remain separate later gates.
 
 ## Live-device production integration
 
-**Status: Contract, bounded in-memory acquisition, and signal-quality analyzer
-implemented; integration and qualification not started.**
+**Status: Contract, bounded in-memory acquisition, signal-quality analyzer, and
+injected hardware-free Soapy workflow boundary implemented; production-client
+integration and physical qualification not started.**
 
 The [live-device calibration contract](live-device-calibration-contract.md)
 defines the boundary among SoapySDR, bounded in-memory acquisition, versioned
@@ -345,11 +346,15 @@ stream-error rejection, exception containment, and known-safe cleanup before it
 returns samples. The versioned signal-quality analyzer now derives coherent
 residual SNR, normalized clipping, bounded-window frequency instability, and
 the strongest non-carrier FFT component from deterministic in-memory inputs.
-The next implementation slice is the injected Soapy workflow boundary that
-combines acquisition and analyzer results with stream evidence. Production CLI
-mode, GUI controls, and separately authorized physical-device qualification
-follow as distinct reviewed slices. Recorded-input calibration remains the only
-implemented production mode until those gates pass.
+The injected workflow boundary now verifies stable identity and effective
+configuration, preflights memory before device construction, composes bounded
+acquisition with carrier estimation and the analyzer, maps missing/discontinuity
+diagnostics only from stream evidence, and requires reverse-order known-safe
+cleanup. It is tested through an injected fake Soapy API only. Production CLI
+mode, GUI controls, coordinated live publication, and separately authorized
+physical-device qualification follow as distinct reviewed slices. Recorded-
+input calibration remains the only implemented production mode until those
+gates pass.
 
 ## Release candidate
 

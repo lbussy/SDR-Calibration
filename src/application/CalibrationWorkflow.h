@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapters/wsjtx/WsjtXAdapter.h"
+#include "capture/CaptureTypes.h"
 #include "core/CalibrationModel.h"
 #include "core/CarrierEstimator.h"
 #include "core/ObservationAcceptance.h"
@@ -18,6 +19,17 @@
 namespace sdrcal::application {
 
 enum class AcquisitionStatus { success, cancelled, failed };
+enum class AcquisitionFailureStage {
+    none,
+    preflight,
+    preparation,
+    identity_configuration,
+    acquisition,
+    estimation,
+    analysis,
+    reference_conditions,
+    cleanup,
+};
 
 struct DeviceCandidate {
     profile::DeviceIdentity identity;
@@ -33,10 +45,13 @@ struct ObservationRequest {
 
 struct AcquisitionResult {
     AcquisitionStatus status = AcquisitionStatus::failed;
+    AcquisitionFailureStage failure_stage = AcquisitionFailureStage::none;
     std::string reason;
+    capture::CaptureError acquisition_error;
     profile::DeviceIdentity identity;
     profile::DeviceConfiguration configuration;
     std::vector<std::complex<float>> samples;
+    core::CarrierEstimate carrier_estimate;
     double effective_indicated_center_frequency_hz = 0.0;
     bool effective_indicated_center_verified = false;
     double sample_rate_sps = 0.0;
@@ -51,6 +66,12 @@ struct AcquisitionResult {
         core::EffectiveConfigurationValidity::unverified;
     bool reference_conditions_met = false;
     bool final_device_state_safe = false;
+    capture::StreamStatistics stream_evidence;
+    capture::CleanupResult deactivation;
+    capture::CleanupResult stream_close;
+    capture::CleanupResult device_release;
+    std::string signal_quality_version;
+    std::string reference_conditions_evidence;
 };
 
 class DeviceWorkflowBoundary {
