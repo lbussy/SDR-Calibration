@@ -33,6 +33,7 @@ development/live-gui-execution-prompt
 development/airspyhf-end-to-end-qualification-prompt
 development/airspyhf-end-to-end-readiness
 development/airspyhf-normalization-execution-prompt
+development/airspyhf-offline-analysis-prompt
 development/phase-14-execution-prompt
 development/phase-14-1-execution-prompt
 development/phase-14-2-execution-prompt

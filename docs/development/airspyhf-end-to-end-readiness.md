@@ -131,3 +131,35 @@ positive WWV suitability evidence under the unchanged policy.
 established.** In accordance with the no-retry plan, no 15 MHz capture or
 production calibration was attempted. End-to-end calibration remains not
 qualified.
+
+## Production offline-analysis record
+
+The separately reviewed hardware-free analysis used source revision
+`c0b6b57242cbe0e249b5c49c3d1169c034e4effb` and reverified the private raw
+artifact's 7,680,000-byte size and SHA-256 before reading it. A temporary,
+non-installed harness outside the repository loaded exactly 960,000 CF32LE
+samples and called the unmodified default `estimateCarrier` API at 192,000
+samples/s.
+
+The production estimator returned:
+
+| Field | Result |
+| --- | --- |
+| Status | `ambiguous_signal` |
+| Reason | Phase evolution is not coherent with one drifting carrier |
+| Sample count | 960,000 |
+| Mean power | `1.304926891240126e-08` |
+| Model coherence | `0.25964243826014699` |
+| Residual phase RMS | `1.5177842650445421` radians |
+
+The default minimum model coherence is 0.75. Because carrier estimation failed,
+the production `signal-quality-v1` analyzer was not invoked; its contract
+requires a successful, sample-bound estimate. This typed rejection agrees with
+the exploratory spectrum's competing off-center components and is stronger
+evidence than the earlier spectral heuristic: the captured input does not
+behave as one coherent drifting carrier under the immutable production model.
+
+**Offline-analysis outcome: production estimator rejected the sample; intended
+WWV suitability remains unestablished.** No estimator, analyzer, or acceptance
+threshold was changed. No SDR operation, second capture, 15 MHz analysis, or
+production calibration occurred.

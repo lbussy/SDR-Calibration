@@ -130,7 +130,11 @@
 - Provenance-bearing AirspyHF normalization for sparse Soapy metadata, including
   exact family policy, explicit driver-default clock classification, unsupported
   correction as effective zero, capture-manifest capability fields, and
-  negative fake-API cases. Physical behavior remains unverified.
+  negative fake-API cases. This source-only slice made no physical claim.
+- Exact 10 MHz Airspy diagnostic transport passed with known-safe cleanup, but
+  the immutable production estimator rejected the retained sample as
+  `ambiguous_signal` at 0.2596 coherence. WWV suitability and end-to-end
+  calibration remain unqualified; no 15 MHz run was attempted.
 
 ## Planned, not implemented
 

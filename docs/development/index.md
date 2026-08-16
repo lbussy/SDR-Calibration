@@ -27,6 +27,8 @@ The first exact local end-to-end candidate is governed by the
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).
 The readiness blocker is addressed by the hardware-free
 [AirspyHF normalization prompt](airspyhf-normalization-execution-prompt.md).
+The retained 10 MHz diagnostic is evaluated under the hardware-free
+[AirspyHF offline-analysis prompt](airspyhf-offline-analysis-prompt.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the
