@@ -10,6 +10,19 @@ endif()
 
 add_test(NAME capture_unit_tests COMMAND capture_unit_tests)
 
+add_executable(memory_acquisition_unit_tests MemoryAcquisitionTests.cpp)
+target_link_libraries(memory_acquisition_unit_tests PRIVATE sdrcal_capture)
+target_compile_features(memory_acquisition_unit_tests PRIVATE cxx_std_20)
+
+if(MSVC)
+    target_compile_options(memory_acquisition_unit_tests PRIVATE /W4 /permissive-)
+else()
+    target_compile_options(
+        memory_acquisition_unit_tests PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
+endif()
+
+add_test(NAME memory_acquisition_unit_tests COMMAND memory_acquisition_unit_tests)
+
 if(TARGET sdrcal_core)
     add_executable(carrier_estimator_unit_tests CarrierEstimatorTests.cpp)
     target_link_libraries(carrier_estimator_unit_tests PRIVATE sdrcal_core)

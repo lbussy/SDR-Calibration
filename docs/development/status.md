@@ -100,6 +100,10 @@
   requested/effective settings, bounded in-memory acquisition, acceptance-input
   provenance, cancellation, cleanup, evidence, and a gated hardware-free
   implementation sequence; production live mode remains unimplemented
+- SoapySDR-independent bounded in-memory acquisition with explicit memory
+  limits, exact read bounds, non-finite-sample rejection, cancellation,
+  exception containment, stream statistics, known-safe cleanup enforcement, and
+  deterministic hardware-free tests
 
 ## Planned, not implemented
 
@@ -110,8 +114,8 @@
   qualification
 - Live-device integration for the production command-line application
 - Live-device integration for the Qt desktop application
-- Bounded in-memory live acquisition and versioned derivation of SNR, clipping,
-  missing-sample, discontinuity, instability, and interference diagnostics
+- Versioned derivation of SNR, clipping, missing-sample, discontinuity,
+  instability, and interference diagnostics
 - Production profile activation, signing, revocation, replacement, and
   evaluation orchestration in desktop clients
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,

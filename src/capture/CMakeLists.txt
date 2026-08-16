@@ -1,5 +1,6 @@
 add_library(sdrcal_capture
     CaptureManifestWriter.cpp
+    MemoryAcquisition.cpp
     CapturePlan.cpp
     CaptureRecorder.cpp
     RawIqWriter.cpp

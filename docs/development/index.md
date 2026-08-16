@@ -14,6 +14,8 @@ The planned production live-device path is governed by the
 [live-device calibration contract](live-device-calibration-contract.md). Its
 initial contract-freezing work is retained in the
 [Phase 1 execution prompt](live-device-integration-phase-1-execution-prompt.md).
+The first implementation slice is retained in the
+[bounded in-memory acquisition prompt](live-memory-acquisition-execution-prompt.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the

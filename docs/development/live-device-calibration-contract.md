@@ -62,7 +62,10 @@ Each observation requires a positive sample or duration bound and is subject to
 the capture component's hard duration, sample, byte, timeout, and consecutive-
 timeout ceilings. The in-memory component must additionally enforce an explicit
 memory ceiling before device construction. It reads no more samples than remain
-and rejects non-finite samples.
+and rejects non-finite samples. The memory ceiling uses the implementation's
+actual in-memory complex-sample size rather than the serialized CF32LE size.
+The future live boundary must call the component's public preflight validation
+before constructing a device, then apply the same validated limits to capture.
 
 Cancellation is checked before discovery, before device construction, between
 reads, before analysis, between observations, and before artifact publication.

@@ -330,7 +330,8 @@ capture and end-to-end calibration remain separate later gates.
 
 ## Live-device production integration
 
-**Status: Contract frozen; implementation and qualification not started.**
+**Status: Contract and bounded in-memory acquisition implemented; remaining
+integration and qualification not started.**
 
 The [live-device calibration contract](live-device-calibration-contract.md)
 defines the boundary among SoapySDR, bounded in-memory acquisition, versioned
@@ -338,11 +339,14 @@ signal-quality analysis, authenticated reference evidence, the shared workflow,
 and coordinated artifact publication. It forbids treating operator-entered
 acceptance metrics as application-derived evidence.
 
-The next implementation slice is the Soapy-independent bounded in-memory
-acquisition component. Signal-quality derivation, the injected Soapy workflow
-boundary, production CLI mode, GUI controls, and separately authorized physical-
-device qualification follow as distinct reviewed slices. Recorded-input
-calibration remains the only implemented production mode until those gates pass.
+The Soapy-independent bounded in-memory acquisition component now enforces an
+explicit memory ceiling, exact read bounds, cancellation, non-finite-sample and
+stream-error rejection, exception containment, and known-safe cleanup before it
+returns samples. The next implementation slice is the versioned signal-quality
+analyzer. The injected Soapy workflow boundary, production CLI mode, GUI
+controls, and separately authorized physical-device qualification follow as
+distinct reviewed slices. Recorded-input calibration remains the only
+implemented production mode until those gates pass.
 
 ## Release candidate
 
