@@ -328,6 +328,22 @@ a native passing build, measured 128 MiB-per-observation resource envelope, and
 an audited exact ARM64 DEB. Clean-host installation remains open. SoapySDR
 capture and end-to-end calibration remain separate later gates.
 
+## Live-device production integration
+
+**Status: Contract frozen; implementation and qualification not started.**
+
+The [live-device calibration contract](live-device-calibration-contract.md)
+defines the boundary among SoapySDR, bounded in-memory acquisition, versioned
+signal-quality analysis, authenticated reference evidence, the shared workflow,
+and coordinated artifact publication. It forbids treating operator-entered
+acceptance metrics as application-derived evidence.
+
+The next implementation slice is the Soapy-independent bounded in-memory
+acquisition component. Signal-quality derivation, the injected Soapy workflow
+boundary, production CLI mode, GUI controls, and separately authorized physical-
+device qualification follow as distinct reviewed slices. Recorded-input
+calibration remains the only implemented production mode until those gates pass.
+
 ## Release candidate
 
 Freeze a source revision and the initial schema and artifact compatibility

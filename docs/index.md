@@ -25,6 +25,8 @@ user-guide/desktop-application
 development/index
 development/status
 development/roadmap
+development/live-device-calibration-contract
+development/live-device-integration-phase-1-execution-prompt
 development/phase-14-execution-prompt
 development/phase-14-1-execution-prompt
 development/phase-14-2-execution-prompt

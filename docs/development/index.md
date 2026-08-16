@@ -10,10 +10,16 @@ supported target list and currently unvalidated.
 The calibration core remains independent of the GUI, SDR driver boundary,
 operating-system paths, and interoperability formats.
 
+The planned production live-device path is governed by the
+[live-device calibration contract](live-device-calibration-contract.md). Its
+initial contract-freezing work is retained in the
+[Phase 1 execution prompt](live-device-integration-phase-1-execution-prompt.md).
+
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the
 [repository layout](repository-layout.md), [application architecture](application-architecture.md),
 [complex-IQ capture contract](capture-contract.md),
+[live-device calibration contract](live-device-calibration-contract.md),
 [Qualification Gate 1 Airspy HF+ Discovery record](qualification-gate-1-airspyhf.md),
 [platform and device matrix](platform-and-device-matrix.md),
 [end-to-end calibration qualification gate](end-to-end-qualification.md),
@@ -25,6 +31,8 @@ Start with the [implementation status](status.md) and
 [decision log](decisions/index.md).
 
 Phase execution records include the
+[live-device integration Phase 1 prompt](live-device-integration-phase-1-execution-prompt.md),
+the
 [Phase 12 production CLI prompt](phase-12-execution-prompt.md) and
 [Phase 13 Qt desktop prompt](phase-13-execution-prompt.md).
 The current packaging and qualification foundation is governed by the
