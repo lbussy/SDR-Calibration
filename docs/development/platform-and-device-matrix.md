@@ -28,7 +28,7 @@ outside the initial supported matrix.
 | Ubuntu 24.04.4 Phase 14.3 DEB | x86_64 | Historical build evidence at `e16a07d`; unsupported and currently unvalidated | Historical extracted DEB audit; SHA-256 `61ba677ef389b7544df9c1d59bc354f917e64f4b39ab8f752f39ac645cfc23d5`; not a current package or clean-host claim | Not applicable | [Phase 14.3 CI run 31899087299](https://github.com/lbussy/SDR-Calibration/actions/runs/31899087299) |
 | Ubuntu 24.04.4 Phase 14.4 DEB | x86_64 | Historical build evidence at `71a141a`; unsupported and currently unvalidated | Historical extracted payload/runtime and dependency-license audit; SHA-256 `f736d213c74b985cfada038eef8c1c6928089ea5bc5eb5b9f93954eec6458021`; not a current package or clean-host claim | Not applicable | [Phase 14.4 CI run 31899855376](https://github.com/lbussy/SDR-Calibration/actions/runs/31899855376) |
 | Windows Server 2025 CI | x86_64 | Build-covered | Portable archive content audited in CI; clean-host install not qualified | Not qualified | [Phase 14 CI run 31895283367](https://github.com/lbussy/SDR-Calibration/actions/runs/31895283367) |
-| Windows Phase 14.2 package input | x86_64 | Tooling implemented; exact package run pending | Signed MSI tooling implemented; artifact and clean-host install not qualified | Tooling implemented; exact signed artifact not qualified | No retained Phase 14.2 package run |
+| Windows 11 Pro 25H2 on `ecm-mule` | x86_64 | Locally build-covered at `15ed17b`; 14/14 hardware-free tests passed | Exact self-signed MSI audit and same-host install, launch, maintenance-install, and uninstall lifecycle passed; SHA-256 `7be98c92de35bb31024152161f9b3bb4e76cbf6a3d2728001060f3d338d81973`; clean-host install and prior-version upgrade not qualified | Locally trusted self-signed development certificate; not publicly trusted or release-signed | [Exact-host Windows evidence](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/windows-x64/2026-08-16-ecm-mule-15ed17b/README.md) |
 | Raspberry Pi OS 13 on Raspberry Pi 4 Model B Rev 1.1 | arm64 | Native CLI-only build-covered at `5f50d31` with GCC 14.2.0 and CMake 3.31.6; 12/12 hardware-free tests passed | CLI-only archive and rootless DEB payload audited; DEB SHA-256 `d3de3d6397aaec7c3959e8854ac1871a787e4850706ae7736761a3fa887605ef`; clean-host lifecycle not qualified | Not applicable; repository/package signing is not implemented | [Native build, package, and resource evidence](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/raspberry-pi-cli/2026-08-15-wspr4-5f50d31/README.md) |
 
 The minimum source-build baselines are CMake 3.20, a C++20 compiler, Qt 6.2
@@ -59,10 +59,11 @@ presence is not retained evidence for a DEB; only the exact manifest and
 artifact hash from a passing run can establish that narrower historical claim.
 Ubuntu is not a current supported target, and no current validation is planned.
 
-Phase 14.4 tooling is implemented. The exact macOS and Ubuntu rows above retain
-artifact-specific disposition evidence. A Windows row still requires a new
-signed MSI run with exact runtime and Qt source hashes before it can be
-relabeled. Evidence does not transfer between artifacts or architectures.
+Phase 14.4 tooling is implemented. The exact macOS, Windows, and Ubuntu rows
+above retain artifact-specific disposition evidence. The Windows result remains
+limited to its locally trusted self-signed mode and exact-host lifecycle;
+clean-host and public-trust gates remain open. Evidence does not transfer
+between artifacts or architectures.
 
 ## Device matrix
 
