@@ -208,9 +208,9 @@ fixtures without Qt, network access, or physical hardware.
 
 ## Phase 12: Production CLI
 
-**Status: Implemented and hardware-free validated for recorded CF32LE input;
-live-device integration, production trust management, and calibration
-qualification remain separate gates.**
+**Status: Implemented and hardware-free validated for recorded CF32LE and
+explicit live-device input; production trust management and physical
+calibration qualification remain separate gates.**
 
 Deliver the supported command-line application over the shared services.
 Define stable arguments, automation-safe exit statuses, progress reporting,
@@ -219,13 +219,14 @@ cancellation, diagnostics, and output behavior.
 Exit requires the CLI and planned GUI to use the same application-service
 contracts and product semantics.
 
-The implemented `sdrcal calibrate` command accepts a strict versioned run
-request, an independently selected local registry-signature pin file, and
-bounded digest-verified recorded observations. It emits canonical terminal
-JSON, stable exit categories, progress diagnostics, cancellation, and a
-coordinated new-directory publication containing the native profile, finalized
-evidence, reduced summary, and optional lossy WSJT-X projection. It does not
-enumerate or access SDR hardware.
+The implemented `sdrcal calibrate` command accepts explicit, strict versioned
+schemas for bounded digest-verified recorded observations and bounded live
+acquisition, plus an independently selected local registry-signature pin file.
+It emits canonical terminal JSON, stable exit categories, progress diagnostics,
+cancellation, and a coordinated new-directory publication containing the
+native profile, finalized evidence, reduced summary, and optional lossy WSJT-X
+projection. Normal validation remains hardware-free; actual live use is a
+separately authorized and qualified operation.
 
 ## Phase 13: Qt desktop application
 
@@ -330,9 +331,9 @@ capture and end-to-end calibration remain separate later gates.
 
 ## Live-device production integration
 
-**Status: Contract, bounded in-memory acquisition, signal-quality analyzer, and
-injected hardware-free Soapy workflow boundary implemented; production-client
-integration and physical qualification not started.**
+**Status: Contract, bounded in-memory acquisition, signal-quality analyzer,
+injected hardware-free Soapy workflow boundary, and production CLI integration
+implemented; GUI integration and physical qualification not started.**
 
 The [live-device calibration contract](live-device-calibration-contract.md)
 defines the boundary among SoapySDR, bounded in-memory acquisition, versioned
@@ -350,11 +351,12 @@ The injected workflow boundary now verifies stable identity and effective
 configuration, preflights memory before device construction, composes bounded
 acquisition with carrier estimation and the analyzer, maps missing/discontinuity
 diagnostics only from stream evidence, and requires reverse-order known-safe
-cleanup. It is tested through an injected fake Soapy API only. Production CLI
-mode, GUI controls, coordinated live publication, and separately authorized
-physical-device qualification follow as distinct reviewed slices. Recorded-
-input calibration remains the only implemented production mode until those
-gates pass.
+cleanup. The production CLI now selects this boundary only for the explicit
+`sdrcal-live-calibration-request` schema, rejects live mode when Soapy support is
+absent, derives diagnostics rather than accepting them from the request, and
+uses the existing coordinated publication transaction. All validation remains
+fake-API and hardware-free. GUI controls and separately authorized physical-
+device qualification follow as distinct reviewed slices.
 
 ## Release candidate
 

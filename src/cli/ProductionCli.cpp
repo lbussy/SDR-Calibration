@@ -1,5 +1,6 @@
 #include "cli/ProductionCli.h"
 
+#include "capture/MemoryAcquisition.h"
 #include "profile/CanonicalJson.h"
 #include "profile/Sha256.h"
 
@@ -119,7 +120,8 @@ profile::DeviceConfiguration configuration(const JsonObject& object, Reader& rea
                                            const std::string& path) {
     reader.members(object,
                    {"clock_source", "sample_rate_hz", "bandwidth_hz", "frequency_correction_ppm",
-                    "driver_version", "firmware_version", "antenna_port", "tuner_path"},
+                    "driver_version", "firmware_version", "antenna_port", "tuner_path",
+                    "binding_extension"},
                    path);
     profile::DeviceConfiguration result;
     result.clock_source = reader.string(object, "clock_source", path);
@@ -138,6 +140,26 @@ profile::DeviceConfiguration configuration(const JsonObject& object, Reader& rea
     optionalString("firmware_version", result.firmware_version);
     optionalString("antenna_port", result.antenna_port);
     optionalString("tuner_path", result.tuner_path);
+    if (object.contains("binding_extension")) {
+        const auto* value = reader.member(object, "binding_extension", path);
+        const auto* extension =
+            value ? reader.object(*value, path + ".binding_extension") : nullptr;
+        if (extension)
+            result.binding_extension = *extension;
+    }
+    return result;
+}
+
+std::map<std::string, std::string> stringMap(const JsonObject& object, Reader& reader,
+                                             const std::string& path) {
+    std::map<std::string, std::string> result;
+    for (const auto& [key, value] : object) {
+        const auto* text = std::get_if<std::string>(&value.value);
+        if (key.empty() || !text || text->empty())
+            reader.errors.push_back(path + " must contain non-empty string keys and values");
+        else
+            result.emplace(key, *text);
+    }
     return result;
 }
 
@@ -408,33 +430,63 @@ ProductRequestResult parseProductRequest(std::string_view json,
         result.errors = std::move(reader.errors);
         return result;
     }
-    reader.members(*root,
-                   {"schema_name",
-                    "schema_version",
-                    "profile_id",
-                    "calibration_run_id",
-                    "created_at",
-                    "not_valid_after",
-                    "software_version",
-                    "device",
-                    "requested_configuration",
-                    "minimum_warmup_seconds",
-                    "temperature",
-                    "registry",
-                    "observations",
-                    "uncertainty",
-                    "assurance_components",
-                    "qualification_threshold",
-                    "estimator_policy",
-                    "acceptance_policy",
-                    "evidence",
-                    "interoperability"},
-                   "$");
-    if (reader.string(*root, "schema_name", "$") != "sdrcal-recorded-calibration-request")
+    const auto schemaName = reader.string(*root, "schema_name", "$");
+    const bool liveMode = schemaName == "sdrcal-live-calibration-request";
+    const bool recordedMode = schemaName == "sdrcal-recorded-calibration-request";
+    if (liveMode) {
+        reader.members(*root,
+                       {"schema_name",
+                        "schema_version",
+                        "profile_id",
+                        "calibration_run_id",
+                        "created_at",
+                        "not_valid_after",
+                        "software_version",
+                        "device",
+                        "requested_configuration",
+                        "live_acquisition",
+                        "minimum_warmup_seconds",
+                        "temperature",
+                        "registry",
+                        "observations",
+                        "uncertainty",
+                        "assurance_components",
+                        "qualification_threshold",
+                        "estimator_policy",
+                        "acceptance_policy",
+                        "evidence",
+                        "interoperability"},
+                       "$");
+    } else {
+        reader.members(*root,
+                       {"schema_name",
+                        "schema_version",
+                        "profile_id",
+                        "calibration_run_id",
+                        "created_at",
+                        "not_valid_after",
+                        "software_version",
+                        "device",
+                        "requested_configuration",
+                        "minimum_warmup_seconds",
+                        "temperature",
+                        "registry",
+                        "observations",
+                        "uncertainty",
+                        "assurance_components",
+                        "qualification_threshold",
+                        "estimator_policy",
+                        "acceptance_policy",
+                        "evidence",
+                        "interoperability"},
+                       "$");
+    }
+    if (!liveMode && !recordedMode)
         reader.errors.push_back("$.schema_name is unsupported");
     if (reader.string(*root, "schema_version", "$") != "1.0.0")
         reader.errors.push_back("$.schema_version is unsupported");
     ProductRequest product;
+    product.input_mode = liveMode ? ProductInputMode::live : ProductInputMode::recorded;
     auto& workflow = product.workflow;
     workflow.profile_id = reader.string(*root, "profile_id", "$");
     workflow.calibration_run_id = reader.string(*root, "calibration_run_id", "$");
@@ -478,6 +530,77 @@ ProductRequestResult parseProductRequest(std::string_view json,
     if (requested)
         workflow.requested_configuration =
             configuration(*requested, reader, "$.requested_configuration");
+    if (liveMode) {
+        LiveAcquisitionRequest live;
+        const auto* acquisitionValue = reader.member(*root, "live_acquisition", "$");
+        const auto* acquisition =
+            acquisitionValue ? reader.object(*acquisitionValue, "$.live_acquisition") : nullptr;
+        if (acquisition) {
+            reader.members(*acquisition,
+                           {"device_arguments", "rx_channel", "gain_db", "duration_seconds",
+                            "sample_count", "read_timeout_ms", "maximum_memory_bytes"},
+                           "$.live_acquisition");
+            const auto* argumentsValue =
+                reader.member(*acquisition, "device_arguments", "$.live_acquisition");
+            const auto* arguments =
+                argumentsValue
+                    ? reader.object(*argumentsValue, "$.live_acquisition.device_arguments")
+                    : nullptr;
+            if (arguments)
+                live.device_arguments =
+                    stringMap(*arguments, reader, "$.live_acquisition.device_arguments");
+            if (live.device_arguments.empty())
+                reader.errors.push_back(
+                    "$.live_acquisition.device_arguments must select one stable device");
+            const auto channel = reader.integer(*acquisition, "rx_channel", "$.live_acquisition");
+            if (channel < 0 ||
+                static_cast<std::uint64_t>(channel) >
+                    static_cast<std::uint64_t>(std::numeric_limits<std::size_t>::max()))
+                reader.errors.push_back(
+                    "$.live_acquisition.rx_channel must be non-negative and representable");
+            else
+                live.rx_channel = static_cast<std::size_t>(channel);
+            if (acquisition->contains("gain_db"))
+                live.gain_db = reader.number(*acquisition, "gain_db", "$.live_acquisition");
+            const bool hasDuration = acquisition->contains("duration_seconds");
+            const bool hasSamples = acquisition->contains("sample_count");
+            if (hasDuration == hasSamples) {
+                reader.errors.push_back(
+                    "$.live_acquisition requires exactly one duration_seconds or sample_count");
+            } else if (hasDuration) {
+                const double duration =
+                    reader.number(*acquisition, "duration_seconds", "$.live_acquisition");
+                if (duration <= 0.0)
+                    reader.errors.push_back("$.live_acquisition.duration_seconds must be positive");
+                else
+                    live.duration_seconds = duration;
+            } else {
+                const auto samples =
+                    reader.integer(*acquisition, "sample_count", "$.live_acquisition");
+                if (samples <= 0)
+                    reader.errors.push_back("$.live_acquisition.sample_count must be positive");
+                else
+                    live.sample_count = static_cast<std::uint64_t>(samples);
+            }
+            const auto timeout =
+                reader.integer(*acquisition, "read_timeout_ms", "$.live_acquisition");
+            if (timeout <= 0 || timeout > std::chrono::milliseconds::max().count())
+                reader.errors.push_back(
+                    "$.live_acquisition.read_timeout_ms must be positive and representable");
+            else
+                live.read_timeout = std::chrono::milliseconds(timeout);
+            const auto memory =
+                reader.integer(*acquisition, "maximum_memory_bytes", "$.live_acquisition");
+            if (memory <= 0)
+                reader.errors.push_back("$.live_acquisition.maximum_memory_bytes must be positive");
+            else
+                live.maximum_memory_bytes = static_cast<std::uint64_t>(memory);
+        }
+        product.live_acquisition = std::move(live);
+        workflow.evidence.metadata.push_back({"input_mode", "live"});
+    } else {
+        workflow.evidence.metadata.push_back({"input_mode", "recorded"});
+    }
     const auto* temperatureValue = reader.member(*root, "temperature", "$");
     const auto* temperature =
         temperatureValue ? reader.object(*temperatureValue, "$.temperature") : nullptr;
@@ -566,6 +689,20 @@ ProductRequestResult parseProductRequest(std::string_view json,
             const auto* item = reader.object((*observations)[i], path);
             if (!item)
                 continue;
+            if (liveMode) {
+                reader.members(*item,
+                               {"observation_id", "independence_id", "reference_id",
+                                "indicated_center_frequency_hz"},
+                               path);
+                application::ObservationRequest liveObservation;
+                liveObservation.observation_id = reader.string(*item, "observation_id", path);
+                liveObservation.independence_id = reader.string(*item, "independence_id", path);
+                liveObservation.reference_id = reader.string(*item, "reference_id", path);
+                liveObservation.indicated_center_frequency_hz =
+                    reader.number(*item, "indicated_center_frequency_hz", path);
+                workflow.observations.push_back(std::move(liveObservation));
+                continue;
+            }
             reader.members(*item,
                            {"observation_id", "independence_id", "reference_id",
                             "indicated_center_frequency_hz",
@@ -784,6 +921,28 @@ ProductRequestResult parseProductRequest(std::string_view json,
         workflow.acceptance_policy.maximum_interference_to_carrier_db =
             reader.number(*acceptance, "maximum_interference_to_carrier_db", "$.acceptance_policy");
     }
+    if (liveMode && product.live_acquisition && !workflow.observations.empty()) {
+        const auto& live = *product.live_acquisition;
+        capture::CaptureRequest captureRequest;
+        captureRequest.device_arguments = live.device_arguments;
+        captureRequest.rx_channel = live.rx_channel;
+        captureRequest.center_frequency_hz =
+            workflow.observations.front().indicated_center_frequency_hz;
+        captureRequest.sample_rate_sps =
+            static_cast<double>(workflow.requested_configuration.sample_rate_hz);
+        if (workflow.requested_configuration.bandwidth_hz)
+            captureRequest.bandwidth_hz =
+                static_cast<double>(*workflow.requested_configuration.bandwidth_hz);
+        captureRequest.gain_db = live.gain_db;
+        captureRequest.duration_seconds = live.duration_seconds;
+        captureRequest.sample_count = live.sample_count;
+        captureRequest.read_timeout = live.read_timeout;
+        captureRequest.setting_policy = capture::SettingPolicy::strict;
+        const auto preflight = capture::validateMemoryAcquisitionRequestBeforeDevice(
+            captureRequest, {}, {live.maximum_memory_bytes});
+        for (const auto& error : preflight)
+            reader.errors.push_back("$.live_acquisition preflight failed: " + error.message);
+    }
     if (!reader.errors.empty()) {
         result.errors = std::move(reader.errors);
         return result;
@@ -802,7 +961,8 @@ std::string productUsage() {
 }
 
 ProductExit runProductCommand(const ProductArguments& arguments, std::ostream& output,
-                              std::ostream& diagnostics, ProductCancellationCheck cancelled) {
+                              std::ostream& diagnostics, ProductCancellationCheck cancelled,
+                              LiveBoundaryFactory liveBoundaryFactory) {
     if (!arguments.ok() || arguments.action != ProductAction::calibrate) {
         output << terminalJson("usage_error", static_cast<int>(ProductExit::usage),
                                arguments.errors.empty() ? "invalid action"
@@ -852,6 +1012,34 @@ ProductExit runProductCommand(const ProductArguments& arguments, std::ostream& o
         output << terminalJson("input_error", static_cast<int>(ProductExit::input), reason);
         return ProductExit::input;
     }
+    std::string inputError;
+    std::unique_ptr<application::DeviceWorkflowBoundary> boundary;
+    if (parsed.request->input_mode == ProductInputMode::recorded) {
+        boundary = std::make_unique<RecordedBoundary>(*parsed.request, cancelled, inputError);
+    } else {
+        if (!liveBoundaryFactory) {
+            output << terminalJson("input_error", static_cast<int>(ProductExit::input),
+                                   "live input is unavailable in this build");
+            return ProductExit::input;
+        }
+        try {
+            boundary = liveBoundaryFactory(*parsed.request);
+        } catch (const std::exception& exception) {
+            output << terminalJson("input_error", static_cast<int>(ProductExit::input),
+                                   "live boundary construction failed: " +
+                                       std::string(exception.what()));
+            return ProductExit::input;
+        } catch (...) {
+            output << terminalJson("input_error", static_cast<int>(ProductExit::input),
+                                   "live boundary construction failed");
+            return ProductExit::input;
+        }
+        if (!boundary) {
+            output << terminalJson("input_error", static_cast<int>(ProductExit::input),
+                                   "live boundary construction returned no boundary");
+            return ProductExit::input;
+        }
+    }
     std::error_code ec;
     if (std::filesystem::exists(arguments.output_directory, ec) || ec) {
         output << terminalJson("output_error", static_cast<int>(ProductExit::output),
@@ -869,10 +1057,8 @@ ProductExit runProductCommand(const ProductArguments& arguments, std::ostream& o
         std::filesystem::remove_all(staging, ignored);
     };
     diagnostics << "progress: running shared calibration workflow\n";
-    std::string inputError;
-    RecordedBoundary boundary(*parsed.request, cancelled, inputError);
     application::CalibrationWorkflow workflow;
-    auto result = workflow.run(parsed.request->workflow, boundary, cancelled);
+    auto result = workflow.run(parsed.request->workflow, *boundary, cancelled);
     if (!result.succeeded()) {
         cleanup();
         const bool wasCancelled = result.status == application::WorkflowStatus::cancelled;

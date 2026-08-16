@@ -1,4 +1,7 @@
 #include "cli/ProductionCli.h"
+#ifdef SDRCAL_PRODUCT_LIVE_ENABLED
+#include "cli/LiveCliSupport.h"
+#endif
 
 #include <csignal>
 #include <iostream>
@@ -24,6 +27,10 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     std::signal(SIGINT, cancel);
-    return static_cast<int>(sdrcal::cli::runProductCommand(parsed, std::cout, std::cerr,
-                                                           [] { return cancelled != 0; }));
+    sdrcal::cli::LiveBoundaryFactory liveFactory;
+#ifdef SDRCAL_PRODUCT_LIVE_ENABLED
+    liveFactory = sdrcal::cli::productionLiveBoundaryFactory();
+#endif
+    return static_cast<int>(sdrcal::cli::runProductCommand(
+        parsed, std::cout, std::cerr, [] { return cancelled != 0; }, std::move(liveFactory)));
 }

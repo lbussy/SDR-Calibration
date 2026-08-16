@@ -99,7 +99,8 @@
 - Frozen production live-device calibration contract covering exact identity,
   requested/effective settings, bounded in-memory acquisition, acceptance-input
   provenance, cancellation, cleanup, evidence, and a gated hardware-free
-  implementation sequence; production live mode remains unimplemented
+  implementation sequence; live CLI wiring is implemented while GUI and
+  physical qualification remain open
 - SoapySDR-independent bounded in-memory acquisition with explicit memory
   limits, exact read bounds, non-finite-sample rejection, cancellation,
   exception containment, stream statistics, known-safe cleanup enforcement, and
@@ -113,6 +114,10 @@
   stream-derived missing/discontinuity evidence, explicit reference-condition
   evidence, and reverse-order known-safe cleanup. The shared workflow now
   requires the returned carrier estimate to be bound to the exact sample count.
+- Production CLI live-request wiring with an explicit schema, no recorded/live
+  fallback, strict bounded acquisition inputs, injected boundary construction,
+  authenticated-registry condition evidence, coordinated publication, and
+  hardware-free frontend tests. Physical execution remains unqualified.
 
 ## Planned, not implemented
 
@@ -121,10 +126,8 @@
 - Network reference-registry transport and production trust-store integration
 - Additional real-device SoapySDR combinations and end-to-end calibration
   qualification
-- Live-device integration for the production command-line application
 - Live-device integration for the Qt desktop application
-- Production CLI and GUI wiring for the implemented injected live boundary,
-  including coordinated final artifact publication
+- GUI wiring for the implemented injected live boundary
 - Production profile activation, signing, revocation, replacement, and
   evaluation orchestration in desktop clients
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,

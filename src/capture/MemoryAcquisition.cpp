@@ -1,5 +1,7 @@
 #include "capture/MemoryAcquisition.h"
 
+#include "capture/CapturePlan.h"
+
 #include <algorithm>
 #include <cmath>
 #include <exception>
@@ -58,6 +60,38 @@ std::vector<CaptureError> validateMemoryAcquisitionPlan(const CapturePlan& plan,
             {ErrorCategory::validation, "memory acquisition target exceeds addressable storage"});
     }
     return errors;
+}
+
+std::vector<CaptureError> validateMemoryAcquisitionRequestBeforeDevice(
+    const CaptureRequest& request, const ResourceLimits& resourceLimits,
+    const MemoryAcquisitionLimits& memoryLimits, const SettingTolerances& tolerances) {
+    auto boundedRequest = request;
+    if (boundedRequest.output_path.empty())
+        boundedRequest.output_path = "memory-preflight-not-published";
+    if (boundedRequest.duration_seconds) {
+        const double rateMargin =
+            std::max(tolerances.sample_rate_sps.absolute,
+                     std::abs(request.sample_rate_sps) * tolerances.sample_rate_sps.relative);
+        if (!std::isfinite(rateMargin) || rateMargin < 0.0 ||
+            request.sample_rate_sps > std::numeric_limits<double>::max() - rateMargin)
+            return {{ErrorCategory::validation,
+                     "memory preflight sample-rate tolerance is invalid or overflowed"}};
+        boundedRequest.sample_rate_sps += rateMargin;
+    }
+    EffectiveSettings settings;
+    settings.center_frequency_hz = {boundedRequest.center_frequency_hz,
+                                    boundedRequest.center_frequency_hz,
+                                    SettingState::applied_verified};
+    settings.sample_rate_sps = {boundedRequest.sample_rate_sps, boundedRequest.sample_rate_sps,
+                                SettingState::applied_verified};
+    settings.bandwidth_hz = {boundedRequest.bandwidth_hz, boundedRequest.bandwidth_hz,
+                             SettingState::applied_verified};
+    settings.gain_db = {boundedRequest.gain_db, boundedRequest.gain_db,
+                        SettingState::applied_verified};
+    const auto planned = makeCapturePlan(boundedRequest, settings, resourceLimits);
+    if (!planned.ok())
+        return planned.errors;
+    return validateMemoryAcquisitionPlan(*planned.plan, memoryLimits);
 }
 
 MemoryAcquisitionResult MemoryAcquisition::acquire(const CapturePlan& plan, SampleSource& source,

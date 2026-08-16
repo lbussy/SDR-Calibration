@@ -33,6 +33,10 @@ using MemoryCancellationCheck = std::function<bool()>;
 [[nodiscard]] std::vector<CaptureError>
 validateMemoryAcquisitionPlan(const CapturePlan& plan, const MemoryAcquisitionLimits& limits = {});
 
+[[nodiscard]] std::vector<CaptureError> validateMemoryAcquisitionRequestBeforeDevice(
+    const CaptureRequest& request, const ResourceLimits& resource_limits = {},
+    const MemoryAcquisitionLimits& memory_limits = {}, const SettingTolerances& tolerances = {});
+
 class MemoryAcquisition {
   public:
     [[nodiscard]] MemoryAcquisitionResult acquire(const CapturePlan& plan, SampleSource& source,

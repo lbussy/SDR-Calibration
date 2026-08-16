@@ -224,6 +224,13 @@ verification, stable JSON/exit behavior, shared-workflow success, cancellation,
 existing-output refusal, staging cleanup, and finalized artifact publication.
 It uses synthetic local files only and performs no device, network, or RF work.
 
+The production CLI tests additionally cover explicit recorded/live schema
+discrimination, cross-mode-field rejection, live resource bounds,
+disabled-Soapy rejection before staging, injected live-boundary publication,
+and recorded-mode regression. The Soapy adapter suite separately exercises
+acquisition and cleanup through fake APIs. Neither suite enumerates host
+devices or starts a physical stream.
+
 The Phase 13 `gui_workflow_tests` target verifies exact CLI argument/exit
 delegation, thread-safe cancellation state, bounded regular-file review,
 symbolic-link refusal, and required/optional result artifacts. The

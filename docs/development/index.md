@@ -18,6 +18,8 @@ The first implementation slice is retained in the
 [bounded in-memory acquisition prompt](live-memory-acquisition-execution-prompt.md).
 The analyzer slice is retained in the
 [signal-quality execution prompt](signal-quality-analyzer-execution-prompt.md).
+The production live-CLI slice is governed by the
+[live-CLI execution prompt](live-cli-execution-prompt.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the

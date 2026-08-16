@@ -5,8 +5,8 @@
 This document freezes the contract for a planned production live-device
 calibration path. Its bounded acquisition, signal-quality analyzer, and
 injected fake-Soapy workflow boundary are implemented and hardware-free tested.
-The production path is not implemented. The current production CLI and GUI
-calibrate only digest-verified recorded CF32LE observations.
+The production CLI has explicit live-request wiring; the GUI remains recorded-
+input only, and no physical live combination is qualified.
 The durable architectural boundary is accepted in
 [decision 0021](decisions/0021-live-device-diagnostics-boundary.md).
 
@@ -136,8 +136,8 @@ Implementation is divided into separately reviewed slices:
    and analyzer composition, typed stream and cleanup evidence, cancellation,
    failure classification, and safe cleanup without a physical device.
 4. Add an explicit live mode to the production CLI through the shared service.
-   Recorded mode remains supported and schema-discriminated; neither mode may
-   silently fall back to the other.
+   This slice is implemented with schema discrimination and no fallback;
+   physical execution remains a separate authorization and qualification gate.
 5. Add GUI controls over the same service in a separate slice.
 6. Only after all hardware-free gates pass, render a device-, reference-,
    setting-, duration-, abort-, cleanup-, and evidence-bound qualification plan

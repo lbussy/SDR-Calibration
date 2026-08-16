@@ -1,9 +1,7 @@
 #include "soapy/SoapyWorkflowBoundary.h"
 
-#include "capture/CapturePlan.h"
 #include "profile/CanonicalJson.h"
 
-#include <algorithm>
 #include <cmath>
 #include <limits>
 #include <utility>
@@ -88,33 +86,6 @@ std::optional<application::DeviceCandidate> mapDevice(const capture::DeviceMetad
     return result;
 }
 
-std::optional<capture::CapturePlan> preflightPlan(const capture::CaptureRequest& request,
-                                                  const capture::ResourceLimits& limits,
-                                                  const capture::SettingTolerances& tolerances) {
-    auto boundedRequest = request;
-    if (boundedRequest.duration_seconds) {
-        const double rateMargin =
-            std::max(tolerances.sample_rate_sps.absolute,
-                     std::abs(request.sample_rate_sps) * tolerances.sample_rate_sps.relative);
-        if (!std::isfinite(rateMargin) || rateMargin < 0.0 ||
-            request.sample_rate_sps > std::numeric_limits<double>::max() - rateMargin)
-            return std::nullopt;
-        boundedRequest.sample_rate_sps += rateMargin;
-    }
-    capture::EffectiveSettings settings;
-    settings.center_frequency_hz = {boundedRequest.center_frequency_hz,
-                                    boundedRequest.center_frequency_hz,
-                                    capture::SettingState::applied_verified};
-    settings.sample_rate_sps = {boundedRequest.sample_rate_sps, boundedRequest.sample_rate_sps,
-                                capture::SettingState::applied_verified};
-    settings.bandwidth_hz = {boundedRequest.bandwidth_hz, boundedRequest.bandwidth_hz,
-                             capture::SettingState::applied_verified};
-    settings.gain_db = {boundedRequest.gain_db, boundedRequest.gain_db,
-                        capture::SettingState::applied_verified};
-    const auto planned = capture::makeCapturePlan(boundedRequest, settings, limits);
-    return planned.ok() ? planned.plan : std::nullopt;
-}
-
 application::AcquisitionResult
 failure(std::string reason, application::AcquisitionFailureStage stage,
         application::AcquisitionStatus status = application::AcquisitionStatus::failed) {
@@ -173,13 +144,8 @@ application::AcquisitionResult SoapyWorkflowBoundary::acquire(
     request.sample_rate_sps = static_cast<double>(requested.sample_rate_hz);
     if (requested.bandwidth_hz)
         request.bandwidth_hz = static_cast<double>(*requested.bandwidth_hz);
-    const auto provisional =
-        preflightPlan(request, options_.resource_limits, options_.setting_tolerances);
-    if (!provisional)
-        return failure("capture request failed pre-device planning",
-                       application::AcquisitionFailureStage::preflight);
-    const auto memoryErrors =
-        capture::validateMemoryAcquisitionPlan(*provisional, options_.memory_limits);
+    const auto memoryErrors = capture::validateMemoryAcquisitionRequestBeforeDevice(
+        request, options_.resource_limits, options_.memory_limits, options_.setting_tolerances);
     if (!memoryErrors.empty())
         return failure("memory preflight failed: " + memoryErrors.front().message,
                        application::AcquisitionFailureStage::preflight);

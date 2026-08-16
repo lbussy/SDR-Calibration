@@ -52,7 +52,8 @@ JsonObject config() {
             {"frequency_correction_ppm", 0.0}};
 }
 
-std::string requestJson(const std::string& first, const std::string& second) {
+std::string requestJson(const std::string& first, const std::string& second,
+                        bool conditionFree = false) {
     using namespace sdrcal;
     reference::ReferenceRegistry registry;
     registry.registry_id = "fixture-registry";
@@ -62,17 +63,18 @@ std::string requestJson(const std::string& first, const std::string& second) {
     registry.provenance = "test";
     for (const auto& [id, frequency] : std::vector<std::pair<std::string, double>>{
              {"ref-10", 10'000'000.0}, {"ref-20", 20'000'000.0}}) {
-        registry.references.push_back({id,
-                                       core::ReferenceClass::authority_confirmed,
-                                       100,
-                                       frequency,
-                                       0.1,
-                                       reference::OperatingStatus::active,
-                                       "fixture",
-                                       {"test"},
-                                       {"test only"},
-                                       {{id + "-e", "fixture", "2026-08-01T00:00:00Z",
-                                         "2026-09-01T00:00:00Z", std::string(64, 'a')}}});
+        registry.references.push_back(
+            {id,
+             core::ReferenceClass::authority_confirmed,
+             100,
+             frequency,
+             0.1,
+             reference::OperatingStatus::active,
+             "fixture",
+             conditionFree ? std::vector<std::string>{"none"} : std::vector<std::string>{"test"},
+             {"test only"},
+             {{id + "-e", "fixture", "2026-08-01T00:00:00Z", "2026-09-01T00:00:00Z",
+               std::string(64, 'a')}}});
     }
     CHECK(reference::refreshRegistryIntegrity(registry));
     registry.integrity.signature =
@@ -165,6 +167,89 @@ std::string requestJson(const std::string& first, const std::string& second) {
     return profile::canonicalizeJson(root).value;
 }
 
+std::string liveRequestJson(const std::string& first, const std::string& second) {
+    using namespace sdrcal;
+    const auto parsed = profile::parseJson(requestJson(first, second, true));
+    CHECK(parsed.success);
+    auto root = std::get<JsonObject>(parsed.value.value);
+    root["schema_name"] = "sdrcal-live-calibration-request";
+    auto expectedConfiguration = config();
+    expectedConfiguration["binding_extension"] =
+        JsonObject{{"soapy_argument_driver", "fake"},
+                   {"soapy_argument_serial", "fixture-1"},
+                   {"effective_gain_db", 20.0},
+                   {"automatic_gain", false}};
+    auto device = std::get<JsonObject>(root.at("device").value);
+    device["effective_configuration"] = expectedConfiguration;
+    root["device"] = std::move(device);
+    root["requested_configuration"] = expectedConfiguration;
+    root["live_acquisition"] =
+        JsonObject{{"device_arguments", JsonObject{{"driver", "fake"}, {"serial", "fixture-1"}}},
+                   {"rx_channel", 0},
+                   {"gain_db", 20.0},
+                   {"sample_count", 1024},
+                   {"read_timeout_ms", 100},
+                   {"maximum_memory_bytes", 1'048'576}};
+    JsonArray liveObservations;
+    for (const auto& value : std::get<JsonArray>(root.at("observations").value)) {
+        const auto& recorded = std::get<JsonObject>(value.value);
+        liveObservations.emplace_back(JsonObject{
+            {"observation_id", recorded.at("observation_id")},
+            {"independence_id", recorded.at("independence_id")},
+            {"reference_id", recorded.at("reference_id")},
+            {"indicated_center_frequency_hz", recorded.at("indicated_center_frequency_hz")},
+        });
+    }
+    root["observations"] = std::move(liveObservations);
+    return profile::canonicalizeJson(root).value;
+}
+
+class FakeLiveBoundary final : public sdrcal::application::DeviceWorkflowBoundary {
+  public:
+    FakeLiveBoundary(const sdrcal::cli::ProductRequest& request, int& acquisitions)
+        : request_(request), acquisitions_(acquisitions) {}
+
+    std::vector<sdrcal::application::DeviceCandidate> discover() override {
+        return {request_.device};
+    }
+
+    sdrcal::application::AcquisitionResult
+    acquire(const sdrcal::application::DeviceCandidate& device,
+            const sdrcal::profile::DeviceConfiguration&,
+            const sdrcal::application::ObservationRequest& observation,
+            const std::function<bool()>&) override {
+        ++acquisitions_;
+        sdrcal::application::AcquisitionResult result;
+        result.status = sdrcal::application::AcquisitionStatus::success;
+        result.identity = device.identity;
+        result.configuration = device.configuration;
+        result.samples.reserve(1024);
+        for (std::size_t index = 0; index < 1024; ++index) {
+            const double phase =
+                2.0 * 3.14159265358979323846 * 10.0 * static_cast<double>(index) / 1024.0;
+            result.samples.emplace_back(static_cast<float>(std::cos(phase)),
+                                        static_cast<float>(std::sin(phase)));
+        }
+        result.carrier_estimate = sdrcal::core::estimateCarrier(result.samples, 1024.0);
+        result.effective_indicated_center_frequency_hz = observation.indicated_center_frequency_hz;
+        result.effective_indicated_center_verified = true;
+        result.sample_rate_sps = 1024.0;
+        result.duration_seconds = 1.0;
+        result.signal_to_noise_db = 30.0;
+        result.frequency_instability_hz = 0.1;
+        result.interference_to_carrier_db = -20.0;
+        result.effective_configuration = sdrcal::core::EffectiveConfigurationValidity::verified;
+        result.reference_conditions_met = true;
+        result.reference_conditions_evidence = "authenticated-registry:test";
+        result.final_device_state_safe = true;
+        return result;
+    }
+
+  private:
+    const sdrcal::cli::ProductRequest& request_;
+    int& acquisitions_;
+};
+
 void argumentTests() {
     using namespace sdrcal::cli;
     CHECK(parseProductArguments({"--help"}).action == ProductAction::help);
@@ -183,6 +268,14 @@ void requestValidationTests() {
     const auto second = samples(20.0);
     const std::map<std::string, std::string> trust{{"fixture-key", "pinned-signature"}};
     CHECK(sdrcal::cli::parseProductRequest(requestJson(first, second), "/tmp", trust).ok());
+    const auto live =
+        sdrcal::cli::parseProductRequest(liveRequestJson(first, second), "/tmp", trust);
+    CHECK(live.ok());
+    CHECK(live.request && live.request->input_mode == sdrcal::cli::ProductInputMode::live);
+    CHECK(live.request && live.request->observations.empty());
+    CHECK(live.request && live.request->live_acquisition);
+    CHECK(live.request && live.request->device.configuration.binding_extension.contains(
+                              "soapy_argument_serial"));
     CHECK(!sdrcal::cli::parseProductRequest("{", "/tmp", trust).ok());
     auto unknown = requestJson(first, second);
     unknown.insert(unknown.size() - 1U, ",\"unknown_member\":true");
@@ -196,8 +289,7 @@ void requestValidationTests() {
     auto excessive = requestJson(first, second);
     const std::string configuredBound = "\"maximum_bytes\":10000";
     const std::string excessiveBound =
-        "\"maximum_bytes\":" +
-        std::to_string(sdrcal::cli::recordedInputMaximumBytes() + 1U);
+        "\"maximum_bytes\":" + std::to_string(sdrcal::cli::recordedInputMaximumBytes() + 1U);
     std::size_t boundPosition = 0;
     std::size_t replacedBounds = 0;
     while ((boundPosition = excessive.find(configuredBound, boundPosition)) != std::string::npos) {
@@ -206,13 +298,38 @@ void requestValidationTests() {
         ++replacedBounds;
     }
     CHECK(replacedBounds == 2U);
-    const auto excessiveResult =
-        sdrcal::cli::parseProductRequest(excessive, "/tmp", trust);
+    const auto excessiveResult = sdrcal::cli::parseProductRequest(excessive, "/tmp", trust);
     CHECK(!excessiveResult.ok());
     CHECK(std::any_of(excessiveResult.errors.begin(), excessiveResult.errors.end(),
                       [](const auto& error) {
-        return error.find("recorded-input resource policy") != std::string::npos;
-    }));
+                          return error.find("recorded-input resource policy") != std::string::npos;
+                      }));
+
+    auto crossMode = liveRequestJson(first, second);
+    auto crossModeParsed = sdrcal::profile::parseJson(crossMode);
+    CHECK(crossModeParsed.success);
+    auto crossModeRoot = std::get<JsonObject>(crossModeParsed.value.value);
+    auto crossModeObservations = std::get<JsonArray>(crossModeRoot.at("observations").value);
+    auto firstLiveObservation = std::get<JsonObject>(crossModeObservations.front().value);
+    firstLiveObservation["signal_to_noise_db"] = 30.0;
+    crossModeObservations.front() = std::move(firstLiveObservation);
+    crossModeRoot["observations"] = std::move(crossModeObservations);
+    crossMode = sdrcal::profile::canonicalizeJson(crossModeRoot).value;
+    CHECK(!sdrcal::cli::parseProductRequest(crossMode, "/tmp", trust).ok());
+
+    auto missingBound = liveRequestJson(first, second);
+    const std::string sampleBound = ",\"sample_count\":1024";
+    const auto samplePosition = missingBound.find(sampleBound);
+    CHECK(samplePosition != std::string::npos);
+    missingBound.erase(samplePosition, sampleBound.size());
+    CHECK(!sdrcal::cli::parseProductRequest(missingBound, "/tmp", trust).ok());
+
+    auto undersizedMemory = liveRequestJson(first, second);
+    const std::string memoryBound = "\"maximum_memory_bytes\":1048576";
+    const auto memoryPosition = undersizedMemory.find(memoryBound);
+    CHECK(memoryPosition != std::string::npos);
+    undersizedMemory.replace(memoryPosition, memoryBound.size(), "\"maximum_memory_bytes\":1");
+    CHECK(!sdrcal::cli::parseProductRequest(undersizedMemory, "/tmp", trust).ok());
 }
 
 void commandTests() {
@@ -269,6 +386,37 @@ void commandTests() {
     CHECK(runProductCommand(bad, badOutput, badDiagnostics) == ProductExit::input);
     CHECK(!std::filesystem::exists(root / "bad-output"));
     CHECK(!std::filesystem::exists(root / "bad-output.staging"));
+
+    write(root / "live.json", liveRequestJson(first, second));
+    ProductArguments liveArguments{ProductAction::calibrate,
+                                   root / "live.json",
+                                   root / "trust.json",
+                                   root / "live-output",
+                                   {}};
+    std::ostringstream liveOutput, liveDiagnostics;
+    CHECK(runProductCommand(liveArguments, liveOutput, liveDiagnostics) == ProductExit::input);
+    CHECK(liveOutput.str().find("live input is unavailable") != std::string::npos);
+    CHECK(!std::filesystem::exists(root / "live-output"));
+    CHECK(!std::filesystem::exists(root / "live-output.staging"));
+
+    int factoryCalls = 0;
+    int liveAcquisitions = 0;
+    liveArguments.output_directory = root / "live-success";
+    std::ostringstream liveSuccessOutput, liveSuccessDiagnostics;
+    const auto liveStatus =
+        runProductCommand(liveArguments, liveSuccessOutput, liveSuccessDiagnostics, {},
+                          [&](const ProductRequest& request) {
+                              ++factoryCalls;
+                              return std::make_unique<FakeLiveBoundary>(request, liveAcquisitions);
+                          });
+    if (liveStatus != ProductExit::success)
+        std::cerr << "live output=" << liveSuccessOutput.str()
+                  << " diagnostics=" << liveSuccessDiagnostics.str();
+    CHECK(liveStatus == ProductExit::success);
+    CHECK(factoryCalls == 1);
+    CHECK(liveAcquisitions == 2);
+    CHECK(std::filesystem::exists(root / "live-success/profile.json"));
+    CHECK(liveSuccessOutput.str().find("\"status\":\"success\"") != std::string::npos);
     if (std::getenv("SDRCAL_TEST_KEEP_FIXTURE") == nullptr)
         std::filesystem::remove_all(root, ignored);
 }

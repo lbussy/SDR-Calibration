@@ -1,16 +1,18 @@
 # Production command-line application
 
-The Phase 12 `sdrcal` command calibrates from explicitly selected, previously
-captured CF32LE observations. It runs the same shared calibration workflow that
-the planned desktop interface will use. This path does not discover or access
-an SDR, and completing it does not qualify a device or establish calibration
+The `sdrcal` command supports two explicit request schemas over the same shared
+calibration workflow. Recorded mode consumes previously captured CF32LE
+observations. Live mode uses the receive-only SoapySDR boundary for strict
+readback and bounded in-memory observations. Neither mode falls back to the
+other. Implementation does not qualify a device or establish calibration
 accuracy.
 
 The CLI is included in the initial macOS 14.0 or later Apple Silicon and Windows
-11 x64 desktop targets. Raspberry Pi OS 13 ARM64 on Raspberry Pi 4 is a
-recorded-input CLI-only target; SoapySDR and live-device operation are outside
-that Raspberry Pi scope. Ubuntu CLI implementation remains available but is
-unsupported and currently unvalidated.
+11 x64 desktop targets. Live mode is available only in builds configured with
+SoapySDR. Raspberry Pi OS 13 ARM64 on Raspberry Pi 4 is a recorded-input
+CLI-only target; SoapySDR and live-device operation are outside that Raspberry
+Pi scope. Ubuntu CLI implementation remains available but is unsupported and
+currently unvalidated.
 
 ## Invocation
 
@@ -31,7 +33,7 @@ are 0 for success, 2 for usage, 3 for request/input/authentication, 4 for a
 scientific workflow rejection, 5 for output publication, and 130 for
 cancellation.
 
-## Run-request contract
+## Recorded run-request contract
 
 The JSON root uses `schema_name` `sdrcal-recorded-calibration-request` and
 `schema_version` `1.0.0`. Unknown members fail closed. It requires run/profile
@@ -58,6 +60,33 @@ the request is rejected before sample input or staging output when any declared
 uses 128 MiB, selected from the first native resource measurement and subject to
 the exact fixture's retained qualification. It is not a general Raspberry Pi
 support or maximum-artifact claim.
+
+## Live run-request contract
+
+Live mode uses `schema_name` `sdrcal-live-calibration-request` and
+`schema_version` `1.0.0`. It preserves the common identity, configuration,
+registry, uncertainty, assurance, estimator, acceptance, evidence, and output
+fields. Its `observations` contain only observation ID, independence ID,
+reference ID, and requested indicated center frequency. Supplying effective
+readback or quality metrics is rejected; the application derives them.
+
+`live_acquisition` requires exact string-valued `device_arguments`, a
+non-negative `rx_channel`, one positive `sample_count` or `duration_seconds`, a
+positive `read_timeout_ms`, and a positive `maximum_memory_bytes`. Optional
+`gain_db` is applied under strict requested/effective policy. Enumeration index
+is not part of this schema. Expected identity and configuration, including the
+Soapy argument and effective gain/gain-mode binding extension, must match the
+actual readback or the run fails before model fitting.
+
+Reference conditions are not supplied by a live observation. When the
+authenticated registry's condition list is exactly `["none"]`, the application
+records that signed registry fact as condition evidence. Any other condition
+remains unmet in this slice. A request cannot assert that it was satisfied.
+
+Invoking live mode can enumerate, configure, and receive from the explicitly
+selected SDR. It should be done only under a separately reviewed device,
+reference, settings, duration, abort, cleanup, and evidence plan. Ordinary unit
+and integration tests use injected fake APIs and never access hardware.
 
 ## Output transaction
 

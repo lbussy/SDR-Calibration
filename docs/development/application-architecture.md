@@ -177,11 +177,13 @@ readback, bounded in-memory acquisition, carrier estimation, signal-quality
 analysis, stream evidence, and known-safe cleanup. It is not connected to a
 production client and establishes no physical-device qualification.
 
-The Phase 12 production CLI supplies the application boundary from explicitly selected,
-digest-verified recorded CF32LE observations. It finalizes the evidence digest,
-refreshes native-profile integrity, synchronizes staged files, and publishes a
-new output directory atomically. Live SoapySDR calibration remains a later
-integration and qualification gate.
+The production CLI selects its application boundary from the request schema.
+Recorded mode uses explicitly selected, digest-verified CF32LE observations.
+Live mode constructs the production Soapy boundary only in Soapy-enabled builds
+and never falls back to recorded input. Both finalize the evidence digest,
+refresh native-profile integrity, synchronize staged files, and publish a new
+output directory atomically. Live operation and physical-device qualification
+remain separate from hardware-free implementation evidence.
 
 The Phase 13 Qt Widgets application delegates to that same Phase 12 production
 service for recorded input, request validation, trust checks, scientific

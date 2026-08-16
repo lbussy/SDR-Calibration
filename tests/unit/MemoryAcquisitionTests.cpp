@@ -111,6 +111,31 @@ void testPreflightLimits() {
     CHECK(source.cleanupCalls_ == 1U);
 }
 
+void testRequestPreflightIsConservativeBeforeDevice() {
+    CaptureRequest request;
+    request.device_arguments = {{"driver", "fake"}};
+    request.center_frequency_hz = 10'000'000.0;
+    request.sample_rate_sps = 1'000.0;
+    request.duration_seconds = 1.0;
+    request.read_timeout = 10ms;
+    ResourceLimits resources;
+    resources.maximum_sample_count = 2'000;
+    resources.maximum_raw_bytes = 16'000;
+    SettingTolerances tolerances;
+    tolerances.sample_rate_sps = {1.0, 0.0};
+    CHECK(validateMemoryAcquisitionRequestBeforeDevice(request, resources, {8'008}, tolerances)
+              .empty());
+    CHECK(!validateMemoryAcquisitionRequestBeforeDevice(request, resources, {8'000}, tolerances)
+               .empty());
+
+    request.duration_seconds.reset();
+    request.sample_count = 100;
+    CHECK(validateMemoryAcquisitionRequestBeforeDevice(request, resources, {800}, tolerances)
+              .empty());
+    CHECK(!validateMemoryAcquisitionRequestBeforeDevice(request, resources, {799}, tolerances)
+               .empty());
+}
+
 void testNonfiniteAndOversizedReads() {
     auto invalidSamples = samples(2);
     invalidSamples[1] = {std::numeric_limits<float>::infinity(), 0.0F};
@@ -204,6 +229,7 @@ int main() {
     try {
         testCompleteAndShortReads();
         testPreflightLimits();
+        testRequestPreflightIsConservativeBeforeDevice();
         testNonfiniteAndOversizedReads();
         testTimeoutAndDiscontinuity();
         testCancellationAndException();
