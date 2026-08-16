@@ -43,8 +43,11 @@ launches the internal `sdrcal-gui.exe` executable. Source-contract validation
 checks the WiX XML, shortcut target, deterministic component ownership,
 installed-app icon, and uninstall cleanup definition. An exact MSI carrying
 this identity has not yet been constructed and qualified on Windows; the source
-definition is not a clean-host installation, upgrade, removal, signing, or
-platform-support result.
+definition is not a clean-host installation, upgrade, removal, or
+platform-support result. Current Windows packaging uses an explicitly locally
+trusted self-signed development certificate. Such a signature provides local
+integrity evidence only: it does not establish public Windows trust or
+SmartScreen reputation and is not a public-release signing claim.
 
 ## Ubuntu package status
 

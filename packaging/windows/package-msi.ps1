@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory = $true)][string]$BuildDir,
     [Parameter(Mandatory = $true)][string]$OutputDir,
     [Parameter(Mandatory = $true)][string]$CertificateThumbprint,
-    [Parameter(Mandatory = $true)][string]$TimestampUrl,
+    [ValidateSet('SELF_SIGNED', 'PUBLIC_TRUST')][string]$SigningMode = 'SELF_SIGNED',
+    [string]$TimestampUrl = '',
     [Parameter(Mandatory = $true)][string]$Version,
     [Parameter(Mandatory = $true)][string]$SourceDir,
     [Parameter(Mandatory = $true)][string]$QtSourceArchive,
@@ -36,7 +37,54 @@ if ($null -eq $outputParent -or $outputParent.FullName -ne $BuildDir) {
 if ($CertificateThumbprint -notmatch '^[0-9A-Fa-f]{40}$') {
     throw 'certificate thumbprint must contain exactly 40 hexadecimal characters'
 }
-if ($TimestampUrl -notmatch '^https://') { throw 'timestamp URL must use HTTPS' }
+if ($SigningMode -eq 'PUBLIC_TRUST' -and $TimestampUrl -notmatch '^https://') {
+    throw 'PUBLIC_TRUST signing requires an HTTPS timestamp URL'
+}
+if ($SigningMode -eq 'SELF_SIGNED' -and -not [string]::IsNullOrWhiteSpace($TimestampUrl)) {
+    throw 'SELF_SIGNED signing must not specify a public timestamp URL'
+}
+$certificateStore = 'CurrentUser'
+$certificate = Get-Item "Cert:\CurrentUser\My\$CertificateThumbprint" -ErrorAction SilentlyContinue
+if ($null -eq $certificate -and $SigningMode -eq 'PUBLIC_TRUST') {
+    $certificate = Get-Item "Cert:\LocalMachine\My\$CertificateThumbprint" `
+        -ErrorAction SilentlyContinue
+    $certificateStore = 'LocalMachine'
+}
+if ($null -eq $certificate) {
+    throw 'signing certificate was not found in an allowed personal certificate store'
+}
+if (-not $certificate.HasPrivateKey) { throw 'signing certificate has no private key' }
+if ($certificate.NotBefore -gt [DateTime]::Now) { throw 'signing certificate is not valid yet' }
+if ($certificate.NotAfter -le [DateTime]::Now) { throw 'signing certificate is expired' }
+$codeSigningOid = '1.3.6.1.5.5.7.3.3'
+if ($certificate.EnhancedKeyUsageList.ObjectId.Value -notcontains $codeSigningOid) {
+    throw 'signing certificate does not permit code signing'
+}
+if ($SigningMode -eq 'SELF_SIGNED' -and
+    -not (Test-Path "Cert:\CurrentUser\TrustedPeople\$CertificateThumbprint")) {
+    throw 'self-signed certificate is not trusted in Cert:\CurrentUser\TrustedPeople'
+}
+if ($SigningMode -eq 'SELF_SIGNED' -and
+    $certificate.Subject -ne 'CN=SDR Calibration Development') {
+    throw 'self-signed certificate has an unexpected subject'
+}
+
+function Sign-File([string]$Path) {
+    $arguments = @('sign', '/sha1', $CertificateThumbprint, '/fd', 'SHA256')
+    if ($certificateStore -eq 'LocalMachine') { $arguments += '/sm' }
+    if ($SigningMode -eq 'PUBLIC_TRUST') {
+        $arguments += @('/tr', $TimestampUrl, '/td', 'SHA256')
+    }
+    & $signtool @arguments $Path
+    if ($LASTEXITCODE -ne 0) { throw "signing failed: $Path" }
+}
+
+function Verify-File([string]$Path, [switch]$Verbose) {
+    $arguments = @('verify', '/pa', '/all')
+    if ($SigningMode -eq 'PUBLIC_TRUST') { $arguments += '/tw' }
+    if ($Verbose) { $arguments += '/v' }
+    & $signtool @arguments $Path
+}
 
 $sourceRevision = (& $git -C $SourceDir rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'could not resolve the source revision' }
@@ -86,13 +134,12 @@ if ($unclassifiedDlls.Count -ne 0) {
 $payloadSignatureEvidence = Join-Path $evidence 'payload-signatures.txt'
 foreach ($binary in $binaries) {
     $relativeBinary = $binary.FullName.Substring($stage.Length + 1)
-    $initialVerification = & $signtool verify /pa /all /tw $binary.FullName 2>&1
+    $initialVerification = Verify-File $binary.FullName 2>&1
     if ($LASTEXITCODE -ne 0) {
-        & $signtool sign /sha1 $CertificateThumbprint /fd SHA256 /tr $TimestampUrl /td SHA256 $binary.FullName
-        if ($LASTEXITCODE -ne 0) { throw "signing failed: $($binary.FullName)" }
+        Sign-File $binary.FullName
     }
     "FILE $relativeBinary" | Add-Content -LiteralPath $payloadSignatureEvidence -Encoding utf8
-    & $signtool verify /pa /all /tw /v $binary.FullName *>> $payloadSignatureEvidence
+    Verify-File $binary.FullName -Verbose *>> $payloadSignatureEvidence
     if ($LASTEXITCODE -ne 0) { throw "signature verification failed: $($binary.FullName)" }
 }
 $runtimeInventory = Join-Path $evidence 'runtime-closure.txt'
@@ -156,9 +203,8 @@ $upgradeCode = '9B68E922-9277-4C40-BB3C-527C2AE236AC'
 $msi = Join-Path $OutputDir "SDRCalibration-$Version-Windows-x64.msi"
 & $wix build -arch x64 -o $msi $wxs
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $msi)) { throw 'MSI creation failed' }
-& $signtool sign /sha1 $CertificateThumbprint /fd SHA256 /tr $TimestampUrl /td SHA256 $msi
-if ($LASTEXITCODE -ne 0) { throw 'MSI signing failed' }
-& $signtool verify /pa /all /tw /v $msi *> (Join-Path $evidence 'msi-signature.txt')
+Sign-File $msi
+Verify-File $msi -Verbose *> (Join-Path $evidence 'msi-signature.txt')
 if ($LASTEXITCODE -ne 0) { throw 'MSI signature verification failed' }
 
 New-Item -ItemType Directory -Path $extract | Out-Null
@@ -173,7 +219,7 @@ $extractedCli = Get-ChildItem -LiteralPath $extract -Recurse -File -Filter 'sdrc
 & $extractedCli.FullName --help | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'extracted sdrcal CLI startup check failed' }
 foreach ($binary in Get-ChildItem -LiteralPath $extract -Recurse -File | Where-Object { $_.Extension -in '.exe', '.dll' }) {
-    & $signtool verify /pa /all /tw $binary.FullName | Out-Null
+    Verify-File $binary.FullName | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "extracted payload signature is invalid: $($binary.FullName)" }
 }
 
@@ -185,7 +231,14 @@ $manifest = [ordered]@{
     architecture = $env:PROCESSOR_ARCHITECTURE; artifact = [IO.Path]::GetFileName($msi)
     sha256 = $hash; qt_version = $qtVersion
     cmake_version = (& $cmake --version | Select-Object -First 1); payload_binary_count = $binaries.Count
-    signing = 'Authenticode SHA-256 with RFC 3161 timestamp; verified'; clean_install_qualified = $false
+    signing_mode = $SigningMode
+    signing_certificate_thumbprint = $CertificateThumbprint.ToUpperInvariant()
+    signing = if ($SigningMode -eq 'PUBLIC_TRUST') {
+        'Authenticode SHA-256 with RFC 3161 timestamp; publicly trusted verification passed'
+    } else {
+        'Authenticode SHA-256; locally trusted self-signed verification passed; no public trust or timestamp'
+    }
+    clean_install_qualified = $false
     distribution_license_gate = 'passed; see license-manifest.json'; device_qualified = $false
 }
 $manifest | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath (Join-Path $evidence 'manifest.json') -Encoding utf8

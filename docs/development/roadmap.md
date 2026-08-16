@@ -283,10 +283,13 @@ metadata, dynamic Qt deployment, Developer ID signing, notarization, stapling,
 Gatekeeper checks, and hash-indexed evidence. Its result applies only to the
 exact retained DMG and does not close clean-install or licensing gates.
 
-Phase 14.2 adds the fail-closed Windows x64 MSI production path: dynamic Qt
-deployment, Authenticode signing with an RFC 3161 timestamp, MSI construction,
-administrative extraction, payload and startup auditing, and hash-indexed
-evidence. Its result applies only to an exact retained MSI and does not close
+Phase 14.2 added the fail-closed Windows x64 MSI packaging path: dynamic Qt
+deployment, Authenticode signing, MSI construction, administrative extraction,
+payload and startup auditing, and hash-indexed evidence. The current mode uses
+a locally trusted self-signed development certificate without timestamping;
+the retained public-trust mode requires RFC 3161 timestamping. A self-signed
+result applies only to the exact retained MSI on systems where that certificate
+is explicitly trusted and does not close public-trust, SmartScreen,
 clean-install, distribution-license, or general Windows-support gates.
 
 Phase 14.3 adds the fail-closed Ubuntu 24.04 x86_64 DEB production path:

@@ -41,8 +41,16 @@ set(SDRCAL_MACOS_NOTARY_PROFILE "" CACHE STRING
     "notarytool Keychain profile used by the notarized macOS package")
 set(SDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT "" CACHE STRING
     "SHA-1 certificate thumbprint used by the signed Windows package")
+set(SDRCAL_WINDOWS_SIGNING_MODE "SELF_SIGNED" CACHE STRING
+    "Windows signing trust mode: SELF_SIGNED or PUBLIC_TRUST")
+set_property(CACHE SDRCAL_WINDOWS_SIGNING_MODE PROPERTY STRINGS SELF_SIGNED PUBLIC_TRUST)
+if(NOT SDRCAL_WINDOWS_SIGNING_MODE STREQUAL "SELF_SIGNED" AND
+   NOT SDRCAL_WINDOWS_SIGNING_MODE STREQUAL "PUBLIC_TRUST")
+    message(FATAL_ERROR
+        "SDRCAL_WINDOWS_SIGNING_MODE must be SELF_SIGNED or PUBLIC_TRUST")
+endif()
 set(SDRCAL_WINDOWS_TIMESTAMP_URL "" CACHE STRING
-    "RFC 3161 timestamp service used by the signed Windows package")
+    "RFC 3161 timestamp service required for PUBLIC_TRUST Windows signing")
 set(SDRCAL_QT_SOURCE_ARCHIVE "" CACHE FILEPATH
     "Complete qtbase source archive matching the Qt binaries conveyed by a release")
 set(SDRCAL_QT_SOURCE_SHA256 "" CACHE STRING
@@ -168,6 +176,7 @@ if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             -BuildDir "${PROJECT_BINARY_DIR}"
             -OutputDir "${SDRCAL_WINDOWS_MSI_OUTPUT_DIR}"
             -CertificateThumbprint "${SDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT}"
+            -SigningMode "${SDRCAL_WINDOWS_SIGNING_MODE}"
             -TimestampUrl "${SDRCAL_WINDOWS_TIMESTAMP_URL}"
             -Version "${PROJECT_VERSION}"
             -SourceDir "${PROJECT_SOURCE_DIR}"

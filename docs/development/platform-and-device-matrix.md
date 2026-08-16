@@ -43,10 +43,14 @@ built for 14.0. This exact-input binary baseline is not clean-host or general
 macOS qualification.
 
 The Phase 14.2 Windows gate requires a Windows x64 release build, WiX Toolset
-v4, the configured Qt `windeployqt`, SignTool, a code-signing certificate, and
-an HTTPS RFC 3161 timestamp service. Tooling presence is not retained evidence
-for a signed MSI; only the exact manifest and artifact hash from a passing run
-can establish that narrower claim.
+v4, the configured Qt `windeployqt`, SignTool, and a code-signing certificate.
+The current self-signed mode requires the exact certificate to be explicitly
+trusted in the current user's Trusted People store and forbids a timestamp
+input. The future public-trust mode requires an HTTPS RFC 3161 timestamp
+service. Tooling
+presence is not retained evidence for a signed MSI; only the exact manifest and
+artifact hash from a passing run can establish that narrower, mode-specific
+claim.
 
 The retained Phase 14.3 Ubuntu gate requires Ubuntu 24.04 x86_64, Debian package tools,
 and the configured dynamic Qt runtime. It derives system-package dependencies

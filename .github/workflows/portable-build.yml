@@ -33,14 +33,16 @@ jobs:
         run: cmake --build build/portable --config Release --target package-audit
       - name: Create portable archive
         run: cmake --build build/portable --config Release --target package-archive-audit
-      - name: Parse Windows MSI production script
+      - name: Parse Windows packaging scripts
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $errors = $null
-          [void][Management.Automation.Language.Parser]::ParseFile(
-            "$PWD/packaging/windows/package-msi.ps1", [ref]$null, [ref]$errors)
-          if ($errors.Count -ne 0) { $errors | Out-String | Write-Error }
+          foreach ($script in 'package-msi.ps1', 'manage-self-signed-certificate.ps1') {
+            $errors = $null
+            [void][Management.Automation.Language.Parser]::ParseFile(
+              "$PWD/packaging/windows/$script", [ref]$null, [ref]$errors)
+            if ($errors.Count -ne 0) { $errors | Out-String | Write-Error }
+          }
 
   docs:
     runs-on: macos-15

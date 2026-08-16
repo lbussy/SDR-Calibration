@@ -74,9 +74,10 @@
 - Fail-closed macOS DMG tooling with stable bundle metadata, dynamic Qt
   deployment, Developer ID signing, notarization, stapling, Gatekeeper checks,
   runtime-path audit, and retained hash/evidence output
-- Fail-closed Windows x64 MSI tooling with dynamic Qt deployment, Authenticode
-  signing and RFC 3161 timestamp verification, extracted-payload audit, and
-  retained hash/environment evidence
+- Fail-closed Windows x64 MSI tooling with dynamic Qt deployment, explicit
+  locally trusted self-signed and future public-trust Authenticode modes,
+  extracted-payload audit, and retained hash/environment evidence; only the
+  public-trust mode requires RFC 3161 timestamp verification
 - Fail-closed Ubuntu 24.04 x86_64 DEB tooling with Debian-derived system Qt
   dependencies, extracted-payload/runtime audit, and retained hash/environment
   evidence

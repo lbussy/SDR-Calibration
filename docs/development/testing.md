@@ -90,12 +90,20 @@ staples the ticket, runs Gatekeeper assessments, and writes evidence under
 `build/macos-release/macos-package/evidence`. A passing run applies only to the
 recorded DMG hash and is not clean-host or binary-license qualification.
 
-The Windows signed-package path is Windows-only and also excludes SoapySDR:
+The Windows signed-package path is Windows-only and also excludes SoapySDR.
+Create and locally trust a non-exportable development certificate once:
+
+```powershell
+$certificate = .\packaging\windows\manage-self-signed-certificate.ps1 -Action Create
+$thumbprint = ($certificate | Select-String '^Thumbprint: ').Line.Split(': ')[1]
+```
+
+Then construct the self-signed package:
 
 ```text
 cmake --preset windows-release \
-  -DSDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT=<40-hex-thumbprint> \
-  -DSDRCAL_WINDOWS_TIMESTAMP_URL=<https-rfc3161-service>
+  -DSDRCAL_WINDOWS_SIGNING_MODE=SELF_SIGNED \
+  -DSDRCAL_WINDOWS_CERTIFICATE_THUMBPRINT=<40-hex-thumbprint>
 cmake --build --preset windows-release
 ctest --preset windows-release
 cmake --build build/windows-release --target package-audit
@@ -103,10 +111,25 @@ cmake --build build/windows-release --target windows-msi
 ```
 
 The final target rejects dirty source, missing tools or credentials, unsafe
-output placement, deployment/signing failures, missing timestamps, invalid
-extracted payloads, and CLI startup failure. Evidence is written below
+output placement, deployment/signing failures, mismatched signing inputs,
+invalid extracted payloads, and CLI startup failure. Evidence is written below
 `build/windows-release/windows-package/evidence`. Administrative extraction
-does not substitute for a clean-host installation test.
+does not substitute for a clean-host installation test. Self-signed evidence
+establishes local integrity only; it does not establish public trust,
+SmartScreen reputation, or validity after the certificate expires.
+
+Inspect or remove the exact certificate when it is no longer needed:
+
+```powershell
+.\packaging\windows\manage-self-signed-certificate.ps1 `
+  -Action Status -Thumbprint <40-hex-thumbprint>
+.\packaging\windows\manage-self-signed-certificate.ps1 `
+  -Action Remove -Thumbprint <40-hex-thumbprint>
+```
+
+Future public-trust signing uses
+`-DSDRCAL_WINDOWS_SIGNING_MODE=PUBLIC_TRUST` together with the certificate
+thumbprint and an HTTPS `SDRCAL_WINDOWS_TIMESTAMP_URL`.
 
 The Ubuntu production-package path is Ubuntu 24.04 x86_64-only and excludes
 SoapySDR:
