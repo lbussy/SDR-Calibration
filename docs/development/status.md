@@ -104,6 +104,9 @@
   limits, exact read bounds, non-finite-sample rejection, cancellation,
   exception containment, stream statistics, known-safe cleanup enforcement, and
   deterministic hardware-free tests
+- Versioned hardware-free signal-quality analyzer deriving coherent residual
+  SNR, normalized clipping, bounded-window frequency instability, and strongest
+  non-carrier FFT component with deterministic synthetic golden fixtures
 
 ## Planned, not implemented
 
@@ -114,8 +117,8 @@
   qualification
 - Live-device integration for the production command-line application
 - Live-device integration for the Qt desktop application
-- Versioned derivation of SNR, clipping, missing-sample, discontinuity,
-  instability, and interference diagnostics
+- Live-boundary mapping of analyzer metrics plus stream-derived missing-sample
+  and discontinuity evidence into observation diagnostics
 - Production profile activation, signing, revocation, replacement, and
   evaluation orchestration in desktop clients
 - Safe WSJT-X instance discovery, backup, locking, atomic settings replacement,

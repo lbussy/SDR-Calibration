@@ -16,6 +16,8 @@ initial contract-freezing work is retained in the
 [Phase 1 execution prompt](live-device-integration-phase-1-execution-prompt.md).
 The first implementation slice is retained in the
 [bounded in-memory acquisition prompt](live-memory-acquisition-execution-prompt.md).
+The analyzer slice is retained in the
+[signal-quality execution prompt](signal-quality-analyzer-execution-prompt.md).
 
 Start with the [implementation status](status.md) and
 [development roadmap](roadmap.md), then consult the
@@ -26,6 +28,7 @@ Start with the [implementation status](status.md) and
 [platform and device matrix](platform-and-device-matrix.md),
 [end-to-end calibration qualification gate](end-to-end-qualification.md),
 [carrier estimator](carrier-estimator.md),
+[signal-quality analyzer](signal-quality-analyzer.md),
 [observation acceptance](observation-acceptance.md),
 [measurement model](measurement-model.md), [uncertainty model](uncertainty-model.md),
 [reference registry contract](reference-registry-contract.md),

@@ -35,6 +35,18 @@ if(TARGET sdrcal_core)
     endif()
     add_test(NAME carrier_estimator_unit_tests COMMAND carrier_estimator_unit_tests)
 
+    add_executable(signal_quality_analyzer_unit_tests SignalQualityAnalyzerTests.cpp)
+    target_link_libraries(signal_quality_analyzer_unit_tests PRIVATE sdrcal_core)
+    target_compile_features(signal_quality_analyzer_unit_tests PRIVATE cxx_std_20)
+    if(MSVC)
+        target_compile_options(signal_quality_analyzer_unit_tests PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(
+            signal_quality_analyzer_unit_tests
+            PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
+    endif()
+    add_test(NAME signal_quality_analyzer_unit_tests COMMAND signal_quality_analyzer_unit_tests)
+
     add_executable(observation_acceptance_unit_tests ObservationAcceptanceTests.cpp)
     target_link_libraries(observation_acceptance_unit_tests PRIVATE sdrcal_core)
     target_compile_features(observation_acceptance_unit_tests PRIVATE cxx_std_20)

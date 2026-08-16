@@ -3,6 +3,7 @@ add_library(sdrcal_core
     CarrierEstimator.cpp
     ObservationAcceptance.cpp
     ReliabilityQuotient.cpp
+    SignalQualityAnalyzer.cpp
     Uncertainty.cpp
 )
 

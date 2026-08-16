@@ -96,12 +96,14 @@ Every input to `ObservationDiagnostics` requires a recorded derivation:
 | Reference suitability | Resolved from authenticated reference-registry evidence |
 | Reference conditions met | Established from machine-verifiable evidence where possible; an operator assertion remains explicit and cannot alone create qualification-grade acceptance |
 
-The signal-quality algorithms, windowing, bin exclusion, normalization,
-clipping definition, uncertainty contribution, and fixture tolerances must be
-frozen and independently reviewed before the production boundary can report
-those metrics as derived. Until then, production live calibration fails closed.
-Request files must not supply these values as substitutes for application
-derivation.
+The version-one signal-quality algorithms, windowing, bin exclusion,
+normalization, clipping definition, bounds, and fixture tolerances are frozen
+and hardware-free reviewed. They produce acceptance diagnostics, not
+measurement-uncertainty estimates. Physical-input behavior, threshold margins,
+and any resulting uncertainty treatment remain qualification gates. Production
+live calibration remains unavailable until the later workflow and client gates
+are implemented. Request files must not supply these values as substitutes for
+application derivation.
 
 ## Evidence and publication
 
@@ -124,8 +126,8 @@ Implementation is divided into separately reviewed slices:
 1. Implement the Soapy-independent bounded in-memory acquisition component and
    deterministic tests for bounds, reads, non-finite samples, timeout,
    discontinuity, cancellation, and cleanup.
-2. Freeze and implement the versioned signal-quality analyzer with synthetic
-   golden fixtures and independent mathematical review.
+2. The versioned signal-quality analyzer is implemented with synthetic golden
+   fixtures; physical-input comparison and qualification remain separate.
 3. Implement the live workflow boundary with an injected Soapy API and fake
    devices. Prove identity/configuration mapping, multi-observation lifecycle,
    evidence provenance, failure classification, and safe cleanup without a

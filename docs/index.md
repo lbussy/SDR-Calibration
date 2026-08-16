@@ -53,6 +53,8 @@ development/application-architecture
 development/capture-contract
 development/qualification-gate-1-airspyhf
 development/carrier-estimator
+development/signal-quality-analyzer
+development/signal-quality-analyzer-execution-prompt
 development/observation-acceptance
 development/profile-contract
 development/measurement-model
