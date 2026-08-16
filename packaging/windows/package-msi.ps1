@@ -88,7 +88,8 @@ function Verify-File([string]$Path, [switch]$Verbose) {
 
 $sourceRevision = (& $git -C $SourceDir rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'could not resolve the source revision' }
-if ((& $git -C $SourceDir status --porcelain).Count -ne 0) {
+$sourceStatus = @(& $git -C $SourceDir status --porcelain)
+if ($sourceStatus.Count -ne 0) {
     throw 'refusing to package a dirty source tree'
 }
 
@@ -122,12 +123,12 @@ if (-not (Test-Path -LiteralPath $gui -PathType Leaf)) { throw 'installed GUI is
     --no-compiler-runtime --no-opengl-sw $gui
 if ($LASTEXITCODE -ne 0) { throw 'windeployqt failed' }
 
-$binaries = Get-ChildItem -LiteralPath $stage -Recurse -File |
-    Where-Object { $_.Extension -in '.exe', '.dll' }
+$binaries = @(Get-ChildItem -LiteralPath $stage -Recurse -File |
+    Where-Object { $_.Extension -in '.exe', '.dll' })
 if ($binaries.Count -eq 0) { throw 'deployed runtime contains no signable binaries' }
-$unclassifiedDlls = $binaries | Where-Object {
+$unclassifiedDlls = @($binaries | Where-Object {
     $_.Extension -eq '.dll' -and $_.BaseName -notmatch '^(Qt6|q)'
-}
+})
 if ($unclassifiedDlls.Count -ne 0) {
     throw "deployed DLL lacks an exact Qt disposition: $($unclassifiedDlls.Name -join ', ')"
 }
