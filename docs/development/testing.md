@@ -151,14 +151,13 @@ Future public-trust signing uses
 thumbprint and an HTTPS `SDRCAL_WINDOWS_TIMESTAMP_URL`.
 
 The separate Microsoft Store path constructs an unsigned pre-submission MSIX
-from exact non-secret identity values obtained after product-name reservation:
+from exact non-secret identity values source-bound after product-name
+reservation:
 
 ```powershell
 cmake --preset windows-store-release `
-  -DSDRCAL_STORE_PACKAGE_NAME='<exact Partner Center identity name>' `
-  -DSDRCAL_STORE_PUBLISHER='<exact Partner Center publisher>' `
-  -DSDRCAL_STORE_PUBLISHER_DISPLAY_NAME='<exact publisher display name>' `
-  -DSDRCAL_STORE_PRODUCT_NAME='<exact reserved product name>'
+  -DSDRCAL_QT_SOURCE_ARCHIVE='<matching qtbase source archive>' `
+  -DSDRCAL_QT_SOURCE_SHA256='<lowercase SHA-256>'
 cmake --build --preset windows-store-release
 ctest --preset windows-store-release
 cmake --build build/windows-store-release --target package-audit

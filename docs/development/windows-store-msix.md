@@ -24,18 +24,23 @@ install actions, or broader capabilities, suitability must be reassessed.
 The Store signature applies only to the certified Store-delivered MSIX. It does
 not transfer to the MSI or a directly downloaded MSIX.
 
-## Build inputs and command
+## Reserved identity and build command
 
-Reserve the product first and copy only these non-secret identity values from
-Partner Center into the configure command. Do not guess them or commit account
-credentials, tokens, certificates, or private keys.
+The Store product was reserved on 2026-08-17 with these public manifest values:
+
+- product name: `SDR Calibration`;
+- package identity name: `LeeBussy.SDRCalibration`;
+- package identity publisher: `CN=66465467-9B9D-4BDE-9CC9-BE392698D910`;
+- publisher display name: `Lee Bussy`; and
+- Store ID: `9PK9W5S2D66L`.
+
+These values are source-bound rather than configure-overridable. A different
+identity requires a reviewed source change. Account credentials, tokens,
+certificates, private keys, contact details, and verification materials remain
+outside the repository.
 
 ```powershell
 cmake --preset windows-store-release `
-  -DSDRCAL_STORE_PACKAGE_NAME='<Package/Identity/Name>' `
-  -DSDRCAL_STORE_PUBLISHER='<Package/Identity/Publisher>' `
-  -DSDRCAL_STORE_PUBLISHER_DISPLAY_NAME='<publisher display name>' `
-  -DSDRCAL_STORE_PRODUCT_NAME='<reserved product name>' `
   -DSDRCAL_QT_SOURCE_ARCHIVE='<matching qtbase source archive>' `
   -DSDRCAL_QT_SOURCE_SHA256='<lowercase SHA-256>'
 cmake --build --preset windows-store-release

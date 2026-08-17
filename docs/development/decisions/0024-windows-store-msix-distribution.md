@@ -13,8 +13,8 @@ remains the independently distributed Windows installer governed by decision
 by decision 0022 unless a later accepted decision changes that artifact set.
 
 The Store package uses the exact product and publisher identity assigned in
-Partner Center. Those non-secret values are explicit build inputs and are not
-guessed or represented by committed placeholders. The GUI is the packaged
+Partner Center. Those non-secret values are source-bound, not configure-
+overridable, and are not guessed or represented by placeholders. The GUI is the packaged
 desktop application and the CLI is exposed as the `sdrcal.exe` app execution
 alias. Neither executable requests elevation. The package declares only the
 `runFullTrust` restricted capability required for a medium-integrity packaged

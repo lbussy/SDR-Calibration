@@ -28,13 +28,18 @@ def main() -> None:
     cmake = read(root, "CMakeLists.txt")
     script = read(root, "packaging/windows/package-store-msix.ps1")
 
-    for variable in (
-        "SDRCAL_STORE_PACKAGE_NAME",
-        "SDRCAL_STORE_PUBLISHER",
-        "SDRCAL_STORE_PUBLISHER_DISPLAY_NAME",
-        "SDRCAL_STORE_PRODUCT_NAME",
-    ):
-        require(f'set({variable} "" CACHE STRING' in cmake, f"missing identity input: {variable}")
+    identities = {
+        "SDRCAL_STORE_PACKAGE_NAME": "LeeBussy.SDRCalibration",
+        "SDRCAL_STORE_PUBLISHER": "CN=66465467-9B9D-4BDE-9CC9-BE392698D910",
+        "SDRCAL_STORE_PUBLISHER_DISPLAY_NAME": "Lee Bussy",
+        "SDRCAL_STORE_PRODUCT_NAME": "SDR Calibration",
+    }
+    for variable, value in identities.items():
+        require(f'set({variable} "{value}")' in cmake, f"Store identity drift: {variable}")
+        require(
+            f'set({variable} "{value}" CACHE' not in cmake,
+            f"Store identity must not be configure-overridable: {variable}",
+        )
     for marker in (
         "add_custom_target(windows-store-msix",
         '-Version "${PROJECT_VERSION}"',

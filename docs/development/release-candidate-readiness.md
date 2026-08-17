@@ -61,10 +61,12 @@ portion of RC-05 is complete, but public trust remains open. RC-06 cannot be
 satisfied until a candidate newer than `0.1.0` is frozen and tested.
 
 A separate Store-MSIX source packaging contract now exists as a possible
-no-certificate-cost Store route. No exact MSIX has been built or uploaded, no
-certification has occurred, and no Microsoft-provided signature has been
-observed. Because decision 0022 still requires an independently distributed
-publicly trusted MSI, Store MSIX work does not by itself close RC-05.
+no-certificate-cost Store route. The `SDR Calibration` product name and exact
+non-secret manifest identity are reserved in an active Individual developer
+account. No exact MSIX has been built or uploaded, no certification has
+occurred, and no Microsoft-provided signature has been observed. Because
+decision 0022 still requires an independently distributed publicly trusted MSI,
+Store MSIX work does not by itself close RC-05.
 
 ## Resolved scope decisions
 

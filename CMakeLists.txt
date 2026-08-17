@@ -51,14 +51,13 @@ if(NOT SDRCAL_WINDOWS_SIGNING_MODE STREQUAL "SELF_SIGNED" AND
 endif()
 set(SDRCAL_WINDOWS_TIMESTAMP_URL "" CACHE STRING
     "RFC 3161 timestamp service required for PUBLIC_TRUST Windows signing")
-set(SDRCAL_STORE_PACKAGE_NAME "" CACHE STRING
-    "Exact non-secret Package/Identity/Name assigned by Partner Center")
-set(SDRCAL_STORE_PUBLISHER "" CACHE STRING
-    "Exact non-secret Package/Identity/Publisher assigned by Partner Center")
-set(SDRCAL_STORE_PUBLISHER_DISPLAY_NAME "" CACHE STRING
-    "Exact non-secret Partner Center publisher display name")
-set(SDRCAL_STORE_PRODUCT_NAME "" CACHE STRING
-    "Exact reserved Microsoft Store product name")
+# Public manifest identity assigned to the reserved Store product. These values
+# are deliberately not cache variables: a different identity requires a
+# reviewed source change rather than an accidental configure-time override.
+set(SDRCAL_STORE_PACKAGE_NAME "LeeBussy.SDRCalibration")
+set(SDRCAL_STORE_PUBLISHER "CN=66465467-9B9D-4BDE-9CC9-BE392698D910")
+set(SDRCAL_STORE_PUBLISHER_DISPLAY_NAME "Lee Bussy")
+set(SDRCAL_STORE_PRODUCT_NAME "SDR Calibration")
 set(SDRCAL_QT_SOURCE_ARCHIVE "" CACHE FILEPATH
     "Complete qtbase source archive matching the Qt binaries conveyed by a release")
 set(SDRCAL_QT_SOURCE_SHA256 "" CACHE STRING

@@ -19,8 +19,9 @@ the independently distributed MSI.
 ## Requirements
 
 1. Preserve the MSI target and both of its signing modes unchanged.
-2. Require exact Partner Center package name, publisher, publisher display
-   name, and reserved product name as explicit non-secret inputs.
+2. Source-bind the exact Partner Center package name, publisher, publisher
+   display name, and reserved product name as non-secret identity values that
+   cannot be changed accidentally at configure time.
 3. Fail on blank, guessed, example, or placeholder identity; dirty or
    upstream-unsynchronized source; version drift; output reuse; unsafe output;
    missing tools, Qt runtime, plug-ins, license material, or corresponding
