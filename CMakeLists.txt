@@ -129,6 +129,9 @@ endif()
 if(TARGET sdrcal-gui)
     list(APPEND SDRCAL_PACKAGE_AUDIT_DEPENDENCIES sdrcal-gui)
 endif()
+if(APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
+    find_package(Python3 COMPONENTS Interpreter REQUIRED)
+endif()
 if(SDRCAL_ENABLE_PACKAGING)
 add_custom_target(package-audit
     COMMAND "${CMAKE_COMMAND}"
@@ -141,6 +144,7 @@ add_custom_target(package-audit
         -DSDRCAL_GUI_IS_BUNDLE=${APPLE}
         -DSDRCAL_EXPECT_CAPTURE=${SDRCAL_ENABLE_SOAPYSDR}
         -DSDRCAL_EXPECT_GUI=${SDRCAL_BUILD_GUI}
+        -DSDRCAL_PYTHON_EXECUTABLE=${Python3_EXECUTABLE}
         -P "${PROJECT_SOURCE_DIR}/packaging/audit-package.cmake"
     DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
     VERBATIM

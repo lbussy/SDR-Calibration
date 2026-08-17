@@ -72,6 +72,18 @@ PNG dimensions, provenance fields, and every SHA-256 in
 `assets/icons/icon-manifest.json`. It does not substitute for a native package
 run, human visual review, or clean-host qualification.
 
+On macOS, the same test checks the opaque blue-corner contract for the modern
+1024-pixel artwork, byte identity with the image embedded in the Icon Composer
+document, and the CMake/Info.plist bindings for `Assets.car` plus the
+`actool`-generated pre-26 ICNS. A native package review remains necessary to
+show which rendition the operating system actually selects.
+
+`package-audit` parses the ICNS actually staged in the application, verifies
+all ten generated representation types, the eight PNG dimensions, and the two
+legacy ARGB headers and minimum payloads. It also checks both icon metadata keys
+and inspects `Assets.car` for the named `SDRCalibration` icon group. It does not
+substitute for an actual pre-26 host rendering.
+
 The macOS signed-package path is intentionally separate and disables SoapySDR:
 
 ```shell

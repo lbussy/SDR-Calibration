@@ -108,7 +108,10 @@
   and a freedesktop `SDR Calibration` launcher with resolved hicolor icons
 - Project-owned icon provenance, retained raster masters, reproducible native
   asset generation, conversion-tool versions, SHA-256 manifest, installed
-  provenance records, and deterministic hardware-free branding checks
+  provenance records, and deterministic hardware-free branding checks; the
+  macOS path now uses one Icon Composer source for the macOS 26 `Assets.car`
+  rendition and its generated pre-26 ICNS, with packaged visual qualification
+  on both OS generations still open
 - Exact macOS ARM64 signed/notarized DMG qualification at source `5eb3670`,
   including payload/license gates and a reversible same-host install, first
   launch, normal relaunch, CLI help, removal, and restoration lifecycle

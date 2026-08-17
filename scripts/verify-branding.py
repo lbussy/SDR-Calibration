@@ -8,6 +8,7 @@ import hashlib
 import json
 import struct
 import xml.etree.ElementTree as ET
+import zlib
 from pathlib import Path
 
 
@@ -57,6 +58,9 @@ def verify_manifest(root: Path) -> None:
     expected = {
         "assets/icons/source/sdr-calibration-master-1024.png",
         "assets/icons/source/sdr-calibration-small-master-1024.png",
+        "assets/icons/macos/SDRCalibration-macOS26-1024.png",
+        "assets/icons/macos/SDRCalibration.icon/icon.json",
+        "assets/icons/macos/SDRCalibration.icon/Assets/SDRCalibration-macOS26-1024.png",
         "scripts/generate-icons.py",
         "assets/icons/macos/SDRCalibration.icns",
         "assets/icons/windows/SDRCalibration.ico",
@@ -71,6 +75,16 @@ def verify_manifest(root: Path) -> None:
             sha256(path) == record.get("sha256"),
             f"icon hash manifest drift: {relative}",
         )
+    modern = manifest.get("macos_modern", {})
+    require(
+        modern.get("document") == "assets/icons/macos/SDRCalibration.icon",
+        "Icon Composer source document is not recorded",
+    )
+    require(modern.get("compiler") == "Xcode actool", "modern icon compiler mismatch")
+    require(
+        modern.get("minimum_deployment_target") == "14.0",
+        "modern icon deployment target mismatch",
+    )
 
 
 def verify_png(path: Path, expected_size: int) -> None:
@@ -84,7 +98,97 @@ def verify_png(path: Path, expected_size: int) -> None:
     )
 
 
+def verify_modern_macos_artwork(root: Path) -> None:
+    generated = root / "assets/icons/macos/SDRCalibration-macOS26-1024.png"
+    embedded = (
+        root
+        / "assets/icons/macos/SDRCalibration.icon/Assets/SDRCalibration-macOS26-1024.png"
+    )
+    verify_png(generated, 1024)
+    verify_png(embedded, 1024)
+    require(generated.read_bytes() == embedded.read_bytes(), "Icon Composer artwork drift")
+
+    data = generated.read_bytes()
+    require(data[24] == 8 and data[25] == 2, "modern icon must be opaque 8-bit RGB")
+    compressed = bytearray()
+    offset = 8
+    while offset < len(data):
+        length = struct.unpack(">I", data[offset : offset + 4])[0]
+        kind = data[offset + 4 : offset + 8]
+        if kind == b"IDAT":
+            compressed.extend(data[offset + 8 : offset + 8 + length])
+        offset += length + 12
+    raw = zlib.decompress(compressed)
+    stride = 1024 * 3
+    previous = bytearray(stride)
+    rows = []
+    cursor = 0
+    for _ in range(1024):
+        filter_kind = raw[cursor]
+        cursor += 1
+        scanline = bytearray(raw[cursor : cursor + stride])
+        cursor += stride
+        reconstructed = bytearray(stride)
+        for index, value in enumerate(scanline):
+            left = reconstructed[index - 3] if index >= 3 else 0
+            above = previous[index]
+            upper_left = previous[index - 3] if index >= 3 else 0
+            if filter_kind == 0:
+                predictor = 0
+            elif filter_kind == 1:
+                predictor = left
+            elif filter_kind == 2:
+                predictor = above
+            elif filter_kind == 3:
+                predictor = (left + above) // 2
+            elif filter_kind == 4:
+                estimate = left + above - upper_left
+                distances = (
+                    abs(estimate - left),
+                    abs(estimate - above),
+                    abs(estimate - upper_left),
+                )
+                predictor = (left, above, upper_left)[distances.index(min(distances))]
+            else:
+                raise SystemExit(f"unsupported PNG filter {filter_kind}: {generated}")
+            reconstructed[index] = (value + predictor) & 0xFF
+        rows.append(reconstructed)
+        previous = reconstructed
+
+    for x, y in ((0, 0), (1023, 0), (0, 1023), (1023, 1023)):
+        red, green, blue = rows[y][x * 3 : x * 3 + 3]
+        require(
+            blue > red and blue >= green and blue - red >= 60,
+            f"modern icon corner is not blue-dominant: {(x, y)} {(red, green, blue)}",
+        )
+    left, top, right, bottom = (70, 70, 954, 954)
+    radius = 145
+    background_top = (74, 207, 252)
+    background_bottom = background_top
+    for y, row in enumerate(rows):
+        mix = y / 1023
+        expected_background = tuple(
+            round(upper * (1.0 - mix) + lower * mix)
+            for upper, lower in zip(background_top, background_bottom, strict=True)
+        )
+        for x in range(1024):
+            nearest_x = min(max(x, left + radius), right - radius)
+            nearest_y = min(max(y, top + radius), bottom - radius)
+            inside_face = (
+                left <= x <= right
+                and top <= y <= bottom
+                and (x - nearest_x) ** 2 + (y - nearest_y) ** 2 <= radius**2
+            )
+            if not inside_face:
+                actual = tuple(row[x * 3 : x * 3 + 3])
+                require(
+                    actual == expected_background,
+                    f"legacy enclosure escaped the modern face at {(x, y)}: {actual}",
+                )
+
+
 def verify_native_icons(root: Path) -> None:
+    verify_modern_macos_artwork(root)
     for size in LINUX_SIZES:
         verify_png(root / f"assets/icons/linux/sdr-calibration-{size}.png", size)
 
@@ -160,6 +264,7 @@ def verify_macos(root: Path) -> None:
         ("CFBundleExecutable", "${MACOSX_BUNDLE_EXECUTABLE_NAME}"),
         ("CFBundleName", "${MACOSX_BUNDLE_BUNDLE_NAME}"),
         ("CFBundleIconFile", "${MACOSX_BUNDLE_ICON_FILE}"),
+        ("CFBundleIconName", "SDRCalibration"),
     ):
         require(f"<key>{key}</key>" in plist and f"<string>{value}</string>" in plist, f"macOS plist binding mismatch: {key}")
 
@@ -182,6 +287,18 @@ def verify_macos(root: Path) -> None:
         require("SDR Calibration.app" in content, f"new macOS bundle path missing: {relative}")
     dmg = read_text(root, "packaging/macos/package-dmg.sh")
     require('gui_executable="$app/Contents/MacOS/sdrcal-gui"' in dmg, "internal macOS executable drift")
+    for marker in (
+        "assets/icons/macos/SDRCalibration.icon",
+        "--app-icon SDRCalibration",
+        "--standalone-icon-behavior all",
+        "Assets.car",
+    ):
+        require(marker in gui_cmake, f"modern macOS icon build contract missing: {marker}")
+    audit = read_text(root, "packaging/audit-package.cmake")
+    require(
+        "scripts/verify-macos-icon-bundle.py" in audit,
+        "staged actool-generated ICNS validation is missing",
+    )
 
 
 def verify_windows(root: Path) -> None:

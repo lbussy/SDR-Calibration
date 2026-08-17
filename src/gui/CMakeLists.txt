@@ -37,10 +37,52 @@ target_compile_features(sdrcal-gui PRIVATE cxx_std_20)
 target_link_libraries(sdrcal-gui PRIVATE sdrcal_gui_support)
 
 if(APPLE)
+    find_program(SDRCAL_XCRUN_EXECUTABLE xcrun REQUIRED)
+    set(SDRCAL_MACOS_ICON_DOCUMENT
+        "${PROJECT_SOURCE_DIR}/assets/icons/macos/SDRCalibration.icon")
+    set(SDRCAL_MACOS_ICON_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/macos-icon")
+    set(SDRCAL_MACOS_ASSET_CATALOG
+        "${SDRCAL_MACOS_ICON_OUTPUT_DIR}/Assets.car")
     set(SDRCAL_MACOS_ICON
-        "${PROJECT_SOURCE_DIR}/assets/icons/macos/SDRCalibration.icns")
-    target_sources(sdrcal-gui PRIVATE "${SDRCAL_MACOS_ICON}")
-    set_source_files_properties("${SDRCAL_MACOS_ICON}" PROPERTIES
+        "${SDRCAL_MACOS_ICON_OUTPUT_DIR}/SDRCalibration.icns")
+    set(SDRCAL_MACOS_ICON_PARTIAL_PLIST
+        "${SDRCAL_MACOS_ICON_OUTPUT_DIR}/partial.plist")
+    if(CMAKE_OSX_DEPLOYMENT_TARGET)
+        set(SDRCAL_MACOS_ICON_DEPLOYMENT_TARGET
+            "${CMAKE_OSX_DEPLOYMENT_TARGET}")
+    else()
+        set(SDRCAL_MACOS_ICON_DEPLOYMENT_TARGET "14.0")
+    endif()
+    add_custom_command(
+        OUTPUT
+            "${SDRCAL_MACOS_ASSET_CATALOG}"
+            "${SDRCAL_MACOS_ICON}"
+            "${SDRCAL_MACOS_ICON_PARTIAL_PLIST}"
+        COMMAND "${CMAKE_COMMAND}" -E make_directory
+            "${SDRCAL_MACOS_ICON_OUTPUT_DIR}"
+        COMMAND "${SDRCAL_XCRUN_EXECUTABLE}" actool
+            --compile "${SDRCAL_MACOS_ICON_OUTPUT_DIR}"
+            --platform macosx
+            --target-device mac
+            --minimum-deployment-target "${SDRCAL_MACOS_ICON_DEPLOYMENT_TARGET}"
+            --app-icon SDRCalibration
+            --output-partial-info-plist "${SDRCAL_MACOS_ICON_PARTIAL_PLIST}"
+            --standalone-icon-behavior all
+            --product-type com.apple.product-type.application
+            --warnings --errors --notices
+            "${SDRCAL_MACOS_ICON_DOCUMENT}"
+        DEPENDS
+            "${SDRCAL_MACOS_ICON_DOCUMENT}/icon.json"
+            "${SDRCAL_MACOS_ICON_DOCUMENT}/Assets/SDRCalibration-macOS26-1024.png"
+        VERBATIM
+        COMMENT "Compiling the SDR Calibration Icon Composer document")
+    target_sources(sdrcal-gui PRIVATE
+        "${SDRCAL_MACOS_ASSET_CATALOG}"
+        "${SDRCAL_MACOS_ICON}")
+    set_source_files_properties(
+        "${SDRCAL_MACOS_ASSET_CATALOG}"
+        "${SDRCAL_MACOS_ICON}"
+        PROPERTIES GENERATED TRUE
         MACOSX_PACKAGE_LOCATION "Resources")
     set_target_properties(sdrcal-gui PROPERTIES
         MACOSX_BUNDLE_ICON_FILE "SDRCalibration.icns"

@@ -32,7 +32,8 @@ if(SDRCAL_EXPECT_GUI)
         list(APPEND required_files
             "${SDRCAL_STAGE_DIR}/SDR Calibration.app"
             "${SDRCAL_STAGE_DIR}/SDR Calibration.app/Contents/MacOS/sdrcal-gui"
-            "${SDRCAL_STAGE_DIR}/SDR Calibration.app/Contents/Resources/SDRCalibration.icns")
+            "${SDRCAL_STAGE_DIR}/SDR Calibration.app/Contents/Resources/SDRCalibration.icns"
+            "${SDRCAL_STAGE_DIR}/SDR Calibration.app/Contents/Resources/Assets.car")
         if(EXISTS "${SDRCAL_STAGE_DIR}/sdrcal-gui.app")
             message(FATAL_ERROR "stale user-facing macOS bundle name was installed")
         endif()
@@ -89,13 +90,52 @@ if(SDRCAL_EXPECT_GUI AND SDRCAL_GUI_IS_BUNDLE)
             "<key>CFBundleName</key>"
             "<string>SDR Calibration</string>"
             "<key>CFBundleIconFile</key>"
-            "<string>SDRCalibration.icns</string>")
+            "<string>SDRCalibration.icns</string>"
+            "<key>CFBundleIconName</key>"
+            "<string>SDRCalibration</string>")
         string(FIND "${bundle_plist}" "${required_plist_fragment}" plist_fragment_offset)
         if(plist_fragment_offset EQUAL -1)
             message(FATAL_ERROR
                 "installed macOS bundle metadata is missing: ${required_plist_fragment}")
         endif()
     endforeach()
+    execute_process(
+        COMMAND /usr/bin/assetutil -I
+            "${SDRCAL_STAGE_DIR}/SDR Calibration.app/Contents/Resources/Assets.car"
+        RESULT_VARIABLE assetutil_result
+        OUTPUT_VARIABLE asset_catalog_inventory
+        ERROR_VARIABLE assetutil_error
+    )
+    if(NOT assetutil_result EQUAL 0)
+        message(FATAL_ERROR
+            "installed macOS asset catalog is unreadable: ${assetutil_error}")
+    endif()
+    foreach(required_asset_fragment
+            "\"AssetType\" : \"IconGroup\""
+            "\"Name\" : \"SDRCalibration\"")
+        string(FIND "${asset_catalog_inventory}" "${required_asset_fragment}"
+            asset_fragment_offset)
+        if(asset_fragment_offset EQUAL -1)
+            message(FATAL_ERROR
+                "installed macOS asset catalog is missing: ${required_asset_fragment}")
+        endif()
+    endforeach()
+    if(NOT DEFINED SDRCAL_PYTHON_EXECUTABLE)
+        message(FATAL_ERROR "SDRCAL_PYTHON_EXECUTABLE is required for macOS icon audit")
+    endif()
+    execute_process(
+        COMMAND "${SDRCAL_PYTHON_EXECUTABLE}"
+            "${SDRCAL_SOURCE_DIR}/scripts/verify-macos-icon-bundle.py"
+            --app-bundle "${SDRCAL_STAGE_DIR}/SDR Calibration.app"
+        RESULT_VARIABLE icon_audit_result
+        OUTPUT_VARIABLE icon_audit_output
+        ERROR_VARIABLE icon_audit_error
+    )
+    if(NOT icon_audit_result EQUAL 0)
+        message(FATAL_ERROR
+            "generated macOS icon audit failed: ${icon_audit_error}")
+    endif()
+    message(STATUS "${icon_audit_output}")
 endif()
 
 file(READ "${SDRCAL_STAGE_DIR}/${SDRCAL_DATADIR}/sdrcal/sdrcal.spdx.json" spdx)
