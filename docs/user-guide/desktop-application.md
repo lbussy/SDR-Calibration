@@ -40,18 +40,19 @@ support, or calibration accuracy.
 
 ## Windows package status
 
-The Windows package definition presents `SDR Calibration` as the installed
+The primary Windows release path is the Microsoft Store MSIX governed by
+decision 0025. Its package definition presents `SDR Calibration` as the installed
 product and Start menu shortcut, uses the project icon for both identities, and
-launches the internal `sdrcal-gui.exe` executable. Source-contract validation
-checks the WiX XML, shortcut target, deterministic component ownership,
-installed-app icon, and uninstall cleanup definition. An exact MSI carrying
-this identity passed a same-host install, launch, maintenance-install, and
-uninstall lifecycle on Windows 11 x64. The exact indexed hash also has an
-owner-confirmed clean-host lifecycle pass; prior-version upgrade qualification
-remains open. Current Windows packaging uses an explicitly locally trusted
-self-signed development certificate. Such a signature provides
-local integrity evidence only: it does not establish public Windows trust or
-SmartScreen reputation and is not a public-release signing claim.
+launches the internal `sdrcal-gui.exe` executable while exposing `sdrcal.exe`
+through an execution alias. The first native MSIX passed package/runtime/license
+audit and a same-host development-signed lifecycle. Store upload,
+certification, Microsoft signing, delivery, and clean-host qualification remain
+open.
+
+The WiX MSI remains available only for bounded testing with an explicitly
+trusted self-signed development certificate. Its retained same-host and
+owner-confirmed clean-host evidence does not qualify the Store MSIX and it is
+not a required release download.
 
 ## Ubuntu package status
 

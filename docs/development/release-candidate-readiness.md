@@ -40,6 +40,11 @@ distributable release.
   payload/license audit, and a same-host development-signed install, CLI alias,
   GUI launch/relaunch, uninstall, and cleanup lifecycle. It has not been
   uploaded, certified, Store-signed, or Store-delivered.
+- An offline [Store submission-readiness packet](windows-store-submission-readiness.md)
+  now provides proposed listing copy, `runFullTrust` justification, preliminary
+  privacy and age-rating assessments, an asset plan, and a fail-closed
+  preflight. Partner Center inspection, owner choices, exact-candidate assets,
+  upload, certification, and publication remain open.
 - Raspberry Pi OS 13 ARM64 has native CLI build, package, and measured resource
   evidence for the recorded-input path.
 - The project owner confirmed clean-host lifecycle passes for the exact indexed

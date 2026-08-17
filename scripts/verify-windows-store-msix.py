@@ -35,6 +35,10 @@ def main() -> None:
         root,
         "docs/development/release/checksums-and-evidence-ledger-template.md",
     )
+    submission_readiness = read(
+        root,
+        "docs/development/windows-store-submission-readiness.md",
+    )
 
     identities = {
         "SDRCAL_STORE_PACKAGE_NAME": "LeeBussy.SDRCalibration",
@@ -93,6 +97,17 @@ def main() -> None:
         "| Windows x64 MSI |" not in release_ledger,
         "required release ledger silently restored the MSI",
     )
+    for marker in (
+        "Partner Center remains draft",
+        "No genuine Store screenshot is currently retained.",
+        "No package has been uploaded",
+        "`runFullTrust` justification",
+        "Publishing is held for manual owner action.",
+    ):
+        require(
+            marker in submission_readiness,
+            f"Store submission readiness drift: {marker}",
+        )
     require(
         re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", args.project_version) is not None,
         "configured project version is malformed",

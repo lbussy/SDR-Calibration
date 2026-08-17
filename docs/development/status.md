@@ -124,6 +124,11 @@
   validation, and same-host development-signed install, CLI alias, GUI
   launch/relaunch, uninstall, and certificate cleanup; Store submission,
   certification, Microsoft signing, and Store delivery remain open
+- Prepared offline Microsoft Store submission-readiness packet with proposed
+  English listing copy, `runFullTrust` justification, preliminary privacy and
+  age-rating assessments, screenshot plan, and fail-closed preflight; no
+  Partner Center edit, package upload, certification request, or publication
+  has occurred
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows
