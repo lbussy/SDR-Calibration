@@ -54,7 +54,7 @@ def main() -> None:
         'Version="${Version}.0"',
         'ProcessorArchitecture="x64"',
         'EntryPoint="Windows.FullTrustApplication"',
-        'Alias="sdrcal.exe"',
+        '<uap5:ExecutionAlias Alias="sdrcal.exe" />',
         '<rescap:Capability Name="runFullTrust" />',
         "Microsoft Store signing not observed",
         "certification_state = 'not submitted'",

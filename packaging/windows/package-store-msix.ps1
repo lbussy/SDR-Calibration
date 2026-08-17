@@ -196,7 +196,7 @@ $escapedProductName = Escape-Xml $ProductName
                         Executable="bin\sdrcal.exe"
                         EntryPoint="Windows.FullTrustApplication">
           <uap5:AppExecutionAlias>
-            <desktop:ExecutionAlias Alias="sdrcal.exe" />
+            <uap5:ExecutionAlias Alias="sdrcal.exe" />
           </uap5:AppExecutionAlias>
         </uap5:Extension>
       </Extensions>
