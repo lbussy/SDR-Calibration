@@ -39,6 +39,7 @@ def main() -> None:
         root,
         "docs/development/windows-store-submission-readiness.md",
     )
+    fixture_generator = read(root, "scripts/prepare-store-certification-fixture.py")
 
     identities = {
         "SDRCAL_STORE_PACKAGE_NAME": "LeeBussy.SDRCalibration",
@@ -108,6 +109,16 @@ def main() -> None:
             marker in submission_readiness,
             f"Store submission readiness drift: {marker}",
         )
+    for marker in (
+        "refusing certification fixture preparation from a dirty tree",
+        "source revision is not synchronized with its upstream",
+        "refusing to reuse an existing fixture output directory",
+        "fixture output directory must be outside the source tree",
+        "sdrcal runtime version does not match candidate version",
+        '"certification_ready": not dirty',
+        "synthetic test fixture; no device or accuracy claim",
+    ):
+        require(marker in fixture_generator, f"Store certification fixture drift: {marker}")
     require(
         re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", args.project_version) is not None,
         "configured project version is malformed",

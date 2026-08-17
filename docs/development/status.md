@@ -157,8 +157,9 @@
   assembly remain open
 - Centralized production version identity on the configured CMake project
   version for both CLIs, the Qt GUI, platform packages, CPack, and SPDX output,
-  with hardware-free source-contract and CLI runtime tests; the project remains
-  at `0.1.0` and no higher-version candidate is selected or frozen
+  with hardware-free source-contract and CLI runtime tests; version `0.1.1` is
+  selected for Store-candidate preparation but is not frozen by exact Windows
+  artifact hash or designated as a release candidate
 - Public repository with GitHub Private Vulnerability Reporting enabled;
   retained non-vulnerability evidence covers the maintainer-side advisory
   create/retrieve/close control and one eligible external reporter's private

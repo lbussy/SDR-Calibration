@@ -9,7 +9,7 @@ endif()
 
 project(
     SDRCalibration
-    VERSION 0.1.0
+    VERSION 0.1.1
     DESCRIPTION "Cross-platform SDR frequency calibration"
     LANGUAGES CXX
 )

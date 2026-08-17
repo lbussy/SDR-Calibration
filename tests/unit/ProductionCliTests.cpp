@@ -59,7 +59,7 @@ std::string requestJson(const std::string& first, const std::string& second,
     registry.registry_id = "fixture-registry";
     registry.registry_version = "1";
     registry.generated_at = "2026-08-01T00:00:00Z";
-    registry.expires_at = "2026-09-01T00:00:00Z";
+    registry.expires_at = "2030-09-01T00:00:00Z";
     registry.provenance = "test";
     for (const auto& [id, frequency] : std::vector<std::pair<std::string, double>>{
              {"ref-10", 10'000'000.0}, {"ref-20", 20'000'000.0}}) {
@@ -73,7 +73,7 @@ std::string requestJson(const std::string& first, const std::string& second,
              "fixture",
              conditionFree ? std::vector<std::string>{"none"} : std::vector<std::string>{"test"},
              {"test only"},
-             {{id + "-e", "fixture", "2026-08-01T00:00:00Z", "2026-09-01T00:00:00Z",
+             {{id + "-e", "fixture", "2026-08-01T00:00:00Z", "2030-09-01T00:00:00Z",
                std::string(64, 'a')}}});
     }
     CHECK(reference::refreshRegistryIntegrity(registry));
@@ -334,8 +334,16 @@ void requestValidationTests() {
 
 void commandTests() {
     using namespace sdrcal::cli;
-    const auto root = std::filesystem::temp_directory_path() / "sdrcal-production-cli-tests";
+    const auto* retainedFixture = std::getenv("SDRCAL_TEST_FIXTURE_DIR");
+    const auto root = retainedFixture != nullptr
+                          ? std::filesystem::path(retainedFixture)
+                          : std::filesystem::temp_directory_path() / "sdrcal-production-cli-tests";
     std::error_code ignored;
+    if (retainedFixture != nullptr && std::filesystem::exists(root)) {
+        std::cerr << "fixture output directory already exists: " << root << '\n';
+        ++failures;
+        return;
+    }
     std::filesystem::remove_all(root, ignored);
     std::filesystem::create_directories(root);
     const auto first = samples(10.0);
@@ -417,7 +425,7 @@ void commandTests() {
     CHECK(liveAcquisitions == 2);
     CHECK(std::filesystem::exists(root / "live-success/profile.json"));
     CHECK(liveSuccessOutput.str().find("\"status\":\"success\"") != std::string::npos);
-    if (std::getenv("SDRCAL_TEST_KEEP_FIXTURE") == nullptr)
+    if (retainedFixture == nullptr && std::getenv("SDRCAL_TEST_KEEP_FIXTURE") == nullptr)
         std::filesystem::remove_all(root, ignored);
 }
 } // namespace

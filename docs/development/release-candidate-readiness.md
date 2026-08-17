@@ -71,7 +71,7 @@ distributable release.
 RC-03 is the accuracy-bearing gate. Package success, synthetic workflow success,
 or capture success cannot substitute for it. RC-04 is complete. RC-05 remains
 open until the exact frozen MSIX is certified and Store-delivered. RC-06 cannot
-be satisfied until a candidate newer than `0.1.0` is frozen and tested.
+be satisfied until candidate `0.1.1` is frozen by exact artifact hash and tested.
 
 A Store-MSIX source packaging contract now implements the required Windows
 release route. The `SDR Calibration` product name and exact
@@ -104,9 +104,10 @@ initial artifact and compatibility scope as follows:
 
 ## Hardware-free work that may proceed
 
-Version identity is now centralized on the CMake project version and guarded by
-source-contract and runtime tests. A candidate version is not selected or
-frozen by that implementation.
+Version identity is centralized on the CMake project version and guarded by
+source-contract and runtime tests. Version `0.1.1` is selected for candidate
+preparation, but it is not frozen by an exact synchronized source revision and
+artifact hash and is not a release-candidate designation.
 
 Upgrade/rollback procedures and acceptance criteria are prepared in the
 [qualification plan](upgrade-rollback-qualification-plan.md). Execution remains

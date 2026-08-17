@@ -73,7 +73,7 @@ tests, package audit, MakeAppx creation/unpack validation, and a same-host
 development-signed install/CLI alias/GUI relaunch/uninstall lifecycle. The
 unsigned candidate SHA-256 is
 `de28c7d9c11c1fcf95e70ffc80a5147c6dfd5f26e93c8f6138906a6f6ba95f85`.
-See the [native MSIX qualification record](../../evidence/windows-store/2026-08-17-native-msix-qualification/README.md).
+See the [native MSIX qualification record](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/windows-store/2026-08-17-native-msix-qualification/README.md).
 This result is not Store signing, certification, Store delivery, clean-host
 qualification, or update qualification. Partner Center remained a draft and no
 package was uploaded or submitted.

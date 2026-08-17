@@ -124,8 +124,8 @@ Use only if Partner Center presents the optional field:
 
 ## Certification notes
 
-Use this after replacing the candidate placeholders with the exact certified
-submission version and retained evidence locator:
+Use this after replacing the retained evidence locator with the exact
+Windows-generated fixture location:
 
 > SDR Calibration is an offline, recorded-input-only Windows desktop utility.
 > It requires no login, service, network connection, SDR hardware, driver, or
@@ -135,10 +135,16 @@ submission version and retained evidence locator:
 > Calibration produces profile.json, evidence.json, and summary.json. The CLI is
 > exposed through the sdrcal.exe app execution alias. The package intentionally
 > rejects live-acquisition requests and existing output directories. Candidate
-> version: `TBD-BLOCKING`. Fixture/evidence instructions: `TBD-BLOCKING`.
+> version: `0.1.1`. Fixture/evidence instructions: `TBD-BLOCKING`.
 
-The fixture set must be separately reviewed before upload. It must contain no
-personal, device-secret, credential, private-key, or sensitive raw-IQ material.
+The fixture generator is `scripts/prepare-store-certification-fixture.py`. It
+derives the same synthetic inputs exercised by `production_cli_tests`, binds
+the request to `0.1.1`, validates it through `sdrcal`, and writes hashes plus a
+manifest. By default it refuses a dirty or upstream-unsynchronized source
+tree. `--development-tree` exists only for pre-commit validation and marks its
+output not certification-ready. The retained Windows fixture must be separately
+reviewed before upload and must contain no personal, device-secret, credential,
+private-key, or sensitive raw-IQ material.
 
 ## `runFullTrust` justification
 
@@ -234,8 +240,10 @@ but the four-shot set is the readiness exit.
 
 1. Read-only inspection of the current Partner Center draft remains incomplete
    because the Chrome control channel was unavailable; no UI state is inferred.
-2. A higher-version frozen release candidate has not been selected or built.
-3. Certification fixtures and four exact-candidate screenshots do not exist.
+2. Version `0.1.1` is selected in source, but its exact Windows Store package
+   has not been built or frozen by hash.
+3. The fixture generator exists, but a clean synchronized Windows-generated
+   fixture and four exact-candidate screenshots do not exist.
 4. Owner selections for commercial availability, category, privacy, support,
    age rating, and manual publishing hold are not recorded.
 5. Package upload, certification submission, Microsoft signing, Store delivery,
