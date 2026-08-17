@@ -27,6 +27,8 @@ The hardware-free cross-component gate is governed by the
 Future local-reference work is held by the
 [GPSDO/reference-path readiness package](gpsdo-reference-path-readiness.md),
 prepared under its [execution prompt](gpsdo-reference-path-readiness-execution-prompt.md).
+The current macOS exact-host package lifecycle is governed by the
+[same-host qualification prompt](macos-same-host-package-qualification-prompt.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).
