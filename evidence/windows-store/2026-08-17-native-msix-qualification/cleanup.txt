@@ -1,0 +1,5 @@
+package_registration=absent
+gui_process=absent
+temporary_certificate_current_user=absent
+temporary_certificate_local_machine=absent
+certificate_thumbprint=9C9697E1F6E157BB63F21D468041460D3066BA17

@@ -1,0 +1,12 @@
+﻿
+
+Verifying: C:\Users\lee\SDR-Calibration\build\windows-store-release\windows-store-package\SDRCalibration-0.1.0-Windows-Store-x64.msix
+
+
+Number of signatures successfully Verified: 0
+
+Number of warnings: 0
+
+Number of errors: 1
+
+SignTool Error: No signature found.

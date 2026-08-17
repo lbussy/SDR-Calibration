@@ -1,0 +1,11 @@
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\lee\SDR-Calibration\build\windows-store-release && "C:\Program Files\CMake\bin\cmake.exe" -DSDRCAL_BUILD_DIR=C:/Users/lee/SDR-Calibration/build/windows-store-release -DSDRCAL_SOURCE_DIR=C:/Users/lee/SDR-Calibration -DSDRCAL_STAGE_DIR=C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root -DSDRCAL_BINDIR=bin -DSDRCAL_DATADIR=share -DSDRCAL_EXECUTABLE_SUFFIX=.exe -DSDRCAL_GUI_IS_BUNDLE= -DSDRCAL_EXPECT_CAPTURE=OFF -DSDRCAL_EXPECT_GUI=ON -DSDRCAL_PYTHON_EXECUTABLE= -P C:/Users/lee/SDR-Calibration/packaging/audit-package.cmake"
+-- Install configuration: "Release"
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/bin/sdrcal.exe
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/bin/sdrcal-gui.exe
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/share/sdrcal/LICENSE
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/share/sdrcal/THIRD_PARTY_NOTICES.md
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/share/sdrcal/schemas/sdr-calibration-profile.schema.json
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/share/sdrcal/icons/README.md
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/share/sdrcal/icons/icon-manifest.json
+-- Installing: C:/Users/lee/SDR-Calibration/build/windows-store-release/package-audit-root/share/sdrcal/sdrcal.spdx.json
+-- Package content and CLI startup passed. Runtime dependency deployment, clean-host installation, native installer, and signing checks remain separate qualification gates.

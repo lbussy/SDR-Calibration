@@ -63,6 +63,16 @@ reported exactly as not created, draft, uploaded, certification pending,
 certified, or published. Package upload, certification submission, and public
 availability each require their own authorization.
 
+The first native Windows result at revision `99d96a6` passed 19 hardware-free
+tests, package audit, MakeAppx creation/unpack validation, and a same-host
+development-signed install/CLI alias/GUI relaunch/uninstall lifecycle. The
+unsigned candidate SHA-256 is
+`de28c7d9c11c1fcf95e70ffc80a5147c6dfd5f26e93c8f6138906a6f6ba95f85`.
+See the [native MSIX qualification record](../../evidence/windows-store/2026-08-17-native-msix-qualification/README.md).
+This result is not Store signing, certification, Store delivery, clean-host
+qualification, or update qualification. Partner Center remained a draft and no
+package was uploaded or submitted.
+
 The initial Store listing must accurately describe the recorded-input boundary,
 provide required descriptions and imagery, and supply a privacy-policy URL if
 the app accesses personal information or policy/law otherwise requires it.

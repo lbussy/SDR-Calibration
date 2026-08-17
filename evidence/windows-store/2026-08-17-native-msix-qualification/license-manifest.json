@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "platform": "Windows",
+  "qt_version": "6.11.1",
+  "qt_license": "LGPL-3.0-only",
+  "qt_source_archive": "qtbase-everywhere-src-6.11.1.zip",
+  "qt_source_sha256": "3529cc37297a5a7aae4486843b9fd41c30df1d79a770f85e240b537dcc327ca5",
+  "additional_qt_sources": [
+    {"name": "qtsvg-everywhere-src-6.11.1.zip", "sha256": "767730188d4610a89bf8da502f87acf1c8881a3ac54f1e0eb167ab1e08b03a75"}
+  ],
+  "qt_modifications": "none",
+  "runtime_inventory_sha256": "d7fed3743cefb656e3b5239da65326f2220f8b91bfb2724a6a91b8ceb4b030cf",
+  "replacement_instructions": "share/sdrcal/license-disposition/QT_LIBRARY_REPLACEMENT.md",
+  "soapy_sdr_conveyed": false,
+  "gate": "passed"
+}

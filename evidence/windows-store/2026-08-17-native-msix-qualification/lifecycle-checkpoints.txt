@@ -1,0 +1,10 @@
+signature=passed thumbprint=9C9697E1F6E157BB63F21D468041460D3066BA17
+install=passed
+registration=passed package_full_name=LeeBussy.SDRCalibration_0.1.0.0_x64__cjj5pwm77qg2r
+cli_alias=passed path=C:\Users\lee\AppData\Local\Microsoft\WindowsApps\sdrcal.exe
+gui_first_launch=passed pid=14652
+gui_relaunch=passed pid=3120
+uninstall=passed
+package_registration_after_cleanup=absent
+gui_process_after_cleanup=absent
+source_revision=99d96a61aabe6c421fcf59f788f04df5293609e0

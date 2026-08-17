@@ -1,0 +1,2 @@
+first_launch=passed
+relaunch=passed

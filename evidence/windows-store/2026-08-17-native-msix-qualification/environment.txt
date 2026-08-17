@@ -1,0 +1,16 @@
+﻿source_revision=99d96a61aabe6c421fcf59f788f04df5293609e0
+os=Microsoft Windows 11 Pro
+os_version=10.0.26200
+os_build=26200
+architecture=AMD64
+cmake=cmake version 4.4.2
+ninja=1.13.2
+git=git version 2.55.0.windows.4
+qt=6.11.1
+makeappx=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\makeappx.exe
+signtool=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe
+package_name=LeeBussy.SDRCalibration
+package_publisher=CN=66465467-9B9D-4BDE-9CC9-BE392698D910
+publisher_display_name=Lee Bussy
+reserved_product_name=SDR Calibration
+store_id=9PK9W5S2D66L

@@ -1,0 +1,28 @@
+﻿{
+    "schema_version":  1,
+    "source_revision":  "99d96a61aabe6c421fcf59f788f04df5293609e0",
+    "project_version":  "0.1.0",
+    "package_identity_name":  "LeeBussy.SDRCalibration",
+    "package_identity_publisher":  "CN=66465467-9B9D-4BDE-9CC9-BE392698D910",
+    "publisher_display_name":  "Lee Bussy",
+    "reserved_product_name":  "SDR Calibration",
+    "package_version":  "0.1.0.0",
+    "architecture":  "x64",
+    "artifact":  "SDRCalibration-0.1.0-Windows-Store-x64.msix",
+    "sha256":  "de28c7d9c11c1fcf95e70ffc80a5147c6dfd5f26e93c8f6138906a6f6ba95f85",
+    "platform":  "Microsoft Windows 11 Pro",
+    "platform_version":  "10.0.26200",
+    "platform_build":  "26200",
+    "qt_version":  "6.11.1",
+    "cmake_version":  "cmake version 4.4.2",
+    "makeappx":  "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\makeappx.exe",
+    "capabilities":  [
+                         "runFullTrust"
+                     ],
+    "signing_state":  "unsigned pre-submission MSIX; Microsoft Store signing not observed",
+    "certification_state":  "not submitted",
+    "store_lifecycle_qualified":  false,
+    "distribution_license_gate":  "passed; see license-manifest.json",
+    "cli_disposition":  "sdrcal.exe declared as app execution alias",
+    "device_qualified":  false
+}

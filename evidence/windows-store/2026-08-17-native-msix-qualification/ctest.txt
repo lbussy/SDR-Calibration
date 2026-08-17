@@ -1,0 +1,43 @@
+Test project C:/Users/lee/SDR-Calibration/build/windows-store-release
+      Start  1: branding_contract_tests
+ 1/19 Test  #1: branding_contract_tests ..............   Passed    1.31 sec
+      Start  2: version_identity_contract_tests
+ 2/19 Test  #2: version_identity_contract_tests ......   Passed    0.06 sec
+      Start  3: windows_store_msix_contract_tests
+ 3/19 Test  #3: windows_store_msix_contract_tests ....   Passed    0.06 sec
+      Start  4: product_version_runtime_tests
+ 4/19 Test  #4: product_version_runtime_tests ........   Passed    0.07 sec
+      Start  5: license_disposition_tests
+ 5/19 Test  #5: license_disposition_tests ............   Passed    0.34 sec
+      Start  6: capture_unit_tests
+ 6/19 Test  #6: capture_unit_tests ...................   Passed    0.05 sec
+      Start  7: memory_acquisition_unit_tests
+ 7/19 Test  #7: memory_acquisition_unit_tests ........   Passed    0.02 sec
+      Start  8: carrier_estimator_unit_tests
+ 8/19 Test  #8: carrier_estimator_unit_tests .........   Passed    0.02 sec
+      Start  9: signal_quality_analyzer_unit_tests
+ 9/19 Test  #9: signal_quality_analyzer_unit_tests ...   Passed    0.02 sec
+      Start 10: observation_acceptance_unit_tests
+10/19 Test #10: observation_acceptance_unit_tests ....   Passed    0.01 sec
+      Start 11: model_uncertainty_unit_tests
+11/19 Test #11: model_uncertainty_unit_tests .........   Passed    0.01 sec
+      Start 12: profile_engine_unit_tests
+12/19 Test #12: profile_engine_unit_tests ............   Passed    0.03 sec
+      Start 13: reference_evidence_unit_tests
+13/19 Test #13: reference_evidence_unit_tests ........   Passed    0.02 sec
+      Start 14: wsjtx_adapter_unit_tests
+14/19 Test #14: wsjtx_adapter_unit_tests .............   Passed    0.02 sec
+      Start 15: application_workflow_unit_tests
+15/19 Test #15: application_workflow_unit_tests ......   Passed    0.03 sec
+      Start 16: capture_cli_argument_tests
+16/19 Test #16: capture_cli_argument_tests ...........   Passed    0.01 sec
+      Start 17: production_cli_tests
+17/19 Test #17: production_cli_tests .................   Passed    0.05 sec
+      Start 18: gui_workflow_tests
+18/19 Test #18: gui_workflow_tests ...................   Passed    0.02 sec
+      Start 19: gui_widget_tests
+19/19 Test #19: gui_widget_tests .....................   Passed    0.04 sec
+
+100% tests passed out of 19
+
+Total Test time (real) =   2.28 sec
