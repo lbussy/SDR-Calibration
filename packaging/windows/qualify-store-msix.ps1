@@ -131,7 +131,8 @@ try {
         throw 'signed package does not identify the temporary signing certificate'
     }
     if ($verificationExit -ne 0 -and
-        ($verification -join "`n") -notmatch 'root certificate which is not trusted') {
+        ($verification -join "`n") -notmatch
+            '(?s)certificate chain processed.*root.*certificate which is not trusted') {
         throw 'development signature inspection failed for an unexpected reason'
     }
     $checkpoints.Add('development_signature=present; install is the local-trust validation')
