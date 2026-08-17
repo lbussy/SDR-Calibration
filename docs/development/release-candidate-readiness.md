@@ -36,15 +36,18 @@ distributable release.
 - The exact Windows MSI at source `15ed17b` passed payload/license and
   same-host install, launch, maintenance-install, and uninstall checks using a
   locally trusted self-signed development certificate.
-- The exact unsigned Store MSIX at source `99d96a6` passed native construction,
-  payload/license audit, and a same-host development-signed install, CLI alias,
-  GUI launch/relaunch, uninstall, and cleanup lifecycle. It has not been
-  uploaded, certified, Store-signed, or Store-delivered.
+- The exact unsigned `0.1.1` Store MSIX at source `957fbeb` and SHA-256
+  `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`
+  passed native construction, WACK, payload/license audit, and a same-host
+  development-signed install, CLI alias, GUI launch/relaunch, uninstall, and
+  cleanup lifecycle. It has not been uploaded, certified, Store-signed, or
+  Store-delivered.
 - An offline [Store submission-readiness packet](windows-store-submission-readiness.md)
   now provides proposed listing copy, `runFullTrust` justification, preliminary
-  privacy and age-rating assessments, an asset plan, and a fail-closed
-  preflight. Partner Center inspection, owner choices, exact-candidate assets,
-  upload, certification, and publication remain open.
+  privacy and age-rating assessments, four exact-candidate screenshots, a
+  deterministic certification fixture attachment, and a fail-closed preflight.
+  Read-only Partner Center inspection is retained; owner choices, upload,
+  certification, and publication remain open.
 - Raspberry Pi OS 13 ARM64 has native CLI build, package, and measured resource
   evidence for the recorded-input path.
 - The project owner confirmed clean-host lifecycle passes for the exact indexed
@@ -63,7 +66,7 @@ distributable release.
 | RC-02 | Reference suitability | Blocked; the readiness package intentionally establishes no physical suitability | Install the splitter, complete source/path dossiers, and approve the survey plan | Reference identity/authority, topology, levels, attenuation, conditions, uncertainty, acceptance, and cleanup |
 | RC-03 | Physical end-to-end calibration | Not qualified | RC-01 and RC-02 must supply an accepted device/path/reference combination | Acquisition through profile evaluation, comparison error/uncertainty, assurance ceiling, exact artifacts, and cleanup |
 | RC-04 | macOS clean-host lifecycle | Passed by owner confirmation for exact DMG SHA-256 `94a831d4549b92edd85222c55e0cd64395dbe8acfd1f4bd5c57351f15bf80ad4` | Complete | Exact hash and owner-confirmed lifecycle record retained |
-| RC-05 | Windows Store certification and lifecycle | Local MSIX construction and development-signed same-host lifecycle passed for SHA-256 `de28c7d9c11c1fcf95e70ffc80a5147c6dfd5f26e93c8f6138906a6f6ba95f85`; Store certification/delivery and clean-host evidence remain open | Freeze and submit the exact candidate under separate authorization, pass certification, then qualify Store installation on a clean Windows 11 host | Exact identity/version; certification result; Microsoft signature; Store install, GUI, CLI alias, removal, cleanup, listing/capability agreement, and retained evidence |
+| RC-05 | Windows Store certification and lifecycle | Exact `0.1.1` MSIX construction, WACK, and development-signed same-host lifecycle passed for SHA-256 `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`; screenshots and the certification fixture are retained; Store certification/delivery and clean-host evidence remain open | Submit the exact candidate under separate authorization, pass certification, then qualify Store installation on a clean Windows 11 host | Exact identity/version; certification result; Microsoft signature; Store install, GUI, CLI alias, removal, cleanup, listing/capability agreement, and retained evidence |
 | RC-06 | Prior-version transitions and Windows MSI migration | Exact read-only `0.1.0` macOS/DEB baselines exist; no transition is qualified. No published Store predecessor exists for the first MSIX | Freeze a candidate above `0.1.0`; execute applicable macOS/DEB transitions; independently verify the first-Store-release N/A; qualify MSI coexistence/manual migration | Old/new hashes, version consistency, preserved seeded state, package-manager transitions, Windows coexistence/CLI/Start identity, cleanup, and independent review |
 | RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decisions 0022 and 0025 define the policy; no source or schema revision is frozen | Select a candidate only after its required artifact and qualification gates can be executed | Frozen revision, exact schemas and artifacts, compatibility statement, and change-control rule |
 | RC-08 | Release documentation and evidence ledger | Fail-closed templates and evidence-package assembly plan exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; every required cell must be linked, digested, privacy-reviewed, and independently verified | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, manifest, inventories, corresponding source, and evidence index with no blocking required fields |

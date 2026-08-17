@@ -164,8 +164,10 @@
   at source `957fbeb`, including 19/19 hardware-free tests, package/runtime and
   license audit, MakeAppx creation/unpack inspection, WACK `PASS`, and exact-hash
   development-signed install, CLI alias, GUI launch/relaunch, uninstall, and
-  certificate cleanup; screenshots, Store submission, Microsoft signing,
-  Store delivery/update, and clean-host behavior remain open
+  certificate cleanup; four exact-candidate screenshots and a deterministic
+  certification fixture attachment are retained and privacy-reviewed; Store
+  submission, Microsoft signing, Store delivery/update, and clean-host behavior
+  remain open
 - Public repository with GitHub Private Vulnerability Reporting enabled;
   retained non-vulnerability evidence covers the maintainer-side advisory
   create/retrieve/close control and one eligible external reporter's private

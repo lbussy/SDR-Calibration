@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import re
+import zipfile
 from pathlib import Path
 
 
@@ -59,6 +60,41 @@ def main() -> None:
     screenshot_manifest = json.loads(
         screenshot_manifest_path.read_text(encoding="utf-8-sig")
     )
+    fixture_archive = (
+        root / "evidence/windows-store/2026-08-17-0.1.1-certification-fixture"
+        / "SDRCalibration-0.1.1-Store-Certification-Fixture.zip"
+    )
+    require(fixture_archive.is_file(), "Store certification fixture attachment is missing")
+    require(
+        hashlib.sha256(fixture_archive.read_bytes()).hexdigest()
+        == "f11547cdbbedba715074d55413026a86ac5209597aeb42f8712e7527c7b6ff51",
+        "Store certification fixture attachment hash mismatch",
+    )
+    expected_fixture_members = {
+        "README.txt", "SHA256SUMS", "first.cf32", "manifest.json",
+        "request.json", "second.cf32", "trust.json",
+    }
+    with zipfile.ZipFile(fixture_archive) as fixture_zip:
+        require(set(fixture_zip.namelist()) == expected_fixture_members,
+                "Store certification fixture attachment member drift")
+        fixture_metadata = json.loads(fixture_zip.read("manifest.json"))
+        fixture_request = json.loads(fixture_zip.read("request.json"))
+        require(fixture_metadata["certification_ready"] is True,
+                "Store certification fixture is not certification-ready")
+        require(fixture_metadata["classification"] ==
+                "synthetic test fixture; no device or accuracy claim",
+                "Store certification fixture classification drift")
+        require(fixture_request["software_version"] == "0.1.1",
+                "Store certification fixture version drift")
+        expected_payload_hashes = {
+            "first.cf32": "8e02d0128ec060dbcf344be3f3821fb5045327ee9b927d18d00de5104f59a066",
+            "second.cf32": "f830dbb28cba5829c91dfa0599f293a04c29eacdbef35eabd80e262d04cec076",
+            "request.json": "edc391ee01bcbcdba15241244fb8502397957ec021650742a5fa9ad8c090bf95",
+            "trust.json": "85d6dc934d9a6744f6f176a0626dc3aebe793bf152e19c1482dafc7c92b7e386",
+        }
+        for name, expected_hash in expected_payload_hashes.items():
+            require(hashlib.sha256(fixture_zip.read(name)).hexdigest() == expected_hash,
+                    f"Store certification fixture payload hash mismatch: {name}")
 
     require(screenshot_manifest["candidate_version"] == "0.1.1",
             "Store screenshot version binding drift")
@@ -188,6 +224,8 @@ def main() -> None:
         "Partner Center draft state read-only verified",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
+        "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
+        "f11547cdbbedba715074d55413026a86ac5209597aeb42f8712e7527c7b6ff51",
         "No package has been uploaded",
         "`runFullTrust` justification",
         "Publishing is held for manual owner action.",
@@ -196,6 +234,8 @@ def main() -> None:
             marker in submission_readiness,
             f"Store submission readiness drift: {marker}",
         )
+    require("TBD-BLOCKING" not in submission_readiness,
+            "Store submission readiness still contains a blocking placeholder")
     for marker in (
         "product-list status was `Not started`",
         "application overview status was `In draft`",

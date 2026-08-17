@@ -125,8 +125,7 @@ Use only if Partner Center presents the optional field:
 
 ## Certification notes
 
-Use this after replacing the retained evidence locator with the exact
-Windows-generated fixture location:
+Use this with the retained supplemental fixture attachment:
 
 > SDR Calibration is an offline, recorded-input-only Windows desktop utility.
 > It requires no login, service, network connection, SDR hardware, driver, or
@@ -136,7 +135,12 @@ Windows-generated fixture location:
 > Calibration produces profile.json, evidence.json, and summary.json. The CLI is
 > exposed through the sdrcal.exe app execution alias. The package intentionally
 > rejects live-acquisition requests and existing output directories. Candidate
-> version: `0.1.1`. Fixture/evidence instructions: `TBD-BLOCKING`.
+> version: `0.1.1`. Attach
+> `SDRCalibration-0.1.1-Store-Certification-Fixture.zip` (SHA-256
+> `f11547cdbbedba715074d55413026a86ac5209597aeb42f8712e7527c7b6ff51`),
+> extract it, select `request.json` and `trust.json`, and choose any new output
+> directory. The archive README and `SHA256SUMS` provide bounded verification
+> instructions.
 
 The fixture generator is `scripts/prepare-store-certification-fixture.py`. It
 derives the same synthetic inputs exercised by `production_cli_tests`, binds
@@ -146,6 +150,11 @@ tree. `--development-tree` exists only for pre-commit validation and marks its
 output not certification-ready. The retained Windows fixture must be separately
 reviewed before upload and must contain no personal, device-secret, credential,
 private-key, or sensitive raw-IQ material.
+
+That review is retained with the proposed supplemental attachment at
+`evidence/windows-store/2026-08-17-0.1.1-certification-fixture/`. The attachment
+has not been uploaded; its filename and hash must be rechecked immediately
+before it is added to a Partner Center submission.
 
 ## `runFullTrust` justification
 
@@ -221,21 +230,21 @@ but the four-shot set is the readiness exit.
 
 ## Fail-closed preflight
 
-- [ ] Exact frozen revision and version exceed the prior development candidate.
-- [ ] Clean synchronized native Windows build and all hardware-free tests pass.
-- [ ] Package identity, publisher, architecture, version, and sole capability
+- [x] Exact Store candidate revision and version exceed the prior development candidate.
+- [x] Clean synchronized native Windows build and all hardware-free tests pass.
+- [x] Package identity, publisher, architecture, version, and sole capability
       match this packet.
-- [ ] MakeAppx, unpack, payload, runtime, license, corresponding-source, and
+- [x] MakeAppx, unpack, payload, runtime, license, corresponding-source, and
       hash evidence pass for the exact upload.
-- [ ] Windows App Certification Kit result is retained or an explicit reason
+- [x] Windows App Certification Kit result is retained or an explicit reason
       for omission is reviewed.
-- [ ] Certification fixture is deterministic, synthetic, non-sensitive, and
+- [x] Certification fixture is deterministic, synthetic, non-sensitive, and
       independently reviewed.
 - [x] Four exact-candidate screenshots pass privacy and
       claim review.
 - [ ] Owner approves price, markets, audience, discoverability, category,
       language, privacy answer/policy, support channel, and age-rating answers.
-- [ ] Listing copy, certification notes, and `runFullTrust` justification match
+- [x] Listing copy, certification notes, and `runFullTrust` justification match
       the exact package behavior.
 - [ ] Publishing is held for manual owner action.
 - [ ] Partner Center package validation passes.
@@ -256,9 +265,11 @@ but the four-shot set is the readiness exit.
 3. Four exact-candidate screenshots derived from the clean synchronized fixture
    on `ecm-mule` are retained with hashes, dimensions, and privacy review. They
    have not been uploaded to Partner Center.
-4. Owner selections for commercial availability, category, privacy, support,
+4. The deterministic certification fixture attachment is retained and
+   independently reviewed, but it has not been uploaded.
+5. Owner selections for commercial availability, category, privacy, support,
    age rating, and manual publishing hold are not recorded.
-5. Package upload, certification submission, Microsoft signing, Store delivery,
+6. Package and fixture upload, certification submission, Microsoft signing, Store delivery,
    clean-host Store lifecycle, and MSI migration/coexistence remain open and
    separately authorized.
 
