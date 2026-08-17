@@ -5,6 +5,11 @@ This record covers the hardware-free Windows candidate run on `ecm-mule` on
 candidate used the locally trusted `SELF_SIGNED` development mode and is not a
 publicly trusted or release-signed artifact.
 
+The project owner subsequently confirmed a clean-host lifecycle pass for this
+exact MSI hash. That separate result is retained in the
+[owner-confirmed clean-host record](../../clean-host/2026-08-17-owner-confirmed/README.md).
+Public-trust signing, timestamping, and SmartScreen qualification remain open.
+
 ## Exact inputs
 
 - Source: `15ed17b8cb3e9ed75fa50bb407219cd2f3aaf193`, clean `main` checkout

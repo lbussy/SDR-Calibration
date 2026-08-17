@@ -258,9 +258,10 @@ does not establish calibration accuracy or device qualification.
 ## Phase 14: Portability, packaging, and qualification
 
 **Status: Packaging foundation and exact-payload license-disposition gates are
-implemented; exact macOS and Windows same-host lifecycles are retained.
-Clean-host, upgrade, Windows public-trust, device, and end-to-end qualification
-gates remain open.**
+implemented; exact same-host evidence and owner-confirmed clean-host lifecycle
+passes are retained for the indexed macOS, Windows, and Raspberry Pi packages.
+Upgrade, Windows public-trust, device, and end-to-end qualification gates remain
+open.**
 
 Establish supported macOS, Linux, and Windows builds; minimum Qt and SoapySDR
 baselines; dependency pinning; dependency inventories or SBOMs; third-party
@@ -286,8 +287,9 @@ deploy runtime dependencies or constitute native signed installers.
 Phase 14.1 added the fail-closed macOS DMG production path: stable bundle
 metadata, dynamic Qt deployment, Developer ID signing, notarization, stapling,
 Gatekeeper checks, and hash-indexed evidence. The current exact DMG also passed
-the Phase 14.4 license gate and a same-host lifecycle. It does not close clean-
-host or prior-version-upgrade gates.
+the Phase 14.4 license gate and a same-host lifecycle. The project owner later
+confirmed a clean-host lifecycle pass for that indexed hash. Prior-version
+upgrade remains open.
 
 Phase 14.2 added the fail-closed Windows x64 MSI packaging path: dynamic Qt
 deployment, Authenticode signing, MSI construction, administrative extraction,
@@ -295,10 +297,10 @@ payload and startup auditing, and hash-indexed evidence. The current mode uses
 a locally trusted self-signed development certificate without timestamping;
 the retained public-trust mode requires RFC 3161 timestamping. A self-signed
 result applies only to the exact retained MSI on systems where that certificate
-is explicitly trusted and does not close public-trust, SmartScreen,
-clean-install, or general Windows-support gates. The retained exact MSI
-subsequently passed the Phase 14.4 license gate and a same-host lifecycle,
-without changing those public-trust and clean-host limits.
+is explicitly trusted and does not close public-trust or SmartScreen gates. The
+retained exact MSI subsequently passed the Phase 14.4 license gate and a
+same-host lifecycle, and the project owner confirmed a clean-host lifecycle
+pass for that indexed hash. Public trust remains open.
 
 Phase 14.3 adds the fail-closed Ubuntu 24.04 x86_64 DEB production path:
 system-package Qt dependencies derived from the staged ELF payload, rootless
@@ -313,7 +315,7 @@ deployed-code inventory, license disposition, and replacement instructions.
 Ubuntu records exact system dependency versions and copyright dispositions
 while proving those libraries are not conveyed. Each artifact must retain its
 own passing evidence; implementation does not retroactively qualify earlier
-packages. Clean-host installation is the next Phase 14 gate.
+packages.
 
 The Phase 14.5 pre-qualification branding slice prevents the internal
 `sdrcal-gui` target name from becoming any platform's product identity. Package
@@ -325,9 +327,11 @@ retained raster masters and reproducible `.icns`, `.ico`, executable/installer,
 and Linux icon-theme generation. Provenance, conversion versions, SHA-256
 records, installed evidence files, and hardware-free contract checks are
 implemented. The exact renamed, icon-bearing macOS and Windows packages have
-same-host execution evidence, and macOS has retained human visual review.
-Clean-host qualification, prior-version upgrade, Windows public trust, and
-remaining final-platform visual review remain open. Earlier packages remain
+same-host execution evidence, and macOS has retained human visual review. The
+project owner confirmed clean-host lifecycle passes for the exact indexed
+macOS and Windows hashes. Prior-version upgrade, Windows public trust, and
+candidate binding remain open. The project owner accepted the Windows
+application/icon at relevant scaling settings. Earlier packages remain
 historical evidence.
 
 The Raspberry Pi CLI track may advance before the Phase 14.5 multi-platform
@@ -335,8 +339,9 @@ clean-host matrix. Its Phase 1 source foundation provides a CLI-only ARM64
 preset, a provisional fail-closed resource ceiling, payload absence checks, and
 rootless Raspberry Pi OS DEB tooling. Raspberry Pi 4 fixture `wspr4` now supplies
 a native passing build, measured 128 MiB-per-observation resource envelope, and
-an audited exact ARM64 DEB. Clean-host installation remains open. SoapySDR
-capture and end-to-end calibration remain separate later gates.
+an audited exact ARM64 DEB. The project owner confirmed a clean-host lifecycle
+pass for that indexed DEB hash. SoapySDR capture and end-to-end calibration
+remain separate later gates.
 
 ## Live-device production integration
 

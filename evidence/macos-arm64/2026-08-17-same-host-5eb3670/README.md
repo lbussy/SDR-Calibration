@@ -4,6 +4,10 @@ This record covers the hardware-free macOS package run on the development Mac
 on 2026-08-17. It qualifies one exact signed and notarized DMG on the host that
 built it. It is not clean-host installation or prior-version upgrade evidence.
 
+The project owner subsequently confirmed a clean-host lifecycle pass for this
+exact DMG hash. That separate result is retained in the
+[owner-confirmed clean-host record](../../clean-host/2026-08-17-owner-confirmed/README.md).
+
 ## Exact inputs
 
 - Source: `5eb3670b08b8aee2c4d915e5553b140394dc0d01`, clean and synchronized
@@ -57,7 +61,8 @@ committed because they are reproducible build output.
 
 ## Qualification boundary
 
-This result qualifies only the recorded source, artifact hash, host, and
-same-host lifecycle. It does not establish clean-host installation,
+This same-host result qualifies only the recorded source, artifact hash, host,
+and same-host lifecycle. The separate owner-confirmed record establishes the
+clean-host lifecycle for the same hash. Neither record establishes
 prior-version upgrade, Intel macOS support, public artifact publication, SDR
 device support, reference suitability, or calibration accuracy.

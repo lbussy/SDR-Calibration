@@ -118,6 +118,10 @@
 - Exact Windows 11 x64 self-signed MSI qualification at source `15ed17b`,
   including payload/license gates and same-host install, launch,
   maintenance-install, and uninstall lifecycle; public trust remains open
+- Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
+  self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
+  application/icon review at relevant scaling settings also passed; Windows
+  public-trust signing and prior-version upgrade/rollback remain open
 - Accepted initial compatibility and release-artifact boundary: schema-major-1
   native-profile semantics are durable; intended binaries are recorded-input-
   only macOS ARM64 DMG, public-trust Windows x64 MSI, and Raspberry Pi OS 13
@@ -128,6 +132,12 @@
 - Exact host-local, read-only, content-addressed `0.1.0` macOS DMG, Windows MSI,
   and Raspberry Pi DEB baselines for future higher-version upgrade/rollback
   testing; no upgrade, rollback, release, or off-host-backup claim
+- Prepared upgrade/rollback qualification procedures for macOS bundle
+  replacement/restoration, Windows Installer MajorUpgrade and explicit old-MSI
+  restoration, and Raspberry Pi `dpkg` upgrade/downgrade, with shared seeded-
+  state preservation, fail-closed cleanup, and independent-review criteria;
+  execution remains open until a version-consistent candidate above `0.1.0`
+  is frozen
 - Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
   preset, configurable fail-closed recorded-input ceiling, deterministic limit
   test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB
@@ -193,21 +203,15 @@
 - Binding the accepted compatibility/artifact policy to an exact candidate,
   plus release documentation and its evidence ledger; see the
   [readiness audit](release-candidate-readiness.md)
-- Clean-host installation and distribution evidence for the macOS and Windows
-  packages
-- Clean-host platform-native package execution and retained human visual-review
-  evidence for every platform and scaling context in the final artifact set;
-  current macOS and Windows evidence is same-host only
-- Clean-host installation, upgrade, removal, and clean-state evidence for the
-  exact Raspberry Pi recorded-input CLI DEB
+- Prior-version upgrade and rollback evidence for the frozen candidate on
+  macOS, Windows, and Raspberry Pi
 
 ## Not established
 
 - Current Ubuntu platform, package, installation, device, or calibration support;
   retained Ubuntu implementation and evidence are historical portability assets
 - Supported SDR device matrix
-- A clean-host lifecycle or end-to-end calibration-qualified Raspberry Pi
-  combination
+- An end-to-end calibration-qualified Raspberry Pi combination
 - Calibration accuracy claims
 - Release schedule or stable artifact compatibility guarantee
 

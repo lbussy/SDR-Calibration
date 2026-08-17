@@ -10,16 +10,16 @@ only after review and operator confirmation.
 The initial desktop targets are macOS 14.0 or later on Apple Silicon and Windows
 11 x64. Raspberry Pi OS is not a desktop target; its initial scope is the
 recorded-input CLI only. Ubuntu GUI implementation remains in the repository
-but is unsupported and currently unvalidated. Product targets are not claims
-that every target has completed clean-host qualification.
+but is unsupported and currently unvalidated. The exact indexed macOS and
+Windows package hashes have owner-confirmed clean-host lifecycle passes.
 
 ## macOS package status
 
 The current macOS DMG is a Developer ID-signed and Apple-notarized package
 containing the recorded-input application, production CLI, notices, and
 machine-readable dependency inventory. The DMG provides an Applications alias
-for copying `SDR Calibration.app`; command-line installation remains an operator-
-managed workflow until clean-host packaging qualification is complete.
+for copying `SDR Calibration.app`; command-line installation remains an
+operator-managed workflow.
 
 The package definitions now present the product as `SDR Calibration` in macOS,
 Windows, and Linux launchers, shortcuts, and installed-application listings
@@ -27,13 +27,14 @@ while retaining `sdrcal-gui` as an internal implementation name. The installed
 macOS bundle is `SDR Calibration.app`. Every GUI package definition includes
 the same approved, project-owned application icon in its native platform
 formats. The exact current DMG passed a reversible same-host install, first
-launch, normal relaunch, CLI help, removal, and restoration lifecycle. Clean-
-host and prior-version-upgrade qualification remain open; existing packages
-without the final name and icon remain historical package evidence only.
+launch, normal relaunch, CLI help, removal, and restoration lifecycle. The
+exact indexed hash also has an owner-confirmed clean-host lifecycle pass.
+Prior-version upgrade qualification remains open; existing packages without
+the final name and icon remain historical package evidence only.
 
 Phase 14.4 requires each new DMG to carry the complete hash-pinned Qt source,
 the exact deployed runtime inventory, license disposition, and Qt replacement
-instructions. Notarization and license disposition still do not establish
+instructions. Notarization and license disposition alone do not establish
 clean-host installation, upgrade/uninstall behavior, live SDR access, device
 support, or calibration accuracy.
 
@@ -45,9 +46,10 @@ launches the internal `sdrcal-gui.exe` executable. Source-contract validation
 checks the WiX XML, shortcut target, deterministic component ownership,
 installed-app icon, and uninstall cleanup definition. An exact MSI carrying
 this identity passed a same-host install, launch, maintenance-install, and
-uninstall lifecycle on Windows 11 x64. It has not passed clean-host or prior-
-version-upgrade qualification. Current Windows packaging uses an explicitly
-locally trusted self-signed development certificate. Such a signature provides
+uninstall lifecycle on Windows 11 x64. The exact indexed hash also has an
+owner-confirmed clean-host lifecycle pass; prior-version upgrade qualification
+remains open. Current Windows packaging uses an explicitly locally trusted
+self-signed development certificate. Such a signature provides
 local integrity evidence only: it does not establish public Windows trust or
 SmartScreen reputation and is not a public-release signing claim.
 

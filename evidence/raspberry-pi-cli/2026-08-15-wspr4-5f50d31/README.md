@@ -1,7 +1,11 @@
 # Raspberry Pi recorded-input CLI native build and package evidence
 
-Status: Native build-covered and package-content audited; clean-host installation,
-capture, device, and end-to-end calibration are not qualified.
+Status: Native build-covered and package-content audited. The project owner
+subsequently confirmed a clean-host lifecycle pass for the exact indexed DEB
+hash in the
+[owner-confirmed clean-host record](../../clean-host/2026-08-17-owner-confirmed/README.md).
+Capture, device, prior-version upgrade, and end-to-end calibration are not
+qualified.
 
 ## Bound identity
 
