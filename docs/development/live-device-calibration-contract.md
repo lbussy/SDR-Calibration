@@ -148,6 +148,11 @@ Implementation is divided into separately reviewed slices:
    clock binds the explicit driver-default token; unsupported correction binds
    effective zero. Each derivation is recorded in the binding extension, while
    unknown and ambiguous cases fail closed.
+   The SDRplay RSP1B identity policy is also implemented and hardware-free
+   tested: exact `SDRplay` driver and `RSP1B` hardware keys bind missing generic
+   manufacturer/model metadata to `SDRplay`/`RSP1B` with a versioned binding.
+   It does not normalize other SDRplay products or turn observed bandwidth,
+   gain, AGC, clock, or correction values into device defaults.
 7. Only after all hardware-free gates pass, render a device-, reference-,
    setting-, duration-, abort-, cleanup-, and evidence-bound qualification plan
    for separately authorized execution.

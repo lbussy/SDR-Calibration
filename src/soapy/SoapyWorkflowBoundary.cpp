@@ -62,11 +62,19 @@ std::optional<application::DeviceCandidate> mapDevice(const capture::DeviceMetad
     auto model = firstValue(metadata.hardware_info, {"model", "product"});
     const bool airspyHfPolicy =
         metadata.driver_key == "AirspyHF" && metadata.hardware_key == "AirspyHF";
+    const bool sdrplayRsp1bPolicy =
+        metadata.driver_key == "SDRplay" && metadata.hardware_key == "RSP1B";
     if (airspyHfPolicy) {
         if (!manufacturer)
             manufacturer = "Airspy";
         if (!model)
             model = "Airspy HF+ family";
+    }
+    if (sdrplayRsp1bPolicy) {
+        if (!manufacturer)
+            manufacturer = "SDRplay";
+        if (!model)
+            model = "RSP1B";
     }
     const auto rate = wholePositive(settings.sample_rate_sps.effective);
     if (!metadata.driver_key || !manufacturer || !model || !metadata.serial || !rate ||
@@ -89,6 +97,9 @@ std::optional<application::DeviceCandidate> mapDevice(const capture::DeviceMetad
         result.configuration.binding_extension["soapy_argument_" + key] = value;
     if (airspyHfPolicy)
         result.configuration.binding_extension["identity_normalization_policy"] = "airspyhf-v1";
+    if (sdrplayRsp1bPolicy)
+        result.configuration.binding_extension["identity_normalization_policy"] =
+            "sdrplay-rsp1b-v1";
     if (metadata.clock_source_reported == false)
         result.configuration.binding_extension["clock_source_provenance"] =
             "soapy-no-selectable-source";

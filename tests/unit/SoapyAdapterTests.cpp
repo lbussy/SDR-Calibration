@@ -845,6 +845,110 @@ void testSparseNormalizationFailsClosed() {
     }
 }
 
+SoapyWorkflowOptions sparseRsp1bOptions() {
+    auto options = workflowOptions();
+    options.capture_request.device_arguments = {{"driver", "sdrplay"}, {"serial", "rsp1b-serial"}};
+    options.capture_request.bandwidth_hz.reset();
+    options.capture_request.gain_db.reset();
+    options.expected_device.identity = {"SDRplay", "SDRplay", "RSP1B", "rsp1b-serial",
+                                        sdrcal::profile::IdentityStrength::hardware_serial};
+    auto& configuration = options.expected_device.configuration;
+    configuration.clock_source = "soapy-driver-default";
+    configuration.bandwidth_hz = 200'000;
+    configuration.frequency_correction_ppm = 0.0;
+    configuration.driver_version.reset();
+    configuration.firmware_version.reset();
+    configuration.antenna_port = "RX";
+    configuration.tuner_path.reset();
+    configuration.binding_extension = {
+        {"soapy_argument_driver", "sdrplay"},
+        {"soapy_argument_serial", "rsp1b-serial"},
+        {"identity_normalization_policy", "sdrplay-rsp1b-v1"},
+        {"clock_source_provenance", "soapy-no-selectable-source"},
+        {"effective_gain_db", 30.0},
+        {"automatic_gain", true},
+    };
+    return options;
+}
+
+void configureSparseRsp1b(FakeApi& api) {
+    api.matches_ = {{{"driver", "sdrplay"}, {"serial", "rsp1b-serial"}}};
+    api.device_.driverKey_ = "SDRplay";
+    api.device_.hardwareKey_ = "RSP1B";
+    api.device_.hardwareInfo_ = {{"sdrplay_api_api_version", "3.150000"},
+                                 {"sdrplay_api_hw_version", "6"}};
+    api.device_.antenna_ = "RX";
+    api.device_.clockSource_.reset();
+    api.device_.clockSources_.clear();
+    api.device_.frequencyCorrection_ = 0.0;
+    api.device_.frequencyCorrectionSupported_ = true;
+    api.device_.bandwidth_ = 200'000.0;
+    api.device_.gain_ = 30.0;
+    api.device_.automaticGain_ = true;
+}
+
+void testRsp1bNormalizationPolicy() {
+    FakeApi api;
+    configureSparseRsp1b(api);
+    api.device_.reads_.push_back(
+        {ReadStatus::samples, tone(8'192, 2'000'000.0, 100'000.0), 1'000, {}});
+    auto options = sparseRsp1bOptions();
+    SoapyWorkflowBoundary boundary(api, options);
+    const auto result =
+        boundary.acquire(options.expected_device, options.expected_device.configuration,
+                         {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+    CHECK(result.status == sdrcal::application::AcquisitionStatus::success);
+    CHECK(result.identity.manufacturer == "SDRplay");
+    CHECK(result.identity.model == "RSP1B");
+    CHECK(result.configuration.bandwidth_hz == 200'000);
+    CHECK(std::get<double>(result.configuration.binding_extension.at("effective_gain_db").value) ==
+          30.0);
+    CHECK(std::get<bool>(result.configuration.binding_extension.at("automatic_gain").value));
+    CHECK(std::get<std::string>(
+              result.configuration.binding_extension.at("identity_normalization_policy").value) ==
+          "sdrplay-rsp1b-v1");
+    CHECK(result.final_device_state_safe);
+}
+
+void testRsp1bNormalizationFailsClosedOnPartialKeyMatch() {
+    for (const auto& keys : std::vector<std::pair<std::string, std::string>>{{"SDRplay", "RSPdx"},
+                                                                             {"Other", "RSP1B"}}) {
+        FakeApi api;
+        configureSparseRsp1b(api);
+        api.device_.driverKey_ = keys.first;
+        api.device_.hardwareKey_ = keys.second;
+        auto options = sparseRsp1bOptions();
+        options.expected_device.identity.driver = keys.first;
+        SoapyWorkflowBoundary boundary(api, options);
+        const auto result =
+            boundary.acquire(options.expected_device, options.expected_device.configuration,
+                             {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+        CHECK(result.failure_stage ==
+              sdrcal::application::AcquisitionFailureStage::identity_configuration);
+        CHECK(result.final_device_state_safe);
+    }
+}
+
+void testRsp1bNormalizationPreservesReportedIdentity() {
+    FakeApi api;
+    configureSparseRsp1b(api);
+    api.device_.hardwareInfo_["manufacturer"] = "Reported Manufacturer";
+    api.device_.hardwareInfo_["model"] = "Reported Model";
+    api.device_.reads_.push_back(
+        {ReadStatus::samples, tone(8'192, 2'000'000.0, 100'000.0), 1'000, {}});
+    auto options = sparseRsp1bOptions();
+    options.expected_device.identity.manufacturer = "Reported Manufacturer";
+    options.expected_device.identity.model = "Reported Model";
+    SoapyWorkflowBoundary boundary(api, options);
+    const auto result =
+        boundary.acquire(options.expected_device, options.expected_device.configuration,
+                         {"observation-1", "independence-1", "reference-1", 10'000'000.0}, {});
+    CHECK(result.status == sdrcal::application::AcquisitionStatus::success);
+    CHECK(result.identity.manufacturer == "Reported Manufacturer");
+    CHECK(result.identity.model == "Reported Model");
+    CHECK(result.final_device_state_safe);
+}
+
 void testWorkflowBoundaryFailsBeforeConstructionAndRejectsIndexIdentity() {
     {
         FakeApi api;
@@ -982,6 +1086,9 @@ int main() {
         {"workflow evidence and cleanup", testWorkflowBoundaryComposesEvidenceAndCleanup},
         {"Airspy normalization policy", testAirspyNormalizationPolicy},
         {"sparse normalization failures", testSparseNormalizationFailsClosed},
+        {"RSP1B normalization policy", testRsp1bNormalizationPolicy},
+        {"RSP1B normalization key failures", testRsp1bNormalizationFailsClosedOnPartialKeyMatch},
+        {"RSP1B reported identity preservation", testRsp1bNormalizationPreservesReportedIdentity},
         {"workflow preflight and index identity",
          testWorkflowBoundaryFailsBeforeConstructionAndRejectsIndexIdentity},
         {"workflow identity and cleanup failures",

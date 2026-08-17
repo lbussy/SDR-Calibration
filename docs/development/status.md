@@ -135,6 +135,11 @@
   exact family policy, explicit driver-default clock classification, unsupported
   correction as effective zero, capture-manifest capability fields, and
   negative fake-API cases. This source-only slice made no physical claim.
+- Exact-key SDRplay RSP1B identity normalization for sparse generic
+  manufacturer/model metadata, with a versioned profile binding and
+  hardware-free positive and partial-key negative tests. Effective bandwidth,
+  aggregate gain, AGC, clock, and correction remain readback-derived rather
+  than device defaults; this source-only slice makes no new physical claim.
 - Exact 10 MHz Airspy diagnostic transport passed with known-safe cleanup, but
   the immutable production estimator rejected the retained sample as
   `ambiguous_signal` at 0.2596 coherence. WWV suitability and end-to-end
