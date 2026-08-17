@@ -140,8 +140,11 @@
 - Partner Center rejected the first exact-hash package upload for unresolved
   logo paths, blank publisher display name, and missing/default package
   language; the expected `runFullTrust` approval warning also appeared;
-  package construction now declares `en-us` and audits exact asset paths and
-  publisher display name; the rejected package was owner-authorized and removed
+  package construction now declares `en-us`, parses all three unpacked manifest
+  logo references, resolves them to exact PNG payload paths and dimensions, and
+  audits publisher display name; only replacement-package acceptance can prove
+  the Partner Center logo and publisher errors resolved; the rejected package
+  was owner-authorized and removed
   from the draft, while replacement build, qualification, owner rebinding,
   upload, certification, and publication remain open
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,

@@ -255,6 +255,8 @@ foreach ($required in 'AppxManifest.xml', 'Assets\StoreLogo.png',
 $manifestNamespaces = New-Object Xml.XmlNamespaceManager $unpackedManifest.NameTable
 $manifestNamespaces.AddNamespace('f',
     'http://schemas.microsoft.com/appx/manifest/foundation/windows10')
+$manifestNamespaces.AddNamespace('uap',
+    'http://schemas.microsoft.com/appx/manifest/uap/windows10')
 $publisherDisplayNode = $unpackedManifest.SelectSingleNode(
     '/f:Package/f:Properties/f:PublisherDisplayName', $manifestNamespaces)
 if ($null -eq $publisherDisplayNode -or
@@ -265,6 +267,46 @@ $resourceNodes = @($unpackedManifest.SelectNodes(
     '/f:Package/f:Resources/f:Resource', $manifestNamespaces))
 if ($resourceNodes.Count -ne 1 -or $resourceNodes[0].Language -cne 'en-us') {
     throw 'unpacked manifest must declare exactly the en-us package resource language'
+}
+
+$propertiesLogoNode = $unpackedManifest.SelectSingleNode(
+    '/f:Package/f:Properties/f:Logo', $manifestNamespaces)
+$visualElementsNodes = @($unpackedManifest.SelectNodes(
+    '/f:Package/f:Applications/f:Application/uap:VisualElements', $manifestNamespaces))
+if ($null -eq $propertiesLogoNode -or $visualElementsNodes.Count -ne 1) {
+    throw ('unpacked manifest must contain exactly the expected package and ' +
+        'application logo declarations')
+}
+$visualElementsNode = $visualElementsNodes[0]
+$logoDeclarations = @(
+    [pscustomobject]@{ Label = 'Properties/Logo'; Value = $propertiesLogoNode.InnerText
+        Expected = 'Assets\StoreLogo.png'; Size = 50 },
+    [pscustomobject]@{ Label = 'uap:VisualElements/Square150x150Logo'
+        Value = $visualElementsNode.GetAttribute('Square150x150Logo')
+        Expected = 'Assets\Square150x150Logo.png'; Size = 150 },
+    [pscustomobject]@{ Label = 'uap:VisualElements/Square44x44Logo'
+        Value = $visualElementsNode.GetAttribute('Square44x44Logo')
+        Expected = 'Assets\Square44x44Logo.png'; Size = 44 }
+)
+foreach ($logo in $logoDeclarations) {
+    if ($logo.Value -cne $logo.Expected) {
+        throw "unpacked manifest $($logo.Label) must reference exactly $($logo.Expected)"
+    }
+    $logoPath = Join-Path $unpacked $logo.Value
+    if (-not (Test-Path -LiteralPath $logoPath -PathType Leaf)) {
+        throw "unpacked manifest $($logo.Label) resolves to a missing payload file: $($logo.Value)"
+    }
+    $image = [Drawing.Image]::FromFile($logoPath)
+    try {
+        if ($image.RawFormat.Guid -ne [Drawing.Imaging.ImageFormat]::Png.Guid) {
+            throw "unpacked manifest $($logo.Label) does not resolve to a PNG image"
+        }
+        if ($image.Width -ne $logo.Size -or $image.Height -ne $logo.Size) {
+            throw ("unpacked manifest $($logo.Label) resolves to " +
+                "$($image.Width)x$($image.Height), expected " +
+                "$($logo.Size)x$($logo.Size)")
+        }
+    } finally { $image.Dispose() }
 }
 
 $payload = Get-ChildItem -LiteralPath $stage -Recurse -File | ForEach-Object {

@@ -170,6 +170,12 @@ def main() -> None:
         "'Assets\\StoreLogo.png'",
         "unpacked manifest publisher display name does not match",
         "unpacked manifest must declare exactly the en-us package resource language",
+        "unpacked manifest must contain exactly the expected package and ",
+        "Expected = 'Assets\\Square150x150Logo.png'; Size = 150",
+        "Expected = 'Assets\\Square44x44Logo.png'; Size = 44",
+        "unpacked manifest $($logo.Label) must reference exactly $($logo.Expected)",
+        "does not resolve to a PNG image",
+        '"$($logo.Size)x$($logo.Size)"',
     ):
         require(marker in script, f"missing fail-closed Store contract: {marker}")
     for marker in ("true/pm", "PerMonitorV2, PerMonitor"):

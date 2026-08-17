@@ -60,6 +60,7 @@ development/windows-store-owner-gate-closure-execution-prompt
 development/windows-store-listing-text-execution-prompt
 development/windows-store-screenshot-upload-execution-prompt
 development/windows-store-package-upload-execution-prompt
+development/windows-store-logo-remediation-execution-prompt
 development/windows-store-msix
 development/phase-14-3-execution-prompt
 development/phase-14-4-execution-prompt

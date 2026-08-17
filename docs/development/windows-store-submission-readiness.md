@@ -301,9 +301,12 @@ but the four-shot set is the readiness exit.
    logo paths, blank publisher display name, and absent/default package language.
    The expected `runFullTrust` approval warning was also shown. The owner
    authorized deletion and Partner Center returned to zero package entries with
-   the approved device-family state unchanged. Source remediation requires a
-   new revision, rebuilt hash, full requalification, and renewed owner binding
-   before any replacement upload.
+   the approved device-family state unchanged. Package construction now parses
+   the three logo references from the unpacked manifest, requires their exact
+   payload paths, opens them as PNG images, and verifies their required square
+   dimensions. These checks prevent path or image drift but do not prove the
+   Partner Center errors resolved. That proof requires acceptance of a new
+   revision after rebuild, full requalification, and renewed owner binding.
 
 All owner gates are approved in `windows-store-owner-decisions.md`. That
 approval does not authorize package selection or upload, certification
