@@ -131,9 +131,11 @@
   approved and saved pricing, Properties, age ratings, English listing language,
   public website/support URLs, a manual publication hold, and Desktop-only
   availability with future device families disabled; all owner gates are
-  complete; the exact WACK-qualified upload candidate remains subject to an
-  immediate pre-selection hash recheck, and no upload, certification request,
-  or publication occurred
+  complete; the approved English listing description, eight features, short
+  description, keywords, copyright, and developer are saved; the listing and
+  Packages remain incomplete pending separately authorized uploads; the exact
+  WACK-qualified candidate remains subject to an immediate pre-selection hash
+  recheck, and no upload, certification request, or publication occurred
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows

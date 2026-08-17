@@ -57,6 +57,7 @@ development/windows-ecm-mule-candidate-execution-prompt
 development/windows-store-msix-execution-prompt
 development/windows-store-preupload-execution-prompt
 development/windows-store-owner-gate-closure-execution-prompt
+development/windows-store-listing-text-execution-prompt
 development/windows-store-msix
 development/phase-14-3-execution-prompt
 development/phase-14-4-execution-prompt

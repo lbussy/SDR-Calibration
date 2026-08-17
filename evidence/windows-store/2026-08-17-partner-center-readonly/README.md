@@ -141,3 +141,25 @@ this app available to any future device families` was unchecked and saved. No
 file picker was used and no package was selected or uploaded. Partner Center
 then reported Packages `Incomplete`, Store listings `Not started`, and **Submit
 for certification** disabled. No certification or publication action occurred.
+
+## Owner-approved English listing text
+
+The approved non-upload English (United States) listing fields were entered and
+saved from the committed readiness packet:
+
+- the exact description and short description;
+- eight separate product-feature entries;
+- five keywords: `SDR`, `frequency calibration`, `IQ analysis`, `radio`, and
+  `WSJT-X`;
+- `Copyright (c) 2026 Lee Bussy`; and
+- developer `Lee Bussy`.
+
+What's new remained blank for the first submission. Short title, voice title,
+additional license terms, Xbox-only fields, trailers, logos, and optional image
+fields remained blank. The saved listing was re-opened and the description,
+short description, eight feature entries, five keyword chips, copyright, and
+developer values were visibly present. Desktop screenshots remained at zero,
+so the listing remained `Incomplete`; Packages also remained `Incomplete` and
+**Submit for certification** remained disabled. No file picker was opened and
+no screenshot, image, trailer, package, fixture, or other attachment was
+selected or uploaded.

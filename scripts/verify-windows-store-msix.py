@@ -47,6 +47,9 @@ def main() -> None:
         "docs/development/windows-store-submission-readiness.md",
     )
     owner_decisions = read(root, "docs/development/windows-store-owner-decisions.md")
+    listing_prompt = read(
+        root, "docs/development/windows-store-listing-text-execution-prompt.md"
+    )
     partner_center_inspection = read(
         root,
         "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
@@ -222,7 +225,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Owner gates complete; package and listing completion pending",
+        "Status: Owner gates and listing text complete; screenshot and package pending",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -230,6 +233,7 @@ def main() -> None:
         "No package has been uploaded",
         "`runFullTrust` justification",
         "Publishing is held for manual owner action.",
+        "Approved and saved",
     ):
         require(
             marker in submission_readiness,
@@ -237,6 +241,13 @@ def main() -> None:
         )
     require("TBD-BLOCKING" not in submission_readiness,
             "Store submission readiness still contains a blocking placeholder")
+    for marker in (
+        "Reconcile and save the already-reviewed English (United States)",
+        "Do not open a file picker or upload screenshots",
+        "Do not select **Submit for certification**",
+        "Adversarial review",
+    ):
+        require(marker in listing_prompt, f"Store listing prompt drift: {marker}")
     for marker in (
         "Status: **Owner approved and saved; upload remains separately authorized**",
         "Preparing or committing a proposed value is not approval of that",
@@ -270,7 +281,9 @@ def main() -> None:
         "Exact pre-upload inspection",
         "SDR-Calibration-Harness-70ff94c",
         "Owner-approved final gate reconciliation",
+        "Owner-approved English listing text",
         "no package was selected or uploaded",
+        "no screenshot, image, trailer, package, fixture, or other attachment was",
         "Four same-named `0.1.1` MSIX files were found",
     ):
         require(marker in partner_center_inspection, f"Partner Center inspection drift: {marker}")

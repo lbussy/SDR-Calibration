@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Owner gates complete; package and listing completion pending
+Status: Owner gates and listing text complete; screenshot and package pending
 
 Prepared: 2026-08-17
 
@@ -46,27 +46,33 @@ Center form immediately before entering or approving submission data.
 
 ## Recommended field plan
 
-These are proposed values for owner review, not Partner Center state.
-The explicit approval gate is the
+These values are the approved submission plan. Saved Partner Center state is
+identified explicitly below. The approval record is the
 [Microsoft Store owner decision packet](windows-store-owner-decisions.md).
 
 | Section | Field | Proposed value or rule | State |
 | --- | --- | --- | --- |
-| Pricing | Base price | Free | Owner approval required |
-| Availability | Markets | All markets permitted by the account and product declarations | Owner approval required |
-| Availability | Audience | Public | Owner approval required |
-| Availability | Discoverability | Available and discoverable | Owner approval required |
-| Availability | Schedule | No automatic publication; hold until the owner selects Publish now | Recommended safety gate |
-| Properties | Category | Utilities & tools | Owner/visible-option confirmation required |
-| Properties | Subcategory | None unless Partner Center requires one | Ready |
-| Properties | Xbox | Not supported | Ready |
+| Pricing | Base price | Free | Approved and saved |
+| Availability | Markets | All markets permitted by the account and product declarations | Approved and saved |
+| Availability | Audience | Public | Approved and saved |
+| Availability | Discoverability | Available and discoverable | Approved and saved |
+| Availability | Schedule | No automatic publication; hold until the owner selects Publish now | Approved and saved |
+| Properties | Category | Utilities + tools | Approved and saved |
+| Properties | Subcategory | None | Approved and saved |
+| Properties | Xbox | Not supported | Approved and saved |
 | Properties | Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
 | Properties | Support | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
-| Listing | Language | English (United States) only for the first submission | Owner approval required |
-| Listing | Product name | `SDR Calibration` | Ready |
-| Listing | What's new | Blank for the first submission | Ready |
-| Packages | Device families | Windows Desktop only; exclude Xbox, Holographic, and Team | Ready, verify after upload |
-| Submission options | Publishing hold | Manual publication | Owner approval required |
+| Listing | Language | English (United States) only for the first submission | Approved and saved |
+| Listing | Product name | `SDR Calibration` | Approved and saved |
+| Listing | Description | Exact English listing copy below | Approved and saved |
+| Listing | Product features | Eight separate features below | Approved and saved |
+| Listing | What's new | Blank for the first submission | Approved and saved |
+| Listing | Short description | Exact short description below | Approved and saved |
+| Listing | Keywords | `SDR`, `frequency calibration`, `IQ analysis`, `radio`, `WSJT-X` | Approved and saved |
+| Listing | Copyright | `Copyright (c) 2026 Lee Bussy` | Saved; matches repository license |
+| Listing | Developed by | `Lee Bussy` | Saved |
+| Packages | Device families | Windows Desktop only; exclude Mobile, Xbox, Team, and Mixed Reality | Approved and saved; reverify after upload |
+| Submission options | Publishing hold | Manual publication | Approved and saved |
 | Submission options | Certification notes | Use the text below | Ready after candidate binding |
 | Submission options | Restricted capability | Use the `runFullTrust` justification below | Ready after candidate binding |
 
@@ -256,8 +262,8 @@ but the four-shot set is the readiness exit.
 
 1. Partner Center reports Pricing and availability, Properties, Age ratings,
    and Submission options `Complete`. The English (United States) listing
-   exists but is incomplete; Packages is `Incomplete` and Store listings is
-   `Not started`;
+   has all approved non-upload text saved but remains incomplete because no
+   screenshot is uploaded; Packages and Store listings are `Incomplete`;
    `Submit for certification` remains disabled.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
@@ -284,10 +290,9 @@ but the four-shot set is the readiness exit.
 7. The Packages page has Windows 10/11 Desktop checked; Mobile, Xbox, Team, and
    Mixed Reality unchecked; and Microsoft's future-device-family option
    unchecked. No package has been selected or uploaded.
-8. Listing completion, package and fixture upload, certification submission,
-   Microsoft signing,
-   Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
-   remain open and separately authorized.
+8. Screenshot, package and fixture upload, certification submission, Microsoft
+   signing, Store delivery, clean-host Store lifecycle, and MSI
+   migration/coexistence remain open and separately authorized.
 
 All owner gates are approved in `windows-store-owner-decisions.md`. That
 approval does not authorize package selection or upload, certification
