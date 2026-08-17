@@ -24,6 +24,9 @@ The production live-GUI slice is governed by the
 [live-GUI execution prompt](live-gui-execution-prompt.md).
 The hardware-free cross-component gate is governed by the
 [synthetic end-to-end workflow qualification prompt](synthetic-end-to-end-workflow-qualification-prompt.md).
+Future local-reference work is held by the
+[GPSDO/reference-path readiness package](gpsdo-reference-path-readiness.md),
+prepared under its [execution prompt](gpsdo-reference-path-readiness-execution-prompt.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).

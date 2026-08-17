@@ -66,6 +66,12 @@
   reliability-quotient policy output, in-domain evaluation and sign convention,
   and fail-closed tampering and extrapolation. This makes no physical accuracy
   or reference-suitability claim.
+- Documentation-only GPSDO and reference-path readiness package covering exact
+  source and receiver dossiers, clock-versus-RF topology selection, worst-case
+  level and attenuation calculations, component inventory, pre-connection
+  review, bounded-plan fields, abort/cleanup, evidence, and stop criteria. The
+  physical path remains explicitly not ready and no reference suitability or
+  calibration claim is established.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,
