@@ -1,0 +1,8 @@
+artifact_source_revision=957fbeb204177c9ba2a1582e936476244b201b9d
+unsigned_sha256=1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1
+install=passed
+cli_alias=passed
+gui_first_launch=passed
+gui_relaunch=passed
+uninstall=passed
+cleanup=passed package=false gui_process=false temporary_certificate=false

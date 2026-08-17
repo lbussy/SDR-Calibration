@@ -1,0 +1,7 @@
+Name              : LeeBussy.SDRCalibration
+PackageFullName   : LeeBussy.SDRCalibration_0.1.1.0_x64__cjj5pwm77qg2r
+PackageFamilyName : LeeBussy.SDRCalibration_cjj5pwm77qg2r
+Version           : 0.1.1.0
+Architecture      : X64
+SignatureKind     : Developer
+InstallLocation   : C:\Program Files\WindowsApps\LeeBussy.SDRCalibration_0.1.1.0_x64__cjj5pwm77qg2r

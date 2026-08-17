@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "artifact_source_revision": "957fbeb204177c9ba2a1582e936476244b201b9d",
+  "unsigned_artifact": "SDRCalibration-0.1.1-Windows-Store-x64.msix",
+  "unsigned_sha256": "1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1",
+  "package_identity_name": "LeeBussy.SDRCalibration",
+  "package_identity_publisher": "CN=66465467-9B9D-4BDE-9CC9-BE392698D910",
+  "package_version": "0.1.1.0",
+  "development_signature": "passed; temporary user-approved self-signed certificate only",
+  "install": "passed",
+  "cli_alias": "passed",
+  "gui_first_launch": "passed",
+  "gui_relaunch": "passed",
+  "uninstall": "passed",
+  "cleanup": "passed",
+  "microsoft_store_signing_observed": false,
+  "store_delivery_qualified": false,
+  "device_qualified": false
+}

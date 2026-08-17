@@ -45,6 +45,17 @@ if ($ArtifactSourceRevision -notmatch '^[0-9A-Fa-f]{40}$') {
 }
 
 $git = (Get-Command git.exe -ErrorAction Stop).Source
+$principal = New-Object Security.Principal.WindowsPrincipal(
+    [Security.Principal.WindowsIdentity]::GetCurrent())
+if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    throw 'MSIX lifecycle qualification must run from an elevated desktop session'
+}
+$sessionId = (Get-Process -Id $PID).SessionId
+$desktop = Get-Process -Name explorer -ErrorAction SilentlyContinue |
+    Where-Object { $_.SessionId -eq $sessionId } | Select-Object -First 1
+if ($null -eq $desktop) {
+    throw 'MSIX lifecycle qualification must run in the signed-in desktop session'
+}
 $sourceRevision = (& $git -C $SourceDir rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'could not resolve source revision' }
 if (@(& $git -C $SourceDir status --porcelain).Count -ne 0) {
@@ -109,20 +120,14 @@ try {
     $publicCertificate = Join-Path $EvidenceDir 'temporary-development-certificate.cer'
     Export-Certificate -Cert $certificate -FilePath $publicCertificate | Out-Null
     Import-Certificate -FilePath $publicCertificate `
-        -CertStoreLocation 'Cert:\CurrentUser\TrustedPeople' | Out-Null
-    $checkpoints.Add("temporary_certificate=$thumbprint created_and_trusted_for_current_user")
+        -CertStoreLocation 'Cert:\LocalMachine\TrustedPeople' | Out-Null
+    $checkpoints.Add("temporary_certificate=$thumbprint trusted_in_local_machine_trusted_people")
 
     & $signtool sign /sha1 $thumbprint /fd SHA256 $signedPackage |
         Set-Content -LiteralPath (Join-Path $EvidenceDir 'sign.txt') -Encoding utf8
     if ($LASTEXITCODE -ne 0) { throw 'development signing failed' }
-    $savedErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'Continue'
-    try {
-        $verification = @(& $signtool verify /pa /v $signedPackage 2>&1)
-        $verificationExit = $LASTEXITCODE
-    } finally {
-        $ErrorActionPreference = $savedErrorActionPreference
-    }
+    $verification = @(& $signtool verify /pa /v $signedPackage 2>&1)
+    $verificationExit = $LASTEXITCODE
     $verification | Set-Content `
         -LiteralPath (Join-Path $EvidenceDir 'signature-verification.txt') -Encoding utf8
     $signature = Get-AuthenticodeSignature -LiteralPath $signedPackage
@@ -130,12 +135,8 @@ try {
         $signature.SignerCertificate.Thumbprint -ne $thumbprint) {
         throw 'signed package does not identify the temporary signing certificate'
     }
-    if ($verificationExit -ne 0 -and
-        ($verification -join "`n") -notmatch
-            '(?s)certificate chain processed.*root.*certificate which is not trusted') {
-        throw 'development signature inspection failed for an unexpected reason'
-    }
-    $checkpoints.Add('development_signature=present; install is the local-trust validation')
+    if ($verificationExit -ne 0) { throw 'development signature verification failed' }
+    $checkpoints.Add('development_signature=passed')
 
     Add-AppxPackage -Path $signedPackage
     $installed = Get-AppxPackage -Name $packageName -ErrorAction Stop
@@ -175,7 +176,7 @@ try {
     $remaining = Get-AppxPackage -Name $packageName -ErrorAction SilentlyContinue
     if ($null -ne $remaining) { Remove-AppxPackage -Package $remaining.PackageFullName }
     if (-not [string]::IsNullOrWhiteSpace($thumbprint)) {
-        Remove-Item -LiteralPath "Cert:\CurrentUser\TrustedPeople\$thumbprint" `
+        Remove-Item -LiteralPath "Cert:\LocalMachine\TrustedPeople\$thumbprint" `
             -Force -ErrorAction SilentlyContinue
         Remove-Item -LiteralPath "Cert:\CurrentUser\My\$thumbprint" `
             -Force -ErrorAction SilentlyContinue
@@ -184,7 +185,7 @@ try {
 
 $cleanupPassed = $null -eq (Get-AppxPackage -Name $packageName -ErrorAction SilentlyContinue) -and
     $null -eq (Get-Process -Name 'sdrcal-gui' -ErrorAction SilentlyContinue) -and
-    (-not (Test-Path -LiteralPath "Cert:\CurrentUser\TrustedPeople\$thumbprint")) -and
+    (-not (Test-Path -LiteralPath "Cert:\LocalMachine\TrustedPeople\$thumbprint")) -and
     (-not (Test-Path -LiteralPath "Cert:\CurrentUser\My\$thumbprint"))
 if (-not $cleanupPassed) { throw 'post-lifecycle cleanup audit failed' }
 $checkpoints.Add('cleanup=passed package=false gui_process=false temporary_certificate=false')

@@ -161,10 +161,11 @@
   selected and bound to an exact Windows MSIX hash for Store-candidate
   preparation but is not designated as a release candidate
 - Clean synchronized Windows construction of the unsigned `0.1.1` Store MSIX
-  at source `2e678b8`, including 19/19 hardware-free tests, package/runtime and
-  license audit, MakeAppx creation/unpack inspection, exact artifact hash, and
-  a validated synthetic Windows certification fixture; WACK, exact-hash local
-  lifecycle, screenshots, Store submission, and Microsoft signing remain open
+  at source `957fbeb`, including 19/19 hardware-free tests, package/runtime and
+  license audit, MakeAppx creation/unpack inspection, WACK `PASS`, and exact-hash
+  development-signed install, CLI alias, GUI launch/relaunch, uninstall, and
+  certificate cleanup; screenshots, Store submission, Microsoft signing,
+  Store delivery/update, and clean-host behavior remain open
 - Public repository with GitHub Private Vulnerability Reporting enabled;
   retained non-vulnerability evidence covers the maintainer-side advisory
   create/retrieve/close control and one eligible external reporter's private
