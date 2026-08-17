@@ -1,6 +1,7 @@
 #include "cli/CaptureCliArguments.h"
 #include "cli/CaptureCliWorkflow.h"
 #include "soapy/RealSoapyApi.h"
+#include "sdrcal/Version.h"
 
 #include <csignal>
 #include <iostream>
@@ -28,7 +29,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (parsed.action == sdrcal::cli::CommandAction::version && parsed.ok()) {
-        std::cout << "sdrcal-capture 0.1.0\n";
+        std::cout << "sdrcal-capture " << sdrcal::kVersion << '\n';
         return 0;
     }
     if (!parsed.ok()) {

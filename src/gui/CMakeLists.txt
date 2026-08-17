@@ -34,7 +34,7 @@ endif()
 
 add_executable(sdrcal-gui WIN32 MACOSX_BUNDLE main.cpp)
 target_compile_features(sdrcal-gui PRIVATE cxx_std_20)
-target_link_libraries(sdrcal-gui PRIVATE sdrcal_gui_support)
+target_link_libraries(sdrcal-gui PRIVATE sdrcal_gui_support sdrcal_version)
 
 if(APPLE)
     find_program(SDRCAL_XCRUN_EXECUTABLE xcrun REQUIRED)

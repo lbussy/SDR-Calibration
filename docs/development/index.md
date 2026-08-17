@@ -40,6 +40,11 @@ Release notes, limitations, lifecycle, security, checksum, and evidence-ledger
 working files are collected in the
 [release template pack](release/index.md), prepared under its
 [execution prompt](release-documentation-template-pack-execution-prompt.md).
+The package layout, manifest, checksums, evidence-cell matrix, privacy boundary,
+and final assembly checks are defined by the
+[release evidence package plan](release/evidence-package-assembly-plan.md),
+prepared under its
+[execution prompt](release-evidence-package-preparation-execution-prompt.md).
 The exact host-local `0.1.0` upgrade inputs are governed by the
 [prior-version baseline retention prompt](prior-version-baseline-retention-execution-prompt.md)
 and recorded in the
@@ -48,6 +53,8 @@ The prepared platform procedures and acceptance criteria are defined by the
 [upgrade and rollback qualification plan](upgrade-rollback-qualification-plan.md),
 created under its
 [preparation execution prompt](upgrade-rollback-qualification-preparation-execution-prompt.md).
+Production executable and package version identity is centralized under the
+[version identity execution prompt](version-identity-centralization-execution-prompt.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).

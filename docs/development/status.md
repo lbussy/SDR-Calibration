@@ -138,6 +138,15 @@
   state preservation, fail-closed cleanup, and independent-review criteria;
   execution remains open until a version-consistent candidate above `0.1.0`
   is frozen
+- Prepared release evidence package assembly plan with deterministic public
+  layout, public/private evidence separation, manifest and SHA-256 rules,
+  split qualification cells, privacy review, change control, independent
+  verification, and fail-closed completion states; candidate values and final
+  assembly remain open
+- Centralized production version identity on the configured CMake project
+  version for both CLIs, the Qt GUI, platform packages, CPack, and SPDX output,
+  with hardware-free source-contract and CLI runtime tests; the project remains
+  at `0.1.0` and no higher-version candidate is selected or frozen
 - Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
   preset, configurable fail-closed recorded-input ceiling, deterministic limit
   test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB

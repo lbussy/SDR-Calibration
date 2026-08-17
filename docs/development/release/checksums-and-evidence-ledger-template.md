@@ -20,9 +20,13 @@ TBD-BLOCKING  source archive exact filename
 TBD-BLOCKING  macOS ARM64 DMG exact filename
 TBD-BLOCKING  Windows x64 MSI exact filename
 TBD-BLOCKING  Raspberry Pi ARM64 DEB exact filename
-TBD-BLOCKING  detached signature for the checksum manifest exact filename
 TBD-BLOCKING  each corresponding-source archive exact filename
 ```
+
+Optional detached `SHA256SUMS` signature: `Not used` or `TBD-BLOCKING` with
+algorithm, key identity, trust policy, signature filename/SHA-256, verification
+instructions, and independent result. No current decision requires this
+signature, and no production checksum-signing policy is established.
 
 ## Required artifact ledger
 
@@ -36,6 +40,7 @@ TBD-BLOCKING  each corresponding-source archive exact filename
 | Dependency inventories | Exact runtime/SBOM per binary payload | `TBD-BLOCKING` | Exact-payload audit | `TBD-BLOCKING` |
 | Corresponding source | Hash-pinned source required by conveyed dependencies | `TBD-BLOCKING` | Replacement/disposition audit | `TBD-BLOCKING` |
 | Release documentation | Notes, limitations, compatibility, upgrade/rollback, security | `TBD-BLOCKING` | Cross-document adversarial review | `TBD-BLOCKING` |
+| Evidence package manifest | Exact candidate files, evidence cells, privacy, review, authorization | `TBD-BLOCKING` | Structural/filesystem/checksum reconciliation | `TBD-BLOCKING` |
 
 ## Qualification evidence ledger
 
@@ -43,21 +48,54 @@ TBD-BLOCKING  each corresponding-source archive exact filename
 | --- | --- | --- | --- | --- |
 | Hardware-free baseline and focused tests | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | macOS package/signing/license | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| macOS clean install/upgrade/rollback | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| macOS clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| macOS upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| macOS rollback and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Windows package/public trust/license | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| Windows clean install/upgrade/rollback | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| Raspberry Pi package/resource/lifecycle | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Windows clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Windows upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Windows rollback and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Raspberry Pi package/resource/license | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Raspberry Pi clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Raspberry Pi upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Raspberry Pi rollback/removal and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Physical end-to-end calibration | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Final platform visual review | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Notices/inventory/corresponding-source/privacy | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 
 Build, package, signing, capture, synthetic workflow, clean-host, and physical
 calibration evidence are separate cells. One passing row cannot satisfy another.
 
+Allowed required-cell states are `TBD-BLOCKING`, `Missing`, `Blocked`, `Failed`,
+`Stale`, `Unreviewed`, and `Passed`. Only `Passed` satisfies a required cell.
+
+## Public/private evidence disposition
+
+| Evidence class | Public package treatment | Candidate disposition |
+| --- | --- | --- |
+| Release artifacts, notices, inventories, corresponding source, release documents | Include exact approved files | `TBD-BLOCKING` |
+| Public evidence summaries and ledger | Include privacy-reviewed relative index and digests | `TBD-BLOCKING` |
+| Full qualification logs and host inventories | Retain outside public root; index exact locator/digest/scope | `TBD-BLOCKING` |
+| Raw IQ and expanded diagnostics | Retain privately when required; never ship by default | `TBD-BLOCKING` |
+| Credentials, signing keys, tokens, private reports | Exclude; record only non-sensitive verification result | `TBD-BLOCKING` |
+
+Privacy review, excluded-material inventory, reviewer, and UTC date:
+`TBD-BLOCKING`
+
 ## Published-download verification
 
+- Prepublication state: `Pending publication` is allowed only after every other
+  required gate is `Passed` and publication authorization is recorded.
 - Publication destination and immutable identifiers: `TBD-BLOCKING`
 - Downloaded artifact location/date: `TBD-BLOCKING`
 - Independently recomputed hashes: `TBD-BLOCKING`
 - Signature/notarization/timestamp verification: `TBD-BLOCKING`
 - Payload/version agreement with approved candidate: `TBD-BLOCKING`
-- Final reviewer and release authorization: `TBD-BLOCKING`
+- Independent post-publication reviewer: `TBD-BLOCKING`
+- Published verification result: `TBD-BLOCKING`
+
+Local assembly cannot mark this section passed. The package may reach
+`Ready-to-publish` with this section explicitly `Pending publication`; it
+cannot reach `Published-verified` until the published files are downloaded
+independently and reconciled with the approved candidate. A mismatch requires
+withdrawal or correction, not retroactive approval.

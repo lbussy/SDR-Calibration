@@ -1,4 +1,5 @@
 #include "cli/ProductionCli.h"
+#include "sdrcal/Version.h"
 #ifdef SDRCAL_PRODUCT_LIVE_ENABLED
 #include "cli/LiveCliSupport.h"
 #endif
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (parsed.action == sdrcal::cli::ProductAction::version && parsed.ok()) {
-        std::cout << "sdrcal 0.1.0\n";
+        std::cout << "sdrcal " << sdrcal::kVersion << '\n';
         return 0;
     }
     std::signal(SIGINT, cancel);

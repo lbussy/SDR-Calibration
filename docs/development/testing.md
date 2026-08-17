@@ -72,6 +72,13 @@ PNG dimensions, provenance fields, and every SHA-256 in
 `assets/icons/icon-manifest.json`. It does not substitute for a native package
 run, human visual review, or clean-host qualification.
 
+`version_identity_contract_tests` makes the CMake project version the single
+source for production CLI, capture CLI, Qt application, macOS bundle, Windows
+MSI, Debian packages, CPack filenames, and configured SPDX identity. It rejects
+semantic-version literals in executable entry points and missing target/package
+bindings. `product_version_runtime_tests` separately runs `sdrcal --version`
+and requires exact agreement without file, network, device, or RF access.
+
 On macOS, the same test checks the opaque blue-corner contract for the modern
 1024-pixel artwork, byte identity with the image embedded in the Icon Composer
 document, and the CMake/Info.plist bindings for `Assets.car` plus the

@@ -31,10 +31,12 @@ Any removal requires evidence or an accepted decision.
 
 ## Platform and qualification boundaries
 
-- macOS clean-host install/upgrade/rollback result: `TBD-BLOCKING`
-- Windows public-trust and clean-host install/upgrade/rollback result:
+- macOS exact-candidate clean-host, upgrade, rollback, and cleanup results:
   `TBD-BLOCKING`
-- Raspberry Pi clean-host install/upgrade/removal result: `TBD-BLOCKING`
+- Windows public-trust and exact-candidate clean-host, upgrade, rollback, and
+  cleanup results: `TBD-BLOCKING`
+- Raspberry Pi exact-candidate clean-host, upgrade, rollback/removal, and
+  cleanup results: `TBD-BLOCKING`
 - Physical end-to-end calibration and supported-device claims: `TBD-BLOCKING`
 - Reference suitability and accuracy claims: `TBD-BLOCKING`
 - Final platform visual/scaling review: `TBD-BLOCKING`
@@ -51,3 +53,4 @@ Pi live-device operation are outside the initial target boundary.
 - Data migration or retained-state limitations: `TBD-BLOCKING`
 - Known defects with issue links and workarounds: `TBD-BLOCKING`
 - Security limitations or mitigations: `TBD-BLOCKING`
+- Public/private evidence exclusions and operator impact: `TBD-BLOCKING`

@@ -23,7 +23,7 @@ target_compile_definitions(sdrcal_product_cli PRIVATE
 if(SDRCAL_BUILD_CLI)
     add_executable(sdrcal product_main.cpp)
     target_compile_features(sdrcal PRIVATE cxx_std_20)
-    target_link_libraries(sdrcal PRIVATE sdrcal_product_cli)
+    target_link_libraries(sdrcal PRIVATE sdrcal_product_cli sdrcal_version)
     if(SDRCAL_ENABLE_SOAPYSDR)
         target_sources(sdrcal PRIVATE LiveCliSupport.cpp)
         target_link_libraries(sdrcal PRIVATE sdrcal_soapy)
@@ -55,7 +55,7 @@ if(SDRCAL_BUILD_CLI AND SDRCAL_ENABLE_SOAPYSDR)
 
     add_executable(sdrcal-capture main.cpp)
     target_compile_features(sdrcal-capture PRIVATE cxx_std_20)
-    target_link_libraries(sdrcal-capture PRIVATE sdrcal_capture_cli_workflow)
+    target_link_libraries(sdrcal-capture PRIVATE sdrcal_capture_cli_workflow sdrcal_version)
     install(TARGETS sdrcal-capture RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
     if(MSVC)

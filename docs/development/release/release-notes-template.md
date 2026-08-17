@@ -76,3 +76,15 @@ Do not replace these fields with same-host package smoke results.
 - Checksums file: `TBD-BLOCKING`
 - Signature verification instructions: `TBD-BLOCKING`
 - Corresponding-source locations and hashes: `TBD-BLOCKING`
+- Evidence-package manifest and SHA-256: `TBD-BLOCKING`
+- Public evidence index and privacy-review result: `TBD-BLOCKING`
+
+## Authorization
+
+- Required-gate completeness review: `TBD-BLOCKING`
+- Independent reviewer and UTC date: `TBD-BLOCKING`
+- Publication authorizer and UTC decision: `TBD-BLOCKING`
+- Post-publication download verification: `Pending publication`
+
+No tag, upload, publication, or release is authorized while any required field
+in this document or the prepublication evidence ledger remains blocking.

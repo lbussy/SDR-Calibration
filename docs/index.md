@@ -38,10 +38,12 @@ development/release-candidate-readiness-audit-prompt
 development/release-candidate-readiness
 development/initial-compatibility-and-artifact-scope-execution-prompt
 development/release-documentation-template-pack-execution-prompt
+development/release-evidence-package-preparation-execution-prompt
 development/release/index
 development/prior-version-baseline-retention-execution-prompt
 development/upgrade-rollback-qualification-preparation-execution-prompt
 development/upgrade-rollback-qualification-plan
+development/version-identity-centralization-execution-prompt
 development/airspyhf-end-to-end-qualification-prompt
 development/airspyhf-end-to-end-readiness
 development/airspyhf-normalization-execution-prompt

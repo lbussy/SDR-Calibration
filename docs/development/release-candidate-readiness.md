@@ -49,7 +49,7 @@ signature, or distributable release.
 | RC-05 | Windows clean-host and public-trust lifecycle | Clean-host lifecycle passed by owner confirmation for exact self-signed MSI SHA-256 `7be98c92de35bb31024152161f9b3bb4e76cbf6a3d2728001060f3d338d81973`; public trust remains open | Accepted public-trust signing arrangement | Exact MSI hash; public-trust mode, timestamp, SmartScreen observations, and cleanup |
 | RC-06 | Prior-version upgrade and rollback | Exact read-only, content-addressed `0.1.0` baselines and platform-specific acceptance procedures are retained; no transition is qualified | Remove version-identity drift, freeze a candidate above `0.1.0`, then execute the prepared plan on suitable hosts | Old/new hashes, version consistency, preserved seeded state, package-manager transitions, rollback, residue, cleanup, and independent review |
 | RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decision 0022 defines the policy; no source or schema revision is frozen | Select a candidate only after its required artifact and qualification gates can be executed | Frozen revision, exact schemas and artifacts, compatibility statement, and change-control rule |
-| RC-08 | Release documentation and evidence ledger | Fail-closed templates exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; physical and clean-host results must be linked, not inferred | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, inventories, and evidence index with no `TBD-BLOCKING` fields |
+| RC-08 | Release documentation and evidence ledger | Fail-closed templates and evidence-package assembly plan exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; every required cell must be linked, digested, privacy-reviewed, and independently verified | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, manifest, inventories, corresponding source, and evidence index with no blocking required fields |
 
 RC-03 is the accuracy-bearing gate. Package success, synthetic workflow success,
 or capture success cannot substitute for it. RC-04 is complete. The clean-host
@@ -78,9 +78,9 @@ resolved the initial artifact and compatibility scope as follows:
 
 ## Hardware-free work that may proceed
 
-1. Resolve the hard-coded GUI version and require one consistent candidate
-   version across source, binaries, packages, and evidence before a candidate
-   is frozen.
+Version identity is now centralized on the CMake project version and guarded by
+source-contract and runtime tests. A candidate version is not selected or
+frozen by that implementation.
 
 Upgrade/rollback procedures and acceptance criteria are prepared in the
 [qualification plan](upgrade-rollback-qualification-plan.md). Execution remains
@@ -90,6 +90,11 @@ The release-documentation templates are retained in the
 [release template pack](release/index.md). Their existence does not complete
 RC-08; every `TBD-BLOCKING` value must be bound to the exact frozen candidate
 and reviewed before release authorization.
+
+The [evidence package assembly plan](release/evidence-package-assembly-plan.md)
+is prepared. It defines the final public/private boundary, directory layout,
+manifest, checksums, evidence cells, validation, and independent review without
+claiming that a candidate package has been assembled.
 
 ## Ordered resumption path
 
