@@ -240,10 +240,12 @@ but the four-shot set is the readiness exit.
 
 1. Read-only inspection of the current Partner Center draft remains incomplete
    because the Chrome control channel was unavailable; no UI state is inferred.
-2. Version `0.1.1` is selected in source, but its exact Windows Store package
-   has not been built or frozen by hash.
-3. The fixture generator exists, but a clean synchronized Windows-generated
-   fixture and four exact-candidate screenshots do not exist.
+2. Version `0.1.1` has a clean synchronized Windows package construction at
+   revision `2e678b8` and SHA-256
+   `e359b10ee29216e733d75544cbe2c6c729c9bee646f17f42d71583dbe9a46168`;
+   WACK and the exact-hash local lifecycle remain open.
+3. A clean synchronized Windows fixture exists on `ecm-mule`, but four
+   exact-candidate screenshots do not exist.
 4. Owner selections for commercial availability, category, privacy, support,
    age rating, and manual publishing hold are not recorded.
 5. Package upload, certification submission, Microsoft signing, Store delivery,

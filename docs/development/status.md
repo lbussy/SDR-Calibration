@@ -158,8 +158,13 @@
 - Centralized production version identity on the configured CMake project
   version for both CLIs, the Qt GUI, platform packages, CPack, and SPDX output,
   with hardware-free source-contract and CLI runtime tests; version `0.1.1` is
-  selected for Store-candidate preparation but is not frozen by exact Windows
-  artifact hash or designated as a release candidate
+  selected and bound to an exact Windows MSIX hash for Store-candidate
+  preparation but is not designated as a release candidate
+- Clean synchronized Windows construction of the unsigned `0.1.1` Store MSIX
+  at source `2e678b8`, including 19/19 hardware-free tests, package/runtime and
+  license audit, MakeAppx creation/unpack inspection, exact artifact hash, and
+  a validated synthetic Windows certification fixture; WACK, exact-hash local
+  lifecycle, screenshots, Store submission, and Microsoft signing remain open
 - Public repository with GitHub Private Vulnerability Reporting enabled;
   retained non-vulnerability evidence covers the maintainer-side advisory
   create/retrieve/close control and one eligible external reporter's private

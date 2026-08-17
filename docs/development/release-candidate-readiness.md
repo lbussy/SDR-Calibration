@@ -71,7 +71,7 @@ distributable release.
 RC-03 is the accuracy-bearing gate. Package success, synthetic workflow success,
 or capture success cannot substitute for it. RC-04 is complete. RC-05 remains
 open until the exact frozen MSIX is certified and Store-delivered. RC-06 cannot
-be satisfied until candidate `0.1.1` is frozen by exact artifact hash and tested.
+be satisfied until candidate `0.1.1` completes its applicable transitions.
 
 A Store-MSIX source packaging contract now implements the required Windows
 release route. The `SDR Calibration` product name and exact
