@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import re
 from pathlib import Path
 
@@ -49,6 +51,34 @@ def main() -> None:
     )
     fixture_generator = read(root, "scripts/prepare-store-certification-fixture.py")
     lifecycle = read(root, "packaging/windows/qualify-store-msix.ps1")
+    screenshot_dir = root / "evidence/windows-store/2026-08-17-0.1.1-screenshots"
+    screenshot_manifest_path = (
+        root / "evidence/windows-store/2026-08-17-0.1.1-screenshots/manifest.json"
+    )
+    require(screenshot_manifest_path.is_file(), "Store screenshot manifest is missing")
+    screenshot_manifest = json.loads(
+        screenshot_manifest_path.read_text(encoding="utf-8-sig")
+    )
+
+    require(screenshot_manifest["candidate_version"] == "0.1.1",
+            "Store screenshot version binding drift")
+    require(screenshot_manifest["candidate_revision"] ==
+            "957fbeb204177c9ba2a1582e936476244b201b9d",
+            "Store screenshot revision binding drift")
+    require(screenshot_manifest["msix_sha256"] ==
+            "1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1",
+            "Store screenshot MSIX binding drift")
+    require(len(screenshot_manifest["screenshots"]) == 4,
+            "Store screenshot evidence must contain exactly four images")
+    for record in screenshot_manifest["screenshots"]:
+        image_path = screenshot_dir / record["file"]
+        require(image_path.is_file(), f"Store screenshot is missing: {record['file']}")
+        require(hashlib.sha256(image_path.read_bytes()).hexdigest() == record["sha256"],
+                f"Store screenshot hash mismatch: {record['file']}")
+        require(record["width"] >= 1366 and record["height"] >= 768,
+                f"Store screenshot dimensions are too small: {record['file']}")
+        require("synthetic inputs and neutral paths only" in record["privacy_review"],
+                f"Store screenshot privacy review is missing: {record['file']}")
 
     identities = {
         "SDRCAL_STORE_PACKAGE_NAME": "LeeBussy.SDRCalibration",
@@ -156,7 +186,8 @@ def main() -> None:
     )
     for marker in (
         "Partner Center draft state read-only verified",
-        "No genuine Store screenshot is currently retained.",
+        "Four genuine Store screenshot candidates are retained",
+        "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "No package has been uploaded",
         "`runFullTrust` justification",
         "Publishing is held for manual owner action.",

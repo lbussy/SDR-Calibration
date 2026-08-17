@@ -1,6 +1,7 @@
 # Microsoft Store submission readiness
 
-Status: Prepared offline; Partner Center draft state read-only verified
+Status: Prepared offline; Partner Center draft state read-only verified;
+screenshot gate verified
 
 Prepared: 2026-08-17
 
@@ -196,10 +197,11 @@ Existing approved source art can support package/store logos:
 - `assets/icons/source/sdr-calibration-small-master-1024.png`
 - `assets/icons/icon-manifest.json`
 
-No genuine Store screenshot is currently retained. At least one is required;
-four desktop screenshots are recommended. Capture them from the exact frozen
-Store candidate on Windows 11 with no personal paths, identifiers, raw-IQ data,
-credentials, or unqualified result claims visible:
+Four genuine Store screenshot candidates are retained in
+`evidence/windows-store/2026-08-17-0.1.1-screenshots/`. They were captured from
+the exact frozen Store candidate on Windows 11 and independently reviewed for
+personal paths, identifiers, raw-IQ data, credentials, and unqualified result
+claims:
 
 1. clean initial application window;
 2. reviewed synthetic recorded-input request;
@@ -207,7 +209,11 @@ credentials, or unqualified result claims visible:
 4. CLI `--help` or `--version` beside the packaged GUI, clearly identified as
    the execution alias.
 
-Do not use a live-SDR screen, hardware photograph, unsupported-device badge,
+The evidence manifest binds every image to revision
+`957fbeb204177c9ba2a1582e936476244b201b9d`, version `0.1.1`, and MSIX SHA-256
+`1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`, and
+records dimensions, hashes, capture host, and privacy disposition. Do not use a
+live-SDR screen, hardware photograph, unsupported-device badge,
 accuracy claim, certification badge, Microsoft logo, or image from a different
 build. Record image dimensions, SHA-256, capture host, scaling, candidate
 revision/version, and privacy review. One screenshot is the submission minimum,
@@ -225,7 +231,7 @@ but the four-shot set is the readiness exit.
       for omission is reviewed.
 - [ ] Certification fixture is deterministic, synthetic, non-sensitive, and
       independently reviewed.
-- [ ] Four exact-candidate screenshots and any optional logos pass privacy and
+- [x] Four exact-candidate screenshots pass privacy and
       claim review.
 - [ ] Owner approves price, markets, audience, discoverability, category,
       language, privacy answer/policy, support channel, and age-rating answers.
@@ -247,8 +253,9 @@ but the four-shot set is the readiness exit.
    `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`;
    WACK and the exact-hash same-host development lifecycle passed. This does
    not establish Microsoft signing, Store delivery, or clean-host behavior.
-3. A clean synchronized Windows fixture exists on `ecm-mule`, but four
-   exact-candidate screenshots do not exist.
+3. Four exact-candidate screenshots derived from the clean synchronized fixture
+   on `ecm-mule` are retained with hashes, dimensions, and privacy review. They
+   have not been uploaded to Partner Center.
 4. Owner selections for commercial availability, category, privacy, support,
    age rating, and manual publishing hold are not recorded.
 5. Package upload, certification submission, Microsoft signing, Store delivery,
