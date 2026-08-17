@@ -27,6 +27,14 @@ def main() -> None:
     root = args.source_dir.resolve()
     cmake = read(root, "CMakeLists.txt")
     script = read(root, "packaging/windows/package-store-msix.ps1")
+    policy = read(
+        root,
+        "docs/development/decisions/0025-store-msix-primary-windows-artifact.md",
+    )
+    release_ledger = read(
+        root,
+        "docs/development/release/checksums-and-evidence-ledger-template.md",
+    )
 
     identities = {
         "SDRCAL_STORE_PACKAGE_NAME": "LeeBussy.SDRCalibration",
@@ -71,6 +79,20 @@ def main() -> None:
         "Sign-File",
     ):
         require(prohibited not in script, f"prohibited Store MSIX contract present: {prohibited}")
+    for marker in (
+        "The required Windows 11 x64 artifact for the initial release is a Microsoft",
+        "The WiX MSI remains implemented but is not a required release artifact.",
+        "locally self-signed MSI may be built and used for bounded development or test",
+    ):
+        require(marker in policy, f"Windows artifact policy drift: {marker}")
+    require(
+        "| Windows x64 Store MSIX | Microsoft-certified and Store-signed;" in release_ledger,
+        "required release ledger no longer binds the Store MSIX",
+    )
+    require(
+        "| Windows x64 MSI |" not in release_ledger,
+        "required release ledger silently restored the MSI",
+    )
     require(
         re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", args.project_version) is not None,
         "configured project version is malformed",

@@ -33,7 +33,8 @@ The current release-candidate state is recorded in the
 [readiness audit](release-candidate-readiness.md), prepared under its
 [execution prompt](release-candidate-readiness-audit-prompt.md).
 The intended initial compatibility promise and release artifact set are fixed
-by [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md),
+by [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md)
+as amended by [decision 0025](decisions/0025-store-msix-primary-windows-artifact.md),
 prepared under the
 [compatibility and artifact-scope prompt](initial-compatibility-and-artifact-scope-execution-prompt.md).
 Release notes, limitations, lifecycle, security, checksum, and evidence-ledger
@@ -100,7 +101,8 @@ bounded execution on the named Windows qualification host are governed by the
 [`ecm-mule` candidate prompt](windows-ecm-mule-candidate-execution-prompt.md).
 The separate Microsoft Store MSIX path is described in the
 [Store MSIX guide](windows-store-msix.md), governed by
-[decision 0024](decisions/0024-windows-store-msix-distribution.md) and its
+[decision 0024](decisions/0024-windows-store-msix-distribution.md), made primary
+by [decision 0025](decisions/0025-store-msix-primary-windows-artifact.md), and its
 [execution prompt](windows-store-msix-execution-prompt.md).
 The Ubuntu DEB package slice is governed by the
 [Phase 14.3 execution prompt](phase-14-3-execution-prompt.md), and exact payload

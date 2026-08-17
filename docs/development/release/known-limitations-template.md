@@ -33,8 +33,9 @@ Any removal requires evidence or an accepted decision.
 
 - macOS exact-candidate clean-host, upgrade, rollback, and cleanup results:
   `TBD-BLOCKING`
-- Windows public-trust and exact-candidate clean-host, upgrade, rollback, and
-  cleanup results: `TBD-BLOCKING`
+- Windows Store certification and exact-candidate Store delivery, clean-host,
+  applicable update, MSI migration/coexistence, and cleanup results:
+  `TBD-BLOCKING`
 - Raspberry Pi exact-candidate clean-host, upgrade, rollback/removal, and
   cleanup results: `TBD-BLOCKING`
 - Physical end-to-end calibration and supported-device claims: `TBD-BLOCKING`

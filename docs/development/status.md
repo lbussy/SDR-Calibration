@@ -117,24 +117,31 @@
   launch, normal relaunch, CLI help, removal, and restoration lifecycle
 - Exact Windows 11 x64 self-signed MSI qualification at source `15ed17b`,
   including payload/license gates and same-host install, launch,
-  maintenance-install, and uninstall lifecycle; public trust remains open
+  maintenance-install, and uninstall lifecycle; this MSI is optional testing
+  evidence and is not a required release artifact
+- Exact Windows 11 x64 Store-MSIX native qualification at source `99d96a6`,
+  including 19/19 hardware-free tests, package/runtime/license audit, MakeAppx
+  validation, and same-host development-signed install, CLI alias, GUI
+  launch/relaunch, uninstall, and certificate cleanup; Store submission,
+  certification, Microsoft signing, and Store delivery remain open
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows
-  public-trust signing and prior-version upgrade/rollback remain open
+  Store certification/delivery and applicable prior-version transitions remain
+  open
 - Accepted initial compatibility and release-artifact boundary: schema-major-1
   native-profile semantics are durable; intended binaries are recorded-input-
-  only macOS ARM64 DMG, public-trust Windows x64 MSI, and Raspberry Pi OS 13
+  only macOS ARM64 DMG, Microsoft Store Windows x64 MSIX, and Raspberry Pi OS 13
   ARM64 CLI DEB with required source, license, checksum, and evidence materials
 - Fail-closed initial release-documentation templates for notes, known
   limitations, upgrade/rollback, vulnerability reporting, checksums, and the
   evidence ledger; final candidate population and approval remain open
-- Exact host-local, read-only, content-addressed `0.1.0` macOS DMG, Windows MSI,
-  and Raspberry Pi DEB baselines for future higher-version upgrade/rollback
-  testing; no upgrade, rollback, release, or off-host-backup claim
+- Exact host-local, read-only, content-addressed `0.1.0` macOS DMG and Raspberry
+  Pi DEB upgrade baselines plus an optional Windows MSI migration fixture; no
+  upgrade, rollback, release, or off-host-backup claim
 - Prepared upgrade/rollback qualification procedures for macOS bundle
-  replacement/restoration, Windows Installer MajorUpgrade and explicit old-MSI
-  restoration, and Raspberry Pi `dpkg` upgrade/downgrade, with shared seeded-
+  replacement/restoration, Windows Store update/no-predecessor and optional-MSI
+  migration/coexistence, and Raspberry Pi `dpkg` upgrade/downgrade, with seeded-
   state preservation, fail-closed cleanup, and independent-review criteria;
   execution remains open until a version-consistent candidate above `0.1.0`
   is frozen
@@ -220,8 +227,9 @@
 - Binding the accepted compatibility/artifact policy to an exact candidate,
   plus release documentation and its evidence ledger; see the
   [readiness audit](release-candidate-readiness.md)
-- Prior-version upgrade and rollback evidence for the frozen candidate on
-  macOS, Windows, and Raspberry Pi
+- Applicable prior-version transition evidence for the frozen candidate on
+  macOS and Raspberry Pi, verified first-Store-release N/A or a future Store
+  update result on Windows, and optional-MSI migration/coexistence evidence
 
 ## Not established
 

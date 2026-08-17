@@ -260,8 +260,8 @@ does not establish calibration accuracy or device qualification.
 **Status: Packaging foundation and exact-payload license-disposition gates are
 implemented; exact same-host evidence and owner-confirmed clean-host lifecycle
 passes are retained for the indexed macOS, Windows, and Raspberry Pi packages.
-Upgrade, Windows public-trust, device, and end-to-end qualification gates remain
-open.**
+Upgrade, Windows Store certification/delivery, device, and end-to-end
+qualification gates remain open.**
 
 Establish supported macOS, Linux, and Windows builds; minimum Qt and SoapySDR
 baselines; dependency pinning; dependency inventories or SBOMs; third-party
@@ -291,7 +291,7 @@ the Phase 14.4 license gate and a same-host lifecycle. The project owner later
 confirmed a clean-host lifecycle pass for that indexed hash. Prior-version
 upgrade remains open.
 
-Phase 14.2 added the fail-closed Windows x64 MSI packaging path: dynamic Qt
+Phase 14.2 added the fail-closed optional Windows x64 MSI testing path: dynamic Qt
 deployment, Authenticode signing, MSI construction, administrative extraction,
 payload and startup auditing, and hash-indexed evidence. The current mode uses
 a locally trusted self-signed development certificate without timestamping;
@@ -300,7 +300,8 @@ result applies only to the exact retained MSI on systems where that certificate
 is explicitly trusted and does not close public-trust or SmartScreen gates. The
 retained exact MSI subsequently passed the Phase 14.4 license gate and a
 same-host lifecycle, and the project owner confirmed a clean-host lifecycle
-pass for that indexed hash. Public trust remains open.
+pass for that indexed hash. Decision 0025 later removed public-trust MSI signing
+from the release gates; this self-signed MSI remains testing-only.
 
 Phase 14.3 adds the fail-closed Ubuntu 24.04 x86_64 DEB production path:
 system-package Qt dependencies derived from the staged ELF payload, rootless
@@ -329,7 +330,7 @@ records, installed evidence files, and hardware-free contract checks are
 implemented. The exact renamed, icon-bearing macOS and Windows packages have
 same-host execution evidence, and macOS has retained human visual review. The
 project owner confirmed clean-host lifecycle passes for the exact indexed
-macOS and Windows hashes. Prior-version upgrade, Windows public trust, and
+macOS and Windows hashes. Prior-version transitions, Windows Store delivery, and
 candidate binding remain open. The project owner accepted the Windows
 application/icon at relevant scaling settings. Earlier packages remain
 historical evidence.

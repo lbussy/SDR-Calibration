@@ -1,6 +1,6 @@
 # 0022 — Initial compatibility and release artifacts
 
-Status: Accepted
+Status: Superseded in part by [0025](0025-store-msix-primary-windows-artifact.md)
 
 Date: 2026-08-17
 
@@ -13,8 +13,8 @@ The intended initial release artifact set is:
 - a source archive for the exact released revision;
 - a Developer ID-signed and notarized macOS DMG for macOS 14.0 or later on
   Apple Silicon, containing the recorded-input GUI and CLI;
-- a publicly trusted and timestamped Windows MSI for Windows 11 x64, containing
-  the recorded-input GUI and CLI;
+- a Microsoft Store-delivered Windows MSIX for Windows 11 x64, containing the
+  recorded-input GUI and CLI;
 - a Raspberry Pi OS 13 ARM64 DEB for Raspberry Pi 4, containing the recorded-
   input CLI only;
 - SHA-256 checksums, project and third-party notices, exact dependency/runtime
@@ -24,11 +24,11 @@ The intended initial release artifact set is:
   statements, vulnerability-reporting guidance, and an evidence ledger bound
   to the exact artifacts.
 
-The Windows artifact remains required by the current target decision, but the
-existing locally trusted self-signed MSI cannot satisfy this release set. The
-Raspberry Pi artifact remains required by its accepted CLI-only target boundary.
-Decision 0024 adds a distinct Store MSIX path; it does not replace this
-independently distributed MSI or transfer a Store-provided signature to it.
+The Windows Store MSIX remains required by the current target decision. A
+locally trusted self-signed MSI is optional for bounded testing and cannot
+satisfy or substitute for the Store release cell. The Raspberry Pi artifact
+remains required by its accepted CLI-only target boundary. Decision 0025
+supersedes the original public-trust MSI requirement.
 
 Ubuntu packages, generic portable binary archives, debug artifacts, raw-IQ
 qualification evidence, locally self-signed Windows installers, and historical
@@ -94,9 +94,10 @@ to verified-signature status.
 ## Consequences
 
 The release candidate cannot be frozen until final artifacts can match this set
-or a later accepted decision changes the target boundary. Windows public-trust
-signing and fresh-host lifecycle evidence, Raspberry Pi clean-host lifecycle
-evidence, physical calibration evidence, and final ledger assembly remain open.
+or a later accepted decision changes the target boundary. Windows Store
+certification and fresh-host lifecycle evidence, Raspberry Pi clean-host
+lifecycle evidence, physical calibration evidence, and final ledger assembly
+remain open.
 
 The repository may continue to implement and test live-device capabilities,
 portable packages, and adapters, but their existence does not add them to the

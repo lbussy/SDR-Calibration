@@ -17,12 +17,17 @@ install actions, or broader capabilities, suitability must be reassessed.
 
 | Path | Signature and trust | Install/update model | Current role |
 | --- | --- | --- | --- |
-| Existing MSI | Publisher signs PE files and MSI; `PUBLIC_TRUST` requires a purchased or managed publicly trusted certificate plus RFC 3161 timestamp | Per-machine Program Files/MSI maintenance; publisher controls updates | Required independent Windows installer |
+| Existing MSI | Locally self-signed for bounded testing with explicit temporary trust | Per-machine Program Files/MSI maintenance | Optional development/testing artifact; not a release download |
 | Store MSI/EXE | Same publisher-signing requirement; Microsoft does not re-sign the installer | Store launches the publisher-hosted installer; existing-user updates remain publisher-managed | No no-cost signing advantage |
-| Store MSIX | Microsoft re-signs the package after certification for Store delivery | Identity-based packaged install; Store-hosted atomic updates and clean package removal | Separate no-certificate-cost Store route |
+| Store MSIX | Microsoft re-signs the package after certification for Store delivery | Identity-based packaged install; Store-hosted atomic updates and clean package removal | Primary required Windows release artifact |
 
 The Store signature applies only to the certified Store-delivered MSIX. It does
 not transfer to the MSI or a directly downloaded MSIX.
+
+Decision 0025 makes Store MSIX primary. The self-signed MSI remains useful for
+bounded test work but cannot satisfy a release gate. MSI and MSIX may coexist;
+automatic conversion or removal is not implemented. The supported migration
+procedure and its state/identity/CLI behavior must be qualified before release.
 
 ## Reserved identity and build command
 

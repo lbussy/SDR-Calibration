@@ -21,7 +21,7 @@ recorded-input-only and do not bundle SoapySDR, vendor modules,
 The intended artifact set is:
 
 - macOS 14.0-or-later Apple Silicon DMG with GUI and CLI;
-- Windows 11 x64 public-trust, timestamped MSI with GUI and CLI;
+- Microsoft Store-delivered Windows 11 x64 MSIX with GUI and CLI;
 - Raspberry Pi OS 13 ARM64 Raspberry Pi 4 CLI-only DEB;
 - exact source archive, checksums, notices, inventories, corresponding-source
   materials, compatibility/upgrade guidance, and evidence ledger.
@@ -51,6 +51,7 @@ Candidate-specific schema and migration assessment: `TBD-BLOCKING`
 
 - Clean-install qualification by artifact: `TBD-BLOCKING`
 - Prior-version upgrade qualification: `TBD-BLOCKING`
+- Windows MSI-to-Store-MSIX migration/coexistence result: `TBD-BLOCKING`
 - Rollback qualification and preserved-state result: `TBD-BLOCKING`
 - Platform instructions: `TBD-BLOCKING`
 
@@ -75,6 +76,7 @@ Do not replace these fields with same-host package smoke results.
 - Release location: `TBD-BLOCKING`
 - Checksums file: `TBD-BLOCKING`
 - Signature verification instructions: `TBD-BLOCKING`
+- Microsoft Store listing/product link and certification identity: `TBD-BLOCKING`
 - Corresponding-source locations and hashes: `TBD-BLOCKING`
 - Evidence-package manifest and SHA-256: `TBD-BLOCKING`
 - Public evidence index and privacy-review result: `TBD-BLOCKING`

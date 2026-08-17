@@ -1,6 +1,6 @@
 # 0016 — Windows MSI deployment and signing boundary
 
-Status: Accepted
+Status: Superseded in part by [0025](0025-store-msix-primary-windows-artifact.md)
 
 Date: 2026-08-15
 
@@ -33,6 +33,12 @@ does not misclassify the leaf certificate as a root CA. Removal requires the
 exact thumbprint and refuses a certificate with an unexpected subject.
 
 ## Consequences
+
+Decision 0025 later makes the Microsoft Store MSIX the required Windows release
+artifact. This MSI path remains available for optional, locally self-signed
+development/testing only. Its `PUBLIC_TRUST` mode is retained implementation
+history, not a current release gate, and the MSI must not be published as a
+release download under the current artifact policy.
 
 A passing self-signed run can establish Authenticode and extracted-payload
 integrity on a machine where that exact certificate is explicitly trusted. It

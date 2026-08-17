@@ -1,16 +1,17 @@
 # 0024 — Windows Store MSIX distribution boundary
 
-Status: Accepted
+Status: Superseded in part by [0025](0025-store-msix-primary-windows-artifact.md)
 
 Date: 2026-08-17
 
 ## Decision
 
 Add a Windows 11 x64 MSIX as a distinct Microsoft Store distribution artifact
-for the recorded-input Qt GUI and production CLI. The existing per-machine MSI
-remains the independently distributed Windows installer governed by decision
-0016. It retains its `SELF_SIGNED` and `PUBLIC_TRUST` modes and remains required
-by decision 0022 unless a later accepted decision changes that artifact set.
+for the recorded-input Qt GUI and production CLI. Decision 0025 later makes
+this MSIX the primary and required Windows release artifact. The existing
+per-machine MSI remains available only as an optional, locally self-signed
+development/testing artifact governed by decision 0016; it is not a release
+download or a substitute for Store qualification.
 
 The Store package uses the exact product and publisher identity assigned in
 Partner Center. Those non-secret values are source-bound, not configure-

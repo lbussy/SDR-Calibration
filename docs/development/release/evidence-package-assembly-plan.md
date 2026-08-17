@@ -52,7 +52,7 @@ silently copy private evidence into the release.
 | --- | --- | --- |
 | Source | Archive made from the exact frozen revision | Archive contents and independently computed digest match the revision |
 | macOS | Apple Silicon DMG with recorded-input GUI/CLI | Exact package, signing/notarization, payload, license, lifecycle, and candidate evidence pass |
-| Windows | Windows 11 x64 MSI with recorded-input GUI/CLI | Exact public-trust signature, timestamp, payload, license, lifecycle, and candidate evidence pass |
+| Windows | Microsoft Store Windows 11 x64 MSIX with recorded-input GUI/CLI | Exact certification, Microsoft signature, Store delivery, payload, license, lifecycle, migration, and candidate evidence pass |
 | Raspberry Pi | Raspberry Pi OS 13 ARM64 CLI-only DEB | Exact payload, resource, license, lifecycle, and candidate evidence pass |
 | Checksums | `SHA256SUMS` over every shipped file other than itself | Sorted relative paths, lowercase SHA-256, no duplicate or escaping path |
 | Notices | MIT license and exact third-party notices | Contents reconcile with all conveyed files |
@@ -100,10 +100,10 @@ Record these as separate cells for every exact final candidate:
 4. macOS clean install;
 5. macOS upgrade;
 6. macOS rollback and cleanup;
-7. Windows payload/license/public trust/timestamp;
+7. Windows MSIX payload/license/Store certification/Microsoft signature;
 8. Windows clean install;
-9. Windows upgrade;
-10. Windows rollback and cleanup;
+9. Windows Store update or independently verified no-predecessor N/A;
+10. Windows MSI migration/coexistence and cleanup;
 11. Raspberry Pi payload/resource/license;
 12. Raspberry Pi clean install;
 13. Raspberry Pi upgrade;
@@ -158,8 +158,9 @@ a rebuilt final package.
   package inventory, and documentation agree.
 - Corresponding source matches every conveyed LGPL-covered Qt component and
   includes replacement instructions.
-- The Windows MSI is public-trust signed and RFC 3161 timestamped; self-signed
-  historical evidence is not substituted.
+- The Windows MSIX has the exact certified Store identity/version and Microsoft
+  signature; local development signatures and self-signed MSI evidence are not
+  substituted.
 - Each clean-install, upgrade, rollback, cleanup, physical calibration, and
   visual-review cell is distinct and bound to the exact artifact.
 - Release notes and limitations do not imply live-device binaries, unsupported
@@ -171,7 +172,7 @@ a rebuilt final package.
 
 ## Failure and change control
 
-Any artifact byte change, rebuilt package, signing or timestamp change,
+Any artifact byte change, rebuilt package, signing/certification change,
 candidate revision change, manifest/checksum correction, evidence reversal, or
 required-document change invalidates affected digests and reopens every
 dependent review. Never patch an assembled package in place and retain its

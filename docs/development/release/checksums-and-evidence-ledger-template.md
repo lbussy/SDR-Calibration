@@ -18,7 +18,7 @@ substituted for candidate values.
 ```text
 TBD-BLOCKING  source archive exact filename
 TBD-BLOCKING  macOS ARM64 DMG exact filename
-TBD-BLOCKING  Windows x64 MSI exact filename
+TBD-BLOCKING  Windows x64 Store MSIX exact identity/version
 TBD-BLOCKING  Raspberry Pi ARM64 DEB exact filename
 TBD-BLOCKING  each corresponding-source archive exact filename
 ```
@@ -34,7 +34,7 @@ signature, and no production checksum-signing policy is established.
 | --- | --- | --- | --- | --- |
 | Source archive | Exact frozen revision and MIT project source | `TBD-BLOCKING` | Independent archive/hash review | `TBD-BLOCKING` |
 | macOS ARM64 DMG | Developer ID signed, notarized, stapled; recorded-input GUI/CLI | `TBD-BLOCKING` | Package/license plus clean-host and upgrade/rollback evidence | `TBD-BLOCKING` |
-| Windows x64 MSI | Public-trust signed and RFC 3161 timestamped; recorded-input GUI/CLI | `TBD-BLOCKING` | Package/license/trust plus clean-host and upgrade/rollback evidence | `TBD-BLOCKING` |
+| Windows x64 Store MSIX | Microsoft-certified and Store-signed; recorded-input GUI/CLI | `TBD-BLOCKING` | Package/license/certification plus Store delivery, clean-host, migration, and applicable update evidence | `TBD-BLOCKING` |
 | Raspberry Pi ARM64 DEB | Raspberry Pi OS 13 CLI-only; no GUI/Qt/SoapySDR | `TBD-BLOCKING` | Package/resource plus clean-host and upgrade/removal evidence | `TBD-BLOCKING` |
 | Project notices | MIT license and exact third-party notices | `TBD-BLOCKING` | Payload and legal-disposition review | `TBD-BLOCKING` |
 | Dependency inventories | Exact runtime/SBOM per binary payload | `TBD-BLOCKING` | Exact-payload audit | `TBD-BLOCKING` |
@@ -51,10 +51,10 @@ signature, and no production checksum-signing policy is established.
 | macOS clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | macOS upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | macOS rollback and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| Windows package/public trust/license | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Windows MSIX package/Store certification/license | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Windows clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| Windows upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| Windows rollback and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Windows Store update or verified no-predecessor N/A | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Windows MSI migration/coexistence and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Raspberry Pi package/resource/license | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Raspberry Pi clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Raspberry Pi upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
@@ -89,7 +89,7 @@ Privacy review, excluded-material inventory, reviewer, and UTC date:
 - Publication destination and immutable identifiers: `TBD-BLOCKING`
 - Downloaded artifact location/date: `TBD-BLOCKING`
 - Independently recomputed hashes: `TBD-BLOCKING`
-- Signature/notarization/timestamp verification: `TBD-BLOCKING`
+- Signature/notarization/Store-certification verification: `TBD-BLOCKING`
 - Payload/version agreement with approved candidate: `TBD-BLOCKING`
 - Independent post-publication reviewer: `TBD-BLOCKING`
 - Published verification result: `TBD-BLOCKING`

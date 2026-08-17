@@ -4,11 +4,11 @@ Status: Prepared; no upgrade or rollback result is qualified
 
 ## Purpose and qualification boundary
 
-This plan governs one exact transition from each retained `0.1.0` package to a
+This plan governs applicable transitions from retained `0.1.0` packages to a
 future frozen package whose version is strictly greater than `0.1.0`, followed
-by restoration of the exact prior version. Results are platform-, architecture-,
-source-, artifact-, signing-, host-, and procedure-specific. They do not
-transfer to rebuilt packages or another platform.
+by restoration where the platform contract supports it. Results are platform-,
+architecture-, source-, artifact-, signing-, host-, and procedure-specific.
+They do not transfer to rebuilt packages or another platform.
 
 Clean-host installation has been accepted separately. Upgrade qualification
 must begin with the exact old package installed and operating; it is not a
@@ -19,11 +19,13 @@ clean-box installation and not a same-version maintenance installation.
 | Platform | Artifact | Source | SHA-256 | Trust state |
 | --- | --- | --- | --- | --- |
 | macOS ARM64 | `SDRCalibration-0.1.0-macOS.dmg` | `5eb3670b08b8aee2c4d915e5553b140394dc0d01` | `94a831d4549b92edd85222c55e0cd64395dbe8acfd1f4bd5c57351f15bf80ad4` | Developer ID signed, notarized, stapled, Gatekeeper accepted |
-| Windows x64 | `SDRCalibration-0.1.0-Windows-x64.msi` | `15ed17b8cb3e9ed75fa50bb407219cd2f3aaf193` | `7be98c92de35bb31024152161f9b3bb4e76cbf6a3d2728001060f3d338d81973` | Locally trusted self-signed development certificate; no public trust or timestamp |
 | Raspberry Pi OS ARM64 | `sdrcal_0.1.0_arm64.deb` | `5f50d3190999ee647fa1b650ed39e46175a54fd9` | `d3de3d6397aaec7c3959e8854ac1871a787e4850706ae7736761a3fa887605ef` | No repository or package signing implemented |
 
 The content-addressed retention paths and byte sizes remain authoritative in
 the [baseline manifest](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/release-baselines/0.1.0/README.md).
+The retained self-signed `0.1.0` MSI is an optional migration/coexistence test
+fixture, not a prior Store version or required release baseline. No published
+Store predecessor exists for the first MSIX release.
 
 ## Candidate entry gate
 
@@ -35,12 +37,10 @@ Stop before touching a test host unless all of the following are retained:
    environment, signing/trust state, payload inventory, and license disposition.
 3. Consistent version output across `project(... VERSION ...)`, exposed GUI/CLI
    version surfaces, macOS `CFBundleShortVersionString` and `CFBundleVersion`,
-   Windows MSI product version, Debian package version, filenames, SBOM, and evidence.
-   The current hard-coded GUI `0.1.0` prevents this gate from passing until a
-   separately reviewed implementation slice removes that drift risk.
-4. Candidate package gates passed independently. Windows transition testing
-   records the exact trust mode; self-signed mechanics never satisfy the
-   separate public-trust release gate.
+   Windows MSIX identity/version, Debian package version, filenames, SBOM, and
+   evidence. Any drift fails this gate.
+4. Candidate package gates passed independently. Windows release testing uses
+   the exact Store-certified package; a self-signed MSI is testing-only.
 5. A named test host with supported OS/architecture, stable power, sufficient
    storage, no pending reboot, no active SDR Calibration process, and explicit
    operator ownership of the maintenance window.
@@ -112,27 +112,29 @@ An upgrade passes only if all of these are true:
    and the seeded-state directory. Record whether the final host intentionally
    retains `0.1.0` or is returned to its pre-test state.
 
-### Windows 11 x64 MSI
+### Windows 11 x64 Microsoft Store MSIX
 
-1. Verify the old MSI hash and Authenticode state, install it through Windows
-   Installer, and record the MSI product registration, stable `UpgradeCode`,
-   installed payload hashes, Start menu entry, application version, launch,
-   and CLI behavior.
-2. Verify the exact candidate MSI hash/signature and retain a verbose MSI log.
-   Install it through Windows Installer. The stable `UpgradeCode` and WiX
-   `MajorUpgrade` path must remove the old product and leave exactly one new
-   registered product; manual file replacement is forbidden.
-3. Verify new product registration, version, payload, shortcut, launch, CLI,
-   seeded-state preservation, processes, services, scheduled tasks, registry
-   residue, and installer result/reboot state.
-4. WiX intentionally rejects installing the older MSI over a newer product.
-   Rollback therefore requires a logged uninstall of the exact new MSI,
-   confirmation that its product registration and installed payload are gone,
-   then a logged reinstall of the exact retained old MSI.
-5. Reverify old product registration, trust state, payload hashes, shortcut,
-   launch, CLI, seeded state, and residue. Public-trust/SmartScreen conclusions
-   are recorded only when the exact candidate uses that separately qualified
-   signing mode.
+1. Independently verify that no earlier SDR Calibration version has been
+   published through the Store. For the first Store release, record the update
+   cell as `Not applicable — no published Store predecessor`; do not substitute
+   the retained MSI as an MSIX predecessor.
+2. Install the exact certified candidate from its authorized Store listing or
+   flight on a clean Windows 11 host. Record Store product/package identity,
+   version, Microsoft signature, package registration, Start entry, CLI alias,
+   GUI/CLI behavior, seeded-state behavior, and Store acquisition evidence.
+3. Remove the Store package through the supported packaged-app path and verify
+   registration, process, alias, Start entry, and residue cleanup. Store
+   rollback is not promised for the initial release.
+4. Separately install the exact retained self-signed MSI test fixture, inventory
+   its product/Start/CLI identity and seeded state, then install the Store MSIX.
+   Verify truthful coexistence behavior, deterministic CLI resolution, no
+   silent MSI removal, and preserved user-created data.
+5. Execute and document the supported manual migration: remove the MSI through
+   Windows Installer, retain the Store MSIX, reverify GUI/CLI and seeded state,
+   and prove cleanup. Do not claim in-place conversion or automatic rollback.
+6. For future releases with a published Store predecessor, replace the N/A in
+   step 1 with an exact Store-managed update test from the previous supported
+   version and retain pre/post identity, state, launch, and cleanup evidence.
 
 ### Raspberry Pi OS 13 ARM64 CLI DEB
 
