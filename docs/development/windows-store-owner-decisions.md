@@ -1,6 +1,6 @@
 # Microsoft Store owner decision packet
 
-Status: **Pending explicit owner approval**
+Status: **Submission draft created; explicit owner approval pending**
 
 Prepared: 2026-08-17
 
@@ -23,13 +23,12 @@ If any binding changes, every decision below returns to pending.
 
 ## Visible-form reconciliation gate
 
-A signed-in read-only Partner Center inspection reconfirmed that the product is
-`In draft`, but the pricing, availability, properties, age-rating, listing,
-package, and submission-options forms are not exposed before the
-state-changing `Start submission` action. That action was not selected. The
-recommended values below remain provisional until a separately authorized
-slice creates the submission draft and records the exact visible wording and
-available choices without saving field changes.
+The owner authorized creating `Submission 1` for read-only form inspection.
+Partner Center still reports the product and submission `In draft`; no field
+value was entered or saved. Exact visible fields and defaults are now reconciled
+where the empty draft exposes them. Age-rating questions beyond the first branch
+require selecting an app type, and Store listing detail fields require a package
+language or an additional-language selection, so those remain later gates.
 
 ## Decision worksheet
 
@@ -53,6 +52,35 @@ has not approved that value in this record.
 | Publishing schedule | Manual publication hold; no automatic publication | Pending |
 | Certification submission | Separate explicit authorization required after all preflight evidence and visible fields are independently reconciled | Pending |
 
+## Observed defaults and exact options
+
+These are observations, not approvals:
+
+- Pricing and availability currently defaults to all worldwide markets,
+  inclusion of future markets, public audience, discoverable, release as soon
+  as possible, and stop acquisition never. Partner Center reports that a price
+  must be configured.
+- The exact primary category option is `Utilities + tools`; secondary category
+  is optional.
+- The exact privacy question is: `Does this product access, collect, or
+  transmit personal information (data that could be used to identify a
+  person)?` Its choices are Yes and No.
+- Support information is optional and can include website, support URL, phone,
+  and postal-address fields. Sensitive values must be entered directly and not
+  committed.
+- All device-family boxes are initially unchecked. The available families are
+  Windows 10/11 Desktop, Windows 10 Mobile, Windows 10/11 Xbox, Windows 10 Team,
+  and Windows 10 Mixed Reality. Future device families are initially enabled.
+- The first IARC branch offers `Game`, `Social or Communication`, and `All
+  Other App Types`. The direct-ratings-board/physical-media question defaults
+  to No. Partner Center states it will share publisher display name and email
+  address with IARC.
+- The publishing default is automatic after certification. The required safety
+  choice is exactly `Don't publish this submission until I select Publish now`.
+- Certification notes belong in Additional Testing Info. Its optional
+  credentials table must remain empty because the application requires no
+  credentials.
+
 ## Technical facts available to the owner
 
 - The Store build is offline and recorded-input-only.
@@ -75,6 +103,10 @@ gate in the submission-readiness packet can pass:
 - [ ] I approve the price, markets, audience, and discoverability selections.
 - [ ] I approve the category, language, website disposition, and the existence
       of an owner-controlled support channel entered outside the repository.
+- [ ] I approve Windows 10/11 Desktop only and the disposition of Microsoft's
+      future-device-family option.
+- [ ] I approve the product-declaration and system-requirement selections after
+      reconciling their visible defaults with implemented behavior.
 - [ ] I reviewed the exact Partner Center privacy wording and approve the
       answer and any required policy disposition.
 - [ ] I reviewed and answered every exact visible age-rating question based on
@@ -95,7 +127,8 @@ credential, notification recipient, or verification material in this file.
 
 This packet becomes approved only when every attestation is checked, both final
 approval fields are no longer `Pending`, and the candidate bindings remain
-exact. Exact visible-form reconciliation must also be retained after the
-submission draft is created. Even then, Partner Center field entry and upload
-remain a separate authorized slice, and **Submit for certification** remains a
-later explicit authorization.
+exact. The hidden age-rating branches and listing-detail fields must also be
+reconciled when their prerequisite selections or package are separately
+authorized. Even then, Partner Center field entry and upload remain a separate
+authorized slice, and **Submit for certification** remains a later explicit
+authorization.

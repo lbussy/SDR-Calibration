@@ -1,7 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Prepared offline; Partner Center draft state read-only verified;
-screenshot gate verified
+Status: Submission draft created and inspected read-only; owner approval pending
 
 Prepared: 2026-08-17
 
@@ -255,10 +254,9 @@ but the four-shot set is the readiness exit.
 
 ## Current blockers and external gates
 
-1. Read-only Partner Center inspection confirmed one `SDR Calibration` product,
-   type `MSIX or PWA app`, product-list status `Not started`, overview status
-   `In draft`, no current packages, and a visible `Start submission` action.
-   The committed identity values match; no Partner Center state was changed.
+1. With owner authorization, Partner Center `Submission 1` was created and its
+   empty forms inspected read-only. All required sections remain `Not started`,
+   `Submit for certification` is disabled, and no field was entered or saved.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
    `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`;
@@ -272,10 +270,11 @@ but the four-shot set is the readiness exit.
 5. Owner selections for commercial availability, category, privacy, support,
    age rating, and manual publishing hold remain pending in the owner decision
    packet.
-6. Exact submission-form wording and options are not visible until the
-   state-changing `Start submission` action creates a submission draft; that
-   action remains separately authorized.
-7. Package and fixture upload, certification submission, Microsoft signing,
+6. The publishing default is automatic after certification; the exact manual
+   `Publish now` hold remains an unapplied owner decision.
+7. Further IARC questions require an app-type selection, and listing-detail
+   fields require a package language or additional-language selection.
+8. Package and fixture upload, certification submission, Microsoft signing,
    Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
    remain open and separately authorized.
 

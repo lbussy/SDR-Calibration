@@ -222,7 +222,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Partner Center draft state read-only verified",
+        "Status: Submission draft created and inspected read-only; owner approval pending",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -238,19 +238,19 @@ def main() -> None:
     require("TBD-BLOCKING" not in submission_readiness,
             "Store submission readiness still contains a blocking placeholder")
     for marker in (
-        "Status: **Pending explicit owner approval**",
+        "Status: **Submission draft created; explicit owner approval pending**",
         "not approval of any proposed value",
         "Enter an owner-controlled URL or email directly in Partner Center; do not commit it here",
         "Manual publication hold; no automatic publication",
-        "state-changing `Start submission` action",
-        "Exact visible-form reconciliation must also be retained",
+        "The publishing default is automatic after certification",
+        "All device-family boxes are initially unchecked",
         "- Approval date (UTC): **Pending**",
         "- Approving owner: **Pending**",
-        "remain a separate authorized",
+        "Partner Center field entry and upload remain a separate",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
-    require(owner_decisions.count("- [ ]") == 6,
-            "Store owner-decision packet must retain six pending attestations")
+    require(owner_decisions.count("- [ ]") == 8,
+            "Store owner-decision packet must retain eight pending attestations")
     require("- [x]" not in owner_decisions,
             "Store owner approval must not be inferred by the source contract")
     for marker in (
@@ -260,6 +260,9 @@ def main() -> None:
         "No submission was started, package uploaded, field edited",
         "No pricing, availability, properties,",
         "therefore remain unreconciled pending separate",
+        "Partner Center created `Submission 1`",
+        "Submission options defaulted to publishing as soon as certification passes",
+        "No form value was entered or selected, no Save action was used",
     ):
         require(marker in partner_center_inspection, f"Partner Center inspection drift: {marker}")
     for marker in (

@@ -35,9 +35,49 @@ state, it was not selected during the read-only slice. Exact visible field
 wording and options therefore remain unreconciled pending separate
 authorization to create the submission draft.
 
+## Authorized submission-draft inspection
+
+The owner subsequently authorized selecting `Start submission` for the bounded
+purpose of creating and inspecting the draft without entering or saving field
+values. Partner Center created `Submission 1`, dated 2026-08-17. The overview
+showed Pricing and availability, Properties, Age ratings, Packages, and Store
+listings as `Not started`; Submission options was `Recommended`; and `Submit
+for certification` was disabled.
+
+Read-only section inspection established:
+
+- Pricing requires an explicit price. Defaults were all worldwide markets,
+  future markets included, public audience, discoverable, release as soon as
+  possible, and stop acquisition never.
+- Properties offered the exact primary category `Utilities + tools`, an
+  optional secondary category, the personal-information Yes/No question,
+  optional website/support/contact/address fields, product declarations, and
+  system requirements.
+- Age ratings defaulted to a new IARC questionnaire and exposed `Game`, `Social
+  or Communication`, and `All Other App Types`, plus a physical-media/direct
+  ratings-board Yes/No question. Further questions require selecting an app
+  type, so they were not exposed in this read-only slice. The page states that
+  publisher display name and email address will be shared with IARC.
+- Packages accepted MSIX-family formats. All five device-family boxes were
+  unchecked; `Let Microsoft decide whether to make this app available to any
+  future device families` was checked.
+- Store listings had no package-supported languages before upload. The
+  additional-language dialog offered 831 locale choices and had none selected;
+  it was closed with Cancel.
+- Submission options defaulted to publishing as soon as certification passes.
+  The alternative exact choice was `Don't publish this submission until I
+  select Publish now`.
+- Additional Testing Info provided one certification-description field and an
+  optional credentials table; both were empty and no credentials were added.
+
+No form value was entered or selected, no Save action was used, and no package,
+fixture, screenshot, or listing was uploaded. No agreement or attestation was
+accepted, no validation was requested, and no certification or publication
+action occurred.
+
 ## Boundaries
 
-This record establishes only the visible Partner Center draft and package-list
-state at inspection time. It does not establish listing completeness, package
+This record establishes only the visible Partner Center draft and field state
+at inspection time. It does not establish listing completeness, package
 validation, certification, Microsoft signing, Store availability, delivery,
 update behavior, sales configuration, payment or tax readiness, or publication.
