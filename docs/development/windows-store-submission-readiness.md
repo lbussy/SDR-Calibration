@@ -286,4 +286,10 @@ but the four-shot set is the readiness exit.
    Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
    remain open and separately authorized.
 
+The three remaining owner gates now have an exact proposal in
+`windows-store-owner-decisions.md`: public repository and Issues URLs,
+Desktop-only availability with automatic future families disabled, and the
+full-path/revision/version/hash candidate binding. Preparation of that proposal
+is not approval and does not authorize an upload.
+
 No checkbox in this packet changes Partner Center state.

@@ -42,15 +42,50 @@ has not approved that value in this record.
 | Audience | Public | Approved and saved |
 | Discoverability | Available and discoverable | Approved and saved |
 | Category | Utilities + tools | Approved and saved |
-| Subcategory | None unless Partner Center requires one | Pending |
+| Subcategory | None | Approved and saved |
 | Listing language | English (United States) only for the first submission | Approved and saved |
-| Website | Omit unless the owner selects an owner-controlled product URL | Pending |
-| Support channel | Enter an owner-controlled URL or email directly in Partner Center; do not commit it here | Pending |
+| Website | `https://github.com/lbussy/SDR-Calibration` | Proposed; explicit approval pending |
+| Support channel | `https://github.com/lbussy/SDR-Calibration/issues` | Proposed; explicit approval pending |
 | Privacy answer | No | Approved and saved |
 | Privacy policy | Omit only if the reconciled Partner Center flow and applicable obligations permit it; otherwise provide an owner-controlled truthful policy | Pending |
 | Age rating | All Other App Types; No for every exposed content/interaction question; all-ages/3+ mappings | Approved and saved |
 | Publishing schedule | Manual publication hold; no automatic publication | Approved and saved |
 | Certification submission | Separate explicit authorization required after all preflight evidence and visible fields are independently reconciled | Pending |
+
+## Exact remaining decision proposal
+
+The public repository is the product website, and its public issue tracker is
+the support URL. Both are owner-controlled, require no sensitive contact data,
+and keep ordinary support separate from the private vulnerability-reporting
+channel in `SECURITY.md`. Omit the privacy-policy field unless Partner Center
+later requires one; the owner remains responsible for applicable legal duties.
+
+Select only Windows 10/11 Desktop. Leave Mobile, Xbox, Team, and Mixed Reality
+unchecked, and uncheck Microsoft's automatic future-device-family option. This
+matches the package's sole `Windows.Desktop` target and avoids unqualified
+future-platform availability.
+
+The intended upload is exactly:
+
+- path: `C:\Users\lee\SDR-Calibration-Harness-70ff94c\build\windows-store-release\windows-store-package\SDRCalibration-0.1.1-Windows-Store-x64.msix`;
+- source revision: `957fbeb204177c9ba2a1582e936476244b201b9d`;
+- package version: `0.1.1.0`, x64; and
+- SHA-256: `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`.
+
+Recompute the hash immediately before selecting the file and refuse any
+mismatch. Four same-named MSIX files exist, so filename alone is not a binding.
+
+To close the remaining owner gates, the owner may reply with this exact
+statement or explicitly amend it:
+
+> I approve the GitHub repository as the website and its Issues page as the
+> support URL, with no privacy-policy URL unless Partner Center requires one. I
+> approve Windows 10/11 Desktop only, with Mobile, Xbox, Team, Mixed Reality,
+> and automatic future-device-family availability disabled. I confirm the full
+> MSIX path, revision, version, architecture, and SHA-256 above as the intended
+> upload, subject to an immediate pre-selection hash recheck. Record me as the
+> approving owner using the current UTC date. This does not authorize upload or
+> certification submission.
 
 ## Observed defaults and exact options
 
