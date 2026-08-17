@@ -1,2 +1,1 @@
 IDI_ICON1 ICON "@SDRCAL_WINDOWS_ICON_FILE@"
-1 24 "@PROJECT_SOURCE_DIR@/packaging/windows/sdrcal.exe.manifest"

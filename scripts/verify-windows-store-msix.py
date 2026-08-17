@@ -28,7 +28,7 @@ def main() -> None:
     cmake = read(root, "CMakeLists.txt")
     script = read(root, "packaging/windows/package-store-msix.ps1")
     executable_manifest = read(root, "packaging/windows/sdrcal.exe.manifest")
-    windows_resource = read(root, "packaging/windows/sdrcal.rc.in")
+    gui_cmake = read(root, "src/gui/CMakeLists.txt")
     qt_test_wrapper = read(root, "tests/RunQtTest.cmake")
     unit_cmake = read(root, "tests/unit/CMakeLists.txt")
     policy = read(
@@ -90,11 +90,12 @@ def main() -> None:
         require(marker in script, f"missing fail-closed Store contract: {marker}")
     for marker in ("true/pm", "PerMonitorV2, PerMonitor"):
         require(marker in executable_manifest, f"missing Windows DPI contract: {marker}")
-    require(
-        '1 24 "@PROJECT_SOURCE_DIR@/packaging/windows/sdrcal.exe.manifest"'
-        in windows_resource,
-        "Windows executable manifest is not embedded by the GUI resource",
-    )
+    for marker in (
+        'target_link_options(sdrcal-gui PRIVATE',
+        '"/MANIFEST:EMBED"',
+        '"/MANIFESTINPUT:${PROJECT_SOURCE_DIR}/packaging/windows/sdrcal.exe.manifest"',
+    ):
+        require(marker in gui_cmake, f"Windows executable manifest merge is missing: {marker}")
     for marker in (
         "SDRCAL_QT_RUNTIME_DIR",
         'set(ENV{PATH} "${SDRCAL_QT_RUNTIME_DIR};$ENV{PATH}")',

@@ -115,6 +115,9 @@ endif()
 if(MSVC)
     target_compile_options(sdrcal_gui_support PRIVATE /W4 /permissive-)
     target_compile_options(sdrcal-gui PRIVATE /W4 /permissive-)
+    target_link_options(sdrcal-gui PRIVATE
+        "/MANIFEST:EMBED"
+        "/MANIFESTINPUT:${PROJECT_SOURCE_DIR}/packaging/windows/sdrcal.exe.manifest")
 else()
     target_compile_options(sdrcal_gui_support PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
     target_compile_options(sdrcal-gui PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
