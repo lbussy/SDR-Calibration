@@ -312,8 +312,10 @@ def verify_windows(root: Path) -> None:
         "Windows icon resource is not bound to the GUI target",
     )
     require(
-        resource.strip() == 'IDI_ICON1 ICON "@SDRCAL_WINDOWS_ICON_FILE@"',
-        "Windows resource icon binding mismatch",
+        'IDI_ICON1 ICON "@SDRCAL_WINDOWS_ICON_FILE@"' in resource
+        and '1 24 "@PROJECT_SOURCE_DIR@/packaging/windows/sdrcal.exe.manifest"'
+        in resource,
+        "Windows resource icon or executable-manifest binding mismatch",
     )
     required = (
         '<Package Name="SDR Calibration"',

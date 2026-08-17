@@ -27,6 +27,8 @@ def main() -> None:
     root = args.source_dir.resolve()
     cmake = read(root, "CMakeLists.txt")
     script = read(root, "packaging/windows/package-store-msix.ps1")
+    executable_manifest = read(root, "packaging/windows/sdrcal.exe.manifest")
+    windows_resource = read(root, "packaging/windows/sdrcal.rc.in")
     qt_test_wrapper = read(root, "tests/RunQtTest.cmake")
     unit_cmake = read(root, "tests/unit/CMakeLists.txt")
     policy = read(
@@ -81,8 +83,18 @@ def main() -> None:
         "KitsRoot10",
         "x64\\makeappx.exe",
         "PATH and installed x64 Windows SDK checked",
+        "(Join-Path $assets 'StoreLogo.png') 50",
+        r"<Logo>Assets\StoreLogo.png</Logo>",
+        "'StoreLogo.png', 'Square150x150Logo.png'",
     ):
         require(marker in script, f"missing fail-closed Store contract: {marker}")
+    for marker in ("true/pm", "PerMonitorV2, PerMonitor"):
+        require(marker in executable_manifest, f"missing Windows DPI contract: {marker}")
+    require(
+        '1 24 "@PROJECT_SOURCE_DIR@/packaging/windows/sdrcal.exe.manifest"'
+        in windows_resource,
+        "Windows executable manifest is not embedded by the GUI resource",
+    )
     for marker in (
         "SDRCAL_QT_RUNTIME_DIR",
         'set(ENV{PATH} "${SDRCAL_QT_RUNTIME_DIR};$ENV{PATH}")',

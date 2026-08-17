@@ -172,6 +172,8 @@ function Resize-Png([string]$Source, [string]$Destination, [int]$Size) {
 }
 Resize-Png "$SourceDir\assets\icons\source\sdr-calibration-master-1024.png" `
     (Join-Path $assets 'Square150x150Logo.png') 150
+Resize-Png "$SourceDir\assets\icons\source\sdr-calibration-master-1024.png" `
+    (Join-Path $assets 'StoreLogo.png') 50
 Resize-Png "$SourceDir\assets\icons\source\sdr-calibration-small-master-1024.png" `
     (Join-Path $assets 'Square44x44Logo.png') 44
 
@@ -194,7 +196,7 @@ $escapedProductName = Escape-Xml $ProductName
   <Properties>
     <DisplayName>$escapedProductName</DisplayName>
     <PublisherDisplayName>$escapedPublisherDisplayName</PublisherDisplayName>
-    <Logo>Assets\Square150x150Logo.png</Logo>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0"
@@ -236,7 +238,8 @@ if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $msix)) {
 New-Item -ItemType Directory -Path $unpacked | Out-Null
 & $makeappx unpack /o /p $msix /d $unpacked
 if ($LASTEXITCODE -ne 0) { throw 'MSIX unpack inspection failed' }
-foreach ($required in 'AppxManifest.xml', 'sdrcal.exe', 'sdrcal-gui.exe', 'LICENSE',
+foreach ($required in 'AppxManifest.xml', 'StoreLogo.png', 'Square150x150Logo.png',
+    'Square44x44Logo.png', 'sdrcal.exe', 'sdrcal-gui.exe', 'LICENSE',
     'THIRD_PARTY_NOTICES.md', 'sdrcal.spdx.json', 'icon-manifest.json', 'qwindows.dll') {
     if ($null -eq (Get-ChildItem -LiteralPath $unpacked -Recurse -File -Filter $required |
         Select-Object -First 1)) {
