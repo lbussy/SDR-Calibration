@@ -44,6 +44,7 @@ def main() -> None:
         "docs/development/windows-store-submission-readiness.md",
     )
     fixture_generator = read(root, "scripts/prepare-store-certification-fixture.py")
+    lifecycle = read(root, "packaging/windows/qualify-store-msix.ps1")
 
     identities = {
         "SDRCAL_STORE_PACKAGE_NAME": "LeeBussy.SDRCalibration",
@@ -114,6 +115,20 @@ def main() -> None:
         "Sign-File",
     ):
         require(prohibited not in script, f"prohibited Store MSIX contract present: {prohibited}")
+    for marker in (
+        "refusing lifecycle qualification from a dirty source tree",
+        "source revision is not synchronized with its upstream",
+        "MSIX SHA-256 does not match the expected artifact",
+        "refusing to reuse an existing lifecycle evidence directory",
+        "New-SelfSignedCertificate",
+        "KeyExportPolicy NonExportable",
+        "Cert:\\CurrentUser\\TrustedPeople",
+        "Add-AppxPackage",
+        "gui_first_launch = 'passed'",
+        "microsoft_store_signing_observed = $false",
+        "post-lifecycle cleanup audit failed",
+    ):
+        require(marker in lifecycle, f"Store lifecycle harness drift: {marker}")
     for marker in (
         "The required Windows 11 x64 artifact for the initial release is a Microsoft",
         "The WiX MSI remains implemented but is not a required release artifact.",
