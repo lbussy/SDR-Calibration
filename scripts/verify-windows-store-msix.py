@@ -50,6 +50,9 @@ def main() -> None:
     listing_prompt = read(
         root, "docs/development/windows-store-listing-text-execution-prompt.md"
     )
+    screenshot_prompt = read(
+        root, "docs/development/windows-store-screenshot-upload-execution-prompt.md"
+    )
     partner_center_inspection = read(
         root,
         "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
@@ -225,7 +228,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Owner gates and listing text complete; screenshot and package pending",
+        "Status: Store listing complete; package and certification fixture pending",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -248,6 +251,13 @@ def main() -> None:
         "Adversarial review",
     ):
         require(marker in listing_prompt, f"Store listing prompt drift: {marker}")
+    for marker in (
+        "Upload only the four retained, privacy-reviewed",
+        "Refuse any screenshot whose current hash or dimensions differ",
+        "Do not select **Submit for certification**",
+        "Adversarial review",
+    ):
+        require(marker in screenshot_prompt, f"Store screenshot prompt drift: {marker}")
     for marker in (
         "Status: **Owner approved and saved; upload remains separately authorized**",
         "Preparing or committing a proposed value is not approval of that",
@@ -282,6 +292,8 @@ def main() -> None:
         "SDR-Calibration-Harness-70ff94c",
         "Owner-approved final gate reconciliation",
         "Owner-approved English listing text",
+        "Exact-candidate Desktop screenshot upload",
+        "Store listings `Complete`, Packages `Incomplete`",
         "no package was selected or uploaded",
         "no screenshot, image, trailer, package, fixture, or other attachment was",
         "Four same-named `0.1.1` MSIX files were found",

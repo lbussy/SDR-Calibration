@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Owner gates and listing text complete; screenshot and package pending
+Status: Store listing complete; package and certification fixture pending
 
 Prepared: 2026-08-17
 
@@ -249,6 +249,8 @@ but the four-shot set is the readiness exit.
       independently reviewed.
 - [x] Four exact-candidate screenshots pass privacy and
       claim review.
+- [x] Four exact-candidate Desktop screenshots and factual captions are saved
+      in Partner Center in manifest order; Xbox and optional assets remain empty.
 - [x] Owner completed the support-channel, device-family/future-family, and
       exact-candidate binding attestations.
 - [x] Listing copy, certification notes, and `runFullTrust` justification match
@@ -262,8 +264,8 @@ but the four-shot set is the readiness exit.
 
 1. Partner Center reports Pricing and availability, Properties, Age ratings,
    and Submission options `Complete`. The English (United States) listing
-   has all approved non-upload text saved but remains incomplete because no
-   screenshot is uploaded; Packages and Store listings are `Incomplete`;
+   has all approved text and four exact-candidate Desktop screenshots saved;
+   Store listings is `Complete` and Packages is `Incomplete`;
    `Submit for certification` remains disabled.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
@@ -272,7 +274,8 @@ but the four-shot set is the readiness exit.
    not establish Microsoft signing, Store delivery, or clean-host behavior.
 3. Four exact-candidate screenshots derived from the clean synchronized fixture
    on `ecm-mule` are retained with hashes, dimensions, and privacy review. They
-   have not been uploaded to Partner Center.
+   are saved to the Desktop English (United States) listing in manifest order
+   with factual captions; Xbox and optional asset counts remain zero.
 4. The deterministic certification fixture attachment is retained and
    independently reviewed, but it has not been uploaded.
 5. The owner approved and saved commercial availability, category, privacy,
@@ -290,9 +293,9 @@ but the four-shot set is the readiness exit.
 7. The Packages page has Windows 10/11 Desktop checked; Mobile, Xbox, Team, and
    Mixed Reality unchecked; and Microsoft's future-device-family option
    unchecked. No package has been selected or uploaded.
-8. Screenshot, package and fixture upload, certification submission, Microsoft
-   signing, Store delivery, clean-host Store lifecycle, and MSI
-   migration/coexistence remain open and separately authorized.
+8. Package and fixture upload, certification submission, Microsoft signing,
+   Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
+   remain open and separately authorized.
 
 All owner gates are approved in `windows-store-owner-decisions.md`. That
 approval does not authorize package selection or upload, certification

@@ -132,10 +132,13 @@
   public website/support URLs, a manual publication hold, and Desktop-only
   availability with future device families disabled; all owner gates are
   complete; the approved English listing description, eight features, short
-  description, keywords, copyright, and developer are saved; the listing and
-  Packages remain incomplete pending separately authorized uploads; the exact
+  description, keywords, copyright, and developer are saved; four retained,
+  exact-candidate Desktop screenshots and factual captions are saved in
+  manifest order, making Store listings complete; Packages remains incomplete
+  pending a separately authorized upload; the exact
   WACK-qualified candidate remains subject to an immediate pre-selection hash
-  recheck, and no upload, certification request, or publication occurred
+  recheck, and no package or fixture upload, certification request, or
+  publication occurred
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows

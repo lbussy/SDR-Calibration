@@ -4,7 +4,7 @@
     "candidate_version":  "0.1.1",
     "msix_sha256":  "1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1",
     "capture_host":  "ecm-mule",
-    "classification":  "Store listing screenshot candidates; not uploaded",
+    "classification":  "Store listing screenshots; uploaded to Partner Center draft Submission 1 on 2026-08-17",
     "screenshots":  [
                         {
                             "file":  "01-clean-initial-window.png",

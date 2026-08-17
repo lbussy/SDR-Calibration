@@ -21,3 +21,11 @@ The capture wrapper redirected PowerShell stdout and stderr to a durable log so
 the run could be monitored remotely. That transcript contained only the local
 operator path and success message and is intentionally not retained as Store
 evidence.
+
+On 2026-08-17, all four files were rehashed and their dimensions were rechecked
+against `manifest.json`, then uploaded in manifest order to the Desktop English
+(United States) listing for draft Submission 1. Factual captions identify the
+initial window, reviewed synthetic request, successful synthetic result, and
+packaged GUI/CLI version view. Partner Center persisted Desktop count four and
+Xbox count zero; no optional image, trailer, package, fixture, certification,
+or publication action occurred.

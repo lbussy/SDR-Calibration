@@ -163,3 +163,21 @@ so the listing remained `Incomplete`; Packages also remained `Incomplete` and
 **Submit for certification** remained disabled. No file picker was opened and
 no screenshot, image, trailer, package, fixture, or other attachment was
 selected or uploaded.
+
+## Exact-candidate Desktop screenshot upload
+
+The owner-authorized screenshot slice revalidated the four retained PNG hashes
+and dimensions against their manifest, then uploaded exactly those files to the
+Desktop English (United States) listing in manifest order. The persisted count
+was Desktop four and Xbox zero. The following factual captions were saved in
+the same order:
+
+1. `SDR Calibration desktop application ready for a recorded-input workflow.`
+2. `Reviewed synthetic calibration request with explicit device and reference provenance.`
+3. `Successful synthetic calibration result with reviewable profile, evidence, and summary output.`
+4. `Packaged Windows GUI alongside the sdrcal.exe command-line version output.`
+
+No logo, trailer, promotional image, Xbox asset, package, certification fixture,
+or other file was selected. After save and reload, Partner Center reported
+Store listings `Complete`, Packages `Incomplete`, and **Submit for
+certification** disabled. No certification or publication action occurred.
