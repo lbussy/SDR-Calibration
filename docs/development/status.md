@@ -60,6 +60,12 @@
   checks, estimation and acceptance, linear fitting, uncertainty and assurance,
   validated native profile and bounded evidence candidates, cancellation and
   stage tracing, reduced-assurance handling, and optional lossy WSJT-X export
+- Synthetic end-to-end workflow qualification through the production profile
+  consumer boundary, including ordered stage completion, semantic and SHA-256
+  integrity, evidence digest linkage, finite model and uncertainty output,
+  reliability-quotient policy output, in-domain evaluation and sign convention,
+  and fail-closed tampering and extrapolation. This makes no physical accuracy
+  or reference-suitability claim.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

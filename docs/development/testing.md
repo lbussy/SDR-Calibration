@@ -218,6 +218,15 @@ uncertainty gates, evidence privacy, cancellation, reduced assurance, optional
 WSJT-X failure, deterministic native profiles, and repeatable evidence. It does
 not load SoapySDR, access files or networks, or establish calibration accuracy.
 
+The synthetic end-to-end workflow qualification extends that fixture through
+the production profile consumer boundary. It verifies ordered successful
+stages, semantic and SHA-256 integrity, profile-to-evidence and
+evidence-to-summary digest links, finite model and uncertainty output,
+reliability-quotient policy output, in-domain profile evaluation and sign
+convention, plus fail-closed tampering and extrapolation. This qualifies only
+deterministic software orchestration; it does not establish physical reference
+suitability, SDR accuracy, calibration accuracy, or artifact persistence.
+
 The Phase 12 `production_cli_tests` target exercises the product argument and
 recorded-input path, strict request and independent trust input, CF32LE digest
 verification, stable JSON/exit behavior, shared-workflow success, cancellation,

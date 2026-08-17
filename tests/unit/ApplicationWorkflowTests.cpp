@@ -1,9 +1,12 @@
 #include "application/CalibrationWorkflow.h"
 #include "profile/CanonicalJson.h"
 #include "profile/ProfileEngine.h"
+#include "profile/Sha256.h"
 #include "reference/ReferenceRegistry.h"
 
+#include <cmath>
 #include <iostream>
+#include <numeric>
 
 namespace {
 int failures = 0;
@@ -161,6 +164,8 @@ void successAndRepeatability() {
     CHECK(first.succeeded());
     CHECK(first.profile.has_value());
     CHECK(profile::validateProfile(*first.profile).valid());
+    std::string integrity_error;
+    CHECK(profile::verifyIntegrity(*first.profile, {}, false, &integrity_error));
     CHECK(first.profile->profile_status == profile::ProfileStatus::qualification_capable);
     CHECK(first.profile->adapters.size() == 1U);
     CHECK(first.interoperability && first.interoperability->succeeded());
@@ -168,7 +173,74 @@ void successAndRepeatability() {
     CHECK(first.evidence_summary.find("requested_center_frequency_hz") != std::string::npos);
     CHECK(first.evidence_summary.find("effective_center_frequency_hz") != std::string::npos);
     CHECK(first.evidence_manifest.find("\"atomic_write_completed\":false") != std::string::npos);
+    CHECK(first.profile->provenance.evidence_bundle.has_value());
+    CHECK(first.profile->provenance.evidence_bundle->sha256 ==
+          profile::sha256Hex(first.evidence_manifest));
+    CHECK(first.evidence_manifest.find(profile::sha256Hex(first.evidence_summary)) !=
+          std::string::npos);
+    const std::vector<application::WorkflowStage> expected_stages{
+        application::WorkflowStage::validate_request,
+        application::WorkflowStage::discover_device,
+        application::WorkflowStage::resolve_references,
+        application::WorkflowStage::acquire_observations,
+        application::WorkflowStage::estimate_and_accept,
+        application::WorkflowStage::fit_model,
+        application::WorkflowStage::calculate_uncertainty,
+        application::WorkflowStage::calculate_assurance,
+        application::WorkflowStage::build_evidence,
+        application::WorkflowStage::build_profile,
+        application::WorkflowStage::export_interoperability,
+        application::WorkflowStage::complete,
+    };
+    CHECK(first.stages.size() == expected_stages.size());
+    for (std::size_t index = 0; index < expected_stages.size(); ++index) {
+        CHECK(first.stages[index].stage == expected_stages[index]);
+        CHECK(first.stages[index].succeeded);
+    }
     CHECK(first.stages.back().stage == application::WorkflowStage::complete);
+
+    const auto& segment = first.profile->segments.front();
+    CHECK(std::isfinite(segment.intercept_error_hz));
+    CHECK(std::isfinite(segment.slope_ppm));
+    const double expected_reference_hz = std::midpoint(10'000'011.0, 20'000'021.0);
+    const double expected_intercept_error_hz = 16.0;
+    const double expected_slope_ppm = 10.0 / ((20'000'021.0 - 10'000'011.0) / 1'000'000.0);
+    CHECK(std::abs(segment.reference_frequency_hz - expected_reference_hz) < 1.0e-9);
+    CHECK(std::abs(segment.intercept_error_hz - expected_intercept_error_hz) < 1.0e-9);
+    CHECK(std::abs(segment.slope_ppm - expected_slope_ppm) < 1.0e-12);
+    CHECK(std::isfinite(segment.uncertainty.base_hz));
+    CHECK(segment.uncertainty.base_hz > 0.0);
+    CHECK(first.profile->assurance.reliability_quotient == 95);
+
+    profile::EvaluationRequest evaluation;
+    evaluation.indicated_frequency_hz = 15'000'016.0;
+    evaluation.target_frequency_hz = 15'000'000.0;
+    evaluation.device = first.profile->device;
+    evaluation.configuration = first.profile->configuration;
+    evaluation.temperature_c = 20.0;
+    evaluation.warmup_seconds = 0;
+    evaluation.evaluated_at = "2026-08-16T00:00:00Z";
+    evaluation.required_reliability_quotient = 90;
+    const auto evaluated = profile::evaluateProfile(*first.profile, evaluation);
+    CHECK(evaluated.status == profile::EvaluationStatus::qualification_capable);
+    CHECK(evaluated.usable());
+    CHECK(std::abs(evaluated.indicated_error_hz - expected_intercept_error_hz) < 1.0e-9);
+    CHECK(std::abs(evaluated.estimated_true_frequency_hz - 15'000'000.0) < 1.0e-9);
+    CHECK(std::abs(evaluated.estimated_true_frequency_hz -
+                   (evaluation.indicated_frequency_hz - evaluated.indicated_error_hz)) < 1.0e-9);
+    CHECK(evaluated.target_offset_hz.has_value());
+    CHECK(std::abs(*evaluated.target_offset_hz) < 1.0e-9);
+    CHECK(std::abs(*evaluated.target_offset_hz - (evaluated.estimated_true_frequency_hz -
+                                                  *evaluation.target_frequency_hz)) < 1.0e-9);
+
+    auto outside = evaluation;
+    outside.indicated_frequency_hz = 25'000'000.0;
+    CHECK(profile::evaluateProfile(*first.profile, outside).status ==
+          profile::EvaluationStatus::outside_frequency_domain);
+    auto tampered = *first.profile;
+    tampered.integrity.sha256[0] = tampered.integrity.sha256[0] == '0' ? '1' : '0';
+    CHECK(profile::evaluateProfile(tampered, evaluation).status ==
+          profile::EvaluationStatus::integrity_failure);
     FakeDevices second_fake;
     second_fake.candidates = {device()};
     const auto second = workflow.run(request(), second_fake);
