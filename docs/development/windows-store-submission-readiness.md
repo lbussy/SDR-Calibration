@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Draft fields partially complete; pre-upload binding verified; three owner gates pending
+Status: Owner gates complete; package and listing completion pending
 
 Prepared: 2026-08-17
 
@@ -60,8 +60,8 @@ The explicit approval gate is the
 | Properties | Category | Utilities & tools | Owner/visible-option confirmation required |
 | Properties | Subcategory | None unless Partner Center requires one | Ready |
 | Properties | Xbox | Not supported | Ready |
-| Properties | Website | Omit unless an owner-controlled product page is selected | Owner input optional |
-| Properties | Support | Owner-controlled URL or email | Owner input recommended; do not invent |
+| Properties | Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
+| Properties | Support | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
 | Listing | Language | English (United States) only for the first submission | Owner approval required |
 | Listing | Product name | `SDR Calibration` | Ready |
 | Listing | What's new | Blank for the first submission | Ready |
@@ -243,8 +243,8 @@ but the four-shot set is the readiness exit.
       independently reviewed.
 - [x] Four exact-candidate screenshots pass privacy and
       claim review.
-- [ ] Owner completes the remaining support-channel, device-family/future-family,
-      and exact-candidate binding attestations.
+- [x] Owner completed the support-channel, device-family/future-family, and
+      exact-candidate binding attestations.
 - [x] Listing copy, certification notes, and `runFullTrust` justification match
       the exact package behavior.
 - [x] Publishing is held for manual owner action.
@@ -256,7 +256,8 @@ but the four-shot set is the readiness exit.
 
 1. Partner Center reports Pricing and availability, Properties, Age ratings,
    and Submission options `Complete`. The English (United States) listing
-   exists but is incomplete; Packages and Store listings remain `Not started`;
+   exists but is incomplete; Packages is `Incomplete` and Store listings is
+   `Not started`;
    `Submit for certification` remains disabled.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
@@ -269,27 +270,27 @@ but the four-shot set is the readiness exit.
 4. The deterministic certification fixture attachment is retained and
    independently reviewed, but it has not been uploaded.
 5. The owner approved and saved commercial availability, category, privacy,
-   reconciled Properties declarations, all IARC answers and attestation, and
-   the manual publication hold. Support-channel, exact device-family/future-
-   family, and exact-candidate binding attestations remain pending.
+   reconciled Properties declarations, the repository website and Issues
+   support URL, all IARC answers and attestation, the manual publication hold,
+   and Desktop-only device availability with automatic future-family
+   availability disabled. The exact-candidate binding is owner-approved subject
+   to an immediate pre-selection hash recheck.
 6. The exact intended upload was rehashed on `ecm-mule` at
    `C:\Users\lee\SDR-Calibration-Harness-70ff94c\build\windows-store-release\windows-store-package\SDRCalibration-0.1.1-Windows-Store-x64.msix`;
    its SHA-256, embedded revision, identity, Desktop target, and sole
    `runFullTrust` capability match this packet. Four same-named MSIX files exist
    on the host, so a later upload must bind the full path and recomputed hash,
    not the filename alone.
-7. The Packages page remains unchanged: all five current device families are
-   unchecked, Microsoft's future-device-family option is checked, and no
-   package has been uploaded.
+7. The Packages page has Windows 10/11 Desktop checked; Mobile, Xbox, Team, and
+   Mixed Reality unchecked; and Microsoft's future-device-family option
+   unchecked. No package has been selected or uploaded.
 8. Listing completion, package and fixture upload, certification submission,
    Microsoft signing,
    Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
    remain open and separately authorized.
 
-The three remaining owner gates now have an exact proposal in
-`windows-store-owner-decisions.md`: public repository and Issues URLs,
-Desktop-only availability with automatic future families disabled, and the
-full-path/revision/version/hash candidate binding. Preparation of that proposal
-is not approval and does not authorize an upload.
+All owner gates are approved in `windows-store-owner-decisions.md`. That
+approval does not authorize package selection or upload, certification
+submission, or publication.
 
 No checkbox in this packet changes Partner Center state.

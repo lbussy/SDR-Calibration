@@ -222,7 +222,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Draft fields partially complete; pre-upload binding verified; three owner gates pending",
+        "Status: Owner gates complete; package and listing completion pending",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -238,24 +238,24 @@ def main() -> None:
     require("TBD-BLOCKING" not in submission_readiness,
             "Store submission readiness still contains a blocking placeholder")
     for marker in (
-        "Status: **Partially approved and saved; three owner gates pending**",
+        "Status: **Owner approved and saved; upload remains separately authorized**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
         "All device-family boxes are initially unchecked",
         "https://github.com/lbussy/SDR-Calibration/issues",
-        "Exact remaining decision proposal",
+        "Approved final decision",
         "automatic future-device-family availability disabled",
         "Record me as the",
-        "- Approval date (UTC): **Pending**",
-        "- Approving owner: **Pending**",
-        "Remaining Partner Center field entry and",
+        "- Approval date (UTC): **2026-08-17**",
+        "- Approving owner: **Lee Bussy**",
+        "selection or upload remains a separate authorized slice",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
-    require(owner_decisions.count("- [ ]") == 3,
-            "Store owner-decision packet must retain three pending attestations")
-    require(owner_decisions.count("- [x]") == 5,
-            "Store owner-decision packet must retain five explicit approvals")
+    require(owner_decisions.count("- [ ]") == 0,
+            "Store owner-decision packet must retain no pending attestations")
+    require(owner_decisions.count("- [x]") == 8,
+            "Store owner-decision packet must retain eight explicit approvals")
     for marker in (
         "product-list status was `Not started`",
         "application overview status was `In draft`",
@@ -269,7 +269,8 @@ def main() -> None:
         "Owner-authorized saved draft state",
         "Exact pre-upload inspection",
         "SDR-Calibration-Harness-70ff94c",
-        "The Packages page still contained no uploaded package",
+        "Owner-approved final gate reconciliation",
+        "no package was selected or uploaded",
         "Four same-named `0.1.1` MSIX files were found",
     ):
         require(marker in partner_center_inspection, f"Partner Center inspection drift: {marker}")

@@ -129,9 +129,11 @@
   age-rating assessments, accepted exact-candidate screenshots, a deterministic
   certification fixture, and a fail-closed owner-decision packet; the owner
   approved and saved pricing, Properties, age ratings, English listing language,
-  and a manual publication hold; three owner gates remain pending; the exact
-  WACK-qualified upload candidate was rehashed and its live Packages page was
-  inspected without upload, certification request, or publication
+  public website/support URLs, a manual publication hold, and Desktop-only
+  availability with future device families disabled; all owner gates are
+  complete; the exact WACK-qualified upload candidate remains subject to an
+  immediate pre-selection hash recheck, and no upload, certification request,
+  or publication occurred
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows

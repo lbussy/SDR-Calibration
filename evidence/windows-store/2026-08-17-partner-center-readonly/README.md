@@ -124,7 +124,20 @@ hashes differ. A later upload must use the full `Harness-70ff94c` path above and
 must recompute the SHA-256 immediately before selection; filename and version
 alone are insufficient. Refuse the upload if either binding differs.
 
-The Packages page still contained no uploaded package. Windows 10/11 Desktop,
-Mobile, Xbox, Team, and Mixed Reality were all unchecked. `Let Microsoft decide
-whether to make this app available to any future device families` remained
-checked. No device-family value was changed or saved.
+## Owner-approved final gate reconciliation
+
+The owner approved the repository website, Issues support URL, Desktop-only
+device availability, disabled automatic future-device-family availability, and
+the exact candidate binding on 2026-08-17 UTC. The approved non-sensitive URLs
+were saved in Properties:
+
+- website: `https://github.com/lbussy/SDR-Calibration`;
+- support: `https://github.com/lbussy/SDR-Calibration/issues`; and
+- privacy-policy URL: omitted because the current flow did not require one.
+
+On Packages, Windows 10/11 Desktop was selected and saved. Mobile, Xbox, Team,
+and Mixed Reality remained unchecked, and `Let Microsoft decide whether to make
+this app available to any future device families` was unchecked and saved. No
+file picker was used and no package was selected or uploaded. Partner Center
+then reported Packages `Incomplete`, Store listings `Not started`, and **Submit
+for certification** disabled. No certification or publication action occurred.

@@ -1,6 +1,6 @@
 # Microsoft Store owner decision packet
 
-Status: **Partially approved and saved; three owner gates pending**
+Status: **Owner approved and saved; upload remains separately authorized**
 
 Prepared: 2026-08-17
 
@@ -27,8 +27,8 @@ The owner authorized creating `Submission 1`, saving the approved non-sensitive
 initial fields, answering the complete IARC questionnaire, accepting the IARC
 attestation personally, and applying the manual publication hold. Partner
 Center still reports the product and submission `In draft`. Exact visible
-fields are reconciled except for the incomplete English listing, package upload
-validation, and the remaining owner gates below.
+fields are reconciled except for the incomplete English listing and package
+upload validation.
 
 ## Decision worksheet
 
@@ -44,15 +44,18 @@ has not approved that value in this record.
 | Category | Utilities + tools | Approved and saved |
 | Subcategory | None | Approved and saved |
 | Listing language | English (United States) only for the first submission | Approved and saved |
-| Website | `https://github.com/lbussy/SDR-Calibration` | Proposed; explicit approval pending |
-| Support channel | `https://github.com/lbussy/SDR-Calibration/issues` | Proposed; explicit approval pending |
+| Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
+| Support channel | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
 | Privacy answer | No | Approved and saved |
-| Privacy policy | Omit only if the reconciled Partner Center flow and applicable obligations permit it; otherwise provide an owner-controlled truthful policy | Pending |
+| Privacy policy | Omit unless Partner Center requires one | Approved; no URL entered |
 | Age rating | All Other App Types; No for every exposed content/interaction question; all-ages/3+ mappings | Approved and saved |
 | Publishing schedule | Manual publication hold; no automatic publication | Approved and saved |
+| Device families | Windows 10/11 Desktop only; Mobile, Xbox, Team, and Mixed Reality disabled | Approved and saved |
+| Future device families | Automatic availability disabled | Approved and saved |
+| Intended upload binding | Full path, revision, version, x64 architecture, and SHA-256 below | Approved; immediate pre-selection hash recheck required |
 | Certification submission | Separate explicit authorization required after all preflight evidence and visible fields are independently reconciled | Pending |
 
-## Exact remaining decision proposal
+## Approved final decision
 
 The public repository is the product website, and its public issue tracker is
 the support URL. Both are owner-controlled, require no sensitive contact data,
@@ -75,8 +78,7 @@ The intended upload is exactly:
 Recompute the hash immediately before selecting the file and refuse any
 mismatch. Four same-named MSIX files exist, so filename alone is not a binding.
 
-To close the remaining owner gates, the owner may reply with this exact
-statement or explicitly amend it:
+The owner approved the following exact statement on 2026-08-17 UTC:
 
 > I approve the GitHub repository as the website and its Issues page as the
 > support URL, with no privacy-policy URL unless Partner Center requires one. I
@@ -136,9 +138,9 @@ All boxes must be explicitly completed by the owner before the owner-decision
 gate in the submission-readiness packet can pass:
 
 - [x] I approve the price, markets, audience, and discoverability selections.
-- [ ] I approve the category, language, website disposition, and the existence
-      of an owner-controlled support channel entered outside the repository.
-- [ ] I approve Windows 10/11 Desktop only and the disposition of Microsoft's
+- [x] I approve the category, language, website disposition, and the existence
+      of an owner-controlled support channel.
+- [x] I approve Windows 10/11 Desktop only and the disposition of Microsoft's
       future-device-family option.
 - [x] I approve the product-declaration and system-requirement selections after
       reconciling their visible defaults with implemented behavior.
@@ -148,21 +150,20 @@ gate in the submission-readiness packet can pass:
       implemented behavior.
 - [x] I require a manual publication hold and understand certification success
       must not automatically publish the product.
-- [ ] I confirm the candidate bindings above still match the intended upload.
+- [x] I confirm the candidate bindings above still match the intended upload.
 
 Record the approval date and approving owner only when every box is complete:
 
-- Approval date (UTC): **Pending**
-- Approving owner: **Pending**
+- Approval date (UTC): **2026-08-17**
+- Approving owner: **Lee Bussy**
 
 Do not record an email address, phone number, postal address, account
 credential, notification recipient, or verification material in this file.
 
 ## Exit criteria
 
-This packet becomes approved only when every attestation is checked, both final
-approval fields are no longer `Pending`, and the candidate bindings remain
-exact. The incomplete English listing and package validation must also be
-reconciled when separately authorized. Remaining Partner Center field entry and
-upload remain separate authorized slices, and **Submit for certification**
-remains a later explicit authorization.
+Every owner attestation is complete and the saved website, support URL, and
+device-family state match this packet. The incomplete English listing and
+package validation must still be reconciled when separately authorized. Package
+selection or upload remains a separate authorized slice, and **Submit for
+certification** remains a later explicit authorization.
