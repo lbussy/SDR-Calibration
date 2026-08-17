@@ -181,3 +181,23 @@ No logo, trailer, promotional image, Xbox asset, package, certification fixture,
 or other file was selected. After save and reload, Partner Center reported
 Store listings `Complete`, Packages `Incomplete`, and **Submit for
 certification** disabled. No certification or publication action occurred.
+
+## First package acceptance result
+
+Immediately before transfer, the approved Windows path was rehashed as
+`1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1` with
+byte size `95910373`. The isolated transfer copy matched both values and was
+selected as the only package. Partner Center rejected it with acceptance errors
+reporting the three manifest-referenced logo paths as not found, a blank
+publisher display name instead of `Lee Bussy`, no supported language, and an
+empty unsupported default language. It separately warned that `runFullTrust`
+requires approval, as expected.
+
+The package retained on the Packages page is faulty and cannot be saved.
+Desktop-only and future-family selections remain unchanged, Packages remains
+`Incomplete`, and **Submit for certification** remains disabled. No fixture,
+certification, or publication action occurred. Source remediation now declares
+the exact `en-us` resource language and strengthens post-pack checks for exact
+asset paths and publisher display name. A replacement package will have a new
+revision and hash and therefore requires complete qualification and renewed
+owner binding before upload.

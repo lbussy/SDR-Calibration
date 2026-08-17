@@ -198,6 +198,9 @@ $escapedProductName = Escape-Xml $ProductName
     <PublisherDisplayName>$escapedPublisherDisplayName</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0"
                         MaxVersionTested="10.0.26100.0" />
@@ -238,13 +241,30 @@ if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $msix)) {
 New-Item -ItemType Directory -Path $unpacked | Out-Null
 & $makeappx unpack /o /p $msix /d $unpacked
 if ($LASTEXITCODE -ne 0) { throw 'MSIX unpack inspection failed' }
-foreach ($required in 'AppxManifest.xml', 'StoreLogo.png', 'Square150x150Logo.png',
-    'Square44x44Logo.png', 'sdrcal.exe', 'sdrcal-gui.exe', 'LICENSE',
-    'THIRD_PARTY_NOTICES.md', 'sdrcal.spdx.json', 'icon-manifest.json', 'qwindows.dll') {
-    if ($null -eq (Get-ChildItem -LiteralPath $unpacked -Recurse -File -Filter $required |
-        Select-Object -First 1)) {
-        throw "required MSIX payload is missing: $required"
+foreach ($required in 'AppxManifest.xml', 'Assets\StoreLogo.png',
+    'Assets\Square150x150Logo.png', 'Assets\Square44x44Logo.png',
+    'bin\sdrcal.exe', 'bin\sdrcal-gui.exe', 'share\sdrcal\LICENSE',
+    'share\sdrcal\THIRD_PARTY_NOTICES.md', 'share\sdrcal\sdrcal.spdx.json',
+    'share\sdrcal\icons\icon-manifest.json', 'bin\platforms\qwindows.dll') {
+    if (-not (Test-Path -LiteralPath (Join-Path $unpacked $required) -PathType Leaf)) {
+        throw "required MSIX payload path is missing: $required"
     }
+}
+
+[xml]$unpackedManifest = Get-Content -LiteralPath (Join-Path $unpacked 'AppxManifest.xml') -Raw
+$manifestNamespaces = New-Object Xml.XmlNamespaceManager $unpackedManifest.NameTable
+$manifestNamespaces.AddNamespace('f',
+    'http://schemas.microsoft.com/appx/manifest/foundation/windows10')
+$publisherDisplayNode = $unpackedManifest.SelectSingleNode(
+    '/f:Package/f:Properties/f:PublisherDisplayName', $manifestNamespaces)
+if ($null -eq $publisherDisplayNode -or
+    $publisherDisplayNode.InnerText -cne $PublisherDisplayName) {
+    throw 'unpacked manifest publisher display name does not match the exact Partner Center value'
+}
+$resourceNodes = @($unpackedManifest.SelectNodes(
+    '/f:Package/f:Resources/f:Resource', $manifestNamespaces))
+if ($resourceNodes.Count -ne 1 -or $resourceNodes[0].Language -cne 'en-us') {
+    throw 'unpacked manifest must declare exactly the en-us package resource language'
 }
 
 $payload = Get-ChildItem -LiteralPath $stage -Recurse -File | ForEach-Object {

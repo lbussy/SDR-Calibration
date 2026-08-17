@@ -135,10 +135,14 @@
   description, keywords, copyright, and developer are saved; four retained,
   exact-candidate Desktop screenshots and factual captions are saved in
   manifest order, making Store listings complete; Packages remains incomplete
-  pending a separately authorized upload; the exact
-  WACK-qualified candidate remains subject to an immediate pre-selection hash
-  recheck, and no package or fixture upload, certification request, or
-  publication occurred
+  after the first package failed Partner Center acceptance; no fixture upload,
+  certification request, or publication occurred
+- Partner Center rejected the first exact-hash package upload for unresolved
+  logo paths, blank publisher display name, and missing/default package
+  language; the expected `runFullTrust` approval warning also appeared;
+  package construction now declares `en-us` and audits exact asset paths and
+  publisher display name, while replacement build, qualification, owner
+  rebinding, upload, certification, and publication remain open
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows
