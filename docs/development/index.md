@@ -36,6 +36,10 @@ The intended initial compatibility promise and release artifact set are fixed
 by [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md),
 prepared under the
 [compatibility and artifact-scope prompt](initial-compatibility-and-artifact-scope-execution-prompt.md).
+Release notes, limitations, lifecycle, security, checksum, and evidence-ledger
+working files are collected in the
+[release template pack](release/index.md), prepared under its
+[execution prompt](release-documentation-template-pack-execution-prompt.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).

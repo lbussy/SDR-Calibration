@@ -119,6 +119,9 @@
   native-profile semantics are durable; intended binaries are recorded-input-
   only macOS ARM64 DMG, public-trust Windows x64 MSI, and Raspberry Pi OS 13
   ARM64 CLI DEB with required source, license, checksum, and evidence materials
+- Fail-closed initial release-documentation templates for notes, known
+  limitations, upgrade/rollback, vulnerability reporting, checksums, and the
+  evidence ledger; final candidate population and approval remain open
 - Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
   preset, configurable fail-closed recorded-input ceiling, deterministic limit
   test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB

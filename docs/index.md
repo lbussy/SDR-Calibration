@@ -37,6 +37,8 @@ development/macos-same-host-package-qualification-prompt
 development/release-candidate-readiness-audit-prompt
 development/release-candidate-readiness
 development/initial-compatibility-and-artifact-scope-execution-prompt
+development/release-documentation-template-pack-execution-prompt
+development/release/index
 development/airspyhf-end-to-end-qualification-prompt
 development/airspyhf-end-to-end-readiness
 development/airspyhf-normalization-execution-prompt

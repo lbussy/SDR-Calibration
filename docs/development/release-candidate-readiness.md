@@ -45,7 +45,7 @@ public Windows signature, or distributable release.
 | RC-05 | Windows clean-host and public-trust lifecycle | Same-host self-signed lifecycle only; decision 0022 requires a public-trust MSI | Fresh Windows 11 x64 host and an accepted public-trust signing arrangement | Exact MSI hash; trust mode, timestamp, SmartScreen observations, lifecycle, and cleanup |
 | RC-06 | Prior-version upgrade and rollback | Not qualified on macOS or Windows | Select an immutable prior-version baseline and fresh-host test arrangements | Old/new hashes, preserved user state, migration outcome, rollback procedure, and residue review |
 | RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decision 0022 defines the policy; no source or schema revision is frozen | Select a candidate only after its required artifact and qualification gates can be executed | Frozen revision, exact schemas and artifacts, compatibility statement, and change-control rule |
-| RC-08 | Release documentation and evidence ledger | Not assembled for a frozen candidate | RC-07 plus exact final candidate artifacts; physical and clean-host results must be linked, not inferred | Release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, inventories, and evidence index |
+| RC-08 | Release documentation and evidence ledger | Fail-closed templates exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; physical and clean-host results must be linked, not inferred | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, inventories, and evidence index with no `TBD-BLOCKING` fields |
 
 RC-03 is the accuracy-bearing gate. Package success, synthetic workflow success,
 or capture success cannot substitute for it. RC-04 through RC-06 are
@@ -73,16 +73,18 @@ resolved the initial artifact and compatibility scope as follows:
 
 ## Hardware-free work that may proceed
 
-1. Create release-note, known-limitations, upgrade/rollback, vulnerability-
-   reporting, checksum, and evidence-ledger templates populated only with
-   verified facts.
-2. Design clean-host macOS and Windows lifecycle plans bound to exact candidate
+1. Design clean-host macOS and Windows lifecycle plans bound to exact candidate
    artifacts, but do not simulate a clean host on the development machine.
-3. Define the prior-version baseline-selection rule and upgrade/rollback
+2. Define the prior-version baseline-selection rule and upgrade/rollback
    acceptance criteria.
-4. Design the required Raspberry Pi clean-host lifecycle plan.
-5. Audit final icon rendering on Windows and any other platform included in the
+3. Design the required Raspberry Pi clean-host lifecycle plan.
+4. Audit final icon rendering on Windows and any other platform included in the
    release artifact set; the current retained human review covers macOS only.
+
+The release-documentation templates are retained in the
+[release template pack](release/index.md). Their existence does not complete
+RC-08; every `TBD-BLOCKING` value must be bound to the exact frozen candidate
+and reviewed before release authorization.
 
 ## Ordered resumption path
 
