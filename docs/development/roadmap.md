@@ -386,7 +386,10 @@ and bounded reception remain separately authorized physical gates.
 
 **Status: Not ready to freeze.** See the
 [release-candidate readiness audit](release-candidate-readiness.md) for the
-current blocker ledger and ordered resumption path.
+current blocker ledger and ordered resumption path. The intended compatibility
+promise and artifact set are accepted in
+[decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md),
+but have not been bound to a frozen candidate.
 
 Freeze a source revision and the initial schema and artifact compatibility
 policy. Complete release notes, known limitations, upgrade and rollback

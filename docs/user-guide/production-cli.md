@@ -14,6 +14,11 @@ CLI-only target; SoapySDR and live-device operation are outside that Raspberry
 Pi scope. Ubuntu CLI implementation remains available but is unsupported and
 currently unvalidated.
 
+The intended initial binary packages are recorded-input-only and do not bundle
+SoapySDR, vendor modules, `sdrcal-capture`, or live-device calibration support.
+Live mode is therefore a separately built and qualified source capability, not
+a capability promised by those initial binary artifacts.
+
 ## Invocation
 
 ```shell

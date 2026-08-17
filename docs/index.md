@@ -36,6 +36,7 @@ development/gpsdo-reference-path-readiness
 development/macos-same-host-package-qualification-prompt
 development/release-candidate-readiness-audit-prompt
 development/release-candidate-readiness
+development/initial-compatibility-and-artifact-scope-execution-prompt
 development/airspyhf-end-to-end-qualification-prompt
 development/airspyhf-end-to-end-readiness
 development/airspyhf-normalization-execution-prompt

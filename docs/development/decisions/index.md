@@ -27,4 +27,5 @@ superseded decision remains in the log and points to its replacement.
 0019-initial-platform-target-boundary
 0020-remove-ubuntu-target
 0021-live-device-diagnostics-boundary
+0022-initial-compatibility-and-release-artifacts
 ```
