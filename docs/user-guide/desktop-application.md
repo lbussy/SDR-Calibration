@@ -15,10 +15,10 @@ that every target has completed clean-host qualification.
 
 ## macOS package status
 
-The Phase 14.1 macOS DMG is a Developer ID-signed and Apple-notarized package
+The current macOS DMG is a Developer ID-signed and Apple-notarized package
 containing the recorded-input application, production CLI, notices, and
 machine-readable dependency inventory. The DMG provides an Applications alias
-for copying `sdrcal-gui.app`; command-line installation remains an operator-
+for copying `SDR Calibration.app`; command-line installation remains an operator-
 managed workflow until clean-host packaging qualification is complete.
 
 The package definitions now present the product as `SDR Calibration` in macOS,
@@ -26,9 +26,10 @@ Windows, and Linux launchers, shortcuts, and installed-application listings
 while retaining `sdrcal-gui` as an internal implementation name. The installed
 macOS bundle is `SDR Calibration.app`. Every GUI package definition includes
 the same approved, project-owned application icon in its native platform
-formats. Platform-native package execution and clean-host qualification remain
-open; existing packages without the final name and icon remain historical
-package evidence only.
+formats. The exact current DMG passed a reversible same-host install, first
+launch, normal relaunch, CLI help, removal, and restoration lifecycle. Clean-
+host and prior-version-upgrade qualification remain open; existing packages
+without the final name and icon remain historical package evidence only.
 
 Phase 14.4 requires each new DMG to carry the complete hash-pinned Qt source,
 the exact deployed runtime inventory, license disposition, and Qt replacement
@@ -43,11 +44,11 @@ product and Start menu shortcut, uses the project icon for both identities, and
 launches the internal `sdrcal-gui.exe` executable. Source-contract validation
 checks the WiX XML, shortcut target, deterministic component ownership,
 installed-app icon, and uninstall cleanup definition. An exact MSI carrying
-this identity has not yet been constructed and qualified on Windows; the source
-definition is not a clean-host installation, upgrade, removal, or
-platform-support result. Current Windows packaging uses an explicitly locally
-trusted self-signed development certificate. Such a signature provides local
-integrity evidence only: it does not establish public Windows trust or
+this identity passed a same-host install, launch, maintenance-install, and
+uninstall lifecycle on Windows 11 x64. It has not passed clean-host or prior-
+version-upgrade qualification. Current Windows packaging uses an explicitly
+locally trusted self-signed development certificate. Such a signature provides
+local integrity evidence only: it does not establish public Windows trust or
 SmartScreen reputation and is not a public-release signing claim.
 
 ## Ubuntu package status

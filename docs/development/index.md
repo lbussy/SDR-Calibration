@@ -29,6 +29,9 @@ Future local-reference work is held by the
 prepared under its [execution prompt](gpsdo-reference-path-readiness-execution-prompt.md).
 The current macOS exact-host package lifecycle is governed by the
 [same-host qualification prompt](macos-same-host-package-qualification-prompt.md).
+The current release-candidate state is recorded in the
+[readiness audit](release-candidate-readiness.md), prepared under its
+[execution prompt](release-candidate-readiness-audit-prompt.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).

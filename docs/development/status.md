@@ -109,6 +109,12 @@
 - Project-owned icon provenance, retained raster masters, reproducible native
   asset generation, conversion-tool versions, SHA-256 manifest, installed
   provenance records, and deterministic hardware-free branding checks
+- Exact macOS ARM64 signed/notarized DMG qualification at source `5eb3670`,
+  including payload/license gates and a reversible same-host install, first
+  launch, normal relaunch, CLI help, removal, and restoration lifecycle
+- Exact Windows 11 x64 self-signed MSI qualification at source `15ed17b`,
+  including payload/license gates and same-host install, launch,
+  maintenance-install, and uninstall lifecycle; public trust remains open
 - Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
   preset, configurable fail-closed recorded-input ceiling, deterministic limit
   test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB
@@ -116,8 +122,8 @@
 - Frozen production live-device calibration contract covering exact identity,
   requested/effective settings, bounded in-memory acquisition, acceptance-input
   provenance, cancellation, cleanup, evidence, and a gated hardware-free
-  implementation sequence; live CLI wiring is implemented while GUI and
-  physical qualification remain open
+  implementation sequence; live CLI and GUI wiring are implemented while
+  physical qualification remains open
 - SoapySDR-independent bounded in-memory acquisition with explicit memory
   limits, exact read bounds, non-finite-sample rejection, cancellation,
   exception containment, stream statistics, known-safe cleanup enforcement, and
@@ -171,13 +177,13 @@
 - Evidence archive/container production beyond the Phase 12 coordinated
   profile/evidence/summary directory
 - Native-profile representation for zero-span local-constant fitted models
+- Release-candidate compatibility freeze, release documentation, and evidence
+  ledger; see the [readiness audit](release-candidate-readiness.md)
 - Clean-host installation and distribution evidence for the macOS and Windows
   packages
-- Platform-native package execution proving the implemented macOS, Windows, and
-  Linux branding against exact candidate hashes; source and staged checks do
-  not replace those later platform runs
-- Retained human visual-review evidence for every final platform size and
-  scaling context
+- Clean-host platform-native package execution and retained human visual-review
+  evidence for every platform and scaling context in the final artifact set;
+  current macOS and Windows evidence is same-host only
 - Clean-host installation, upgrade, removal, and clean-state evidence for the
   exact Raspberry Pi recorded-input CLI DEB
 

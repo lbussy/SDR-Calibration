@@ -58,7 +58,8 @@ foundation, not device support.
 
 ## Phase 3: SoapySDR adapter
 
-**Status: In progress; not yet accepted.**
+**Status: Implemented and hardware-free validated; physical combinations remain
+qualified only by their separate retained evidence.**
 
 Implement deterministic device selection, construction, configuration,
 readback, stream setup, activation, sample-read translation, cleanup, metadata
@@ -218,7 +219,7 @@ Deliver the supported command-line application over the shared services.
 Define stable arguments, automation-safe exit statuses, progress reporting,
 cancellation, diagnostics, and output behavior.
 
-Exit requires the CLI and planned GUI to use the same application-service
+Exit requires the CLI and GUI to use the same application-service
 contracts and product semantics.
 
 The implemented `sdrcal calibrate` command accepts explicit, strict versioned
@@ -256,10 +257,10 @@ does not establish calibration accuracy or device qualification.
 
 ## Phase 14: Portability, packaging, and qualification
 
-**Status: Packaging foundation and exact-payload license-disposition gates
-implemented; hardware-free macOS, Linux, and Windows build/package CI passed.
-Clean-install, remaining artifact-specific signing evidence, device, and
-end-to-end qualification gates remain open.**
+**Status: Packaging foundation and exact-payload license-disposition gates are
+implemented; exact macOS and Windows same-host lifecycles are retained.
+Clean-host, upgrade, Windows public-trust, device, and end-to-end qualification
+gates remain open.**
 
 Establish supported macOS, Linux, and Windows builds; minimum Qt and SoapySDR
 baselines; dependency pinning; dependency inventories or SBOMs; third-party
@@ -282,10 +283,11 @@ matrix, and the full calibration qualification record contract. The passing
 cross-platform run is retained in the matrix. The portable archives do not
 deploy runtime dependencies or constitute native signed installers.
 
-Phase 14.1 adds the fail-closed macOS DMG production path: stable bundle
+Phase 14.1 added the fail-closed macOS DMG production path: stable bundle
 metadata, dynamic Qt deployment, Developer ID signing, notarization, stapling,
-Gatekeeper checks, and hash-indexed evidence. Its result applies only to the
-exact retained DMG and does not close clean-install or licensing gates.
+Gatekeeper checks, and hash-indexed evidence. The current exact DMG also passed
+the Phase 14.4 license gate and a same-host lifecycle. It does not close clean-
+host or prior-version-upgrade gates.
 
 Phase 14.2 added the fail-closed Windows x64 MSI packaging path: dynamic Qt
 deployment, Authenticode signing, MSI construction, administrative extraction,
@@ -294,7 +296,9 @@ a locally trusted self-signed development certificate without timestamping;
 the retained public-trust mode requires RFC 3161 timestamping. A self-signed
 result applies only to the exact retained MSI on systems where that certificate
 is explicitly trusted and does not close public-trust, SmartScreen,
-clean-install, distribution-license, or general Windows-support gates.
+clean-install, or general Windows-support gates. The retained exact MSI
+subsequently passed the Phase 14.4 license gate and a same-host lifecycle,
+without changing those public-trust and clean-host limits.
 
 Phase 14.3 adds the fail-closed Ubuntu 24.04 x86_64 DEB production path:
 system-package Qt dependencies derived from the staged ELF payload, rootless
@@ -320,9 +324,11 @@ Every GUI package definition carries the same approved, project-owned icon from
 retained raster masters and reproducible `.icns`, `.ico`, executable/installer,
 and Linux icon-theme generation. Provenance, conversion versions, SHA-256
 records, installed evidence files, and hardware-free contract checks are
-implemented. Exact platform package runs, retained human visual review, and
-clean-host qualification remain open. Only exact renamed, icon-bearing packages
-can satisfy those later gates; earlier packages remain historical evidence.
+implemented. The exact renamed, icon-bearing macOS and Windows packages have
+same-host execution evidence, and macOS has retained human visual review.
+Clean-host qualification, prior-version upgrade, Windows public trust, and
+remaining final-platform visual review remain open. Earlier packages remain
+historical evidence.
 
 The Raspberry Pi CLI track may advance before the Phase 14.5 multi-platform
 clean-host matrix. Its Phase 1 source foundation provides a CLI-only ARM64
@@ -377,6 +383,10 @@ capabilities or that either WWV observation is usable; serial-bound enumeration
 and bounded reception remain separately authorized physical gates.
 
 ## Release candidate
+
+**Status: Not ready to freeze.** See the
+[release-candidate readiness audit](release-candidate-readiness.md) for the
+current blocker ledger and ordered resumption path.
 
 Freeze a source revision and the initial schema and artifact compatibility
 policy. Complete release notes, known limitations, upgrade and rollback
