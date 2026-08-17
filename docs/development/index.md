@@ -40,6 +40,10 @@ Release notes, limitations, lifecycle, security, checksum, and evidence-ledger
 working files are collected in the
 [release template pack](release/index.md), prepared under its
 [execution prompt](release-documentation-template-pack-execution-prompt.md).
+The exact host-local `0.1.0` upgrade inputs are governed by the
+[prior-version baseline retention prompt](prior-version-baseline-retention-execution-prompt.md)
+and recorded in the
+[baseline manifest](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/release-baselines/0.1.0/README.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).

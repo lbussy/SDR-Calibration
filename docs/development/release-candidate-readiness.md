@@ -43,7 +43,7 @@ public Windows signature, or distributable release.
 | RC-03 | Physical end-to-end calibration | Not qualified | RC-01 and RC-02 must supply an accepted device/path/reference combination | Acquisition through profile evaluation, comparison error/uncertainty, assurance ceiling, exact artifacts, and cleanup |
 | RC-04 | macOS clean-host lifecycle | Same-host lifecycle only | A genuinely fresh supported macOS ARM64 host or equivalent approved clean image | Exact DMG hash; clean-user install, first launch, normal launch, CLI, removal, and residue review |
 | RC-05 | Windows clean-host and public-trust lifecycle | Same-host self-signed lifecycle only; decision 0022 requires a public-trust MSI | Fresh Windows 11 x64 host and an accepted public-trust signing arrangement | Exact MSI hash; trust mode, timestamp, SmartScreen observations, lifecycle, and cleanup |
-| RC-06 | Prior-version upgrade and rollback | Not qualified on macOS or Windows | Select an immutable prior-version baseline and fresh-host test arrangements | Old/new hashes, preserved user state, migration outcome, rollback procedure, and residue review |
+| RC-06 | Prior-version upgrade and rollback | Exact read-only, content-addressed `0.1.0` macOS, Windows, and Raspberry Pi baselines are retained; no upgrade or rollback is qualified | Freeze a candidate above `0.1.0` and provide suitable fresh-host test arrangements | Old/new hashes, preserved user state, migration outcome, rollback procedure, and residue review |
 | RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decision 0022 defines the policy; no source or schema revision is frozen | Select a candidate only after its required artifact and qualification gates can be executed | Frozen revision, exact schemas and artifacts, compatibility statement, and change-control rule |
 | RC-08 | Release documentation and evidence ledger | Fail-closed templates exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; physical and clean-host results must be linked, not inferred | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, inventories, and evidence index with no `TBD-BLOCKING` fields |
 
@@ -75,8 +75,8 @@ resolved the initial artifact and compatibility scope as follows:
 
 1. Design clean-host macOS and Windows lifecycle plans bound to exact candidate
    artifacts, but do not simulate a clean host on the development machine.
-2. Define the prior-version baseline-selection rule and upgrade/rollback
-   acceptance criteria.
+2. Finalize platform-specific upgrade/rollback acceptance criteria against the
+   [retained 0.1.0 baselines](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/release-baselines/0.1.0/README.md).
 3. Design the required Raspberry Pi clean-host lifecycle plan.
 4. Audit final icon rendering on Windows and any other platform included in the
    release artifact set; the current retained human review covers macOS only.

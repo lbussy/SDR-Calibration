@@ -125,6 +125,9 @@
 - Fail-closed initial release-documentation templates for notes, known
   limitations, upgrade/rollback, vulnerability reporting, checksums, and the
   evidence ledger; final candidate population and approval remain open
+- Exact host-local, read-only, content-addressed `0.1.0` macOS DMG, Windows MSI,
+  and Raspberry Pi DEB baselines for future higher-version upgrade/rollback
+  testing; no upgrade, rollback, release, or off-host-backup claim
 - Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
   preset, configurable fail-closed recorded-input ceiling, deterministic limit
   test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB
