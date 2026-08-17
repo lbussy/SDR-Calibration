@@ -27,6 +27,8 @@ def main() -> None:
     root = args.source_dir.resolve()
     cmake = read(root, "CMakeLists.txt")
     script = read(root, "packaging/windows/package-store-msix.ps1")
+    qt_test_wrapper = read(root, "tests/RunQtTest.cmake")
+    unit_cmake = read(root, "tests/unit/CMakeLists.txt")
     policy = read(
         root,
         "docs/development/decisions/0025-store-msix-primary-windows-artifact.md",
@@ -75,8 +77,23 @@ def main() -> None:
         "'-DSDRCAL_PLATFORM=Windows'",
         "unexpected executable or DLL in Store payload",
         "Resize-Png",
+        "Resolve-MakeAppx",
+        "KitsRoot10",
+        "x64\\makeappx.exe",
+        "PATH and installed x64 Windows SDK checked",
     ):
         require(marker in script, f"missing fail-closed Store contract: {marker}")
+    for marker in (
+        "SDRCAL_QT_RUNTIME_DIR",
+        'set(ENV{PATH} "${SDRCAL_QT_RUNTIME_DIR};$ENV{PATH}")',
+        'set(ENV{QT_QPA_PLATFORM} "offscreen")',
+    ):
+        require(marker in qt_test_wrapper, f"missing Qt test runtime contract: {marker}")
+    for marker in (
+        "-DSDRCAL_QT_RUNTIME_DIR=${SDRCAL_CONFIGURED_QT_RUNTIME_DIR}",
+        'tests/RunQtTest.cmake',
+    ):
+        require(marker in unit_cmake, f"missing Qt test harness binding: {marker}")
     for prohibited in (
         'Name="allowElevation"',
         'Name="broadFileSystemAccess"',

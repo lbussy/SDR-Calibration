@@ -167,8 +167,11 @@ if(TARGET sdrcal_gui_support)
     else()
         target_compile_options(gui_widget_tests PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
     endif()
-    add_test(NAME gui_widget_tests COMMAND gui_widget_tests)
-    set_tests_properties(gui_widget_tests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
+    add_test(NAME gui_widget_tests
+        COMMAND "${CMAKE_COMMAND}"
+            -DSDRCAL_TEST_EXECUTABLE=$<TARGET_FILE:gui_widget_tests>
+            -DSDRCAL_QT_RUNTIME_DIR=${SDRCAL_CONFIGURED_QT_RUNTIME_DIR}
+            -P "${PROJECT_SOURCE_DIR}/tests/RunQtTest.cmake")
 endif()
 
 if(TARGET sdrcal_soapy)

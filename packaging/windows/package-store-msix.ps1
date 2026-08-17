@@ -22,6 +22,26 @@ function Require-Command([string]$Name) {
     return $command.Source
 }
 
+function Resolve-MakeAppx {
+    $command = Get-Command 'makeappx.exe' -ErrorAction SilentlyContinue
+    if ($null -ne $command) { return $command.Source }
+
+    $roots = Get-ItemProperty `
+        -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots' `
+        -ErrorAction SilentlyContinue
+    if ($null -ne $roots -and -not [string]::IsNullOrWhiteSpace($roots.KitsRoot10)) {
+        $bin = Join-Path $roots.KitsRoot10 'bin'
+        $versions = @(Get-ChildItem -LiteralPath $bin -Directory -ErrorAction SilentlyContinue |
+            Where-Object { $null -ne ($_.Name -as [version]) } |
+            Sort-Object { [version]$_.Name } -Descending)
+        foreach ($version in $versions) {
+            $candidate = Join-Path $version.FullName 'x64\makeappx.exe'
+            if (Test-Path -LiteralPath $candidate -PathType Leaf) { return $candidate }
+        }
+    }
+    throw 'required tool is unavailable: makeappx.exe (PATH and installed x64 Windows SDK checked)'
+}
+
 function Require-Identity([string]$Value, [string]$Label) {
     if ([string]::IsNullOrWhiteSpace($Value) -or
         $Value -match '(?i)(placeholder|example|todo|tbd|change.?me)') {
@@ -43,7 +63,7 @@ if ($Version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') {
 
 $cmake = Require-Command 'cmake.exe'
 $git = Require-Command 'git.exe'
-$makeappx = Require-Command 'makeappx.exe'
+$makeappx = Resolve-MakeAppx
 
 $BuildDir = [IO.Path]::GetFullPath($BuildDir).TrimEnd([IO.Path]::DirectorySeparatorChar)
 $OutputDir = [IO.Path]::GetFullPath($OutputDir).TrimEnd([IO.Path]::DirectorySeparatorChar)

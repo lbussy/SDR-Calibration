@@ -10,6 +10,9 @@ if(NOT Qt6_FOUND)
 endif()
 
 set_property(GLOBAL PROPERTY SDRCAL_CONFIGURED_QT_VERSION "${Qt6_VERSION}")
+get_filename_component(SDRCAL_CONFIGURED_QT_PREFIX "${Qt6_DIR}/../../.." ABSOLUTE)
+set_property(GLOBAL PROPERTY SDRCAL_CONFIGURED_QT_RUNTIME_DIR
+    "${SDRCAL_CONFIGURED_QT_PREFIX}/bin")
 
 if(WIN32)
     enable_language(RC)

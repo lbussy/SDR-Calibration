@@ -73,6 +73,8 @@ set(SDRCAL_MINIMUM_SOAPYSDR_VERSION "0.8")
 add_subdirectory(src)
 
 if(BUILD_TESTING)
+    get_property(SDRCAL_CONFIGURED_QT_RUNTIME_DIR GLOBAL PROPERTY
+        SDRCAL_CONFIGURED_QT_RUNTIME_DIR)
     add_subdirectory(tests)
 endif()
 
