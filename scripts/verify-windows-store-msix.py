@@ -126,6 +126,7 @@ def main() -> None:
         "New-SelfSignedCertificate",
         "KeyExportPolicy NonExportable",
         "Cert:\\CurrentUser\\TrustedPeople",
+        "Cert:\\CurrentUser\\Root",
         "Add-AppxPackage",
         "gui_first_launch = 'passed'",
         "microsoft_store_signing_observed = $false",

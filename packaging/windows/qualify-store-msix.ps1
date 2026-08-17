@@ -110,7 +110,9 @@ try {
     Export-Certificate -Cert $certificate -FilePath $publicCertificate | Out-Null
     Import-Certificate -FilePath $publicCertificate `
         -CertStoreLocation 'Cert:\CurrentUser\TrustedPeople' | Out-Null
-    $checkpoints.Add("temporary_certificate=$thumbprint created_and_trusted")
+    Import-Certificate -FilePath $publicCertificate `
+        -CertStoreLocation 'Cert:\CurrentUser\Root' | Out-Null
+    $checkpoints.Add("temporary_certificate=$thumbprint created_and_trusted_for_current_user")
 
     & $signtool sign /sha1 $thumbprint /fd SHA256 $signedPackage |
         Set-Content -LiteralPath (Join-Path $EvidenceDir 'sign.txt') -Encoding utf8
@@ -160,6 +162,8 @@ try {
     if (-not [string]::IsNullOrWhiteSpace($thumbprint)) {
         Remove-Item -LiteralPath "Cert:\CurrentUser\TrustedPeople\$thumbprint" `
             -Force -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath "Cert:\CurrentUser\Root\$thumbprint" `
+            -Force -ErrorAction SilentlyContinue
         Remove-Item -LiteralPath "Cert:\CurrentUser\My\$thumbprint" `
             -Force -ErrorAction SilentlyContinue
     }
@@ -168,6 +172,7 @@ try {
 $cleanupPassed = $null -eq (Get-AppxPackage -Name $packageName -ErrorAction SilentlyContinue) -and
     $null -eq (Get-Process -Name 'sdrcal-gui' -ErrorAction SilentlyContinue) -and
     (-not (Test-Path -LiteralPath "Cert:\CurrentUser\TrustedPeople\$thumbprint")) -and
+    (-not (Test-Path -LiteralPath "Cert:\CurrentUser\Root\$thumbprint")) -and
     (-not (Test-Path -LiteralPath "Cert:\CurrentUser\My\$thumbprint"))
 if (-not $cleanupPassed) { throw 'post-lifecycle cleanup audit failed' }
 $checkpoints.Add('cleanup=passed package=false gui_process=false temporary_certificate=false')
