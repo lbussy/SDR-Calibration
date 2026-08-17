@@ -110,17 +110,25 @@ try {
     Export-Certificate -Cert $certificate -FilePath $publicCertificate | Out-Null
     Import-Certificate -FilePath $publicCertificate `
         -CertStoreLocation 'Cert:\CurrentUser\TrustedPeople' | Out-Null
-    Import-Certificate -FilePath $publicCertificate `
-        -CertStoreLocation 'Cert:\CurrentUser\Root' | Out-Null
     $checkpoints.Add("temporary_certificate=$thumbprint created_and_trusted_for_current_user")
 
     & $signtool sign /sha1 $thumbprint /fd SHA256 $signedPackage |
         Set-Content -LiteralPath (Join-Path $EvidenceDir 'sign.txt') -Encoding utf8
     if ($LASTEXITCODE -ne 0) { throw 'development signing failed' }
-    & $signtool verify /pa /v $signedPackage |
-        Set-Content -LiteralPath (Join-Path $EvidenceDir 'signature-verification.txt') -Encoding utf8
-    if ($LASTEXITCODE -ne 0) { throw 'development signature verification failed' }
-    $checkpoints.Add('development_signature=passed')
+    $verification = @(& $signtool verify /pa /v $signedPackage 2>&1)
+    $verification | Set-Content `
+        -LiteralPath (Join-Path $EvidenceDir 'signature-verification.txt') -Encoding utf8
+    $verificationExit = $LASTEXITCODE
+    $signature = Get-AuthenticodeSignature -LiteralPath $signedPackage
+    if ($null -eq $signature.SignerCertificate -or
+        $signature.SignerCertificate.Thumbprint -ne $thumbprint) {
+        throw 'signed package does not identify the temporary signing certificate'
+    }
+    if ($verificationExit -ne 0 -and
+        ($verification -join "`n") -notmatch 'root certificate which is not trusted') {
+        throw 'development signature inspection failed for an unexpected reason'
+    }
+    $checkpoints.Add('development_signature=present; install is the local-trust validation')
 
     Add-AppxPackage -Path $signedPackage
     $installed = Get-AppxPackage -Name $packageName -ErrorAction Stop
@@ -162,8 +170,6 @@ try {
     if (-not [string]::IsNullOrWhiteSpace($thumbprint)) {
         Remove-Item -LiteralPath "Cert:\CurrentUser\TrustedPeople\$thumbprint" `
             -Force -ErrorAction SilentlyContinue
-        Remove-Item -LiteralPath "Cert:\CurrentUser\Root\$thumbprint" `
-            -Force -ErrorAction SilentlyContinue
         Remove-Item -LiteralPath "Cert:\CurrentUser\My\$thumbprint" `
             -Force -ErrorAction SilentlyContinue
     }
@@ -172,7 +178,6 @@ try {
 $cleanupPassed = $null -eq (Get-AppxPackage -Name $packageName -ErrorAction SilentlyContinue) -and
     $null -eq (Get-Process -Name 'sdrcal-gui' -ErrorAction SilentlyContinue) -and
     (-not (Test-Path -LiteralPath "Cert:\CurrentUser\TrustedPeople\$thumbprint")) -and
-    (-not (Test-Path -LiteralPath "Cert:\CurrentUser\Root\$thumbprint")) -and
     (-not (Test-Path -LiteralPath "Cert:\CurrentUser\My\$thumbprint"))
 if (-not $cleanupPassed) { throw 'post-lifecycle cleanup audit failed' }
 $checkpoints.Add('cleanup=passed package=false gui_process=false temporary_certificate=false')
