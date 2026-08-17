@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 import re
 import shutil
 import subprocess
@@ -130,6 +131,9 @@ def main() -> None:
         "source_revision": revision,
         "source_tree_clean": not dirty,
         "certification_ready": not dirty,
+        "generation_platform": platform.system(),
+        "generation_platform_release": platform.release(),
+        "generation_architecture": platform.machine(),
         "classification": "synthetic test fixture; no device or accuracy claim",
         "inputs": list(INPUTS),
     }
