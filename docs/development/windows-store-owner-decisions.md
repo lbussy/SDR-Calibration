@@ -1,16 +1,16 @@
 # Microsoft Store owner decision packet
 
-Status: **Submission draft created; explicit owner approval pending**
+Status: **Partially approved and saved; three owner gates pending**
 
 Prepared: 2026-08-17
 
 ## Purpose and boundary
 
-This packet records the decisions the product owner must make before anyone
-enters submission data in Partner Center. Preparing or committing this page is
-not approval of any proposed value. It does not authorize starting a
-submission, changing Partner Center state, uploading a package or attachment,
-requesting certification, or publishing.
+This packet records the product owner's explicit approvals and remaining
+decisions. Preparing or committing a proposed value is not approval of that
+value. The recorded authorizations cover only the saved state described below;
+they do not authorize uploading a package or attachment, requesting
+certification, or publishing.
 
 The packet is bound to:
 
@@ -23,12 +23,12 @@ If any binding changes, every decision below returns to pending.
 
 ## Visible-form reconciliation gate
 
-The owner authorized creating `Submission 1` for read-only form inspection.
-Partner Center still reports the product and submission `In draft`; no field
-value was entered or saved. Exact visible fields and defaults are now reconciled
-where the empty draft exposes them. Age-rating questions beyond the first branch
-require selecting an app type, and Store listing detail fields require a package
-language or an additional-language selection, so those remain later gates.
+The owner authorized creating `Submission 1`, saving the approved non-sensitive
+initial fields, answering the complete IARC questionnaire, accepting the IARC
+attestation personally, and applying the manual publication hold. Partner
+Center still reports the product and submission `In draft`. Exact visible
+fields are reconciled except for the incomplete English listing, package upload
+validation, and the remaining owner gates below.
 
 ## Decision worksheet
 
@@ -37,19 +37,19 @@ has not approved that value in this record.
 
 | Decision | Recommended value or rule | Approval state |
 | --- | --- | --- |
-| Base price | Free | Pending |
-| Markets | All markets Partner Center permits for the account and truthful declarations | Pending |
-| Audience | Public | Pending |
-| Discoverability | Available and discoverable | Pending |
-| Category | Utilities & tools, if that exact option is visible | Pending |
+| Base price | Free | Approved and saved |
+| Markets | All markets Partner Center permits for the account and truthful declarations | Approved and saved |
+| Audience | Public | Approved and saved |
+| Discoverability | Available and discoverable | Approved and saved |
+| Category | Utilities + tools | Approved and saved |
 | Subcategory | None unless Partner Center requires one | Pending |
-| Listing language | English (United States) only for the first submission | Pending |
+| Listing language | English (United States) only for the first submission | Approved and saved |
 | Website | Omit unless the owner selects an owner-controlled product URL | Pending |
 | Support channel | Enter an owner-controlled URL or email directly in Partner Center; do not commit it here | Pending |
-| Privacy answer | Preliminary technical assessment is No; owner must reconcile the exact visible question, markets, law, and any support or crash-reporting behavior | Pending |
+| Privacy answer | No | Approved and saved |
 | Privacy policy | Omit only if the reconciled Partner Center flow and applicable obligations permit it; otherwise provide an owner-controlled truthful policy | Pending |
-| Age rating | Answer every visible question from the exact implemented offline, recorded-input-only behavior; do not copy the preparation summary mechanically | Pending |
-| Publishing schedule | Manual publication hold; no automatic publication | Pending |
+| Age rating | All Other App Types; No for every exposed content/interaction question; all-ages/3+ mappings | Approved and saved |
+| Publishing schedule | Manual publication hold; no automatic publication | Approved and saved |
 | Certification submission | Separate explicit authorization required after all preflight evidence and visible fields are independently reconciled | Pending |
 
 ## Observed defaults and exact options
@@ -100,18 +100,18 @@ These are observations, not approvals:
 All boxes must be explicitly completed by the owner before the owner-decision
 gate in the submission-readiness packet can pass:
 
-- [ ] I approve the price, markets, audience, and discoverability selections.
+- [x] I approve the price, markets, audience, and discoverability selections.
 - [ ] I approve the category, language, website disposition, and the existence
       of an owner-controlled support channel entered outside the repository.
 - [ ] I approve Windows 10/11 Desktop only and the disposition of Microsoft's
       future-device-family option.
-- [ ] I approve the product-declaration and system-requirement selections after
+- [x] I approve the product-declaration and system-requirement selections after
       reconciling their visible defaults with implemented behavior.
-- [ ] I reviewed the exact Partner Center privacy wording and approve the
+- [x] I reviewed the exact Partner Center privacy wording and approve the
       answer and any required policy disposition.
-- [ ] I reviewed and answered every exact visible age-rating question based on
+- [x] I reviewed and answered every exact visible age-rating question based on
       implemented behavior.
-- [ ] I require a manual publication hold and understand certification success
+- [x] I require a manual publication hold and understand certification success
       must not automatically publish the product.
 - [ ] I confirm the candidate bindings above still match the intended upload.
 
@@ -127,8 +127,7 @@ credential, notification recipient, or verification material in this file.
 
 This packet becomes approved only when every attestation is checked, both final
 approval fields are no longer `Pending`, and the candidate bindings remain
-exact. The hidden age-rating branches and listing-detail fields must also be
-reconciled when their prerequisite selections or package are separately
-authorized. Even then, Partner Center field entry and upload remain a separate
-authorized slice, and **Submit for certification** remains a later explicit
-authorization.
+exact. The incomplete English listing and package validation must also be
+reconciled when separately authorized. Remaining Partner Center field entry and
+upload remain separate authorized slices, and **Submit for certification**
+remains a later explicit authorization.

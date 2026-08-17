@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Submission draft created and inspected read-only; owner approval pending
+Status: Draft fields partially complete; pre-upload binding verified; three owner gates pending
 
 Prepared: 2026-08-17
 
@@ -243,20 +243,21 @@ but the four-shot set is the readiness exit.
       independently reviewed.
 - [x] Four exact-candidate screenshots pass privacy and
       claim review.
-- [ ] Owner approves price, markets, audience, discoverability, category,
-      language, privacy answer/policy, support channel, and age-rating answers.
+- [ ] Owner completes the remaining support-channel, device-family/future-family,
+      and exact-candidate binding attestations.
 - [x] Listing copy, certification notes, and `runFullTrust` justification match
       the exact package behavior.
-- [ ] Publishing is held for manual owner action.
+- [x] Publishing is held for manual owner action.
 - [ ] Partner Center package validation passes.
 - [ ] Independent reviewer reconciles every visible Partner Center section with
       this packet before **Submit for certification**.
 
 ## Current blockers and external gates
 
-1. With owner authorization, Partner Center `Submission 1` was created and its
-   empty forms inspected read-only. All required sections remain `Not started`,
-   `Submit for certification` is disabled, and no field was entered or saved.
+1. Partner Center reports Pricing and availability, Properties, Age ratings,
+   and Submission options `Complete`. The English (United States) listing
+   exists but is incomplete; Packages and Store listings remain `Not started`;
+   `Submit for certification` remains disabled.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
    `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`;
@@ -267,14 +268,21 @@ but the four-shot set is the readiness exit.
    have not been uploaded to Partner Center.
 4. The deterministic certification fixture attachment is retained and
    independently reviewed, but it has not been uploaded.
-5. Owner selections for commercial availability, category, privacy, support,
-   age rating, and manual publishing hold remain pending in the owner decision
-   packet.
-6. The publishing default is automatic after certification; the exact manual
-   `Publish now` hold remains an unapplied owner decision.
-7. Further IARC questions require an app-type selection, and listing-detail
-   fields require a package language or additional-language selection.
-8. Package and fixture upload, certification submission, Microsoft signing,
+5. The owner approved and saved commercial availability, category, privacy,
+   reconciled Properties declarations, all IARC answers and attestation, and
+   the manual publication hold. Support-channel, exact device-family/future-
+   family, and exact-candidate binding attestations remain pending.
+6. The exact intended upload was rehashed on `ecm-mule` at
+   `C:\Users\lee\SDR-Calibration-Harness-70ff94c\build\windows-store-release\windows-store-package\SDRCalibration-0.1.1-Windows-Store-x64.msix`;
+   its SHA-256, embedded revision, identity, Desktop target, and sole
+   `runFullTrust` capability match this packet. Four same-named MSIX files exist
+   on the host, so a later upload must bind the full path and recomputed hash,
+   not the filename alone.
+7. The Packages page remains unchanged: all five current device families are
+   unchecked, Microsoft's future-device-family option is checked, and no
+   package has been uploaded.
+8. Listing completion, package and fixture upload, certification submission,
+   Microsoft signing,
    Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
    remain open and separately authorized.
 

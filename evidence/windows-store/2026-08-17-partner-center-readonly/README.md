@@ -81,3 +81,50 @@ This record establishes only the visible Partner Center draft and field state
 at inspection time. It does not establish listing completeness, package
 validation, certification, Microsoft signing, Store availability, delivery,
 update behavior, sales configuration, payment or tax readiness, or publication.
+
+## Owner-authorized saved draft state
+
+The owner subsequently approved and saved these non-sensitive values:
+
+- Pricing and availability: free, all worldwide and future markets, public,
+  discoverable, release as soon as possible, and stop acquisition never.
+- Properties: `Utilities + tools`, no secondary category, personal-information
+  answer No, no support fields, no immersive display mode, every product
+  declaration unchecked, and all hardware requirements unspecified.
+- Age ratings: `All Other App Types`, No for all nine exposed content and
+  interaction questions, No for direct-board/physical-media ratings, and the
+  owner personally accepted the IARC Terms of Use and age-of-majority
+  attestation. The saved ratings are ESRB Everyone, PEGI 3+, IARC 3+, Microsoft
+  3+, and corresponding all-ages mappings; the Current Rating ID was Pending.
+- Listing language: English (United States) was added as an additional Store
+  listing language. Its required description and screenshot fields were
+  exposed but not populated.
+- Submission options: `Don't publish this submission until I select Publish
+  now` was selected and saved.
+
+Partner Center reported Pricing and availability, Properties, Age ratings, and
+Submission options `Complete`; Packages and Store listings remained `Not
+started`; and `Submit for certification` remained disabled.
+
+## Exact pre-upload inspection
+
+The intended upload remains on `ecm-mule` at
+`C:\Users\lee\SDR-Calibration-Harness-70ff94c\build\windows-store-release\windows-store-package\SDRCalibration-0.1.1-Windows-Store-x64.msix`.
+It was rehashed as
+`1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`.
+Its embedded evidence binds source revision
+`957fbeb204177c9ba2a1582e936476244b201b9d`, identity
+`LeeBussy.SDRCalibration`, publisher
+`CN=66465467-9B9D-4BDE-9CC9-BE392698D910`, version `0.1.1.0`, x64, and only
+`runFullTrust`. The unpacked manifest targets only `Windows.Desktop` with
+minimum version `10.0.22000.0`.
+
+Four same-named `0.1.1` MSIX files were found under `C:\Users\lee`. Their
+hashes differ. A later upload must use the full `Harness-70ff94c` path above and
+must recompute the SHA-256 immediately before selection; filename and version
+alone are insufficient. Refuse the upload if either binding differs.
+
+The Packages page still contained no uploaded package. Windows 10/11 Desktop,
+Mobile, Xbox, Team, and Mixed Reality were all unchecked. `Let Microsoft decide
+whether to make this app available to any future device families` remained
+checked. No device-family value was changed or saved.

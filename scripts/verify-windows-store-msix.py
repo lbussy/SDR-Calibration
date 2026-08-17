@@ -222,7 +222,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Submission draft created and inspected read-only; owner approval pending",
+        "Status: Draft fields partially complete; pre-upload binding verified; three owner gates pending",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -238,21 +238,21 @@ def main() -> None:
     require("TBD-BLOCKING" not in submission_readiness,
             "Store submission readiness still contains a blocking placeholder")
     for marker in (
-        "Status: **Submission draft created; explicit owner approval pending**",
-        "not approval of any proposed value",
+        "Status: **Partially approved and saved; three owner gates pending**",
+        "Preparing or committing a proposed value is not approval of that",
         "Enter an owner-controlled URL or email directly in Partner Center; do not commit it here",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
         "All device-family boxes are initially unchecked",
         "- Approval date (UTC): **Pending**",
         "- Approving owner: **Pending**",
-        "Partner Center field entry and upload remain a separate",
+        "Remaining Partner Center field entry and",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
-    require(owner_decisions.count("- [ ]") == 8,
-            "Store owner-decision packet must retain eight pending attestations")
-    require("- [x]" not in owner_decisions,
-            "Store owner approval must not be inferred by the source contract")
+    require(owner_decisions.count("- [ ]") == 3,
+            "Store owner-decision packet must retain three pending attestations")
+    require(owner_decisions.count("- [x]") == 5,
+            "Store owner-decision packet must retain five explicit approvals")
     for marker in (
         "product-list status was `Not started`",
         "application overview status was `In draft`",
@@ -263,6 +263,11 @@ def main() -> None:
         "Partner Center created `Submission 1`",
         "Submission options defaulted to publishing as soon as certification passes",
         "No form value was entered or selected, no Save action was used",
+        "Owner-authorized saved draft state",
+        "Exact pre-upload inspection",
+        "SDR-Calibration-Harness-70ff94c",
+        "The Packages page still contained no uploaded package",
+        "Four same-named `0.1.1` MSIX files were found",
     ):
         require(marker in partner_center_inspection, f"Partner Center inspection drift: {marker}")
     for marker in (

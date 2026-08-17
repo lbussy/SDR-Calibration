@@ -124,13 +124,14 @@
   validation, and same-host development-signed install, CLI alias, GUI
   launch/relaunch, uninstall, and certificate cleanup; Store submission,
   certification, Microsoft signing, and Store delivery remain open
-- Prepared offline Microsoft Store submission-readiness packet with proposed
+- Prepared Microsoft Store submission-readiness packet with proposed
   English listing copy, `runFullTrust` justification, preliminary privacy and
   age-rating assessments, accepted exact-candidate screenshots, a deterministic
-  certification fixture, and a fail-closed owner-decision packet; owner approval
-  remains pending; an owner-authorized empty submission draft was created and
-  inspected without entering or saving fields, and no package upload,
-  certification request, or publication has occurred
+  certification fixture, and a fail-closed owner-decision packet; the owner
+  approved and saved pricing, Properties, age ratings, English listing language,
+  and a manual publication hold; three owner gates remain pending; the exact
+  WACK-qualified upload candidate was rehashed and its live Packages page was
+  inspected without upload, certification request, or publication
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
   application/icon review at relevant scaling settings also passed; Windows
