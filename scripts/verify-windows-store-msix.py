@@ -43,6 +43,10 @@ def main() -> None:
         root,
         "docs/development/windows-store-submission-readiness.md",
     )
+    partner_center_inspection = read(
+        root,
+        "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
+    )
     fixture_generator = read(root, "scripts/prepare-store-certification-fixture.py")
     lifecycle = read(root, "packaging/windows/qualify-store-msix.ps1")
 
@@ -151,7 +155,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Partner Center remains draft",
+        "Partner Center draft state read-only verified",
         "No genuine Store screenshot is currently retained.",
         "No package has been uploaded",
         "`runFullTrust` justification",
@@ -161,6 +165,13 @@ def main() -> None:
             marker in submission_readiness,
             f"Store submission readiness drift: {marker}",
         )
+    for marker in (
+        "product-list status was `Not started`",
+        "application overview status was `In draft`",
+        "Current packages contained no package entries",
+        "No submission was started, package uploaded, field edited",
+    ):
+        require(marker in partner_center_inspection, f"Partner Center inspection drift: {marker}")
     for marker in (
         "refusing certification fixture preparation from a dirty tree",
         "source revision is not synchronized with its upstream",

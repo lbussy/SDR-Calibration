@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Prepared offline; Partner Center remains draft
+Status: Prepared offline; Partner Center draft state read-only verified
 
 Prepared: 2026-08-17
 
@@ -238,8 +238,10 @@ but the four-shot set is the readiness exit.
 
 ## Current blockers and external gates
 
-1. Read-only inspection of the current Partner Center draft remains incomplete
-   because the Chrome control channel was unavailable; no UI state is inferred.
+1. Read-only Partner Center inspection confirmed one `SDR Calibration` product,
+   type `MSIX or PWA app`, product-list status `Not started`, overview status
+   `In draft`, no current packages, and a visible `Start submission` action.
+   The committed identity values match; no Partner Center state was changed.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
    `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`;
