@@ -46,6 +46,7 @@ def main() -> None:
         root,
         "docs/development/windows-store-submission-readiness.md",
     )
+    owner_decisions = read(root, "docs/development/windows-store-owner-decisions.md")
     partner_center_inspection = read(
         root,
         "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
@@ -236,6 +237,20 @@ def main() -> None:
         )
     require("TBD-BLOCKING" not in submission_readiness,
             "Store submission readiness still contains a blocking placeholder")
+    for marker in (
+        "Status: **Pending explicit owner approval**",
+        "not approval of any proposed value",
+        "Enter an owner-controlled URL or email directly in Partner Center; do not commit it here",
+        "Manual publication hold; no automatic publication",
+        "- Approval date (UTC): **Pending**",
+        "- Approving owner: **Pending**",
+        "remain a separate authorized",
+    ):
+        require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
+    require(owner_decisions.count("- [ ]") == 6,
+            "Store owner-decision packet must retain six pending attestations")
+    require("- [x]" not in owner_decisions,
+            "Store owner approval must not be inferred by the source contract")
     for marker in (
         "product-list status was `Not started`",
         "application overview status was `In draft`",

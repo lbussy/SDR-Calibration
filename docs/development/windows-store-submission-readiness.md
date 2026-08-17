@@ -48,6 +48,8 @@ Center form immediately before entering or approving submission data.
 ## Recommended field plan
 
 These are proposed values for owner review, not Partner Center state.
+The explicit approval gate is the
+[Microsoft Store owner decision packet](windows-store-owner-decisions.md).
 
 | Section | Field | Proposed value or rule | State |
 | --- | --- | --- | --- |
@@ -268,7 +270,8 @@ but the four-shot set is the readiness exit.
 4. The deterministic certification fixture attachment is retained and
    independently reviewed, but it has not been uploaded.
 5. Owner selections for commercial availability, category, privacy, support,
-   age rating, and manual publishing hold are not recorded.
+   age rating, and manual publishing hold remain pending in the owner decision
+   packet.
 6. Package and fixture upload, certification submission, Microsoft signing, Store delivery,
    clean-host Store lifecycle, and MSI migration/coexistence remain open and
    separately authorized.

@@ -67,6 +67,7 @@ development/wspr4-raspbian-package-install-execution-prompt
 development/wspr2-raspbian-package-install-execution-prompt
 development/platform-and-device-matrix
 development/windows-store-submission-readiness
+development/windows-store-owner-decisions
 development/end-to-end-qualification
 development/phase-11-execution-prompt
 development/phase-12-execution-prompt
