@@ -115,10 +115,16 @@ try {
     & $signtool sign /sha1 $thumbprint /fd SHA256 $signedPackage |
         Set-Content -LiteralPath (Join-Path $EvidenceDir 'sign.txt') -Encoding utf8
     if ($LASTEXITCODE -ne 0) { throw 'development signing failed' }
-    $verification = @(& $signtool verify /pa /v $signedPackage 2>&1)
+    $savedErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $verification = @(& $signtool verify /pa /v $signedPackage 2>&1)
+        $verificationExit = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $savedErrorActionPreference
+    }
     $verification | Set-Content `
         -LiteralPath (Join-Path $EvidenceDir 'signature-verification.txt') -Encoding utf8
-    $verificationExit = $LASTEXITCODE
     $signature = Get-AuthenticodeSignature -LiteralPath $signedPackage
     if ($null -eq $signature.SignerCertificate -or
         $signature.SignerCertificate.Thumbprint -ne $thumbprint) {
