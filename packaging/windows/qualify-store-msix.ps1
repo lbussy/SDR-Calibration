@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory = $true)][string]$SourceDir,
     [Parameter(Mandatory = $true)][string]$PackagePath,
+    [Parameter(Mandatory = $true)][string]$ArtifactSourceRevision,
     [Parameter(Mandatory = $true)][string]$ExpectedSha256,
     [Parameter(Mandatory = $true)][string]$EvidenceDir
 )
@@ -39,6 +40,9 @@ if (Test-Path -LiteralPath $EvidenceDir) {
 if ($ExpectedSha256 -notmatch '^[0-9A-Fa-f]{64}$') {
     throw 'expected MSIX SHA-256 must contain exactly 64 hexadecimal characters'
 }
+if ($ArtifactSourceRevision -notmatch '^[0-9A-Fa-f]{40}$') {
+    throw 'artifact source revision must contain exactly 40 hexadecimal characters'
+}
 
 $git = (Get-Command git.exe -ErrorAction Stop).Source
 $sourceRevision = (& $git -C $SourceDir rev-parse HEAD).Trim()
@@ -52,6 +56,18 @@ if ($LASTEXITCODE -ne 0 -or $sourceRevision -ne $upstreamRevision) {
 }
 $actualHash = (Get-FileHash -LiteralPath $PackagePath -Algorithm SHA256).Hash
 if ($actualHash -ne $ExpectedSha256) { throw 'MSIX SHA-256 does not match the expected artifact' }
+$packageEvidence = Join-Path ([IO.Directory]::GetParent($PackagePath).FullName) `
+    'evidence\manifest.json'
+if (-not (Test-Path -LiteralPath $packageEvidence -PathType Leaf)) {
+    throw 'package construction evidence manifest is missing'
+}
+$construction = Get-Content -LiteralPath $packageEvidence | ConvertFrom-Json
+if ($construction.source_revision -ne $ArtifactSourceRevision -or
+    $construction.sha256 -ne $ExpectedSha256.ToLowerInvariant()) {
+    throw 'package construction evidence does not match the expected revision and hash'
+}
+& $git -C $SourceDir cat-file -e "$ArtifactSourceRevision^{commit}"
+if ($LASTEXITCODE -ne 0) { throw 'artifact source revision is unavailable in the source repository' }
 
 $makeappx = Resolve-SdkTool 'makeappx.exe'
 $signtool = Resolve-SdkTool 'signtool.exe'
@@ -79,7 +95,8 @@ $certificate = $null
 $installed = $null
 $thumbprint = ''
 $checkpoints = New-Object System.Collections.Generic.List[string]
-$checkpoints.Add("source_revision=$sourceRevision")
+$checkpoints.Add("artifact_source_revision=$ArtifactSourceRevision")
+$checkpoints.Add("harness_source_revision=$sourceRevision")
 $checkpoints.Add("unsigned_sha256=$($actualHash.ToLowerInvariant())")
 $checkpoints.Add("identity=$packageName version=$packageVersion publisher=$publisher")
 try {
@@ -157,7 +174,8 @@ $checkpoints.Add('cleanup=passed package=false gui_process=false temporary_certi
 $checkpoints | Set-Content -LiteralPath (Join-Path $EvidenceDir 'lifecycle-checkpoints.txt')
 [ordered]@{
     schema_version = 1
-    source_revision = $sourceRevision
+    artifact_source_revision = $ArtifactSourceRevision.ToLowerInvariant()
+    harness_source_revision = $sourceRevision
     unsigned_artifact = [IO.Path]::GetFileName($PackagePath)
     unsigned_sha256 = $actualHash.ToLowerInvariant()
     package_identity_name = $packageName
