@@ -26,6 +26,15 @@ the surrounding account interface displayed user/account context not needed
 for this evidence. No account, tenant, authentication, contact, tax, payout, or
 other sensitive information was copied into the repository.
 
+A follow-up read-only inspection after the owner-decision packet was prepared
+reconfirmed product type `MSIX or PWA app`, overview status `In draft`, and the
+single `Start submission` action. No pricing, availability, properties,
+age-rating, listing, package, or submission-options forms were visible before
+that action. Because `Start submission` creates Partner Center submission
+state, it was not selected during the read-only slice. Exact visible field
+wording and options therefore remain unreconciled pending separate
+authorization to create the submission draft.
+
 ## Boundaries
 
 This record establishes only the visible Partner Center draft and package-list

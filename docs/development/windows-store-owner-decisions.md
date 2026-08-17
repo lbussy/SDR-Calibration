@@ -21,6 +21,16 @@ The packet is bound to:
 
 If any binding changes, every decision below returns to pending.
 
+## Visible-form reconciliation gate
+
+A signed-in read-only Partner Center inspection reconfirmed that the product is
+`In draft`, but the pricing, availability, properties, age-rating, listing,
+package, and submission-options forms are not exposed before the
+state-changing `Start submission` action. That action was not selected. The
+recommended values below remain provisional until a separately authorized
+slice creates the submission draft and records the exact visible wording and
+available choices without saving field changes.
+
 ## Decision worksheet
 
 `Recommended` describes the prepared submission plan. `Pending` means the owner
@@ -85,5 +95,7 @@ credential, notification recipient, or verification material in this file.
 
 This packet becomes approved only when every attestation is checked, both final
 approval fields are no longer `Pending`, and the candidate bindings remain
-exact. Even then, Partner Center entry and upload remain a separate authorized
-slice, and **Submit for certification** remains a later explicit authorization.
+exact. Exact visible-form reconciliation must also be retained after the
+submission draft is created. Even then, Partner Center field entry and upload
+remain a separate authorized slice, and **Submit for certification** remains a
+later explicit authorization.

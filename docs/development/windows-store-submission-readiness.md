@@ -272,8 +272,11 @@ but the four-shot set is the readiness exit.
 5. Owner selections for commercial availability, category, privacy, support,
    age rating, and manual publishing hold remain pending in the owner decision
    packet.
-6. Package and fixture upload, certification submission, Microsoft signing, Store delivery,
-   clean-host Store lifecycle, and MSI migration/coexistence remain open and
-   separately authorized.
+6. Exact submission-form wording and options are not visible until the
+   state-changing `Start submission` action creates a submission draft; that
+   action remains separately authorized.
+7. Package and fixture upload, certification submission, Microsoft signing,
+   Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
+   remain open and separately authorized.
 
 No checkbox in this packet changes Partner Center state.

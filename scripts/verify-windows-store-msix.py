@@ -242,6 +242,8 @@ def main() -> None:
         "not approval of any proposed value",
         "Enter an owner-controlled URL or email directly in Partner Center; do not commit it here",
         "Manual publication hold; no automatic publication",
+        "state-changing `Start submission` action",
+        "Exact visible-form reconciliation must also be retained",
         "- Approval date (UTC): **Pending**",
         "- Approving owner: **Pending**",
         "remain a separate authorized",
@@ -256,6 +258,8 @@ def main() -> None:
         "application overview status was `In draft`",
         "Current packages contained no package entries",
         "No submission was started, package uploaded, field edited",
+        "No pricing, availability, properties,",
+        "therefore remain unreconciled pending separate",
     ):
         require(marker in partner_center_inspection, f"Partner Center inspection drift: {marker}")
     for marker in (
