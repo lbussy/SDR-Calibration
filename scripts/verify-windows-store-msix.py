@@ -59,6 +59,7 @@ def main() -> None:
         "Microsoft Store signing not observed",
         "certification_state = 'not submitted'",
         "Qt license disposition failed",
+        "'-DSDRCAL_PLATFORM=Windows'",
         "unexpected executable or DLL in Store payload",
         "Resize-Png",
     ):

@@ -119,7 +119,7 @@ $binaries | ForEach-Object {
     (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
 } | Set-Content -LiteralPath $runtimeInventory -Encoding utf8
 & $cmake "-DSDRCAL_STAGE_DIR=$stage" "-DSDRCAL_OUTPUT_DIR=$evidence" `
-    '-DSDRCAL_PLATFORM=Windows Store MSIX' "-DSDRCAL_QT_VERSION=$qtVersion" `
+    '-DSDRCAL_PLATFORM=Windows' "-DSDRCAL_QT_VERSION=$qtVersion" `
     "-DSDRCAL_QT_SOURCE_ARCHIVE=$QtSourceArchive" `
     "-DSDRCAL_QT_SOURCE_SHA256=$QtSourceSha256" `
     "-DSDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES=$QtAdditionalSourceArchives" `
