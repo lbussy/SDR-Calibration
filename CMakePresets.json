@@ -61,6 +61,21 @@
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
     },
     {
+      "name": "windows-store-release",
+      "displayName": "Windows Store MSIX build",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows-store-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "ON",
+        "SDRCAL_BUILD_GUI": "ON",
+        "SDRCAL_REQUIRE_GUI": "ON",
+        "SDRCAL_ENABLE_SOAPYSDR": "OFF",
+        "SDRCAL_ENABLE_PACKAGING": "ON"
+      },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    },
+    {
       "name": "ubuntu-release",
       "displayName": "Ubuntu 24.04 x86_64 DEB build",
       "generator": "Ninja",
@@ -98,6 +113,7 @@
     { "name": "release", "configurePreset": "release" },
     { "name": "macos-release", "configurePreset": "macos-release" },
     { "name": "windows-release", "configurePreset": "windows-release" },
+    { "name": "windows-store-release", "configurePreset": "windows-store-release" },
     { "name": "ubuntu-release", "configurePreset": "ubuntu-release" },
     { "name": "raspberry-pi-cli-release", "configurePreset": "raspberry-pi-cli-release" }
   ],
@@ -120,6 +136,11 @@
     {
       "name": "windows-release",
       "configurePreset": "windows-release",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "windows-store-release",
+      "configurePreset": "windows-store-release",
       "output": { "outputOnFailure": true }
     },
     {

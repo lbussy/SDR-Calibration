@@ -98,6 +98,10 @@ The signed Windows package slice is governed by the
 [Phase 14.2 execution prompt](phase-14-2-execution-prompt.md). Preparation and
 bounded execution on the named Windows qualification host are governed by the
 [`ecm-mule` candidate prompt](windows-ecm-mule-candidate-execution-prompt.md).
+The separate Microsoft Store MSIX path is described in the
+[Store MSIX guide](windows-store-msix.md), governed by
+[decision 0024](decisions/0024-windows-store-msix-distribution.md) and its
+[execution prompt](windows-store-msix-execution-prompt.md).
 The Ubuntu DEB package slice is governed by the
 [Phase 14.3 execution prompt](phase-14-3-execution-prompt.md), and exact payload
 license disposition is governed by the

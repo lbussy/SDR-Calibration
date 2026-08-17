@@ -51,6 +51,14 @@ if(NOT SDRCAL_WINDOWS_SIGNING_MODE STREQUAL "SELF_SIGNED" AND
 endif()
 set(SDRCAL_WINDOWS_TIMESTAMP_URL "" CACHE STRING
     "RFC 3161 timestamp service required for PUBLIC_TRUST Windows signing")
+set(SDRCAL_STORE_PACKAGE_NAME "" CACHE STRING
+    "Exact non-secret Package/Identity/Name assigned by Partner Center")
+set(SDRCAL_STORE_PUBLISHER "" CACHE STRING
+    "Exact non-secret Package/Identity/Publisher assigned by Partner Center")
+set(SDRCAL_STORE_PUBLISHER_DISPLAY_NAME "" CACHE STRING
+    "Exact non-secret Partner Center publisher display name")
+set(SDRCAL_STORE_PRODUCT_NAME "" CACHE STRING
+    "Exact reserved Microsoft Store product name")
 set(SDRCAL_QT_SOURCE_ARCHIVE "" CACHE FILEPATH
     "Complete qtbase source archive matching the Qt binaries conveyed by a release")
 set(SDRCAL_QT_SOURCE_SHA256 "" CACHE STRING
@@ -170,7 +178,7 @@ if(APPLE AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
     )
 endif()
 
-if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
+if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui AND TARGET sdrcal)
     find_program(SDRCAL_POWERSHELL_EXECUTABLE NAMES pwsh powershell REQUIRED)
     set(SDRCAL_WINDOWS_MSI_OUTPUT_DIR "${PROJECT_BINARY_DIR}/windows-package")
     add_custom_target(windows-msi
@@ -184,6 +192,26 @@ if(WIN32 AND SDRCAL_ENABLE_PACKAGING AND TARGET sdrcal-gui)
             -TimestampUrl "${SDRCAL_WINDOWS_TIMESTAMP_URL}"
             -Version "${PROJECT_VERSION}"
             -SourceDir "${PROJECT_SOURCE_DIR}"
+            -QtSourceArchive "${SDRCAL_QT_SOURCE_ARCHIVE}"
+            -QtSourceSha256 "${SDRCAL_QT_SOURCE_SHA256}"
+            -QtAdditionalSourceArchives "${SDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES}"
+            -QtAdditionalSourceSha256 "${SDRCAL_QT_ADDITIONAL_SOURCE_SHA256}"
+        DEPENDS ${SDRCAL_PACKAGE_AUDIT_DEPENDENCIES}
+        VERBATIM
+    )
+    set(SDRCAL_WINDOWS_MSIX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/windows-store-package")
+    add_custom_target(windows-store-msix
+        COMMAND "${SDRCAL_POWERSHELL_EXECUTABLE}" -NoProfile -NonInteractive
+            -ExecutionPolicy Bypass
+            -File "${PROJECT_SOURCE_DIR}/packaging/windows/package-store-msix.ps1"
+            -BuildDir "${PROJECT_BINARY_DIR}"
+            -OutputDir "${SDRCAL_WINDOWS_MSIX_OUTPUT_DIR}"
+            -Version "${PROJECT_VERSION}"
+            -SourceDir "${PROJECT_SOURCE_DIR}"
+            -PackageName "${SDRCAL_STORE_PACKAGE_NAME}"
+            -Publisher "${SDRCAL_STORE_PUBLISHER}"
+            -PublisherDisplayName "${SDRCAL_STORE_PUBLISHER_DISPLAY_NAME}"
+            -ProductName "${SDRCAL_STORE_PRODUCT_NAME}"
             -QtSourceArchive "${SDRCAL_QT_SOURCE_ARCHIVE}"
             -QtSourceSha256 "${SDRCAL_QT_SOURCE_SHA256}"
             -QtAdditionalSourceArchives "${SDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES}"

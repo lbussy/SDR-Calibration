@@ -150,6 +150,28 @@ Future public-trust signing uses
 `-DSDRCAL_WINDOWS_SIGNING_MODE=PUBLIC_TRUST` together with the certificate
 thumbprint and an HTTPS `SDRCAL_WINDOWS_TIMESTAMP_URL`.
 
+The separate Microsoft Store path constructs an unsigned pre-submission MSIX
+from exact non-secret identity values obtained after product-name reservation:
+
+```powershell
+cmake --preset windows-store-release `
+  -DSDRCAL_STORE_PACKAGE_NAME='<exact Partner Center identity name>' `
+  -DSDRCAL_STORE_PUBLISHER='<exact Partner Center publisher>' `
+  -DSDRCAL_STORE_PUBLISHER_DISPLAY_NAME='<exact publisher display name>' `
+  -DSDRCAL_STORE_PRODUCT_NAME='<exact reserved product name>'
+cmake --build --preset windows-store-release
+ctest --preset windows-store-release
+cmake --build build/windows-store-release --target package-audit
+cmake --build build/windows-store-release --target windows-store-msix
+```
+
+The target refuses dirty or upstream-unsynchronized source, placeholder
+identity, output reuse, unexpected code, missing Qt closure, incomplete license
+disposition, or manifest/package validation failure. Package creation and
+unpacking do not establish Store certification, Microsoft signing, public
+trust, installation, updates, uninstall behavior, or SmartScreen results.
+Those require exact Store-delivered and suitable-host evidence.
+
 The Ubuntu production-package path is Ubuntu 24.04 x86_64-only and excludes
 SoapySDR:
 

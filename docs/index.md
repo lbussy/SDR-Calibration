@@ -54,6 +54,8 @@ development/phase-14-execution-prompt
 development/phase-14-1-execution-prompt
 development/phase-14-2-execution-prompt
 development/windows-ecm-mule-candidate-execution-prompt
+development/windows-store-msix-execution-prompt
+development/windows-store-msix
 development/phase-14-3-execution-prompt
 development/phase-14-4-execution-prompt
 development/phase-14-5-execution-prompt

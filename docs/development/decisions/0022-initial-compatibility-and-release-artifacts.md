@@ -27,6 +27,8 @@ The intended initial release artifact set is:
 The Windows artifact remains required by the current target decision, but the
 existing locally trusted self-signed MSI cannot satisfy this release set. The
 Raspberry Pi artifact remains required by its accepted CLI-only target boundary.
+Decision 0024 adds a distinct Store MSIX path; it does not replace this
+independently distributed MSI or transfer a Store-provided signature to it.
 
 Ubuntu packages, generic portable binary archives, debug artifacts, raw-IQ
 qualification evidence, locally self-signed Windows installers, and historical

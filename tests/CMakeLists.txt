@@ -10,6 +10,12 @@ add_test(NAME version_identity_contract_tests
         --source-dir "${PROJECT_SOURCE_DIR}"
         --project-version "${PROJECT_VERSION}")
 
+add_test(NAME windows_store_msix_contract_tests
+    COMMAND "${Python3_EXECUTABLE}"
+        "${PROJECT_SOURCE_DIR}/scripts/verify-windows-store-msix.py"
+        --source-dir "${PROJECT_SOURCE_DIR}"
+        --project-version "${PROJECT_VERSION}")
+
 if(TARGET sdrcal)
     add_test(NAME product_version_runtime_tests
         COMMAND "${Python3_EXECUTABLE}"

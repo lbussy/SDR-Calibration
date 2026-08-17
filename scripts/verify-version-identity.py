@@ -87,6 +87,10 @@ def verify_source(root: Path, expected: str) -> None:
     )
     require('-Version "${PROJECT_VERSION}"' in cmake, "Windows MSI version binding missing")
     require(
+        cmake.count('-Version "${PROJECT_VERSION}"') == 2,
+        "Windows MSI/MSIX package version bindings drifted",
+    )
+    require(
         'set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")' in cmake,
         "CPack version binding missing",
     )
@@ -99,6 +103,8 @@ def verify_source(root: Path, expected: str) -> None:
     require(spdx.count("@PROJECT_VERSION@") >= 3, "SPDX project version bindings are incomplete")
     windows = read(root, "packaging/windows/package-msi.ps1")
     require('Version="$Version"' in windows, "WiX package version parameter is missing")
+    store = read(root, "packaging/windows/package-store-msix.ps1")
+    require('Version="${Version}.0"' in store, "MSIX manifest version parameter is missing")
     for relative in (
         "packaging/macos/package-dmg.sh",
         "packaging/ubuntu/package-deb.sh",

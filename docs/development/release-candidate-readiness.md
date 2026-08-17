@@ -60,6 +60,12 @@ or capture success cannot substitute for it. RC-04 is complete. The clean-host
 portion of RC-05 is complete, but public trust remains open. RC-06 cannot be
 satisfied until a candidate newer than `0.1.0` is frozen and tested.
 
+A separate Store-MSIX source packaging contract now exists as a possible
+no-certificate-cost Store route. No exact MSIX has been built or uploaded, no
+certification has occurred, and no Microsoft-provided signature has been
+observed. Because decision 0022 still requires an independently distributed
+publicly trusted MSI, Store MSIX work does not by itself close RC-05.
+
 ## Resolved scope decisions
 
 Decision [0022](decisions/0022-initial-compatibility-and-release-artifacts.md)
