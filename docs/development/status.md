@@ -147,6 +147,11 @@
   version for both CLIs, the Qt GUI, platform packages, CPack, and SPDX output,
   with hardware-free source-contract and CLI runtime tests; the project remains
   at `0.1.0` and no higher-version candidate is selected or frozen
+- Public repository with GitHub Private Vulnerability Reporting enabled;
+  retained non-vulnerability maintainer-control evidence covers private
+  advisory create/retrieve/close, and the finalized security policy defines
+  latest-stable support, response targets, disclosure, CVE, credit, privacy,
+  retention, and the explicit absence of a backup security maintainer
 - Hardware-free Raspberry Pi CLI Phase 1 source foundation: a CLI-only ARM64
   preset, configurable fail-closed recorded-input ceiling, deterministic limit
   test, GUI/Qt/SoapySDR-free package audits, and rootless Raspberry Pi OS DEB

@@ -44,6 +44,7 @@ development/prior-version-baseline-retention-execution-prompt
 development/upgrade-rollback-qualification-preparation-execution-prompt
 development/upgrade-rollback-qualification-plan
 development/version-identity-centralization-execution-prompt
+development/private-vulnerability-reporting-execution-prompt
 development/airspyhf-end-to-end-qualification-prompt
 development/airspyhf-end-to-end-readiness
 development/airspyhf-normalization-execution-prompt

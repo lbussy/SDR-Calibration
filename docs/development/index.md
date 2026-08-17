@@ -55,6 +55,9 @@ created under its
 [preparation execution prompt](upgrade-rollback-qualification-preparation-execution-prompt.md).
 Production executable and package version identity is centralized under the
 [version identity execution prompt](version-identity-centralization-execution-prompt.md).
+The private security-reporting channel and supported-version policy are governed
+by the
+[private vulnerability reporting prompt](private-vulnerability-reporting-execution-prompt.md).
 The first exact local end-to-end candidate is governed by the
 [Airspy HF+ qualification prompt](airspyhf-end-to-end-qualification-prompt.md),
 with its current [hardware-free readiness result](airspyhf-end-to-end-readiness.md).

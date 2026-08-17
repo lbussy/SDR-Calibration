@@ -37,6 +37,10 @@ signature, or distributable release.
 - The project owner confirmed clean-host lifecycle passes for the exact indexed
   macOS DMG, self-signed Windows MSI, and Raspberry Pi DEB hashes; see the
   [owner-confirmed record](https://github.com/lbussy/SDR-Calibration/blob/main/evidence/clean-host/2026-08-17-owner-confirmed/README.md).
+- The public repository has GitHub Private Vulnerability Reporting enabled and
+  a finalized supported-version/security policy with retained maintainer-side
+  channel-control evidence. Candidate-specific access revalidation remains part
+  of final release assembly.
 
 ## Blocking ledger
 
