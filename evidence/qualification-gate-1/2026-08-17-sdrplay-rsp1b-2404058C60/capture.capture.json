@@ -1,0 +1,107 @@
+{
+  "format": {"name": "sdrcal_capture", "version": 1},
+  "artifact": {
+    "raw_filename": "capture.cf32",
+    "datatype": "cf32_le",
+    "layout": "interleaved_iq",
+    "channel_count": 1,
+    "bytes_per_sample": 8,
+    "byte_count": 7680000,
+    "atomic_publication": true
+  },
+  "request": {
+    "device_arguments": {
+      "driver": "sdrplay",
+      "serial": "2404058C60"
+    },
+    "enumeration_index": null,
+    "rx_channel": 0,
+    "center_frequency_hz": 10000000,
+    "sample_rate_sps": 192000,
+    "bandwidth_hz": null,
+    "gain_db": null,
+    "duration_seconds": 5,
+    "sample_count": null,
+    "planned_sample_count": 960000,
+    "rounding_rule": "ceil_duration_times_effective_sample_rate",
+    "read_timeout_ms": 100,
+    "setting_policy": "strict",
+    "output_path": "capture",
+    "purpose": "Bounded pre-calibration SDRplay RSP1B antenna test"
+  },
+  "device": {
+    "resolved_arguments": {
+      "driver": "sdrplay",
+      "label": "SDRplay Dev0 RSP1B 2404058C60",
+      "serial": "2404058C60"
+    },
+    "driver_key": "SDRplay",
+    "hardware_key": "RSP1B",
+    "serial": "2404058C60",
+    "hardware_info": {
+      "sdrplay_api_api_version": "3.150000",
+      "sdrplay_api_hw_version": "6"
+    },
+    "library_version": "0.8.1-release",
+    "api_version": "0.8.0",
+    "abi_version": "0.8",
+    "driver_version": null,
+    "firmware_version": null,
+    "antenna": "RX",
+    "clock_source": "soapy-driver-default",
+    "clock_source_reported": false,
+    "frequency_correction_supported": true,
+    "tuner_path": null
+  },
+  "effective": {
+    "center_frequency_hz": {
+      "requested": 10000000,
+      "effective": 10000000,
+      "state": "applied_verified"
+    },
+    "sample_rate_sps": {
+      "requested": 192000,
+      "effective": 192000,
+      "state": "applied_verified"
+    },
+    "bandwidth_hz": {
+      "requested": null,
+      "effective": 200000,
+      "state": "applied_verified"
+    },
+    "gain_db": {
+      "requested": null,
+      "effective": 30,
+      "state": "applied_verified"
+    },
+    "automatic_gain": true,
+    "frequency_correction_ppm": 0
+  },
+  "stream": {
+    "format": "CF32",
+    "mtu": 65536,
+    "target_samples": 960000,
+    "written_samples": 960000,
+    "written_bytes": 7680000,
+    "read_calls": 236,
+    "short_reads": 234,
+    "timeouts": 1,
+    "overflows": 0,
+    "discontinuities": 0,
+    "timestamps_available": false
+  },
+  "timing": {
+    "utc_start": "2026-08-17T10:40:06Z",
+    "utc_end": "2026-08-17T10:40:12Z",
+    "monotonic_elapsed_seconds": 6.1931734580000004
+  },
+  "outcome": {
+    "status": "complete",
+    "error_category": "none",
+    "error_message": "",
+    "source_cleanup": {"attempted": true, "succeeded": true, "detail": "deactivation=ok; stream_close=ok; device_release=ok"},
+    "raw_cleanup": {"attempted": true, "succeeded": true, "detail": "raw output flushed and closed"},
+    "manifest_cleanup": {"attempted": false, "succeeded": false, "detail": ""},
+    "final_state": "known_safe"
+  }
+}

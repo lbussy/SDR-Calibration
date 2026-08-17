@@ -36,6 +36,7 @@ Start with the [implementation status](status.md) and
 [complex-IQ capture contract](capture-contract.md),
 [live-device calibration contract](live-device-calibration-contract.md),
 [Qualification Gate 1 Airspy HF+ Discovery record](qualification-gate-1-airspyhf.md),
+[Qualification Gate 1 SDRplay RSP1B record](qualification-gate-1-sdrplay-rsp1b.md),
 [platform and device matrix](platform-and-device-matrix.md),
 [end-to-end calibration qualification gate](end-to-end-qualification.md),
 [carrier estimator](carrier-estimator.md),

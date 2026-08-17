@@ -24,6 +24,10 @@
 - Qualification Gate 1 evidence for one bounded receive-only capture using the
   exact Airspy HF+ Discovery, SoapyAirspyHF, macOS, antenna, and settings recorded
   in the [qualification report](qualification-gate-1-airspyhf.md)
+- Qualification Gate 1 evidence for one bounded receive-only capture using the
+  exact SDRplay RSP1B, SoapySDRPlay3, macOS, antenna, and settings recorded in
+  the [RSP1B qualification report](qualification-gate-1-sdrplay-rsp1b.md); the
+  retained antenna sample was separately rejected as an ambiguous signal
 - Hardware-free carrier estimator for in-memory complex samples, including
   midpoint frequency, linear drift, explicit failure states, diagnostics, and
   deterministic synthetic golden fixtures

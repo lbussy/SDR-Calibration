@@ -84,7 +84,9 @@ unbounded requests must fail before device construction.
 ## Qualification gate 1: First bounded SDR capture test
 
 **Status: Passed for the exact Airspy HF+ Discovery/macOS combination recorded
-on 2026-08-15.** See the [qualification record](qualification-gate-1-airspyhf.md).
+on 2026-08-15 and the exact SDRplay RSP1B/macOS combination recorded on
+2026-08-17.** See the [Airspy qualification record](qualification-gate-1-airspyhf.md)
+and [RSP1B qualification record](qualification-gate-1-sdrplay-rsp1b.md).
 
 Exercise only the capture stack with one exact receive-only SDR, driver, input
 arrangement, configuration, duration, abort procedure, cleanup procedure, and

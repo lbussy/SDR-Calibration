@@ -70,6 +70,7 @@ between artifacts or architectures.
 | Device and driver | Platform | Capture | End-to-end calibration | Evidence |
 | --- | --- | --- | --- | --- |
 | Airspy HF+ Discovery / SoapyAirspyHF | Exact macOS configuration in the record | Capture-qualified | Not qualified | [Qualification Gate 1](qualification-gate-1-airspyhf.md) |
+| SDRplay RSP1B / SoapySDRPlay3 | Exact macOS configuration in the record | Capture-qualified; retained antenna sample was estimator-rejected | Not qualified | [Qualification Gate 1](qualification-gate-1-sdrplay-rsp1b.md) |
 | All other combinations | Any | Not qualified | Not qualified | None |
 
 ## Required evidence for a positive cell

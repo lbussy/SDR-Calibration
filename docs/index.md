@@ -58,6 +58,7 @@ development/repository-layout
 development/application-architecture
 development/capture-contract
 development/qualification-gate-1-airspyhf
+development/qualification-gate-1-sdrplay-rsp1b
 development/carrier-estimator
 development/signal-quality-analyzer
 development/signal-quality-analyzer-execution-prompt
