@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <sstream>
 
 namespace {
@@ -43,6 +44,21 @@ std::string samples(double offsetHz) {
 void write(const std::filesystem::path& path, std::string_view value) {
     std::ofstream stream(path, std::ios::binary);
     stream.write(value.data(), static_cast<std::streamsize>(value.size()));
+}
+
+std::optional<std::string> environmentValue(const char* name) {
+#ifdef _WIN32
+    char* value = nullptr;
+    std::size_t length = 0;
+    if (_dupenv_s(&value, &length, name) != 0 || value == nullptr)
+        return std::nullopt;
+    std::string result(value);
+    std::free(value);
+    return result;
+#else
+    const auto* value = std::getenv(name);
+    return value == nullptr ? std::nullopt : std::optional<std::string>(value);
+#endif
 }
 
 JsonObject config() {
@@ -334,12 +350,12 @@ void requestValidationTests() {
 
 void commandTests() {
     using namespace sdrcal::cli;
-    const auto* retainedFixture = std::getenv("SDRCAL_TEST_FIXTURE_DIR");
-    const auto root = retainedFixture != nullptr
-                          ? std::filesystem::path(retainedFixture)
+    const auto retainedFixture = environmentValue("SDRCAL_TEST_FIXTURE_DIR");
+    const auto root = retainedFixture
+                          ? std::filesystem::path(*retainedFixture)
                           : std::filesystem::temp_directory_path() / "sdrcal-production-cli-tests";
     std::error_code ignored;
-    if (retainedFixture != nullptr && std::filesystem::exists(root)) {
+    if (retainedFixture && std::filesystem::exists(root)) {
         std::cerr << "fixture output directory already exists: " << root << '\n';
         ++failures;
         return;
@@ -425,7 +441,7 @@ void commandTests() {
     CHECK(liveAcquisitions == 2);
     CHECK(std::filesystem::exists(root / "live-success/profile.json"));
     CHECK(liveSuccessOutput.str().find("\"status\":\"success\"") != std::string::npos);
-    if (retainedFixture == nullptr && std::getenv("SDRCAL_TEST_KEEP_FIXTURE") == nullptr)
+    if (!retainedFixture && !environmentValue("SDRCAL_TEST_KEEP_FIXTURE"))
         std::filesystem::remove_all(root, ignored);
 }
 } // namespace
