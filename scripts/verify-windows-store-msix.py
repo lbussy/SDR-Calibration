@@ -308,6 +308,7 @@ def main() -> None:
         "Exact-candidate Desktop screenshot upload",
         "First package acceptance result",
         "Partner Center rejected it with acceptance errors",
+        "owner subsequently authorized deletion of that single rejected package",
         "Store listings `Complete`, Packages `Incomplete`",
         "no package was selected or uploaded",
         "no screenshot, image, trailer, package, fixture, or other attachment was",

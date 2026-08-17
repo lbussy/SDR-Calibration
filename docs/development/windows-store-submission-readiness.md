@@ -299,10 +299,11 @@ but the four-shot set is the readiness exit.
 9. The exact approved `0.1.1` candidate was uploaded after immediate source and
    transfer hash checks, but Partner Center rejected it for missing resolved
    logo paths, blank publisher display name, and absent/default package language.
-   The expected `runFullTrust` approval warning was also shown. The faulty
-   package remains unsaved pending explicit deletion authorization. Source
-   remediation requires a new revision, rebuilt hash, full requalification, and
-   renewed owner binding before any replacement upload.
+   The expected `runFullTrust` approval warning was also shown. The owner
+   authorized deletion and Partner Center returned to zero package entries with
+   the approved device-family state unchanged. Source remediation requires a
+   new revision, rebuilt hash, full requalification, and renewed owner binding
+   before any replacement upload.
 
 All owner gates are approved in `windows-store-owner-decisions.md`. That
 approval does not authorize package selection or upload, certification

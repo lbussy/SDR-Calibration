@@ -201,3 +201,12 @@ the exact `en-us` resource language and strengthens post-pack checks for exact
 asset paths and publisher display name. A replacement package will have a new
 revision and hash and therefore requires complete qualification and renewed
 owner binding before upload.
+
+The owner subsequently authorized deletion of that single rejected package.
+Partner Center removed it without presenting a second confirmation dialog. The
+Packages page then contained no package entry; Windows 10/11 Desktop remained
+checked, Mobile, Xbox, Team, Mixed Reality, and automatic future-family
+availability remained unchecked, and Save required no action. No replacement,
+fixture, certification, or publication action occurred. The rejected draft
+package cannot be recovered from Partner Center; the original qualified bytes
+remain on `ecm-mule` at the recorded source path.
