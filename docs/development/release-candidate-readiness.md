@@ -1,8 +1,8 @@
 # Release-candidate readiness
 
-Audit date: 2026-08-17
+Audit refreshed: 2026-08-20
 
-Audited revision: `ea1d4c95e097cb913e189b7f3ed6ed470f336c44`
+Prior audited revision: `ea1d4c95e097cb913e189b7f3ed6ed470f336c44`
 
 Artifact-policy update: Decision 0025 replaces the required public-trust MSI
 with a required Microsoft Store MSIX. Historical evidence remains identified
@@ -10,15 +10,17 @@ by its original artifact and trust state.
 
 ## Conclusion
 
-The project is not ready to freeze an initial release candidate. Its
-hardware-free application foundation, package evidence, and owner-confirmed
-clean-host lifecycle results are substantial, but physical calibration,
-Microsoft Store certification and delivery, applicable prior-version upgrade,
-candidate binding, and release-ledger gates remain open.
+The pre-freeze repository gates are complete. After validation and push, the
+clean synchronized commit containing the
+[0.1.1 freeze-preparation record](release-candidate-0.1.1-freeze-preparation.md)
+is the frozen source candidate. Exact artifact construction, Microsoft Store
+certification and delivery, applicable prior-version transitions, final package
+binding, and release-ledger gates remain open. Positive physical-device
+calibration is not required because this candidate proposes no device-support
+claim.
 
-This is a readiness audit, not a release-candidate designation. It does not
-qualify a device, reference, calibration result, Store delivery/update, or
-distributable release.
+Source designation does not qualify a device, reference, calibration result,
+Store delivery/update, package artifact, or distributable release.
 
 ## Completed foundations
 
@@ -69,7 +71,7 @@ distributable release.
 | RC-04 | macOS clean-host lifecycle | Passed by owner confirmation for exact DMG SHA-256 `94a831d4549b92edd85222c55e0cd64395dbe8acfd1f4bd5c57351f15bf80ad4` | Complete | Exact hash and owner-confirmed lifecycle record retained |
 | RC-05 | Windows Store certification and lifecycle | Exact `0.1.1` MSIX construction, WACK, and development-signed same-host lifecycle passed for SHA-256 `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`; screenshots and the certification fixture are retained; Store certification/delivery and clean-host evidence remain open | Submit the exact candidate under separate authorization, pass certification, then qualify Store installation on a clean Windows 11 host | Exact identity/version; certification result; Microsoft signature; Store install, GUI, CLI alias, removal, cleanup, listing/capability agreement, and retained evidence |
 | RC-06 | Prior-version transitions and Windows MSI migration | Exact read-only `0.1.0` macOS/DEB baselines exist; no transition is qualified. No published Store predecessor exists for the first MSIX | Freeze a candidate above `0.1.0`; execute applicable macOS/DEB transitions; independently verify the first-Store-release N/A; qualify MSI coexistence/manual migration | Old/new hashes, version consistency, preserved seeded state, package-manager transitions, Windows coexistence/CLI/Start identity, cleanup, and independent review |
-| RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decisions 0022 and 0025 define the policy; no source or schema revision is frozen | Select a candidate only after its required artifact and qualification gates can be executed | Frozen revision, exact schemas and artifacts, compatibility statement, and change-control rule |
+| RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decisions 0022, 0025, and 0028 define the policy; the [0.1.1 freeze-preparation record](release-candidate-0.1.1-freeze-preparation.md) binds the intended schema, artifacts, construction paths, and invalidation rule without naming an unknown future revision | Complete pre-freeze validation, commit and push the preparation, then designate that exact clean synchronized revision before constructing new artifacts | Frozen revision, exact schemas and artifacts, compatibility statement, construction evidence, and no-post-freeze-change rule |
 | RC-08 | Release documentation and evidence ledger | Fail-closed templates and evidence-package assembly plan exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; every required cell must be linked, digested, privacy-reviewed, and independently verified | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, manifest, inventories, corresponding source, and evidence index with no blocking required fields |
 
 RC-WF is the release-enabling calibration-workflow gate. Physical acquisition,

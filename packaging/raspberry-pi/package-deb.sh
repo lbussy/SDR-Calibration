@@ -112,7 +112,7 @@ Maintainer: SDR Calibration contributors <lee@bussy.org>
 
 Package: sdrcal
 Architecture: arm64
-Description: Traceable per-device SDR frequency calibration CLI
+Description: Evidence-bounded per-device SDR frequency calibration CLI
 EOF
 (
     cd "$output_dir"
@@ -183,7 +183,7 @@ Section: science
 Priority: optional
 Installed-Size: $installed_size
 Depends: $depends
-Description: Traceable per-device SDR frequency calibration CLI
+Description: Evidence-bounded per-device SDR frequency calibration CLI
  Hardware-free recorded-input command-line workflow for 64-bit Raspberry Pi OS.
 EOF
 

@@ -370,6 +370,29 @@ def verify_application_identity(root: Path) -> None:
     require('setWindowTitle(tr("SDR Calibration' in window, "Qt window title mismatch")
 
 
+def verify_claim_language(root: Path) -> None:
+    package_metadata = (
+        "CMakeLists.txt",
+        "packaging/raspberry-pi/package-deb.sh",
+        "packaging/ubuntu/package-deb.sh",
+        "packaging/ubuntu/sdrcal.desktop",
+        "packaging/windows/package-msi.ps1",
+        "packaging/windows/package-store-msix.ps1",
+    )
+    for relative in package_metadata:
+        content = read_text(root, relative)
+        lowered = content.lower()
+        require(
+            "evidence-bounded" in lowered,
+            f"package metadata lacks evidence-bounded claim language: {relative}",
+        )
+        require(
+            "traceable per-device" not in lowered
+            and "create traceable" not in lowered,
+            f"package metadata contains an unconditional traceability claim: {relative}",
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-dir", required=True, type=Path)
@@ -381,6 +404,7 @@ def main() -> None:
     verify_macos(root)
     verify_windows(root)
     verify_linux(root)
+    verify_claim_language(root)
     print("Cross-platform branding and icon contracts passed.")
 
 

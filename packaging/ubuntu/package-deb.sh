@@ -121,7 +121,7 @@ Maintainer: SDR Calibration contributors <lee@bussy.org>
 
 Package: sdrcal
 Architecture: amd64
-Description: Traceable per-device SDR frequency calibration
+Description: Evidence-bounded per-device SDR frequency calibration
 EOF
 (
     cd "$output_dir"
@@ -196,7 +196,7 @@ Section: science
 Priority: optional
 Installed-Size: $installed_size
 Depends: $depends
-Description: Traceable per-device SDR frequency calibration
+Description: Evidence-bounded per-device SDR frequency calibration
  Hardware-free recorded-input CLI and Qt desktop application.
 EOF
 

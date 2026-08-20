@@ -212,7 +212,7 @@ $escapedProductName = Escape-Xml $ProductName
     <Application Id="SDRCalibration" Executable="bin\sdrcal-gui.exe"
                  EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="$escapedProductName"
-          Description="Create traceable SDR frequency-calibration profiles"
+          Description="Create evidence-bounded SDR frequency-calibration profiles"
           BackgroundColor="transparent"
           Square150x150Logo="Assets\Square150x150Logo.png"
           Square44x44Logo="Assets\Square44x44Logo.png" />

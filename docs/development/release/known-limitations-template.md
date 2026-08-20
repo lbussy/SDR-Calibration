@@ -38,7 +38,8 @@ Any removal requires evidence or an accepted decision.
   `TBD-BLOCKING`
 - Raspberry Pi exact-candidate clean-host, upgrade, rollback/removal, and
   cleanup results: `TBD-BLOCKING`
-- Physical end-to-end calibration and supported-device claims: `TBD-BLOCKING`
+- RC-WF final package binding: `TBD-BLOCKING`
+- Positive physical-device and general supported-device claims: `None proposed`
 - Reference suitability and accuracy claims: `TBD-BLOCKING`
 - Final platform visual/scaling review: `TBD-BLOCKING`
 

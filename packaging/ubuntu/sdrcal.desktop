@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=SDR Calibration
-Comment=Create traceable SDR frequency-calibration profiles
+Comment=Create evidence-bounded SDR frequency-calibration profiles
 Exec=sdrcal-gui
 Icon=sdr-calibration
 Terminal=false

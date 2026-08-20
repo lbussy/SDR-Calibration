@@ -53,6 +53,9 @@ The current release-candidate state is recorded in the
 The user-directed workflow has passed for one exact source candidate under the
 [RC-WF binding record](rc-wf-source-candidate-binding.md); final package hashes
 and release-ledger binding remain open without requiring another hardware test.
+The exact version, artifact set, construction paths, evidence fields, and
+invalidation rule for the next immutable revision are defined by the
+[0.1.1 freeze-preparation record](release-candidate-0.1.1-freeze-preparation.md).
 The intended initial compatibility promise and release artifact set are fixed
 by [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md)
 as amended by [decision 0025](decisions/0025-store-msix-primary-windows-artifact.md),

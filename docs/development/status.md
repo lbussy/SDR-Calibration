@@ -112,6 +112,11 @@
   physical evidence from candidate tests and leaves only final packaged-
   candidate binding open; no hardware was accessed and no positive device claim
   was created.
+- Release-candidate `0.1.1` freeze preparation now defines the exact initial
+  artifact set, construction paths, candidate-specific evidence, and
+  invalidation rule without inventing a future commit or artifact hash. The
+  resulting validated synchronized commit is the only permissible source for
+  new candidate artifacts; historical package evidence does not transfer.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

@@ -108,12 +108,15 @@ Record these as separate cells for every exact final candidate:
 12. Raspberry Pi clean install;
 13. Raspberry Pi upgrade;
 14. Raspberry Pi rollback/removal and cleanup;
-15. physical end-to-end calibration for every supported device claim;
-16. application/icon visual review for packaged GUI platforms;
-17. compatibility and schema review;
-18. notices, inventory, corresponding-source, and privacy review; and
-19. independent local package verification before publication; and
-20. independent published-download verification after publication.
+15. RC-WF final package binding for the user-directed calibration workflow;
+16. optional physical end-to-end calibration for every device claim actually
+    proposed by the candidate, or an independently reviewed no-claim
+    disposition;
+17. application/icon visual review for packaged GUI platforms;
+18. compatibility and schema review;
+19. notices, inventory, corresponding-source, and privacy review;
+20. independent local package verification before publication; and
+21. independent published-download verification after publication.
 
 Evidence is candidate-specific unless its governing contract explicitly makes
 it durable. Clean-host or visual evidence for a historical hash cannot qualify

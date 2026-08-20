@@ -260,7 +260,7 @@ endif()
 
 set(CPACK_PACKAGE_NAME "SDRCalibration")
 set(CPACK_PACKAGE_VENDOR "SDR Calibration contributors")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Traceable per-device SDR frequency calibration")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Evidence-bounded per-device SDR frequency calibration")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_CHECKSUM SHA256)

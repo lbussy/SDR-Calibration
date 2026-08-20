@@ -1,6 +1,7 @@
 # 0022 — Initial compatibility and release artifacts
 
 Status: Superseded in part by [0025](0025-store-msix-primary-windows-artifact.md)
+and [0028](0028-user-directed-calibration-workflow.md)
 
 Date: 2026-08-17
 
@@ -96,8 +97,9 @@ to verified-signature status.
 The release candidate cannot be frozen until final artifacts can match this set
 or a later accepted decision changes the target boundary. Windows Store
 certification and fresh-host lifecycle evidence, Raspberry Pi clean-host
-lifecycle evidence, physical calibration evidence, and final ledger assembly
-remain open.
+lifecycle evidence, RC-WF final package binding, and final ledger assembly
+remain open. Positive physical-device calibration cells remain optional unless
+the candidate proposes a corresponding device-support claim.
 
 The repository may continue to implement and test live-device capabilities,
 portable packages, and adapters, but their existence does not add them to the

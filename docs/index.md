@@ -86,6 +86,7 @@ development/windows-store-submission-readiness
 development/windows-store-owner-decisions
 development/end-to-end-qualification
 development/rc-wf-source-candidate-binding
+development/release-candidate-0.1.1-freeze-preparation
 development/phase-11-execution-prompt
 development/phase-12-execution-prompt
 development/phase-13-execution-prompt

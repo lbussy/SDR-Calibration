@@ -59,12 +59,16 @@ signature, and no production checksum-signing policy is established.
 | Raspberry Pi clean install | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Raspberry Pi upgrade | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Raspberry Pi rollback/removal and cleanup | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
-| Physical end-to-end calibration | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| User-directed calibration workflow (RC-WF) | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
+| Optional positive physical-device cells | Exact claims proposed by candidate, or `None proposed` | Evidence for each proposed claim, or `Not applicable` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Final platform visual review | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 | Notices/inventory/corresponding-source/privacy | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` | `TBD-BLOCKING` |
 
-Build, package, signing, capture, synthetic workflow, clean-host, and physical
-calibration evidence are separate cells. One passing row cannot satisfy another.
+Build, package, signing, physical acquisition, deterministic workflow,
+clean-host, and optional physical-device claim evidence are separate cells. One
+passing row cannot satisfy another. `None proposed` with independently reviewed
+`Not applicable` evidence is the truthful passing disposition for the optional
+physical-device row when the candidate makes no such claim.
 
 Allowed required-cell states are `TBD-BLOCKING`, `Missing`, `Blocked`, `Failed`,
 `Stale`, `Unreviewed`, and `Passed`. Only `Passed` satisfies a required cell.

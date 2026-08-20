@@ -61,7 +61,9 @@ Do not replace these fields with same-host package smoke results.
 
 - Hardware-free tests and package gates: `TBD-BLOCKING`
 - Platform-native clean-host lifecycles: `TBD-BLOCKING`
-- Physical end-to-end calibration combinations: `TBD-BLOCKING`
+- RC-WF source and final-package binding: `TBD-BLOCKING`
+- Optional positive physical-device claims: `None proposed` unless separately
+  qualified and explicitly included
 - Human visual review: `TBD-BLOCKING`
 - Independent published-download verification: `TBD-BLOCKING`
 

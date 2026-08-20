@@ -408,18 +408,26 @@ and bounded reception remain separately authorized physical gates.
 
 ## Release candidate
 
-**Status: Not ready to freeze.** See the
+**Status: Ready for exact source freeze; candidate artifacts are not yet
+constructed.** See the
 [release-candidate readiness audit](release-candidate-readiness.md) for the
 current blocker ledger and ordered resumption path. The intended compatibility
 promise and artifact set are accepted in
 [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md),
-but have not been bound to a frozen candidate.
+and are bound by the freeze-preparation record below.
 
 RC-WF has [passed for source candidate `b269f9c`](rc-wf-source-candidate-binding.md):
 retained physical fixtures establish real acquisition and truthful acceptance
 behavior, and candidate-specific deterministic tests exercise every later
 production stage. Final packaged-candidate binding remains open and does not
 require another hardware test.
+
+The [0.1.1 freeze-preparation record](release-candidate-0.1.1-freeze-preparation.md)
+now binds the intended schemas, artifact set, construction commands, evidence
+requirements, post-freeze gates, and invalidation rule. The clean synchronized
+commit containing that record becomes the source candidate only after all
+pre-freeze validation passes and it is pushed; its artifact hashes cannot be
+known or populated before that point.
 
 Freeze a source revision and the initial schema and artifact compatibility
 policy. Complete release notes, known limitations, upgrade and rollback
