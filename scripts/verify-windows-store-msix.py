@@ -30,6 +30,7 @@ def main() -> None:
     root = args.source_dir.resolve()
     cmake = read(root, "CMakeLists.txt")
     script = read(root, "packaging/windows/package-store-msix.ps1")
+    build_script = read(root, "packaging/windows/build-store-msix.ps1")
     executable_manifest = read(root, "packaging/windows/sdrcal.exe.manifest")
     gui_cmake = read(root, "src/gui/CMakeLists.txt")
     qt_test_wrapper = read(root, "tests/RunQtTest.cmake")
@@ -178,6 +179,17 @@ def main() -> None:
         '"$($logo.Size)x$($logo.Size)"',
     ):
         require(marker in script, f"missing fail-closed Store contract: {marker}")
+    for marker in (
+        "Resolve-VsWhere",
+        "Microsoft Visual Studio\\Installer\\vswhere.exe",
+        "Microsoft.VisualStudio.Component.VC.Tools.x86.x64",
+        "Common7\\Tools\\VsDevCmd.bat",
+        "-arch=x64 -host_arch=x64",
+        "Visual Studio environment setup did not expose cl.exe",
+        "Get-FileHash -LiteralPath $binding.Value -Algorithm SHA256",
+        "'windows-store-msix'",
+    ):
+        require(marker in build_script, f"missing Store build environment contract: {marker}")
     for marker in ("true/pm", "PerMonitorV2, PerMonitor"):
         require(marker in executable_manifest, f"missing Windows DPI contract: {marker}")
     for marker in (

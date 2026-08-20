@@ -45,19 +45,24 @@ certificates, private keys, contact details, and verification materials remain
 outside the repository.
 
 ```powershell
-cmake --preset windows-store-release `
-  -DSDRCAL_QT_SOURCE_ARCHIVE='<matching qtbase source archive>' `
-  -DSDRCAL_QT_SOURCE_SHA256='<lowercase SHA-256>'
-cmake --build --preset windows-store-release
-ctest --preset windows-store-release
-cmake --build build/windows-store-release --target package-audit
-cmake --build build/windows-store-release --target windows-store-msix
+& .\packaging\windows\build-store-msix.ps1 `
+  -SourceDir $PWD `
+  -QtSourceArchive '<matching qtbase source archive>' `
+  -QtSourceSha256 '<lowercase SHA-256>' `
+  -QtAdditionalSourceArchives '<matching qtsvg source archive>' `
+  -QtAdditionalSourceSha256 '<lowercase SHA-256>'
 ```
 
 The target emits an unsigned pre-submission MSIX and evidence under
 `build/windows-store-release/windows-store-package`. It refuses a dirty or
 upstream-unsynchronized source tree and refuses to reuse that output path.
 Delete or archive a previous output deliberately before a new run.
+
+The wrapper discovers the latest installed Visual Studio x64 C++ toolchain via
+`vswhere.exe`, imports `VsDevCmd.bat` into its process, and verifies `cl.exe`.
+This makes non-interactive SSH builds independent of the caller's compiler
+`PATH`. It also verifies the configured Qt source-archive hashes before running
+configure, build, the hardware-free test suite, package audit, and MSIX target.
 
 ## Qualification and external state
 

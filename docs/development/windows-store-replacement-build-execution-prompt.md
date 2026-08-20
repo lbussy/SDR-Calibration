@@ -17,8 +17,9 @@ decision. Do not upload or alter Partner Center.
   publisher display name, parses all three logo declarations from the unpacked
   manifest, resolves their exact payload paths, and verifies PNG type and
   50x50, 150x150, and 44x44 dimensions.
-- The Windows packaging and qualification harnesses discover Qt runtime and
-  Windows SDK tools without relying on the SSH process `PATH`.
+- The packaging and qualification harnesses discover Qt runtime and Windows SDK
+  tools without relying on the SSH process `PATH`. The first fresh configure
+  showed that compiler discovery still required a permanent equivalent fix.
 
 ## Scope
 
