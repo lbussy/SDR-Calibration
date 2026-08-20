@@ -50,6 +50,9 @@ The current macOS exact-host package lifecycle is governed by the
 The current release-candidate state is recorded in the
 [readiness audit](release-candidate-readiness.md), prepared under its
 [execution prompt](release-candidate-readiness-audit-prompt.md).
+The user-directed workflow has passed for one exact source candidate under the
+[RC-WF binding record](rc-wf-source-candidate-binding.md); final package hashes
+and release-ledger binding remain open without requiring another hardware test.
 The intended initial compatibility promise and release artifact set are fixed
 by [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md)
 as amended by [decision 0025](decisions/0025-store-msix-primary-windows-artifact.md),

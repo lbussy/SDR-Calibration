@@ -1,7 +1,9 @@
 # SDR Calibration
 
-SDR Calibration produces traceable, per-device SDR frequency-calibration
-profiles. Its initial desktop targets are macOS 14.0 or later on Apple Silicon
+SDR Calibration produces evidence-bounded, per-device SDR frequency-calibration
+profiles. A result is traceable only when its specific reference and provenance
+evidence satisfy the documented claim contract. Its initial desktop targets are
+macOS 14.0 or later on Apple Silicon
 and Windows 11 x64. Raspberry Pi OS 13 ARM64 on Raspberry Pi 4 is a
 recorded-input CLI-only target. Ubuntu remains an unsupported, currently
 unvalidated portability path. Target status does not by itself establish
@@ -83,6 +85,7 @@ development/platform-and-device-matrix
 development/windows-store-submission-readiness
 development/windows-store-owner-decisions
 development/end-to-end-qualification
+development/rc-wf-source-candidate-binding
 development/phase-11-execution-prompt
 development/phase-12-execution-prompt
 development/phase-13-execution-prompt

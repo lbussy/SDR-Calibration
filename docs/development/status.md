@@ -105,6 +105,13 @@
   later production stages. A positive project-owner RC-03 cell, RC-01 receiver
   comparison, and a general supported-device matrix are optional claims rather
   than prerequisites for enabling users to calibrate their own hardware.
+- RC-WF passed for exact source candidate `b269f9c`. Retained physical artifact
+  sizes and hashes were reverified read-only, and all 21 baseline plus 13
+  focused candidate-specific deterministic tests passed. The
+  [binding record](rc-wf-source-candidate-binding.md) distinguishes historical
+  physical evidence from candidate tests and leaves only final packaged-
+  candidate binding open; no hardware was accessed and no positive device claim
+  was created.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

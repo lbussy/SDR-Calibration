@@ -415,6 +415,12 @@ promise and artifact set are accepted in
 [decision 0022](decisions/0022-initial-compatibility-and-release-artifacts.md),
 but have not been bound to a frozen candidate.
 
+RC-WF has [passed for source candidate `b269f9c`](rc-wf-source-candidate-binding.md):
+retained physical fixtures establish real acquisition and truthful acceptance
+behavior, and candidate-specific deterministic tests exercise every later
+production stage. Final packaged-candidate binding remains open and does not
+require another hardware test.
+
 Freeze a source revision and the initial schema and artifact compatibility
 policy. Complete release notes, known limitations, upgrade and rollback
 guidance, supported offline-update behavior, vulnerability-reporting guidance,

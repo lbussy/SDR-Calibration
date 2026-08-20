@@ -280,6 +280,14 @@ and recorded-mode regression. The Soapy adapter suite separately exercises
 acquisition and cleanup through fake APIs. Neither suite enumerates host
 devices or starts a physical stream.
 
+The [RC-WF source-candidate binding](rc-wf-source-candidate-binding.md)
+composes these candidate-specific deterministic results with separately
+retained physical-fixture evidence. Physical evidence establishes real bounded
+acquisition and acceptance behavior; deterministic fixtures establish fitting,
+uncertainty, profile, integrity, privacy, and publication behavior. Neither
+evidence class silently substitutes for the other, and a rejected physical
+observation remains ineligible for fitting.
+
 The Phase 13 `gui_workflow_tests` target verifies exact production-service
 argument/exit and live-factory delegation, thread-safe cancellation state,
 bounded regular-file review, symbolic-link refusal, and required/optional result

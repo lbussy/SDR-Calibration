@@ -72,7 +72,7 @@ identified explicitly below. The approval record is the
 | Listing | Description | Exact English listing copy below | Approved and saved |
 | Listing | Product features | Eight separate features below | Approved and saved |
 | Listing | What's new | Blank for the first submission | Approved and saved |
-| Listing | Short description | Exact short description below | Approved and saved |
+| Listing | Short description | Corrected repository text below | Partner Center reconciliation required before final listing agreement |
 | Listing | Keywords | `SDR`, `frequency calibration`, `IQ analysis`, `radio`, `WSJT-X` | Approved and saved |
 | Listing | Copyright | `Copyright (c) 2026 Lee Bussy` | Saved; matches repository license |
 | Listing | Developed by | `Lee Bussy` | Saved |
@@ -85,7 +85,7 @@ identified explicitly below. The approval record is the
 
 ### Short description
 
-Create traceable SDR frequency-calibration profiles from bounded recorded
+Create evidence-bounded SDR frequency-calibration profiles from recorded
 complex-IQ observations, with explicit uncertainty, provenance, device binding,
 and reviewable result files.
 
