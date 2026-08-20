@@ -284,7 +284,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: All submission sections complete; certification not submitted",
+        "Status: Submitted for certification; pre-processing in progress; publication held",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -355,7 +355,7 @@ def main() -> None:
         require(marker in final_audit_prompt,
                 f"Store final pre-certification audit prompt drift: {marker}")
     for marker in (
-        "Status: **Final pre-certification audit complete; submission not authorized**",
+        "Status: **Submitted for certification; publication not authorized**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
@@ -366,7 +366,7 @@ def main() -> None:
         "Record me as the",
         "- Approval date (UTC): **2026-08-17**",
         "- Approving owner: **Lee Bussy**",
-        "completed replacement upload match this packet",
+        "certification submission match this packet",
         "4406a82e01072afc0d61d2516c2fe9607c608ea4",
         "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
         "Approved 2026-08-20 UTC; immediate pre-selection hash recheck required",
@@ -378,6 +378,8 @@ def main() -> None:
         "explicitly approved\nretaining **Developer tools**",
         "I authorize submitting Partner Center Submission 1",
         "Do not treat preparation or quotation of that statement as authorization.",
+        "Pre-processing `In progress`",
+        "Publish\nnow** was not selected",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
     require(owner_decisions.count("- [ ]") == 0,
@@ -425,6 +427,9 @@ def main() -> None:
         "Final read-only pre-certification audit",
         "zero\ncredentials, and no attachment control",
         "changed no Partner Center state",
+        "Certification submission",
+        "product status `In certification`",
+        "no publication action was authorized or performed",
         "approved the complete replacement path",
         "did not authorize selecting or",
     ):

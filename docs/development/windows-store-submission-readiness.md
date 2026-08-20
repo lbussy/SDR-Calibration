@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: All submission sections complete; certification not submitted
+Status: Submitted for certification; pre-processing in progress; publication held
 
 Prepared: 2026-08-17
 
@@ -12,7 +12,8 @@ This packet began as preparation for the first Microsoft Store MSIX submission
 and now records the owner-authorized draft edits, listing assets, and accepted
 replacement package. Decision 0025 makes Store MSIX the required Windows
 release artifact; the self-signed MSI remains testing-only. Certification
-submission and publication remain separately authorized.
+submission was separately authorized and completed. Publication remains
+separately authorized and held for manual owner action.
 
 The submission must use these established values:
 
@@ -355,13 +356,22 @@ but the four-shot set is the readiness exit.
 
 Saved-field owner gates, the replacement artifact binding, and the separate
 upload authorization are recorded in `windows-store-owner-decisions.md`.
-Certification submission and publication remain unauthorized.
+Certification submission was explicitly authorized and completed. Publication
+remains unauthorized.
 
 Partner Center's package-derived privacy assessment requires a policy despite
 the Store build's local-only processing. The exact repository-hosted URL was
 saved. The owner also approved retaining `Developer tools` as the secondary
 category after Partner Center did not persist two attempts to clear it. Every
 submission section reports `Complete`, the package reports `Validated`, and
-**Submit for certification** is enabled but remains unselected.
+at the end of the read-only audit **Submit for certification** was enabled but
+remained unselected.
+
+After the final audit, the owner explicitly authorized submitting Submission 1
+for certification without publication. Partner Center accepted the submission
+and now reports `In certification`: Submission `Complete`, Pre-processing `In
+progress`, Certification `Not started`, and Publishing `Not started`. It states
+that publishing begins only when **Publish now** is clicked. No publication
+action occurred.
 
 No checkbox in this packet changes Partner Center state.

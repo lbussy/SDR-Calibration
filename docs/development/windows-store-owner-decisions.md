@@ -1,6 +1,6 @@
 # Microsoft Store owner decision packet
 
-Status: **Final pre-certification audit complete; submission not authorized**
+Status: **Submitted for certification; publication not authorized**
 
 Prepared: 2026-08-17
 
@@ -11,8 +11,8 @@ Updated: 2026-08-20
 This packet records the product owner's explicit approvals and remaining
 decisions. Preparing or committing a proposed value is not approval of that
 value. The recorded authorizations cover only the saved state and exact
-replacement package described below; they do not authorize uploading any other
-attachment, requesting certification, or publishing.
+replacement package and certification submission described below; they do not
+authorize uploading any other attachment or publishing.
 
 The current approved replacement binding is:
 
@@ -227,8 +227,21 @@ The exact authorization statement for a later slice is:
 
 Do not treat preparation or quotation of that statement as authorization.
 
+The owner supplied that exact authorization on 2026-08-20 UTC. Partner Center
+accepted Submission 1 for certification and reported:
+
+- product status `In certification`;
+- Submission `Complete`;
+- Pre-processing `In progress`;
+- Certification `Not started`; and
+- Publishing `Not started`.
+
+Partner Center also confirmed: `Your product will start publishing when you
+click on Publish now.` No publication authorization was given, and **Publish
+now** was not selected.
+
 ## Exit criteria
 
-The saved website, support URL, device-family state, replacement binding, and
-completed replacement upload match this packet. **Submit for certification**
-remains a later explicit authorization.
+The saved website, support URL, device-family state, replacement binding,
+completed replacement upload, and certification submission match this packet.
+Publication remains a later explicit authorization.

@@ -113,3 +113,15 @@ against the superseded first candidate and remains excluded. The final overview
 still showed all six sections `Complete`, the package `Validated`, and the
 product `In draft`. **Submit for certification** was enabled but not selected;
 the audit changed no Partner Center state.
+
+## Certification submission
+
+Following explicit owner authorization, Partner Center Submission 1, internal
+ID `1152921505701677071`, was submitted for Microsoft Store certification on
+2026-08-20 UTC. The immediate result was product status `In certification`,
+with Submission `Complete`, Pre-processing `In progress`, Certification `Not
+started`, and Publishing `Not started`.
+
+Partner Center stated that the product will start publishing only when
+**Publish now** is clicked. That control was not selected, certification was not
+cancelled, and no publication action was authorized or performed.
