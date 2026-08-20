@@ -43,7 +43,8 @@ for tool in awk clang cmake cmp codesign ditto file find git grep hdiutil otool 
     command -v "$tool" >/dev/null || { echo "required tool is unavailable: $tool" >&2; exit 1; }
 done
 
-qt_prefix=$(cmake -LA -N "$build_dir" | sed -n 's#^Qt6_DIR:PATH=\(.*\)/lib/cmake/Qt6$#\1#p')
+qt_prefix=$(sed -n 's#^Qt6_DIR:[^=]*=\(.*\)/lib/cmake/Qt6$#\1#p' \
+    "$build_dir/CMakeCache.txt")
 macdeployqt="$qt_prefix/bin/macdeployqt"
 if [[ -z "$qt_prefix" || ! -x "$macdeployqt" ]]; then
     echo "macdeployqt for the configured Qt was not found" >&2

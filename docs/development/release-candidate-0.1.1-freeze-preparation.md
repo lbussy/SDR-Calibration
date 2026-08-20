@@ -156,6 +156,15 @@ Qt 6.11.1 installation and both hash-pinned qtbase and qtsvg source archives.
 This is a preflight correction, not a relaxation of the runtime or license
 audit.
 
+Revision `50ad4d36b421dadee4990edfbf1433e9177ae303` was then invalidated by a
+second preflight stop. Explicitly binding `Qt6_DIR` to the unified installation
+caused CMake to retain the valid value with cache type `UNINITIALIZED`; the
+package script accepted only cache type `PATH` and therefore failed to locate
+`macdeployqt`. The parser now accepts any CMake cache type while retaining the
+exact required Qt directory suffix and all physical-prefix checks. This attempt
+also stopped before staging, signing, or notarization and produced no reusable
+artifact.
+
 ## Known post-freeze gates
 
 Freezing source and constructing candidate artifacts do not complete:
