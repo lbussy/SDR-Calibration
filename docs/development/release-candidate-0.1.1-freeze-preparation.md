@@ -140,6 +140,22 @@ frozen revision is pushed.
 
 No unresolved repository finding remains at designation time.
 
+## First-candidate invalidation
+
+Revision `4ab5c4acea33aaab63593c28986959dea1b96cde` was designated and then
+invalidated during macOS construction. The preset had auto-selected QtBase
+from one Homebrew prefix and QtSvg from another. `macdeployqt` could not resolve
+the QtSvg framework, and the partial staged closure also contained a runtime
+without an exact Qt disposition. The target stopped before any notarization
+submission; no artifact from that attempt is reusable.
+
+The package path now rejects a QtSvg package outside the prefix that supplies
+`macdeployqt`, before staging, signing, or notarization. The replacement
+candidate must be configured explicitly against the retained unified official
+Qt 6.11.1 installation and both hash-pinned qtbase and qtsvg source archives.
+This is a preflight correction, not a relaxation of the runtime or license
+audit.
+
 ## Known post-freeze gates
 
 Freezing source and constructing candidate artifacts do not complete:

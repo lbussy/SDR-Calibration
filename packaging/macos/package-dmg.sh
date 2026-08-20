@@ -39,7 +39,7 @@ for value in "$build_dir" "$output_dir" "$signing_identity" "$notary_profile" "$
     fi
 done
 
-for tool in awk clang cmake cmp codesign ditto file find git grep hdiutil otool plutil sed shasum spctl sw_vers xcrun; do
+for tool in awk clang cmake cmp codesign ditto file find git grep hdiutil otool plutil realpath sed shasum spctl sw_vers xcrun; do
     command -v "$tool" >/dev/null || { echo "required tool is unavailable: $tool" >&2; exit 1; }
 done
 
@@ -49,6 +49,25 @@ if [[ -z "$qt_prefix" || ! -x "$macdeployqt" ]]; then
     echo "macdeployqt for the configured Qt was not found" >&2
     exit 1
 fi
+
+# A split package-manager Qt can satisfy CMake with modules from prefixes that
+# macdeployqt does not search.  Reject that configuration before staging,
+# signing, or notarization rather than producing a partial runtime closure.
+qt_svg_framework="$qt_prefix/lib/QtSvg.framework/Versions/A/QtSvg"
+if [[ ! -f "$qt_svg_framework" ]]; then
+    echo "Qt prefix used by macdeployqt does not contain the required QtSvg framework: $qt_prefix" >&2
+    exit 1
+fi
+macdeployqt_bin_dir=$(dirname "$(realpath "$macdeployqt")")
+macdeployqt_root=${macdeployqt_bin_dir%/bin}
+qt_svg_dir=$(dirname "$(realpath "$qt_svg_framework")")
+case "$qt_svg_dir/" in
+    "$macdeployqt_root"/*/) ;;
+    *)
+        echo "required QtSvg framework is outside the physical Qt prefix used by macdeployqt" >&2
+        exit 1
+        ;;
+esac
 
 source_revision=$(git -C "$source_dir" rev-parse HEAD)
 if [[ -n "$(git -C "$source_dir" status --porcelain)" ]]; then
