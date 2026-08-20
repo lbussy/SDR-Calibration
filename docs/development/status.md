@@ -80,9 +80,9 @@
   evidence and closed only the five-second RC-02 boundary recorded in the
   [diagnostic report](lbe1421-airspy-reference-diagnostic.md).
 - Decision 0027 defines RC-03 as exact device/configuration/reference/platform/
-  domain cells. An Airspy-only cell does not require RC-01, but the current
-  linear production workflow still requires at least one additional
-  independently qualified reference frequency. RC-01 remains blocked and
+  domain cells. An optional positive Airspy linear-model cell does not require
+  RC-01, but it still requires at least one additional independently qualified
+  reference frequency. RC-01 remains deferred and
   mandatory for receiver-equivalence, cross-device, or general support claims;
   RC-03 remains `Not qualified`.
 - The first separately authorized 20 MHz LBE-1421/two-attenuator/Airspy
@@ -97,6 +97,14 @@
   observation-rejected because its 6.218244 Hz instability exceeds the 0.5 Hz
   maximum. This is reference-copy evidence only; the 20 MHz RC-02 path and
   RC-03 remain `Not qualified`.
+- Decision 0028 now makes validation of the user-directed calibration and
+  evidence-qualification workflow the release-enabling objective. The retained
+  Airspy observations are development fixtures: the accepted 10 MHz input and
+  truthful 20 MHz rejections exercise real acquisition, estimation, and
+  suitability behavior, while deterministic end-to-end fixtures exercise the
+  later production stages. A positive project-owner RC-03 cell, RC-01 receiver
+  comparison, and a general supported-device matrix are optional claims rather
+  than prerequisites for enabling users to calibrate their own hardware.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

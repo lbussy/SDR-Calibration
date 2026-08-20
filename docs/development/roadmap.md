@@ -10,6 +10,20 @@ distinct. A successful hardware-free test does not establish device support,
 and a successful test with one physical device qualifies only the exact tested
 combination and conditions.
 
+## Governing hardware objective
+
+The remaining release-enabling hardware objective is to validate the complete
+user-directed calibration and evidence-qualification workflow, not to certify
+the project owner's SDR or RF path as supported hardware. Retained physical
+measurements are development fixtures for acquisition, estimation, suitability
+assessment, and truthful rejection. Deterministic synthetic or reviewed
+recorded fixtures may exercise fitting, uncertainty, profile generation,
+evaluation, and evidence publication when every handoff is explicit and
+content-bound. Cross-device comparison, positive physical-device cells, and a
+general supported-hardware matrix are optional claims and are not prerequisites
+for enabling user-directed calibration. See
+[decision 0028](decisions/0028-user-directed-calibration-workflow.md).
+
 ## Phase workflow
 
 New phases normally use the following review cycle:
@@ -260,22 +274,25 @@ does not establish calibration accuracy or device qualification.
 **Status: Packaging foundation and exact-payload license-disposition gates are
 implemented; exact same-host evidence and owner-confirmed clean-host lifecycle
 passes are retained for the indexed macOS, Windows, and Raspberry Pi packages.
-Upgrade, Windows Store certification/delivery, device, and end-to-end
-qualification gates remain open.**
+Upgrade, Windows Store certification/delivery, final candidate workflow binding,
+and release-evidence gates remain open. Optional physical-device qualification
+remains open without blocking the initial user-directed workflow.**
 
 Establish supported macOS, Linux, and Windows builds; minimum Qt and SoapySDR
 baselines; dependency pinning; dependency inventories or SBOMs; third-party
-notices; installers; applicable platform signing; and the supported-device and
-operating-system matrix.
+notices; installers; applicable platform signing; and truthful device-claim and
+operating-system matrices. The device matrix may contain no positive live-device
+cell for the initial user-directed workflow release.
 
 Exit requires clean release builds and the applicable baseline, focused,
 integration, installer, licensing, and platform checks. Every claimed device
 and platform combination requires retained qualification evidence. Passing
 application tests alone does not satisfy the distribution licensing gate.
-End-to-end calibration qualification must separately exercise acquisition,
-estimation, acceptance, fitting, uncertainty, profile generation, and profile
-evaluation against an authoritative reference. Capture-only qualification from
-the earlier hardware gate cannot satisfy this requirement.
+Release workflow validation must collectively exercise acquisition, estimation,
+acceptance, fitting, uncertainty, profile generation, profile evaluation, and
+evidence production. It may compose independently retained physical and
+deterministic fixtures under decision 0028; capture-only evidence cannot prove
+the later stages, and synthetic evidence cannot prove physical acquisition.
 
 The implemented foundation provides strict dependency baselines, install rules,
 portable CPack archives, a configured SPDX inventory, isolated package-content
@@ -348,7 +365,8 @@ remain separate later gates.
 
 **Status: Contract, bounded in-memory acquisition, signal-quality analyzer,
 injected hardware-free Soapy workflow boundary, production CLI integration,
-and Qt GUI integration implemented; physical qualification not started.**
+and Qt GUI integration implemented; optional positive physical-device cells
+remain unqualified.**
 
 The [live-device calibration contract](live-device-calibration-contract.md)
 defines the boundary among SoapySDR, bounded in-memory acquisition, versioned
@@ -372,8 +390,8 @@ absent, derives diagnostics rather than accepting them from the request, and
 uses the existing coordinated publication transaction. All validation remains
 fake-API and hardware-free. The Qt application forwards the same injected
 production boundary after schema-aware request review and explicit live-run
-confirmation. Separately authorized physical-device qualification follows as a
-distinct reviewed slice.
+confirmation. Separately authorized physical runs may extend workflow evidence
+or establish optional device-cell claims as distinct reviewed slices.
 
 The first exact Airspy HF+ Discovery/macOS end-to-end candidate completed its
 hardware-free readiness review and stopped before enumeration. Retained capture
@@ -400,18 +418,21 @@ but have not been bound to a frozen candidate.
 Freeze a source revision and the initial schema and artifact compatibility
 policy. Complete release notes, known limitations, upgrade and rollback
 guidance, supported offline-update behavior, vulnerability-reporting guidance,
-checksums, dependency inventory, clean-install tests, representative tests on
-qualified devices, and the release evidence ledger.
+checksums, dependency inventory, clean-install tests, representative production
+workflow fixtures, and the release evidence ledger. Tests on qualified devices
+are required only for device claims proposed by the candidate.
 
-Exit requires no unresolved release blocker, exact agreement between
-documentation and binaries, and successful fresh-install and clean-user-state
-verification.
+Exit requires no unresolved release blocker, final-candidate evidence that the
+composed user-directed workflow preserves every fail-closed contract, exact
+agreement between documentation and binaries, and successful fresh-install and
+clean-user-state verification.
 
 ## Initial release
 
 Publish exactly the reviewed candidate with source, binaries, notices,
-corresponding-source disposition, checksums, compatibility statement,
-supported-device matrix, and known limitations.
+corresponding-source disposition, checksums, compatibility statement, the
+truthful device-claim matrix (which may contain no positive live-device cells),
+and known limitations.
 
 Release is complete only after the published artifacts are downloaded and
 independently verified against the approved candidate and checksums.

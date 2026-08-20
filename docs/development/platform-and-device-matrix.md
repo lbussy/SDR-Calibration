@@ -5,6 +5,11 @@ This matrix is the authoritative index of positive platform and device claims.
 hardware-free tests. `Capture-qualified` is narrower than end-to-end calibration
 qualification. A blank or planned CI job never creates evidence.
 
+The device matrix is a claim ledger, not a prerequisite that the project
+owner's hardware must pass before users can calibrate their own devices. An
+initial release may truthfully contain no positive end-to-end physical-device
+cell while the user-directed workflow is validated under decision 0028.
+
 ## Initial target boundary
 
 The initial desktop targets are macOS 14.0 or later on Apple Silicon and Windows

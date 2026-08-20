@@ -32,9 +32,10 @@ Its RF level and power-measurement boundary is governed by
 Physical calibration is recorded as exact cells under
 [decision 0027](decisions/0027-cell-specific-physical-calibration.md), prepared
 under the [RC-03 cell-contract prompt](rc03-cell-contract-execution-prompt.md).
-RC-01 remains required for cross-device claims while an exact Airspy-only cell
-may proceed after its separate model, reference, evidence, and authorization
-gates are satisfied.
+The release-enabling user-directed workflow is governed by
+[decision 0028](decisions/0028-user-directed-calibration-workflow.md). RC-01 is
+required only for cross-device or general-support claims, and positive physical
+cells remain optional claim-specific work.
 The first exact LBE-1421/Airspy path observation is retained in the
 [reference diagnostic record](lbe1421-airspy-reference-diagnostic.md), prepared
 under its [documentation prompt](lbe1421-airspy-reference-diagnostic-execution-prompt.md).
@@ -94,7 +95,7 @@ Start with the [implementation status](status.md) and
 [Qualification Gate 1 Airspy HF+ Discovery record](qualification-gate-1-airspyhf.md),
 [Qualification Gate 1 SDRplay RSP1B record](qualification-gate-1-sdrplay-rsp1b.md),
 [platform and device matrix](platform-and-device-matrix.md),
-[end-to-end calibration qualification gate](end-to-end-qualification.md),
+[end-to-end calibration evidence contracts](end-to-end-qualification.md),
 [carrier estimator](carrier-estimator.md),
 [signal-quality analyzer](signal-quality-analyzer.md),
 [observation acceptance](observation-acceptance.md),

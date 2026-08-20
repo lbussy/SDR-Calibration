@@ -1,5 +1,10 @@
 # Airspy HF+ end-to-end qualification execution prompt
 
+Historical optional-device-cell prompt. Decision 0028 removed this exact
+project-owner hardware cell from the mandatory release path. It remains a
+bounded plan only for a future separately authorized positive Airspy cell and
+does not authorize hardware access.
+
 ## Objective
 
 Qualify, or fail closed without qualification, one exact local end-to-end live

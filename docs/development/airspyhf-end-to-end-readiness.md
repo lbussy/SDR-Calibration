@@ -6,6 +6,10 @@
 cleanup; WWV reference suitability was not established, so the end-to-end gate
 stopped before 15 MHz or production calibration.**
 
+This is retained development-fixture evidence, not a release blocker. Under
+decision 0028 it demonstrates bounded physical acquisition and truthful
+rejection behavior. A positive Airspy physical cell remains optional.
+
 The hardware-free Stage A review of the
 [execution prompt](airspyhf-end-to-end-qualification-prompt.md) found that the
 exact retained Airspy HF+ Discovery capture does not provide all identity and

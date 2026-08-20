@@ -6,7 +6,7 @@ This document freezes the contract for a planned production live-device
 calibration path. Its bounded acquisition, signal-quality analyzer, and
 injected fake-Soapy workflow boundary are implemented and hardware-free tested.
 The production CLI has explicit live-request wiring; the GUI remains recorded-
-input only, and no physical live combination is qualified.
+input only, and no physical live combination has a positive device-cell claim.
 The durable architectural boundary is accepted in
 [decision 0021](decisions/0021-live-device-diagnostics-boundary.md).
 
@@ -157,5 +157,7 @@ Implementation is divided into separately reviewed slices:
    setting-, duration-, abort-, cleanup-, and evidence-bound qualification plan
    for separately authorized execution.
 
-No slice establishes supported-device or calibration claims without retained
-qualification evidence for the exact combination.
+These slices and bounded physical fixtures may validate the user-directed
+workflow without establishing supported-device claims. A positive physical
+device-cell or general-support claim still requires retained qualification
+evidence for the exact combination under decisions 0027 and 0028.

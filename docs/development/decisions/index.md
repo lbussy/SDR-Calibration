@@ -33,4 +33,5 @@ superseded decision remains in the log and points to its replacement.
 0025-store-msix-primary-windows-artifact
 0026-rf-level-safety-boundary
 0027-cell-specific-physical-calibration
+0028-user-directed-calibration-workflow
 ```

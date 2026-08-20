@@ -1,5 +1,10 @@
 # RC-03 cell-contract reconciliation execution prompt
 
+Historical execution prompt. Its release-gating objective was superseded by
+[decision 0028](decisions/0028-user-directed-calibration-workflow.md). The
+cell-specific evidence rules remain applicable only when a positive physical
+device-cell claim is proposed.
+
 ## Objective
 
 Resolve the release-wide RC-01 dependency without bypassing it: define physical
