@@ -275,12 +275,12 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Store listing complete; replacement binding approved; upload not authorized",
+        "Status: Replacement package accepted and saved; certification not submitted",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
         "f11547cdbbedba715074d55413026a86ac5209597aeb42f8712e7527c7b6ff51",
-        "No package has been uploaded",
+        "internal ID `1152921505701677071`",
         "`runFullTrust` justification",
         "Publishing is held for manual owner action.",
         "Approved and saved",
@@ -324,7 +324,7 @@ def main() -> None:
         require(marker in replacement_upload_prompt,
                 f"Store replacement-upload prompt drift: {marker}")
     for marker in (
-        "Status: **Replacement binding approved; selection and upload remain separate**",
+        "Status: **Replacement upload completed; certification remains separate**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
@@ -335,11 +335,13 @@ def main() -> None:
         "Record me as the",
         "- Approval date (UTC): **2026-08-17**",
         "- Approving owner: **Lee Bussy**",
-        "match this packet. Package selection or upload remains a separate authorized",
+        "completed replacement upload match this packet",
         "4406a82e01072afc0d61d2516c2fe9607c608ea4",
         "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
         "Approved 2026-08-20 UTC; immediate pre-selection hash recheck required",
         "- Replacement approval date (UTC): **2026-08-20**",
+        "> I authorize selecting and uploading the exact approved replacement package.",
+        "- Upload authorization date (UTC): **2026-08-20**",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
     require(owner_decisions.count("- [ ]") == 0,
@@ -368,7 +370,9 @@ def main() -> None:
         "all 19 hardware-free tests",
         "zero installed",
         "packages, zero GUI processes",
-        "No package was selected or uploaded",
+        "Partner Center replacement upload",
+        "Partner Center accepted the single",
+        "still `In draft`",
         "approved the complete replacement path",
         "did not authorize selecting or",
     ):

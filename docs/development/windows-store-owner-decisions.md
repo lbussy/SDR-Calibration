@@ -1,6 +1,6 @@
 # Microsoft Store owner decision packet
 
-Status: **Replacement binding approved; selection and upload remain separate**
+Status: **Replacement upload completed; certification remains separate**
 
 Prepared: 2026-08-17
 
@@ -10,9 +10,9 @@ Updated: 2026-08-20
 
 This packet records the product owner's explicit approvals and remaining
 decisions. Preparing or committing a proposed value is not approval of that
-value. The recorded authorizations cover only the saved state described below;
-they do not authorize uploading a package or attachment, requesting
-certification, or publishing.
+value. The recorded authorizations cover only the saved state and exact
+replacement package described below; they do not authorize uploading any other
+attachment, requesting certification, or publishing.
 
 The current approved replacement binding is:
 
@@ -26,8 +26,9 @@ owner-authorized for upload and subsequently deleted from the draft after
 Partner Center rejected it. Saved commercial, listing, property, rating,
 publication-hold, and device-family decisions remain approved. On 2026-08-20
 UTC, the owner explicitly approved the complete replacement path, revision,
-version, architecture, size, and hash binding recorded below. That approval
-does not authorize package selection or upload.
+version, architecture, size, and hash binding recorded below, then separately
+authorized selecting and uploading that exact package. The replacement was
+accepted and saved; certification was not submitted.
 
 ## Visible-form reconciliation gate
 
@@ -184,11 +185,20 @@ The replacement binding approval is recorded as:
 - Replacement approval date (UTC): **2026-08-20**
 - Approving owner: **Lee Bussy**
 
+The separate replacement upload authorization is recorded as:
+
+> I authorize selecting and uploading the exact approved replacement package.
+
+- Upload authorization date (UTC): **2026-08-20**
+- Approving owner: **Lee Bussy**
+- Scope: the exact approved replacement only; no certification submission or
+  publication.
+
 Do not record an email address, phone number, postal address, account
 credential, notification recipient, or verification material in this file.
 
 ## Exit criteria
 
-The saved website, support URL, device-family state, and replacement binding
-match this packet. Package selection or upload remains a separate authorized
-slice, and **Submit for certification** remains a later explicit authorization.
+The saved website, support URL, device-family state, replacement binding, and
+completed replacement upload match this packet. **Submit for certification**
+remains a later explicit authorization.

@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Store listing complete; replacement binding approved; upload not authorized
+Status: Replacement package accepted and saved; certification not submitted
 
 Prepared: 2026-08-17
 
@@ -8,11 +8,11 @@ Updated: 2026-08-20
 
 ## Boundary
 
-This packet prepares the first Microsoft Store MSIX submission without creating
-or editing a Partner Center submission, uploading a package, requesting
-certification, or publishing the product. Decision 0025 makes Store MSIX the
-required Windows release artifact; the self-signed MSI remains testing-only.
-No package has been uploaded as part of this preparation.
+This packet began as preparation for the first Microsoft Store MSIX submission
+and now records the owner-authorized draft edits, listing assets, and accepted
+replacement package. Decision 0025 makes Store MSIX the required Windows
+release artifact; the self-signed MSI remains testing-only. Certification
+submission and publication remain separately authorized.
 
 The submission must use these established values:
 
@@ -73,7 +73,7 @@ identified explicitly below. The approval record is the
 | Listing | Keywords | `SDR`, `frequency calibration`, `IQ analysis`, `radio`, `WSJT-X` | Approved and saved |
 | Listing | Copyright | `Copyright (c) 2026 Lee Bussy` | Saved; matches repository license |
 | Listing | Developed by | `Lee Bussy` | Saved |
-| Packages | Device families | Windows Desktop only; exclude Mobile, Xbox, Team, and Mixed Reality | Approved and saved; reverify after upload |
+| Packages | Device families | Windows Desktop only; exclude Mobile, Xbox, Team, and Mixed Reality | Approved, reverified after replacement upload, and saved |
 | Submission options | Publishing hold | Manual publication | Approved and saved |
 | Submission options | Certification notes | Use the text below | Ready after candidate binding |
 | Submission options | Restricted capability | Use the `runFullTrust` justification below | Ready after candidate binding |
@@ -315,11 +315,22 @@ but the four-shot set is the readiness exit.
     passed all 19 hardware-free tests, package audit, MakeAppx pack/unpack,
     exact unpacked language/publisher/logo inspection, development-signed
     install, CLI alias, two GUI launches, uninstall, and cleanup. No Partner
-    Center action occurred. The owner approved the complete replacement binding
-    on 2026-08-20 UTC; selection or upload remains separately unauthorized.
+    Center action occurred during that build slice. The owner approved the
+    complete replacement binding on 2026-08-20 UTC.
+11. After separate explicit authorization, the exact replacement was rehashed
+    at its full retained Windows path and after isolated transfer. Both checks
+    matched byte size `95910402` and SHA-256
+    `6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08`.
+    Partner Center Submission 1, internal ID `1152921505701677071`, accepted
+    the single package as version `0.1.1.0`, `X64`, for `Windows.Desktop` with
+    minimum version `10.0.22000.0`. Desktop remained checked; Mobile, Xbox,
+    Team, Mixed Reality, and automatic future-family availability remained
+    unchecked. The only visible package-validation result was the expected
+    `runFullTrust` approval warning. The package state was saved and the product
+    remained `In draft`; certification was not submitted.
 
-Saved-field owner gates and the replacement artifact binding are approved in
-`windows-store-owner-decisions.md`. That binding approval does not authorize
-selection or upload, certification submission, or publication.
+Saved-field owner gates, the replacement artifact binding, and the separate
+upload authorization are recorded in `windows-store-owner-decisions.md`.
+Certification submission and publication remain unauthorized.
 
 No checkbox in this packet changes Partner Center state.

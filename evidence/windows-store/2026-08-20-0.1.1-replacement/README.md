@@ -54,3 +54,31 @@ The owner subsequently approved the complete replacement path, revision,
 version, architecture, byte size, and SHA-256 binding on 2026-08-20 UTC. That
 approval records the intended artifact only. It did not authorize selecting or
 uploading the package, and no Partner Center action occurred.
+
+## Partner Center replacement upload
+
+The owner separately authorized selecting and uploading this exact replacement
+package on 2026-08-20 UTC. Immediately before transfer, the retained Windows
+artifact was rechecked at the full path above and again after transfer to an
+isolated local staging directory. Both checks returned byte size `95910402` and
+SHA-256
+`6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08`.
+
+Microsoft Partner Center draft Submission 1, internal submission ID
+`1152921505701677071`, initially contained zero package entries. Windows 10/11
+Desktop was checked; Mobile, Xbox, Team, Mixed Reality, and automatic future
+device-family availability were unchecked. Partner Center accepted the single
+replacement upload and displayed:
+
+- filename `SDRCalibration-0.1.1-Windows-Store-x64.msix`;
+- version `0.1.1.0`;
+- architecture `X64`;
+- device family `Windows.Desktop`, minimum version `10.0.22000.0`; and
+- only the expected restricted-capability approval warning for `runFullTrust`.
+
+The accepted package state was saved with the approved device-family mapping
+unchanged. Partner Center returned to the product overview with Submission 1
+still `In draft`. No certification fixture was uploaded, no package was
+deleted, and **Submit for certification** was not selected. Microsoft signing,
+certification, Store delivery, clean-host Store behavior, and publication
+remain unestablished.
