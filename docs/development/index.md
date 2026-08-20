@@ -40,6 +40,10 @@ The first exact LBE-1421/Airspy path observation is retained in the
 under its [documentation prompt](lbe1421-airspy-reference-diagnostic-execution-prompt.md).
 That record now closes RC-02 only for its exact five-second `ad_hoc` reference
 contract; every broader reference or calibration claim remains gated.
+The separately gated different-frequency candidate is frozen in the
+[20 MHz reference execution plan](lbe1421-airspy-20mhz-reference-execution-plan.md).
+That plan uses two attenuators without the LBE-1710 and does not authorize
+hardware access by itself.
 The current macOS exact-host package lifecycle is governed by the
 [same-host qualification prompt](macos-same-host-package-qualification-prompt.md).
 The current release-candidate state is recorded in the
