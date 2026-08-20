@@ -271,7 +271,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Store listing complete; replacement qualified; owner binding pending",
+        "Status: Store listing complete; replacement binding approved; upload not authorized",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -309,7 +309,7 @@ def main() -> None:
     ):
         require(marker in package_upload_prompt, f"Store package-upload prompt drift: {marker}")
     for marker in (
-        "Status: **Saved fields approved; replacement candidate binding pending**",
+        "Status: **Replacement binding approved; selection and upload remain separate**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
@@ -320,16 +320,17 @@ def main() -> None:
         "Record me as the",
         "- Approval date (UTC): **2026-08-17**",
         "- Approving owner: **Lee Bussy**",
-        "selection or upload remains a separate authorized slice",
+        "match this packet. Package selection or upload remains a separate authorized",
         "4406a82e01072afc0d61d2516c2fe9607c608ea4",
         "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
-        "Pending renewed owner approval",
+        "Approved 2026-08-20 UTC; immediate pre-selection hash recheck required",
+        "- Replacement approval date (UTC): **2026-08-20**",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
-    require(owner_decisions.count("- [ ]") == 1,
-            "Store owner-decision packet must retain one pending replacement binding")
-    require(owner_decisions.count("- [x]") == 7,
-            "Store owner-decision packet must retain seven saved-field approvals")
+    require(owner_decisions.count("- [ ]") == 0,
+            "Store owner-decision packet must retain no pending attestations")
+    require(owner_decisions.count("- [x]") == 8,
+            "Store owner-decision packet must retain eight explicit approvals")
     require(replacement_artifact["source_revision"] ==
             "4406a82e01072afc0d61d2516c2fe9607c608ea4",
             "replacement artifact revision drift")
@@ -353,7 +354,8 @@ def main() -> None:
         "zero installed",
         "packages, zero GUI processes",
         "No package was selected or uploaded",
-        "explicit renewed owner binding",
+        "approved the complete replacement path",
+        "did not authorize selecting or",
     ):
         require(marker in replacement_readme,
                 f"replacement evidence narrative drift: {marker}")

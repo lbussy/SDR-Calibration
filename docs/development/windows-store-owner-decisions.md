@@ -1,6 +1,6 @@
 # Microsoft Store owner decision packet
 
-Status: **Saved fields approved; replacement candidate binding pending**
+Status: **Replacement binding approved; selection and upload remain separate**
 
 Prepared: 2026-08-17
 
@@ -14,18 +14,20 @@ value. The recorded authorizations cover only the saved state described below;
 they do not authorize uploading a package or attachment, requesting
 certification, or publishing.
 
-The packet is bound to:
+The current approved replacement binding is:
 
 - application version `0.1.1`;
-- source revision `957fbeb204177c9ba2a1582e936476244b201b9d`; and
+- source revision `4406a82e01072afc0d61d2516c2fe9607c608ea4`; and
 - unsigned Store MSIX SHA-256
-  `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`.
+  `6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08`.
 
-The rejected binding above was owner-authorized for upload and subsequently
-deleted from the draft after Partner Center rejected it. Saved commercial,
-listing, property, rating, publication-hold, and device-family decisions remain
-approved. The replacement candidate is a different revision, path, size, and
-hash, so its intended-upload binding is pending renewed owner approval.
+The prior binding at revision `957fbeb` and SHA-256 `1d982871...` was
+owner-authorized for upload and subsequently deleted from the draft after
+Partner Center rejected it. Saved commercial, listing, property, rating,
+publication-hold, and device-family decisions remain approved. On 2026-08-20
+UTC, the owner explicitly approved the complete replacement path, revision,
+version, architecture, size, and hash binding recorded below. That approval
+does not authorize package selection or upload.
 
 ## Visible-form reconciliation gate
 
@@ -58,7 +60,7 @@ has not approved that value in this record.
 | Publishing schedule | Manual publication hold; no automatic publication | Approved and saved |
 | Device families | Windows 10/11 Desktop only; Mobile, Xbox, Team, and Mixed Reality disabled | Approved and saved |
 | Future device families | Automatic availability disabled | Approved and saved |
-| Intended upload binding | Replacement path, revision, version, x64 architecture, size, and SHA-256 below | Pending renewed owner approval |
+| Intended upload binding | Replacement path, revision, version, x64 architecture, size, and SHA-256 below | Approved 2026-08-20 UTC; immediate pre-selection hash recheck required |
 | Certification submission | Separate explicit authorization required after all preflight evidence and visible fields are independently reconciled | Pending |
 
 ## Approved final decision
@@ -84,7 +86,7 @@ The previously approved and now rejected upload was exactly:
 Recompute the hash immediately before selecting the file and refuse any
 mismatch. Four same-named MSIX files exist, so filename alone is not a binding.
 
-The qualified replacement proposed for renewed owner binding is exactly:
+The owner-approved qualified replacement binding is exactly:
 
 - path: `C:\Users\lee\SDR-Calibration-Store-0.1.1-h-4406a82\build\windows-store-release\windows-store-package\SDRCalibration-0.1.1-Windows-Store-x64.msix`;
 - source revision: `4406a82e01072afc0d61d2516c2fe9607c608ea4`;
@@ -95,8 +97,8 @@ The qualified replacement proposed for renewed owner binding is exactly:
 This replacement passed construction, unpacked manifest/logo inspection, all
 19 hardware-free tests, package audit, and the same-host development lifecycle.
 It has not been selected or uploaded, and the local results do not establish
-Partner Center acceptance. The owner must explicitly approve this complete new
-binding before any file selection or upload.
+Partner Center acceptance. The binding is approved, but any file selection or
+upload remains a separate authorized action.
 
 The owner approved the following exact statement on 2026-08-17 UTC:
 
@@ -154,8 +156,7 @@ These are observations, not approvals:
 
 ## Owner attestation gate
 
-The first seven saved-field boxes remain complete. The replacement-binding box
-must be explicitly completed before the renewed owner-decision gate can pass:
+All saved-field and replacement-binding boxes are explicitly complete:
 
 - [x] I approve the price, markets, audience, and discoverability selections.
 - [x] I approve the category, language, website disposition, and the existence
@@ -170,14 +171,17 @@ must be explicitly completed before the renewed owner-decision gate can pass:
       implemented behavior.
 - [x] I require a manual publication hold and understand certification success
       must not automatically publish the product.
-- [ ] I approve the complete replacement candidate binding above as the
+- [x] I approve the complete replacement candidate binding above as the
       intended upload, subject to an immediate pre-selection hash recheck.
 
-The date below records the original saved-field and rejected-candidate approval;
-it does not approve the replacement binding. Record a separate replacement
-approval date only after the pending box is explicitly completed by the owner:
+The original saved-field and rejected-candidate approval remains recorded as:
 
 - Approval date (UTC): **2026-08-17**
+- Approving owner: **Lee Bussy**
+
+The replacement binding approval is recorded as:
+
+- Replacement approval date (UTC): **2026-08-20**
 - Approving owner: **Lee Bussy**
 
 Do not record an email address, phone number, postal address, account
@@ -185,7 +189,6 @@ credential, notification recipient, or verification material in this file.
 
 ## Exit criteria
 
-The saved website, support URL, and device-family state match this packet. The
-replacement binding remains pending; after explicit owner approval, package
-selection or upload remains a separate authorized slice, and **Submit for
-certification** remains a later explicit authorization.
+The saved website, support URL, device-family state, and replacement binding
+match this packet. Package selection or upload remains a separate authorized
+slice, and **Submit for certification** remains a later explicit authorization.

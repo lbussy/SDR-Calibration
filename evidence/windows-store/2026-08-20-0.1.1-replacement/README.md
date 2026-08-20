@@ -48,6 +48,9 @@ No package was selected or uploaded, no Partner Center field was changed, and
 no certification or publication action occurred. Local construction and
 development lifecycle qualification do not establish Partner Center
 acceptance, Microsoft signing, certification, Store delivery, clean-host Store
-behavior, or device qualification. The new path, revision, version,
-architecture, size, and hash require explicit renewed owner binding before any
-replacement selection or upload.
+behavior, or device qualification.
+
+The owner subsequently approved the complete replacement path, revision,
+version, architecture, byte size, and SHA-256 binding on 2026-08-20 UTC. That
+approval records the intended artifact only. It did not authorize selecting or
+uploading the package, and no Partner Center action occurred.

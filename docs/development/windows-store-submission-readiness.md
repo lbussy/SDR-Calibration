@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Store listing complete; replacement qualified; owner binding pending
+Status: Store listing complete; replacement binding approved; upload not authorized
 
 Prepared: 2026-08-17
 
@@ -315,11 +315,11 @@ but the four-shot set is the readiness exit.
     passed all 19 hardware-free tests, package audit, MakeAppx pack/unpack,
     exact unpacked language/publisher/logo inspection, development-signed
     install, CLI alias, two GUI launches, uninstall, and cleanup. No Partner
-    Center action occurred. The replacement binding is pending explicit owner
-    approval before selection or upload.
+    Center action occurred. The owner approved the complete replacement binding
+    on 2026-08-20 UTC; selection or upload remains separately unauthorized.
 
-Saved-field owner gates remain approved in `windows-store-owner-decisions.md`;
-the replacement artifact binding is pending. No prior approval authorizes its
+Saved-field owner gates and the replacement artifact binding are approved in
+`windows-store-owner-decisions.md`. That binding approval does not authorize
 selection or upload, certification submission, or publication.
 
 No checkbox in this packet changes Partner Center state.

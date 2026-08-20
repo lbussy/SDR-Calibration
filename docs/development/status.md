@@ -131,7 +131,8 @@
   approved and saved pricing, Properties, age ratings, English listing language,
   public website/support URLs, a manual publication hold, and Desktop-only
   availability with future device families disabled; saved-field owner gates
-  are complete while the replacement artifact binding is pending; the approved
+  and the replacement artifact binding are complete, while package selection
+  and upload remain separately unauthorized; the approved
   English listing description, eight features, short
   description, keywords, copyright, and developer are saved; four retained,
   exact-candidate Desktop screenshots and factual captions are saved in
@@ -149,7 +150,7 @@
   revision `4406a82` passed 19/19 hardware-free tests, package audit, exact
   unpacked language/publisher/logo inspection, and same-host development
   lifecycle with SHA-256 `6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08`;
-  owner rebinding, Partner Center acceptance, upload authorization,
+  Partner Center acceptance, package selection/upload authorization,
   certification, and publication remain open
 - Owner-confirmed clean-host lifecycle passes for the exact indexed macOS DMG,
   self-signed Windows MSI, and Raspberry Pi OS 13 ARM64 CLI DEB hashes; Windows
