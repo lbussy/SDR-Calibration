@@ -72,6 +72,12 @@
   review, bounded-plan fields, abort/cleanup, evidence, and stop criteria. The
   physical path remains explicitly not ready and no reference suitability or
   calibration claim is established.
+- One exact, separately authorized LBE-1420/LBE-1710/generic-attenuator/Airspy
+  diagnostic completed its five-second transport bound and passed the unchanged
+  production estimator and `signal-quality-v1` analyzer. Independent loaded-level
+  measurement was explicitly waived, so electrical path safety, analog linearity,
+  reference suitability, traceability, uncertainty, and calibration remain
+  unqualified as recorded in the [diagnostic report](lbe1420-airspy-reference-diagnostic.md).
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

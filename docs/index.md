@@ -33,6 +33,8 @@ development/live-gui-execution-prompt
 development/synthetic-end-to-end-workflow-qualification-prompt
 development/gpsdo-reference-path-readiness-execution-prompt
 development/gpsdo-reference-path-readiness
+development/lbe1420-airspy-reference-diagnostic-execution-prompt
+development/lbe1420-airspy-reference-diagnostic
 development/macos-same-host-package-qualification-prompt
 development/release-candidate-readiness-audit-prompt
 development/release-candidate-readiness
