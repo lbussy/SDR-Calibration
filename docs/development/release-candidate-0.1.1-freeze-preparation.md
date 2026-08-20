@@ -181,6 +181,16 @@ requires all of them to be inside the same physical prefix as `Qt6_DIR` and
 The replacement candidate must use a fresh or consistently rebound build tree.
 Both attempts stopped before notarization and produced no reusable artifact.
 
+Revision `104191efe8dd4aaccb8b86f529c4e0388894f5b9` was invalidated after its
+consistent official-Qt build and 19 hardware-free tests passed. Its configured
+corresponding-source inputs were retained inside the package output directory,
+which the target correctly clears before staging; the inputs therefore deleted
+themselves before the license assembly gate. The package preflight now rejects
+the primary or any additional corresponding-source input beneath its output
+directory before cleanup. Exact replacement archives must reside outside the
+output tree and pass the existing pinned SHA-256 and content checks. The attempt
+stopped before notarization and produced no reusable artifact.
+
 ## Known post-freeze gates
 
 Freezing source and constructing candidate artifacts do not complete:

@@ -101,6 +101,14 @@ if [[ "$output_dir" == "$build_dir" ]]; then
     echo "output directory must not equal the build directory" >&2
     exit 1
 fi
+for source_input in "$qt_source_archive" ${qt_additional_source_archives//;/ }; do
+    case "$source_input" in
+        "$output_dir"/*)
+            echo "corresponding-source input must be outside the package output directory: $source_input" >&2
+            exit 1
+            ;;
+    esac
+done
 
 stage_dir="$output_dir/stage"
 evidence_dir="$output_dir/evidence"

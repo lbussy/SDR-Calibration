@@ -291,6 +291,10 @@ def verify_macos(root: Path) -> None:
         "configured Qt package is outside the physical Qt prefix" in dmg,
         "mixed-prefix Qt package preflight is missing",
     )
+    require(
+        "corresponding-source input must be outside the package output directory" in dmg,
+        "self-deleting corresponding-source preflight is missing",
+    )
     for marker in (
         "assets/icons/macos/SDRCalibration.icon",
         "--app-icon SDRCalibration",
