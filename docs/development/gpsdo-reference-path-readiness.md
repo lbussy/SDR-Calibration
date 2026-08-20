@@ -8,7 +8,7 @@ This package is complete as an offline planning artifact. The physical path is
 not ready because loaded source/path level, attenuation tolerance, traceability,
 uncertainty, and complete source conditions have not been verified. One exact
 unmeasured-path diagnostic has now completed under an explicit operator waiver;
-its [record](lbe1420-airspy-reference-diagnostic.md) establishes only bounded
+its [record](lbe1421-airspy-reference-diagnostic.md) establishes only bounded
 transport and coherent-signal suitability for that run. Possession, delivery,
 lock indication, a nominal 10 MHz label, or a clean digital sample does not
 close the remaining gates.
@@ -28,16 +28,16 @@ Candidate receivers currently known to the project are:
 
 | Receiver | Current evidence | Reference-path status |
 | --- | --- | --- |
-| Airspy HF+ Discovery serial `2f52ff5de72635ba` | Exact recorded macOS combination is bounded-capture-qualified; one waived-measurement LBE-1420 path produced an accepted coherent signal | Transport suitable for the exact diagnostic; electrical path and reference suitability not ready |
+| Airspy HF+ Discovery serial `2f52ff5de72635ba` | Exact recorded macOS combination is bounded-capture-qualified; one waived-measurement LBE-1421 path produced an accepted coherent signal | Transport suitable for the exact diagnostic; electrical path and reference suitability not ready |
 | SDRplay RSP1B serial `2404058C60` | Exact recorded macOS combination is bounded-capture-qualified | Input topology and limits unverified; not ready |
 
 ## Completed diagnostic with open gates
 
-The 2026-08-20 LBE-1420/Airspy diagnostic used the attenuated RF-input topology,
+The 2026-08-20 LBE-1421/Airspy diagnostic used the attenuated RF-input topology,
 an LBE-1710 filter/DC block, and a generic nominal -10 dB attenuator. Its exact
 digest-bound override, transport record, cleanup evidence, private artifact
 hashes, and production analysis are retained in the
-[diagnostic record](lbe1420-airspy-reference-diagnostic.md).
+[diagnostic record](lbe1421-airspy-reference-diagnostic.md).
 
 The operator waived the independent preconnection level measurement. The
 attenuator's actual loss and tolerance remain unknown, and no unit-specific
@@ -52,19 +52,19 @@ dates, and page or section references.
 
 | Field | Required evidence | Current value |
 | --- | --- | --- |
-| Manufacturer, exact model, serial | Nameplate plus authoritative manual | Leo Bodnar LBE-1420; exact serial retained privately |
-| Output port and connector | Labeled port and manual | Single SMA-female RF output; received-unit marking retained privately |
-| Nominal frequency and available modes | Manual; exact selected mode later verified | Datasheet range 1 Hz-1.4 GHz; operator reported 10 MHz Low Power for the diagnostic |
-| Waveform and harmonic specification | Manual or measured record | LBE-1420 datasheet: CMOS square wave; LBE-1710 page: greater than 65 dB significant-harmonic suppression; not independently measured |
+| Manufacturer, exact model, serial | Nameplate plus authoritative manual | Leo Bodnar LBE-1421; exact serial retained privately; exact USB identity observed 2026-08-20 |
+| Output port and connector | Labeled port and manual | Two SMA-female outputs; output 1 supports 1 Hz-800 MHz or 1 PPS and output 2 supports 1 Hz-1.4 GHz; exact output used in the RF diagnostic was not retained |
+| Nominal frequency and available modes | Manual; exact selected mode later verified | USB-only observation displayed both outputs enabled at 10 MHz and Low Power; earlier RF-run output-port identity remains unknown |
+| Waveform and harmonic specification | Manual or measured record | LBE-1421 datasheet: CMOS square wave; LBE-1710 page: greater than 65 dB significant-harmonic suppression; not independently measured |
 | Output level | Minimum, nominal, and maximum with units | +6 dBm nominal Low Power below 400 MHz; tolerance and received-unit extrema unverified |
 | Level convention | dBm, dBV, Vrms, Vpp, open-circuit, or specified load | Datasheet specifies 1.65 V into 50 ohms and +6 dBm Low Power; exact power convention/tolerance not fully stated |
 | Source impedance and required load | Manual | 50-ohm source; assembled loaded output not measured |
 | DC content or bias | Manual and measurement method | LBE-1710 manufacturer page states DC removal; assembled-path DC not independently measured |
 | Warm-up requirement | Manual and planned monotonic timer | Unverified |
-| Lock indication and lock-loss behavior | Manual plus observable indication | Operator confirmed valid lock indication for the diagnostic; exact indication semantics not retained |
-| Holdover behavior | Manual; state whether holdover is permitted | Manufacturer describes seamless temporary-loss holdover/reacquisition; holdover was prohibited but not independently distinguished in retained telemetry |
+| Lock indication and lock-loss behavior | Manual plus observable indication | Operator confirmed a valid lock indication for the RF diagnostic; later application reported `Device Ok` but exposed no distinct GPS-lock or PLL-lock field; semantics remain incomplete |
+| Holdover behavior | Manual; state whether holdover is permitted | Manufacturer describes seamless temporary-loss holdover/reacquisition; application and passive NMEA observation did not expose or distinguish holdover |
 | Environmental limits | Manual and planned observation method | Unverified |
-| Power supply and grounding | Manual and bench arrangement | Datasheet specifies USB-C, 5 V ±10%, 250 mA ±10%; exact bench supply/grounding record incomplete |
+| Power supply and grounding | Manual and bench arrangement | Datasheet specifies USB-C, 5 V ±10%, 250 mA ±10%; USB reported 250 mA; exact bench supply/grounding record incomplete |
 | Traceability chain | Current calibration/specification evidence | Unverified |
 | Frequency uncertainty | Value, coverage, conditions, validity interval | Unverified |
 

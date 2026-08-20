@@ -1,9 +1,9 @@
-# LBE-1420/Airspy reference diagnostic evidence prompt
+# LBE-1421/Airspy reference diagnostic evidence prompt
 
 ## Objective
 
 Preserve a privacy-reviewed, documentation-only record of the one completed
-LBE-1420-to-Airspy HF+ Discovery diagnostic. Reconcile its transport and signal
+LBE-1421-to-Airspy HF+ Discovery diagnostic. Reconcile its transport and signal
 evidence with the GPSDO readiness package without converting an explicitly
 waived level measurement into an electrical-safety, traceability, uncertainty,
 calibration, supported-device, or release claim.
@@ -13,7 +13,9 @@ calibration, supported-device, or release claim.
 - Execution date: 2026-08-20.
 - Authorized override-plan SHA-256:
   `2d9d24743810c56944d5c87917979282799254148daa28754098e49c34a449ba`.
-- Source: one exact Leo Bodnar LBE-1420, with its serial retained privately.
+- Source: one exact Leo Bodnar LBE-1421, with its serial retained privately.
+  The RF authorization used LBE-1420 because of an operator typo later resolved
+  by a bounded USB identity observation.
 - Operator-reported setting: 10 MHz, Low Power, nominal +6 dBm, valid GNSS
   lock.
 - Path: 6-inch patch, LBE-1710 10 MHz low-pass filter/DC block, 12-inch
@@ -28,7 +30,8 @@ calibration, supported-device, or release claim.
 
 ## Required work
 
-1. Add a concise diagnostic record containing the exact frozen topology,
+1. Add a concise diagnostic record containing the frozen topology, noting that
+   the exact one of the dual outputs used was not retained,
    nominal-only level calculation, requested/effective settings, transport,
    cleanup, hashes, production-estimator result, `signal-quality-v1` result,
    and final suitability classification.
