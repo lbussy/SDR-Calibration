@@ -41,10 +41,20 @@ Huber reweighting. The fit returns:
 - residual model coherence and phase RMS diagnostics; and
 - a status and reviewable reason.
 
+The coherence and phase-RMS diagnostics summarize residuals of the
+**adjacent-sample phase increments** used by the frequency fit. They are not a
+whole-observation coherent-carrier-power or SNR calculation. Small
+time-varying frequency departures can remain highly coherent from one sample
+to the next while their integrated phase accumulates across a longer
+observation. The separate signal-quality analyzer removes the fitted phase over
+the complete buffer and can therefore report low SNR despite estimator
+coherence near one.
+
 This estimator makes no uncertainty, confidence, accuracy, reference-
 suitability, device-support, or calibration claim. Its coherence floor rejects
-inputs that cannot support a single drifting-carrier estimate; passing that
-floor does not make an observation acceptable. Clipping, SNR, discontinuity,
+inputs whose adjacent phase increments cannot support a single drifting-carrier
+estimate; passing that floor does not establish long-duration phase coherence
+or make an observation acceptable. Clipping, SNR, discontinuity,
 instability, and interference are evaluated by the separate observation-
 acceptance policy even though estimator fixtures exercise representative
 conditions.

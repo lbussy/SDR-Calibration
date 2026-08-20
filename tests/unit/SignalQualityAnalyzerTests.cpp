@@ -132,9 +132,11 @@ void testNonlinearInstability() {
     SignalQualityOptions options;
     options.version = "signal-quality-instability-fixture-v1";
     options.window_estimator = estimatorOptions;
-    const auto result =
-        analyzeSignalQuality(values, rate, estimate(values, rate, estimatorOptions), options);
+    const auto carrier = estimate(values, rate, estimatorOptions);
+    const auto result = analyzeSignalQuality(values, rate, carrier, options);
     CHECK(result.succeeded());
+    CHECK(carrier.model_coherence > 0.99);
+    CHECK(result.signal_to_noise_db < 10.0);
     CHECK(result.frequency_instability_hz > 0.5);
 }
 

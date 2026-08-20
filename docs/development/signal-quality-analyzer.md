@@ -71,6 +71,14 @@ calibration accuracy. Version one does not assign uncertainty to these
 diagnostics; physical-input behavior and acceptance-threshold margins remain
 separate qualification work.
 
+Analyzer SNR is evaluated over the complete supplied buffer. Slowly varying
+frequency behavior outside the fitted linear-drift model can accumulate phase
+over a long buffer and reduce coherent carrier power even when shorter windows
+have high SNR and the estimator's adjacent-increment coherence is near one.
+Short-window success does not override a whole-buffer SNR failure; callers must
+apply the acceptance policy to the exact observation duration they intend to
+accept.
+
 Golden fixtures cover clean and drifting tones, seeded noise, normalized
 clipping, a known interfering tone, non-linear frequency variation, invalid
 options, estimate/sample mismatch, non-finite samples, and insufficient
