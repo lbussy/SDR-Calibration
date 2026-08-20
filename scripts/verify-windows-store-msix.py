@@ -184,6 +184,7 @@ def main() -> None:
         "Microsoft Visual Studio\\Installer\\vswhere.exe",
         "Microsoft.VisualStudio.Component.VC.Tools.x86.x64",
         "Common7\\Tools\\VsDevCmd.bat",
+        "'\"' + $devCmd +",
         "-arch=x64 -host_arch=x64",
         "Visual Studio environment setup did not expose cl.exe",
         "Get-FileHash -LiteralPath $binding.Value -Algorithm SHA256",

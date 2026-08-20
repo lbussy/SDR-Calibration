@@ -34,8 +34,9 @@ function Enter-MsvcEnvironment {
     if (-not (Test-Path -LiteralPath $devCmd -PathType Leaf)) {
         throw 'Visual Studio developer environment script was not found'
     }
-    $environment = & $env:ComSpec /d /s /c `
-        "`"`"$devCmd`" -no_logo -arch=x64 -host_arch=x64 && set`""
+    $environmentCommand = '"' + $devCmd +
+        '" -no_logo -arch=x64 -host_arch=x64 && set'
+    $environment = & $env:ComSpec /d /s /c $environmentCommand
     if ($LASTEXITCODE -ne 0) { throw 'Visual Studio developer environment setup failed' }
     foreach ($line in $environment) {
         $separator = $line.IndexOf('=')
