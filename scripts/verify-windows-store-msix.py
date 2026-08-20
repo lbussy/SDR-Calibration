@@ -57,6 +57,10 @@ def main() -> None:
     package_upload_prompt = read(
         root, "docs/development/windows-store-package-upload-execution-prompt.md"
     )
+    replacement_upload_prompt = read(
+        root,
+        "docs/development/windows-store-replacement-upload-execution-prompt.md",
+    )
     partner_center_inspection = read(
         root,
         "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
@@ -308,6 +312,17 @@ def main() -> None:
         "Adversarial review",
     ):
         require(marker in package_upload_prompt, f"Store package-upload prompt drift: {marker}")
+    for marker in (
+        "The recorded artifact-binding approval does not provide that authorization",
+        "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
+        "Open the file picker only after all preceding gates pass",
+        "do not delete or replace the rejected entry without a new",
+        "Do not select **Submit for certification**",
+        "No fixture, certification, deletion, or publication action occurs",
+        "Adversarial review",
+    ):
+        require(marker in replacement_upload_prompt,
+                f"Store replacement-upload prompt drift: {marker}")
     for marker in (
         "Status: **Replacement binding approved; selection and upload remain separate**",
         "Preparing or committing a proposed value is not approval of that",
