@@ -79,6 +79,12 @@
   retained warm-up, GNSS, duration, uncertainty, safety-margin, and cleanup
   evidence and closed only the five-second RC-02 boundary recorded in the
   [diagnostic report](lbe1421-airspy-reference-diagnostic.md).
+- Decision 0027 defines RC-03 as exact device/configuration/reference/platform/
+  domain cells. An Airspy-only cell does not require RC-01, but the current
+  linear production workflow still requires at least one additional
+  independently qualified reference frequency. RC-01 remains blocked and
+  mandatory for receiver-equivalence, cross-device, or general support claims;
+  RC-03 remains `Not qualified`.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

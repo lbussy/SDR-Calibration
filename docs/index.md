@@ -35,6 +35,7 @@ development/gpsdo-reference-path-readiness-execution-prompt
 development/gpsdo-reference-path-readiness
 development/lbe1421-airspy-reference-diagnostic-execution-prompt
 development/lbe1421-airspy-reference-diagnostic
+development/rc03-cell-contract-execution-prompt
 development/macos-same-host-package-qualification-prompt
 development/release-candidate-readiness-audit-prompt
 development/release-candidate-readiness

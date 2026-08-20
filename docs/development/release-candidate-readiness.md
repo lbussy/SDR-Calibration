@@ -62,17 +62,18 @@ distributable release.
 
 | ID | Gate | Current state | Dependency or unblock condition | Required retained evidence |
 | --- | --- | --- | --- | --- |
-| RC-01 | Matched receiver comparison | Blocked; separate captures do not control shared propagation and feed conditions | Install the splitter and approve a bounded simultaneous Airspy/RSP1B plan | Exact identities/configurations, common observation windows, port rotation, results, abort, and cleanup |
+| RC-01 | Matched receiver comparison | Blocked; separate captures do not control shared propagation and feed conditions | Install the splitter and approve a bounded simultaneous Airspy/RSP1B plan; required for receiver-equivalence, cross-device, and general receiver-support claims, but not an exact single-device RC-03 cell under decision 0027 | Exact identities/configurations, common observation windows, port rotation, results, abort, and cleanup |
 | RC-02 | Reference suitability | Complete only for the exact five-second LBE-1421 OUT1/LBE-1710/-10 dB/Airspy contract; source is `ad_hoc`, ceiling 50, with assigned expanded uncertainty 1.0 Hz at `k = 2` | Complete for that exact scope; any longer duration, topology, receiver, setting, condition, or stronger authority claim requires a new plan | Exact identity and OUT1 topology, operator-confirmed 14.6 dB nominal RF margin, 15-minute warm-up, continuous GNSS evidence, five-second production acceptance, repeatability comparison, hashes, cleanup, and safe-state confirmation retained |
-| RC-03 | Physical end-to-end calibration | Not qualified | RC-01 and RC-02 must supply an accepted device/path/reference combination | Acquisition through profile evaluation, comparison error/uncertainty, assurance ceiling, exact artifacts, and cleanup |
+| RC-03 | Physical end-to-end calibration cells | Not qualified | For an exact single-device cell, RC-02 must supply every reference frequency/path and the production model, registry, condition-evidence, uncertainty, assurance, profile, evaluation, evidence, privacy, and cleanup contracts must pass. RC-01 remains required for every cross-device or general receiver-support claim | Exact cell identity; independently accepted observations with nonzero frequency span; acquisition or verified recorded ingestion through profile evaluation; comparison error/uncertainty; assurance ceiling; exact artifacts; privacy review; and cleanup |
 | RC-04 | macOS clean-host lifecycle | Passed by owner confirmation for exact DMG SHA-256 `94a831d4549b92edd85222c55e0cd64395dbe8acfd1f4bd5c57351f15bf80ad4` | Complete | Exact hash and owner-confirmed lifecycle record retained |
 | RC-05 | Windows Store certification and lifecycle | Exact `0.1.1` MSIX construction, WACK, and development-signed same-host lifecycle passed for SHA-256 `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`; screenshots and the certification fixture are retained; Store certification/delivery and clean-host evidence remain open | Submit the exact candidate under separate authorization, pass certification, then qualify Store installation on a clean Windows 11 host | Exact identity/version; certification result; Microsoft signature; Store install, GUI, CLI alias, removal, cleanup, listing/capability agreement, and retained evidence |
 | RC-06 | Prior-version transitions and Windows MSI migration | Exact read-only `0.1.0` macOS/DEB baselines exist; no transition is qualified. No published Store predecessor exists for the first MSIX | Freeze a candidate above `0.1.0`; execute applicable macOS/DEB transitions; independently verify the first-Store-release N/A; qualify MSI coexistence/manual migration | Old/new hashes, version consistency, preserved seeded state, package-manager transitions, Windows coexistence/CLI/Start identity, cleanup, and independent review |
 | RC-07 | Bind accepted compatibility and artifact policy to a candidate | Decisions 0022 and 0025 define the policy; no source or schema revision is frozen | Select a candidate only after its required artifact and qualification gates can be executed | Frozen revision, exact schemas and artifacts, compatibility statement, and change-control rule |
 | RC-08 | Release documentation and evidence ledger | Fail-closed templates and evidence-package assembly plan exist; no frozen-candidate values or final approvals are populated | RC-07 plus exact final candidate artifacts; every required cell must be linked, digested, privacy-reviewed, and independently verified | Completed release notes, known limitations, upgrade/rollback guidance, vulnerability reporting, checksums, manifest, inventories, corresponding source, and evidence index with no blocking required fields |
 
-RC-03 is the accuracy-bearing gate. Package success, synthetic workflow success,
-or capture success cannot substitute for it. RC-04 is complete. RC-05 remains
+RC-03 is the accuracy-bearing cell matrix. Passing one exact cell does not close
+another cell or create a general support claim. Package success, synthetic
+workflow success, or capture success cannot substitute for it. RC-04 is complete. RC-05 remains
 open until the exact frozen MSIX is certified and Store-delivered. RC-06 cannot
 be satisfied until candidate `0.1.1` completes its applicable transitions.
 
@@ -128,11 +129,15 @@ claiming that a candidate package has been assembled.
 
 ## Ordered resumption path
 
-1. Complete RC-01 after the splitter is installed.
-2. Retain RC-02's completed five-second controlled-reference boundary; reopen
-   it before any broader-duration or stronger-authority claim.
-3. Run RC-03 for each exact device/reference/platform combination proposed for
-   a positive support claim.
+1. Retain RC-01 as blocked until the splitter is installed; complete it before
+   any receiver-equivalence, cross-device, or general receiver-support claim.
+2. Retain RC-02's completed five-second 10 MHz controlled-reference boundary;
+   qualify at least one different reference frequency before attempting the
+   current linear-model Airspy-only RC-03 cell, and reopen RC-02 before any
+   broader-duration or stronger-authority claim.
+3. Run RC-03 separately for each exact device, effective configuration,
+   reference path, platform, and observation domain proposed for a positive
+   cell claim under decision 0027.
 4. Complete Windows Store certification/delivery and RC-06 applicable
    prior-version and MSI-migration qualification for the frozen candidate.
 5. Complete RC-07, build only the frozen candidate artifacts, and assemble

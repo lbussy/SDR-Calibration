@@ -29,6 +29,12 @@ Future local-reference work is held by the
 prepared under its [execution prompt](gpsdo-reference-path-readiness-execution-prompt.md).
 Its RF level and power-measurement boundary is governed by
 [decision 0026](decisions/0026-rf-level-safety-boundary.md).
+Physical calibration is recorded as exact cells under
+[decision 0027](decisions/0027-cell-specific-physical-calibration.md), prepared
+under the [RC-03 cell-contract prompt](rc03-cell-contract-execution-prompt.md).
+RC-01 remains required for cross-device claims while an exact Airspy-only cell
+may proceed after its separate model, reference, evidence, and authorization
+gates are satisfied.
 The first exact LBE-1421/Airspy path observation is retained in the
 [reference diagnostic record](lbe1421-airspy-reference-diagnostic.md), prepared
 under its [documentation prompt](lbe1421-airspy-reference-diagnostic-execution-prompt.md).
