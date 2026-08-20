@@ -77,7 +77,7 @@ identified explicitly below. The approval record is the
 | Listing | Developed by | `Lee Bussy` | Saved |
 | Packages | Device families | Windows Desktop only; exclude Mobile, Xbox, Team, and Mixed Reality | Approved, reverified after replacement upload, and saved |
 | Submission options | Publishing hold | Manual publication | Approved and saved |
-| Submission options | Certification notes | Use the text below | Ready after candidate binding |
+| Supplemental info | Certification notes | Empty; optional in the visible form | Audited; no credentials or notes saved |
 | Submission options | Restricted capability | Exact 478-character `runFullTrust` justification below | Approved and saved |
 
 ## English listing copy
@@ -134,9 +134,13 @@ Use only if Partner Center presents the optional field:
 
 `SDR`, `frequency calibration`, `IQ analysis`, `radio`, `WSJT-X`
 
-## Certification notes
+## Deferred certification notes and fixture
 
-Use this with the retained supplemental fixture attachment:
+The visible Additional Testing Information page is optional, contains an empty
+description and zero credentials, and exposes no attachment control. No notes
+or fixture were added to the draft. The text below remains a historical
+proposal and must not be used without requalification against the accepted
+replacement package:
 
 > SDR Calibration is an offline, recorded-input-only Windows desktop utility.
 > It requires no login, service, network connection, SDR hardware, driver, or
@@ -164,8 +168,8 @@ private-key, or sensitive raw-IQ material.
 
 That review is retained with the proposed supplemental attachment at
 `evidence/windows-store/2026-08-17-0.1.1-certification-fixture/`. The attachment
-has not been uploaded; its filename and hash must be rechecked immediately
-before it is added to a Partner Center submission.
+has not been uploaded. It was exercised against the superseded first candidate,
+not the accepted replacement, and is therefore stale for certification use.
 
 ## `runFullTrust` justification
 
@@ -267,20 +271,18 @@ but the four-shot set is the readiness exit.
       in Partner Center in manifest order; Xbox and optional assets remain empty.
 - [x] Owner completed the support-channel, device-family/future-family, and
       exact-candidate binding attestations.
-- [x] Listing copy, certification notes, and `runFullTrust` justification match
-      the exact package behavior.
+- [x] Listing copy and `runFullTrust` justification match the exact package
+      behavior; optional certification notes and credentials remain empty.
 - [x] Publishing is held for manual owner action.
-- [ ] Partner Center package validation passes.
-- [ ] Independent reviewer reconciles every visible Partner Center section with
+- [x] Partner Center package validation passes.
+- [x] Independent reviewer reconciles every visible Partner Center section with
       this packet before **Submit for certification**.
 
-## Current blockers and external gates
+## Audit history and remaining external gates
 
-1. Partner Center reports Pricing and availability, Properties, Age ratings,
-   and Submission options `Complete`. The English (United States) listing
-   has all approved text and four exact-candidate Desktop screenshots saved;
-   Store listings is `Complete` and Packages is `Incomplete`;
-   `Submit for certification` remains disabled.
+1. Partner Center reports all six submission sections `Complete`, the accepted
+   replacement package `Validated`, and **Submit for certification** enabled.
+   The product remains `In draft`, and the audit did not select the button.
 2. Version `0.1.1` has a clean synchronized Windows package construction at
    revision `957fbeb` and SHA-256
    `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`;
@@ -291,7 +293,10 @@ but the four-shot set is the readiness exit.
    are saved to the Desktop English (United States) listing in manifest order
    with factual captions; Xbox and optional asset counts remain zero.
 4. The deterministic certification fixture attachment is retained and
-   independently reviewed, but it has not been uploaded.
+   independently reviewed, but it was exercised against the superseded first
+   candidate. The visible supplemental page has no attachment control. The
+   fixture remains excluded and must not be uploaded without replacement-package
+   requalification and separate authorization.
 5. The owner approved and saved commercial availability, category, privacy,
    reconciled Properties declarations, the repository website and Issues
    support URL, all IARC answers and attestation, the manual publication hold,
@@ -306,11 +311,10 @@ but the four-shot set is the readiness exit.
    not the filename alone.
 7. The Packages page has Windows 10/11 Desktop checked; Mobile, Xbox, Team, and
    Mixed Reality unchecked; and Microsoft's future-device-family option
-   unchecked. The rejected first package was deleted; no replacement package
-   has been selected or uploaded.
-8. Package and fixture upload, certification submission, Microsoft signing,
-   Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
-   remain open and separately authorized.
+   unchecked. The accepted replacement is the sole package entry.
+8. Certification submission, Microsoft signing, Store delivery, clean-host
+   Store lifecycle, and MSI migration/coexistence remain open. Fixture upload
+   is neither required nor authorized.
 9. The exact approved `0.1.1` candidate was uploaded after immediate source and
    transfer hash checks, but Partner Center rejected it for missing resolved
    logo paths, blank publisher display name, and absent/default package language.
@@ -340,6 +344,14 @@ but the four-shot set is the readiness exit.
     unchecked. The only visible package-validation result was the expected
     `runFullTrust` approval warning. The package state was saved and the product
     remained `In draft`; certification was not submitted.
+12. The final read-only audit confirmed free worldwide public/discoverable
+    availability, future-market inclusion, release scheduling as soon as
+    possible subject to the separate manual publication hold, approved
+    Properties and privacy URL, all-ages/3+ ratings, one validated Desktop-only
+    package, one complete English listing with four Desktop screenshots and no
+    Xbox assets, the exact 478-character `runFullTrust` explanation, and empty
+    optional Additional Testing Information with zero credentials. No field was
+    changed and certification was not submitted.
 
 Saved-field owner gates, the replacement artifact binding, and the separate
 upload authorization are recorded in `windows-store-owner-decisions.md`.

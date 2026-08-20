@@ -66,6 +66,10 @@ def main() -> None:
         root,
         "docs/development/windows-store-post-upload-readiness-execution-prompt.md",
     )
+    final_audit_prompt = read(
+        root,
+        "docs/development/windows-store-final-precertification-audit-execution-prompt.md",
+    )
     partner_center_inspection = read(
         root,
         "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
@@ -292,6 +296,7 @@ def main() -> None:
         "https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md",
         "Exact 478-character `runFullTrust` justification",
         "Every\nsubmission section reports `Complete`",
+        "optional Additional Testing Information",
     ):
         require(
             marker in submission_readiness,
@@ -341,7 +346,16 @@ def main() -> None:
         require(marker in post_upload_prompt,
                 f"Store post-upload prompt drift: {marker}")
     for marker in (
-        "Status: **Replacement upload completed; certification remains separate**",
+        "Perform a read-only, fail-closed reconciliation",
+        "Treat the retained certification fixture as stale for upload",
+        "Do not select **Submit for certification**",
+        "Additional Testing Information contains an empty optional description",
+        "Adversarial review",
+    ):
+        require(marker in final_audit_prompt,
+                f"Store final pre-certification audit prompt drift: {marker}")
+    for marker in (
+        "Status: **Final pre-certification audit complete; submission not authorized**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
@@ -362,6 +376,8 @@ def main() -> None:
         "https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md",
         "| Secondary category | Developer tools |",
         "explicitly approved\nretaining **Developer tools**",
+        "I authorize submitting Partner Center Submission 1",
+        "Do not treat preparation or quotation of that statement as authorization.",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
     require(owner_decisions.count("- [ ]") == 0,
@@ -406,6 +422,9 @@ def main() -> None:
         "Complete pre-certification draft",
         "all `Complete`",
         "enabled but not\nselected",
+        "Final read-only pre-certification audit",
+        "zero\ncredentials, and no attachment control",
+        "changed no Partner Center state",
         "approved the complete replacement path",
         "did not authorize selecting or",
     ):

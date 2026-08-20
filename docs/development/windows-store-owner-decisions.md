@@ -1,6 +1,6 @@
 # Microsoft Store owner decision packet
 
-Status: **Replacement upload completed; certification remains separate**
+Status: **Final pre-certification audit complete; submission not authorized**
 
 Prepared: 2026-08-17
 
@@ -212,6 +212,20 @@ reported `Complete`; **Submit for certification** was enabled but not selected.
 
 Do not record an email address, phone number, postal address, account
 credential, notification recipient, or verification material in this file.
+
+## Certification submission gate
+
+The final read-only audit found all six sections `Complete`, the sole package
+`Validated`, the manual publication hold selected, and no required supplemental
+testing field. Certification submission remains a separate external action.
+The exact authorization statement for a later slice is:
+
+> I authorize submitting Partner Center Submission 1, internal ID
+> 1152921505701677071, for Microsoft Store certification with the currently
+> saved package, listing, properties, ratings, targeting, runFullTrust
+> justification, and manual publication hold. Do not publish the product.
+
+Do not treat preparation or quotation of that statement as authorization.
 
 ## Exit criteria
 

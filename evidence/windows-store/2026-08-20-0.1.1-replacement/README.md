@@ -97,3 +97,19 @@ Packages, Store listings, and Submission options all `Complete`; the package
 reported `Validated`. **Submit for certification** was enabled but not
 selected. The product remained `In draft`; certification, Microsoft signing,
 Store delivery, and publication remain unestablished.
+
+## Final read-only pre-certification audit
+
+The audit confirmed free worldwide public and discoverable availability,
+future-market inclusion, release scheduling as soon as possible subject to the
+separate manual publication hold, approved Properties and privacy URL,
+all-ages/3+ ratings, the sole validated Desktop-only package, and one complete
+English listing with four Desktop screenshots and no Xbox assets. Submission
+Options retained the exact 478-character `runFullTrust` explanation.
+
+Additional Testing Information contained an empty optional description, zero
+credentials, and no attachment control. The retained fixture was exercised
+against the superseded first candidate and remains excluded. The final overview
+still showed all six sections `Complete`, the package `Validated`, and the
+product `In draft`. **Submit for certification** was enabled but not selected;
+the audit changed no Partner Center state.
