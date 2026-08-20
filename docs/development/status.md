@@ -228,14 +228,12 @@
   with hardware-free source-contract and CLI runtime tests; version `0.1.1` is
   selected and bound to an exact Windows MSIX hash for Store-candidate
   preparation but is not designated as a release candidate
-- Clean synchronized Windows construction of the unsigned `0.1.1` Store MSIX
-  at source `957fbeb`, including 19/19 hardware-free tests, package/runtime and
-  license audit, MakeAppx creation/unpack inspection, WACK `PASS`, and exact-hash
-  development-signed install, CLI alias, GUI launch/relaunch, uninstall, and
-  certificate cleanup; four exact-candidate screenshots and a deterministic
-  certification fixture attachment are retained and privacy-reviewed; Store
-  submission, Microsoft signing, Store delivery/update, and clean-host behavior
-  remain open
+- Historical Windows `0.1.1` Store MSIX candidates passed construction,
+  WACK, and exact-hash development lifecycle checks. Their hashes,
+  screenshots, fixture, Partner Center state, and lifecycle results remain
+  historical and must not be attributed to a newly frozen package. Current
+  candidate construction, WACK, lifecycle, and later Store gates require
+  candidate-specific evidence.
 - Public repository with GitHub Private Vulnerability Reporting enabled;
   retained non-vulnerability evidence covers the maintainer-side advisory
   create/retrieve/close control and one eligible external reporter's private

@@ -191,6 +191,16 @@ directory before cleanup. Exact replacement archives must reside outside the
 output tree and pass the existing pinned SHA-256 and content checks. The attempt
 stopped before notarization and produced no reusable artifact.
 
+Revision `9163ddbfd5f6c4c4babd15bf33d4b760e483e803` produced valid source,
+macOS, Windows, and Raspberry Pi package bytes, but the post-construction
+adversarial review found that current readiness, platform-matrix, and status
+prose still attributed historical Windows WACK and development-lifecycle
+results to the active `0.1.1` candidate. Because those artifact-specific
+results do not transfer, the revision is invalidated. The corrected documents
+label the old evidence historical and leave candidate-specific WACK and
+lifecycle cells open. Every replacement artifact must be rebuilt from the new
+frozen revision; none of the `9163ddb` hashes carries forward.
+
 ## Known post-freeze gates
 
 Freezing source and constructing candidate artifacts do not complete:
