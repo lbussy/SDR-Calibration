@@ -192,7 +192,7 @@ def main() -> None:
         "Qt 6.2+ is required",
         "Qt6Config.cmake",
         '$env:PATH = "$qtBin;$env:PATH"',
-        '"-DQt6_DIR=$qtCMake"',
+        '"-DQt6_DIR:PATH=$qtCMake"',
         "Get-FileHash -LiteralPath $binding.Value -Algorithm SHA256",
         "'windows-store-msix'",
     ):

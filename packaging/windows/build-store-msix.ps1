@@ -103,7 +103,7 @@ $qtCMake = Resolve-QtEnvironment
 Set-Location $SourceDir
 $configure = @(
     '--preset', 'windows-store-release',
-    "-DQt6_DIR=$qtCMake",
+    "-DQt6_DIR:PATH=$qtCMake",
     "-DSDRCAL_QT_SOURCE_ARCHIVE=$QtSourceArchive",
     "-DSDRCAL_QT_SOURCE_SHA256=$QtSourceSha256",
     "-DSDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES=$QtAdditionalSourceArchives",
