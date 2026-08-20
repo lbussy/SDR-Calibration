@@ -50,6 +50,21 @@ if [[ -z "$qt_prefix" || ! -x "$macdeployqt" ]]; then
     echo "macdeployqt for the configured Qt was not found" >&2
     exit 1
 fi
+qt_physical_prefix=$(realpath "$qt_prefix")
+while IFS='=' read -r qt_cache_key qt_cache_dir; do
+    [[ -d "$qt_cache_dir" ]] || {
+        echo "configured Qt package directory does not exist: $qt_cache_key=$qt_cache_dir" >&2
+        exit 1
+    }
+    qt_cache_physical=$(realpath "$qt_cache_dir")
+    case "$qt_cache_physical/" in
+        "$qt_physical_prefix"/*/) ;;
+        *)
+            echo "configured Qt package is outside the physical Qt prefix: $qt_cache_key=$qt_cache_dir" >&2
+            exit 1
+            ;;
+    esac
+done < <(sed -n 's#^\(Qt6[^:]*_DIR\):[^=]*=\(.*\)$#\1=\2#p' "$build_dir/CMakeCache.txt")
 
 # A split package-manager Qt can satisfy CMake with modules from prefixes that
 # macdeployqt does not search.  Reject that configuration before staging,
@@ -128,10 +143,6 @@ ln -s /Applications "$stage_dir/Applications"
 while IFS= read -r -d '' nested_code; do
     codesign --force --sign "$signing_identity" --options runtime --timestamp "$nested_code"
 done < <(find "$app/Contents/PlugIns" -type f -print0)
-while IFS= read -r -d '' qt_third_party_library; do
-    codesign --force --sign "$signing_identity" --options runtime --timestamp \
-        "$qt_third_party_library"
-done < <(find "$app/Contents/Frameworks" -type f -name 'libpcre2-16.0.dylib' -print0)
 while IFS= read -r -d '' framework; do
     codesign --force --sign "$signing_identity" --options runtime --timestamp "$framework"
 done < <(find "$app/Contents/Frameworks" -type d -name '*.framework' -print0)
@@ -157,7 +168,6 @@ while IFS= read -r payload_code; do
     case "$payload_code" in
         bin/sdrcal|"SDR Calibration.app/Contents/MacOS/sdrcal-gui"|\
         "SDR Calibration.app"/Contents/Frameworks/Qt*.framework/Versions/*/Qt*|\
-        "SDR Calibration.app/Contents/Frameworks/libpcre2-16.0.dylib"|\
         "SDR Calibration.app"/Contents/PlugIns/*/libq*.dylib) ;;
         *) echo "deployed Mach-O lacks an exact Qt disposition: $payload_code" >&2; exit 1 ;;
     esac

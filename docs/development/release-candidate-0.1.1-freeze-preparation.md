@@ -166,14 +166,20 @@ also stopped before staging, signing, or notarization and produced no reusable
 artifact.
 
 Revision `bb426111bc7b613d71c644eb842ec73b24e6924e` was invalidated when the
-exact-payload audit found Qt's separately deployed `libpcre2-16.0.dylib` after
-staging and local signing. The retained qtbase 6.11.1 source archive contains
-the bundled PCRE2 10.47 source, attribution metadata, and applicable license
-texts, and the official Qt configuration records that system PCRE2 was not
-used. The package path now names that one runtime exactly, signs it explicitly,
-and has a deterministic source-contract assertion for both actions. No broad
-third-party-library pattern was allowed. The attempt stopped before
-notarization and produced no reusable artifact.
+exact-payload audit found a separately deployed `libpcre2-16.0.dylib` after
+staging and local signing. Revision `1a743dfc06607dc3665eab4dd291137824a1fda0`
+was then invalidated when the next audit found `libgraphite2.3.dylib`.
+Investigation of the complete closure showed that the reused build directory
+retained individual Qt component cache entries from Homebrew even though
+`Qt6_DIR` had been rebound to the unified official installation. Those loose
+libraries came from the mixed-prefix build and must not be accepted as the
+official Qt closure. The temporary PCRE2-specific disposition was removed.
+
+The package preflight now resolves every cached `Qt6*_DIR` physically and
+requires all of them to be inside the same physical prefix as `Qt6_DIR` and
+`macdeployqt`. A deterministic source-contract assertion protects that gate.
+The replacement candidate must use a fresh or consistently rebound build tree.
+Both attempts stopped before notarization and produced no reusable artifact.
 
 ## Known post-freeze gates
 

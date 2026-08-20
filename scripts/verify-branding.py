@@ -288,9 +288,8 @@ def verify_macos(root: Path) -> None:
     dmg = read_text(root, "packaging/macos/package-dmg.sh")
     require('gui_executable="$app/Contents/MacOS/sdrcal-gui"' in dmg, "internal macOS executable drift")
     require(
-        "-name 'libpcre2-16.0.dylib'" in dmg
-        and '"SDR Calibration.app/Contents/Frameworks/libpcre2-16.0.dylib"' in dmg,
-        "bundled Qt PCRE2 signing or exact-payload disposition is missing",
+        "configured Qt package is outside the physical Qt prefix" in dmg,
+        "mixed-prefix Qt package preflight is missing",
     )
     for marker in (
         "assets/icons/macos/SDRCalibration.icon",
