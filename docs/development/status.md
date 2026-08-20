@@ -91,6 +91,12 @@
   the 0.5 Hz maximum. No retry occurred. The accepted 10 MHz RC-02 scope is
   unchanged, no accepted second-frequency observation exists, and RC-03 remains
   `Not qualified`.
+- A subsequent one-shot 20 MHz diagnostic with the operator's seventh-order
+  Chebyshev low-pass filter successfully received and estimated the reference
+  with 0.9999980313 coherence, 19.596081 dB SNR, and zero clipping. It remains
+  observation-rejected because its 6.218244 Hz instability exceeds the 0.5 Hz
+  maximum. This is reference-copy evidence only; the 20 MHz RC-02 path and
+  RC-03 remain `Not qualified`.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

@@ -283,3 +283,49 @@ Private artifacts remain outside Git and are content-addressed by:
 The accepted 10 MHz RC-02 scope remains unchanged. Any diagnosis, repeat,
 changed attenuation, changed duration, or alternative frequency requires a new
 plan and authorization.
+
+## Successful 20 MHz reference-copy diagnostic
+
+After the rejected no-filter qualification attempt, the operator added a
+user-created seventh-order Chebyshev 20 m low-pass filter to the conducted path
+while retaining both nominal -10 dB attenuators. One separately requested
+five-second diagnostic asked only whether the same Airspy could receive and
+estimate the 20 MHz reference. It did not attempt to qualify the filter or
+reference path.
+
+The manufacturer application again reported firmware 1.09, OUT1 at 20 MHz Low
+Power, 1 PPS disabled, Stationary, and `Device Ok`, and was closed before Airspy
+access. Exact pre-run and post-run serial-filtered enumeration passed. Capture
+completed with exact 20,000,000 Hz and 192,000 samples/s readback, 960,000
+CF32LE samples, 7,680,000 bytes, zero timeouts, overflows, or discontinuities,
+and final state `known_safe`. No retry occurred, and the operator confirmed
+reverse-order physical cleanup and `Hardware safe`.
+
+The unchanged production analysis produced:
+
+| Metric | Result |
+| --- | ---: |
+| Estimator | Success |
+| Fitted offset from requested center | +4.6798552522 Hz |
+| Fitted drift | +0.0543798992 Hz/s |
+| Model coherence | 0.9999980313 |
+| Residual phase RMS | 0.0019842807 rad |
+| Signal-to-noise ratio | 19.596081 dB |
+| Digital-rail clipped samples | 0 |
+| Frequency-instability metric | 6.218244 Hz |
+| Interference/carrier | -75.621644 dB |
+
+This is a pass only for bounded reference reception and carrier estimation.
+`observation-acceptance-v1` still rejects the sample because frequency
+instability exceeds 0.5 Hz. The filter's component values, response, insertion
+loss, and return loss were not characterized, so this result does not qualify
+the filter, 20 MHz RC-02 path, uncertainty, analog linearity, or RC-03.
+
+Private artifacts remain outside Git and are content-addressed by:
+
+| Artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Five-second CF32LE capture | 7,680,000 | `f6ec6847299782208ea9a36fa231fd31f7d296b042c5b5682e0f7555c9822909` |
+| Capture manifest | 2,967 | `80c993a4aeaf9ffa70a06ce726052fb19325157da819a9d3eb8a84b61b429e1a` |
+| Diagnostic record | 2,098 | `0a0cac5df043e549118329dd5788ecdcb40155232091ad44e4e4c9a71a94b506` |
+| Cleanup record | 505 | `03d95b3ddf0dc39b06731ba79987f9c1bbdd2cf7db6d9654251265b18b54a75a` |
