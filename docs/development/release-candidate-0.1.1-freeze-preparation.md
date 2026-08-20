@@ -165,6 +165,16 @@ exact required Qt directory suffix and all physical-prefix checks. This attempt
 also stopped before staging, signing, or notarization and produced no reusable
 artifact.
 
+Revision `bb426111bc7b613d71c644eb842ec73b24e6924e` was invalidated when the
+exact-payload audit found Qt's separately deployed `libpcre2-16.0.dylib` after
+staging and local signing. The retained qtbase 6.11.1 source archive contains
+the bundled PCRE2 10.47 source, attribution metadata, and applicable license
+texts, and the official Qt configuration records that system PCRE2 was not
+used. The package path now names that one runtime exactly, signs it explicitly,
+and has a deterministic source-contract assertion for both actions. No broad
+third-party-library pattern was allowed. The attempt stopped before
+notarization and produced no reusable artifact.
+
 ## Known post-freeze gates
 
 Freezing source and constructing candidate artifacts do not complete:
