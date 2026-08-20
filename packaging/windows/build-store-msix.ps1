@@ -52,6 +52,31 @@ function Enter-MsvcEnvironment {
     Write-Host "MSVC environment: $($compiler.Source)"
 }
 
+function Resolve-QtEnvironment {
+    $qmakeCommand = Get-Command 'qmake.exe' -ErrorAction SilentlyContinue
+    $qmake = if ($null -ne $qmakeCommand) { $qmakeCommand.Source } else {
+        $candidate = 'C:\Qt\bin\qmake.exe'
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) { $candidate } else { '' }
+    }
+    if ([string]::IsNullOrWhiteSpace($qmake)) {
+        throw 'Qt discovery failed: qmake.exe was not on PATH or under C:\Qt\bin'
+    }
+    $qtVersionText = (& $qmake -query QT_VERSION).Trim()
+    $qtVersion = $qtVersionText -as [version]
+    if ($LASTEXITCODE -ne 0 -or $null -eq $qtVersion -or $qtVersion -lt [version]'6.2') {
+        throw "Qt 6.2+ is required; discovered version was $qtVersionText"
+    }
+    $qtBin = [IO.Directory]::GetParent($qmake).FullName
+    $qtPrefix = [IO.Directory]::GetParent($qtBin).FullName
+    $qtCMake = Join-Path $qtPrefix 'lib\cmake\Qt6'
+    if (-not (Test-Path -LiteralPath (Join-Path $qtCMake 'Qt6Config.cmake') -PathType Leaf)) {
+        throw 'discovered Qt installation does not contain Qt6Config.cmake'
+    }
+    $env:PATH = "$qtBin;$env:PATH"
+    Write-Host "Qt environment: $qtPrefix ($qtVersionText)"
+    return $qtCMake
+}
+
 $SourceDir = [IO.Path]::GetFullPath($SourceDir).TrimEnd(
     [IO.Path]::DirectorySeparatorChar)
 if (-not (Test-Path -LiteralPath (Join-Path $SourceDir 'CMakeLists.txt') -PathType Leaf)) {
@@ -74,9 +99,11 @@ foreach ($binding in @(
 }
 
 Enter-MsvcEnvironment
+$qtCMake = Resolve-QtEnvironment
 Set-Location $SourceDir
 $configure = @(
     '--preset', 'windows-store-release',
+    "-DQt6_DIR=$qtCMake",
     "-DSDRCAL_QT_SOURCE_ARCHIVE=$QtSourceArchive",
     "-DSDRCAL_QT_SOURCE_SHA256=$QtSourceSha256",
     "-DSDRCAL_QT_ADDITIONAL_SOURCE_ARCHIVES=$QtAdditionalSourceArchives",

@@ -187,6 +187,12 @@ def main() -> None:
         "'\"' + $devCmd +",
         "-arch=x64 -host_arch=x64",
         "Visual Studio environment setup did not expose cl.exe",
+        "Resolve-QtEnvironment",
+        "C:\\Qt\\bin\\qmake.exe",
+        "Qt 6.2+ is required",
+        "Qt6Config.cmake",
+        '$env:PATH = "$qtBin;$env:PATH"',
+        '"-DQt6_DIR=$qtCMake"',
         "Get-FileHash -LiteralPath $binding.Value -Algorithm SHA256",
         "'windows-store-msix'",
     ):

@@ -61,8 +61,11 @@ Delete or archive a previous output deliberately before a new run.
 The wrapper discovers the latest installed Visual Studio x64 C++ toolchain via
 `vswhere.exe`, imports `VsDevCmd.bat` into its process, and verifies `cl.exe`.
 This makes non-interactive SSH builds independent of the caller's compiler
-`PATH`. It also verifies the configured Qt source-archive hashes before running
-configure, build, the hardware-free test suite, package audit, and MSIX target.
+`PATH`. It similarly discovers `qmake.exe` from `PATH` or the stable
+`C:\Qt\bin` installation, verifies Qt 6.2 or later and `Qt6Config.cmake`, and
+binds both configure and tests to that installation. It also verifies the
+configured Qt source-archive hashes before running configure, build, the
+hardware-free test suite, package audit, and MSIX target.
 
 ## Qualification and external state
 
