@@ -82,3 +82,18 @@ still `In draft`. No certification fixture was uploaded, no package was
 deleted, and **Submit for certification** was not selected. Microsoft signing,
 certification, Store delivery, clean-host Store behavior, and publication
 remain unestablished.
+
+## Complete pre-certification draft
+
+After package acceptance, Partner Center required a privacy policy and a
+`runFullTrust` explanation. The owner-created public policy URL was saved, and
+the complete 478-character restricted-capability explanation was saved with
+the manual publication hold unchanged. The owner approved retaining
+`Developer tools` as the optional secondary category after Partner Center did
+not persist two attempts to clear it.
+
+The final overview reported Pricing and availability, Properties, Age ratings,
+Packages, Store listings, and Submission options all `Complete`; the package
+reported `Validated`. **Submit for certification** was enabled but not
+selected. The product remained `In draft`; certification, Microsoft signing,
+Store delivery, and publication remain unestablished.

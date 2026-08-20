@@ -280,7 +280,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Replacement package accepted and saved; certification not submitted",
+        "Status: All submission sections complete; certification not submitted",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -290,6 +290,8 @@ def main() -> None:
         "Publishing is held for manual owner action.",
         "Approved and saved",
         "https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md",
+        "Exact 478-character `runFullTrust` justification",
+        "Every\nsubmission section reports `Complete`",
     ):
         require(
             marker in submission_readiness,
@@ -358,6 +360,8 @@ def main() -> None:
         "> I authorize selecting and uploading the exact approved replacement package.",
         "- Upload authorization date (UTC): **2026-08-20**",
         "https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md",
+        "| Secondary category | Developer tools |",
+        "explicitly approved\nretaining **Developer tools**",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
     require(owner_decisions.count("- [ ]") == 0,
@@ -399,6 +403,9 @@ def main() -> None:
         "Partner Center replacement upload",
         "Partner Center accepted the single",
         "still `In draft`",
+        "Complete pre-certification draft",
+        "all `Complete`",
+        "enabled but not\nselected",
         "approved the complete replacement path",
         "did not authorize selecting or",
     ):

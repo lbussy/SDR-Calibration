@@ -51,12 +51,13 @@ has not approved that value in this record.
 | Audience | Public | Approved and saved |
 | Discoverability | Available and discoverable | Approved and saved |
 | Category | Utilities + tools | Approved and saved |
+| Secondary category | Developer tools | Approved and saved after Partner Center would not persist clearing the optional value |
 | Subcategory | None | Approved and saved |
 | Listing language | English (United States) only for the first submission | Approved and saved |
 | Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
 | Support channel | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
-| Privacy answer | Yes; the app accesses user-selected local files that may contain personal information, without project collection or transmission | Package-derived Partner Center selection observed; save pending |
-| Privacy policy | `https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md` | Repository-hosted policy owner-authorized; Partner Center entry pending |
+| Privacy answer | Yes; the app accesses user-selected local files that may contain personal information, without project collection or transmission | Package-derived selection reconciled and saved |
+| Privacy policy | `https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md` | Approved, publicly reachable, and saved |
 | Age rating | All Other App Types; No for every exposed content/interaction question; all-ages/3+ mappings | Approved and saved |
 | Publishing schedule | Manual publication hold; no automatic publication | Approved and saved |
 | Device families | Windows 10/11 Desktop only; Mobile, Xbox, Team, and Mixed Reality disabled | Approved and saved |
@@ -202,6 +203,12 @@ intended Partner Center URL is:
 
 Creating and publishing the policy does not authorize entering or saving the
 URL in Partner Center or submitting the product for certification.
+
+The owner subsequently entered and saved the exact privacy-policy URL and the
+478-character `runFullTrust` justification. After two attempts to clear the
+optional secondary category did not persist, the owner explicitly approved
+retaining **Developer tools** on 2026-08-20 UTC. All submission sections then
+reported `Complete`; **Submit for certification** was enabled but not selected.
 
 Do not record an email address, phone number, postal address, account
 credential, notification recipient, or verification material in this file.

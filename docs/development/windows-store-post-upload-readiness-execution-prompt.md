@@ -74,3 +74,14 @@ actionable finding and repeat affected checks until clean.
   entry occurs.
 - Repository evidence is truthful, checks pass, and attributable changes are
   committed and pushed.
+
+## Executed outcome
+
+The repository-hosted privacy policy was created and its exact public URL was
+saved after owner authorization. The 500-character field limit required a
+complete 478-character `runFullTrust` explanation, which was saved with the
+manual publication hold unchanged. Partner Center did not persist two attempts
+to clear the optional `Developer tools` secondary category; the owner then
+explicitly approved retaining it. All six submission sections report
+`Complete`, the package reports `Validated`, and **Submit for certification**
+is enabled but was not selected.

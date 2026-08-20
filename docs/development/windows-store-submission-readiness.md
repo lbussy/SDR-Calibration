@@ -1,6 +1,6 @@
 # Microsoft Store submission readiness
 
-Status: Replacement package accepted and saved; certification not submitted
+Status: All submission sections complete; certification not submitted
 
 Prepared: 2026-08-17
 
@@ -60,11 +60,12 @@ identified explicitly below. The approval record is the
 | Availability | Discoverability | Available and discoverable | Approved and saved |
 | Availability | Schedule | No automatic publication; hold until the owner selects Publish now | Approved and saved |
 | Properties | Category | Utilities + tools | Approved and saved |
+| Properties | Secondary category | Developer tools | Approved and saved after unsuccessful clearing attempts |
 | Properties | Subcategory | None | Approved and saved |
 | Properties | Xbox | Not supported | Approved and saved |
 | Properties | Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
 | Properties | Support | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
-| Properties | Privacy policy | `https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md` | Repository-hosted policy created; Partner Center entry pending |
+| Properties | Privacy policy | `https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md` | Approved and saved |
 | Listing | Language | English (United States) only for the first submission | Approved and saved |
 | Listing | Product name | `SDR Calibration` | Approved and saved |
 | Listing | Description | Exact English listing copy below | Approved and saved |
@@ -77,7 +78,7 @@ identified explicitly below. The approval record is the
 | Packages | Device families | Windows Desktop only; exclude Mobile, Xbox, Team, and Mixed Reality | Approved, reverified after replacement upload, and saved |
 | Submission options | Publishing hold | Manual publication | Approved and saved |
 | Submission options | Certification notes | Use the text below | Ready after candidate binding |
-| Submission options | Restricted capability | Use the `runFullTrust` justification below | Ready after candidate binding |
+| Submission options | Restricted capability | Exact 478-character `runFullTrust` justification below | Approved and saved |
 
 ## English listing copy
 
@@ -174,6 +175,16 @@ before it is added to a Partner Center submission.
 > normal user integrity. The application reads only files explicitly selected
 > or named by the user and writes only to a new user-selected output directory.
 > It does not request elevation, install services or drivers, modify machine
+> registry state, access SDR hardware in this Store build, or declare any other
+> restricted capability.
+
+Partner Center limits this field to 500 characters. The saved text is:
+
+> SDR Calibration is a packaged C++/Qt desktop application. runFullTrust is
+> required to launch its Win32 GUI and packaged sdrcal.exe command-line alias at
+> normal user integrity. The app reads only files the user explicitly selects
+> or names and writes results only to a new user-selected output directory. It
+> does not request elevation, install services or drivers, modify machine
 > registry state, access SDR hardware in this Store build, or declare any other
 > restricted capability.
 
@@ -335,9 +346,10 @@ upload authorization are recorded in `windows-store-owner-decisions.md`.
 Certification submission and publication remain unauthorized.
 
 Partner Center's package-derived privacy assessment requires a policy despite
-the Store build's local-only processing. The owner authorized the
-repository-hosted policy at
-`https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md`; entering and
-saving that URL remains the next separate Partner Center action.
+the Store build's local-only processing. The exact repository-hosted URL was
+saved. The owner also approved retaining `Developer tools` as the secondary
+category after Partner Center did not persist two attempts to clear it. Every
+submission section reports `Complete`, the package reports `Validated`, and
+**Submit for certification** is enabled but remains unselected.
 
 No checkbox in this packet changes Partner Center state.
