@@ -1,5 +1,12 @@
 # LBE-1421/Airspy reference diagnostic evidence prompt
 
+```{note}
+This is a historical execution prompt. Its required conclusion about waived
+level measurement and an uncharacterized attenuator is superseded by decision
+[0026](decisions/0026-rf-level-safety-boundary.md). The retained execution facts
+remain unchanged.
+```
+
 ## Objective
 
 Preserve a privacy-reviewed, documentation-only record of the one completed

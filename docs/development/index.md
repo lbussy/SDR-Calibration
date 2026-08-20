@@ -27,9 +27,13 @@ The hardware-free cross-component gate is governed by the
 Future local-reference work is held by the
 [GPSDO/reference-path readiness package](gpsdo-reference-path-readiness.md),
 prepared under its [execution prompt](gpsdo-reference-path-readiness-execution-prompt.md).
+Its RF level and power-measurement boundary is governed by
+[decision 0026](decisions/0026-rf-level-safety-boundary.md).
 The first exact LBE-1421/Airspy path observation is retained in the
 [reference diagnostic record](lbe1421-airspy-reference-diagnostic.md), prepared
 under its [documentation prompt](lbe1421-airspy-reference-diagnostic-execution-prompt.md).
+That record now closes RC-02 only for its exact five-second `ad_hoc` reference
+contract; every broader reference or calibration claim remains gated.
 The current macOS exact-host package lifecycle is governed by the
 [same-host qualification prompt](macos-same-host-package-qualification-prompt.md).
 The current release-candidate state is recorded in the

@@ -101,6 +101,13 @@ output staging. Construction and request review do not access hardware. Actual
 live execution requires a separately authorized device-, reference-, settings-,
 duration-, abort-, cleanup-, and evidence-bound plan.
 
+For a conducted RF reference, the operator must use a compatible 50-ohm path
+and enough attenuation to keep the source safely below the exact SDR's
+published input limit with a conservative margin. Independent RF power
+measurement is optional unless the available specifications cannot establish
+safety or overload is suspected. RF power is a safety and signal-quality
+condition; it is not part of the frequency-calibration uncertainty.
+
 Success loads the fixed published artifacts into read-only tabs:
 `profile.json`, `evidence.json`, `summary.json`, and optional `wsjtx.ini`.
 **Open Result** can inspect an existing result directory without activating,

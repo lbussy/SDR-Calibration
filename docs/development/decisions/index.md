@@ -31,4 +31,5 @@ superseded decision remains in the log and points to its replacement.
 0023-macos-icon-composer
 0024-windows-store-msix-distribution
 0025-store-msix-primary-windows-artifact
+0026-rf-level-safety-boundary
 ```

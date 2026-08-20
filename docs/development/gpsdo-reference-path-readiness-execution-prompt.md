@@ -1,5 +1,12 @@
 # GPSDO and reference-path readiness execution prompt
 
+```{note}
+This is a historical execution prompt. Decision
+[0026](decisions/0026-rf-level-safety-boundary.md) supersedes any implication
+that independent RF power measurement or laboratory power metrology is a
+general reference-suitability requirement.
+```
+
 ## Objective
 
 Prepare a complete, reviewable, documentation-only readiness package for a

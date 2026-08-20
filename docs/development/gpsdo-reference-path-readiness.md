@@ -2,47 +2,56 @@
 
 ## Current decision
 
-**Readiness status: NOT READY TO CONNECT.**
+**Reference-suitability status: COMPLETE for the exact five-second LBE-1421
+OUT1/Airspy observation contract recorded below.**
 
-This package is complete as an offline planning artifact. The physical path is
-not ready because loaded source/path level, attenuation tolerance, traceability,
-uncertainty, and complete source conditions have not been verified. One exact
-unmeasured-path diagnostic has now completed under an explicit operator waiver;
-its [record](lbe1421-airspy-reference-diagnostic.md) establishes only bounded
-transport and coherent-signal suitability for that run. Possession, delivery,
-lock indication, a nominal 10 MHz label, or a clean digital sample does not
-close the remaining gates.
+The exact source is classified `ad_hoc`, with assurance ceiling 50, a
+conservative Type-B standard frequency uncertainty assignment of 0.5 Hz, and
+expanded uncertainty 1.0 Hz using the project's normal `k = 2` reporting
+convention. This engineering assignment is not a statistical confidence claim
+or unit-specific traceability. A separately authorized five-second observation retained exact OUT1,
+warm-up, continuous GNSS conditions, transport, production analysis, cleanup,
+and operator safe-state evidence. Its
+[record](lbe1421-airspy-reference-diagnostic.md) closes RC-02 only for that
+exact source, path, receiver, configuration, condition set, and five-second
+duration. It does not establish traceability, arbitrary-duration suitability,
+calibration accuracy, a profile, RC-01, or RC-03.
 
 No step in this document authorizes powering equipment, connecting cables,
 enumerating an SDR, starting a stream, or performing a receive test.
 
 ## Intended claim boundary
 
-The first authorized physical activity, when separately approved, will be a
-bounded receive-only reference-path diagnostic. It may establish safe transport
-and signal suitability for one exact path. It will not by itself establish
-reference traceability, observation independence, calibration accuracy, a
-native profile, or end-to-end qualification.
+The completed physical activity was a bounded receive-only reference-path
+observation. It established transport and reference suitability only for one
+exact five-second contract. It did not establish reference traceability,
+observation independence, calibration accuracy, a native profile, or
+end-to-end qualification. No future activity is authorized by this record.
 
 Candidate receivers currently known to the project are:
 
 | Receiver | Current evidence | Reference-path status |
 | --- | --- | --- |
-| Airspy HF+ Discovery serial `2f52ff5de72635ba` | Exact recorded macOS combination is bounded-capture-qualified; one waived-measurement LBE-1421 path produced an accepted coherent signal | Transport suitable for the exact diagnostic; electrical path and reference suitability not ready |
+| Airspy HF+ Discovery serial `2f52ff5de72635ba` | Exact recorded macOS combination is bounded-capture-qualified; exact LBE-1421 OUT1 path passed the five-second RC-02 contract | Reference-suitable only for the retained five-second conditions; not suitable for arbitrary duration |
 | SDRplay RSP1B serial `2404058C60` | Exact recorded macOS combination is bounded-capture-qualified | Input topology and limits unverified; not ready |
 
-## Completed diagnostic with open gates
+## Completed five-second reference qualification
 
-The 2026-08-20 LBE-1421/Airspy diagnostic used the attenuated RF-input topology,
-an LBE-1710 filter/DC block, and a generic nominal -10 dB attenuator. Its exact
-digest-bound override, transport record, cleanup evidence, private artifact
-hashes, and production analysis are retained in the
+The accepted 2026-08-20 observation used LBE-1421 OUT1, the attenuated RF-input
+topology, an LBE-1710 filter/DC block, and a generic nominal -10 dB attenuator.
+Its digest-bound plan, 15-minute warm-up, read-only source status, continuous
+valid GNSS fixes, transport, cleanup, private artifact hashes, production
+analysis, and repeatability comparison are retained in the
 [diagnostic record](lbe1421-airspy-reference-diagnostic.md).
 
-The operator waived the independent preconnection level measurement. The
-attenuator's actual loss and tolerance remain unknown, and no unit-specific
-traceability or uncertainty record was established. Gates 4 through 6 therefore
-remain incomplete and the durable decision remains `NOT READY TO CONNECT`.
+The run used published nominal source and path values rather than an independent
+preconnection level measurement. Under
+[decision 0026](decisions/0026-rf-level-safety-boundary.md), that is not by
+itself a reference-suitability blocker when the operator confirms a compatible
+50-ohm path and a conservative level calculation. The accepted run retained
+that confirmation and a 14.6 dB nominal separation from the published maximum.
+The source remains non-traceable and `ad_hoc`; the assigned uncertainty and
+five-second validity ceiling prevent that limitation from being hidden.
 
 ## Gate 1: exact source dossier
 
@@ -53,20 +62,20 @@ dates, and page or section references.
 | Field | Required evidence | Current value |
 | --- | --- | --- |
 | Manufacturer, exact model, serial | Nameplate plus authoritative manual | Leo Bodnar LBE-1421; exact serial retained privately; exact USB identity observed 2026-08-20 |
-| Output port and connector | Labeled port and manual | Two SMA-female outputs; output 1 supports 1 Hz-800 MHz or 1 PPS and output 2 supports 1 Hz-1.4 GHz; exact output used in the RF diagnostic was not retained |
-| Nominal frequency and available modes | Manual; exact selected mode later verified | USB-only observation displayed both outputs enabled at 10 MHz and Low Power; earlier RF-run output-port identity remains unknown |
+| Output port and connector | Labeled port and manual | Accepted run used OUT1 SMA female; OUT2 remained disconnected; output 1 supports 1 Hz-800 MHz or 1 PPS |
+| Nominal frequency and available modes | Manual; exact selected mode later verified | Accepted run verified OUT1 enabled at 10 MHz, Low Power, with 1 PPS disabled |
 | Waveform and harmonic specification | Manual or measured record | LBE-1421 datasheet: CMOS square wave; LBE-1710 page: greater than 65 dB significant-harmonic suppression; not independently measured |
 | Output level | Minimum, nominal, and maximum with units | +6 dBm nominal Low Power below 400 MHz; tolerance and received-unit extrema unverified |
 | Level convention | dBm, dBV, Vrms, Vpp, open-circuit, or specified load | Datasheet specifies 1.65 V into 50 ohms and +6 dBm Low Power; exact power convention/tolerance not fully stated |
 | Source impedance and required load | Manual | 50-ohm source; assembled loaded output not measured |
 | DC content or bias | Manual and measurement method | LBE-1710 manufacturer page states DC removal; assembled-path DC not independently measured |
-| Warm-up requirement | Manual and planned monotonic timer | Unverified |
-| Lock indication and lock-loss behavior | Manual plus observable indication | Operator confirmed a valid lock indication for the RF diagnostic; later application reported `Device Ok` but exposed no distinct GPS-lock or PLL-lock field; semantics remain incomplete |
-| Holdover behavior | Manual; state whether holdover is permitted | Manufacturer describes seamless temporary-loss holdover/reacquisition; application and passive NMEA observation did not expose or distinguish holdover |
-| Environmental limits | Manual and planned observation method | Unverified |
+| Warm-up requirement | Manual and planned monotonic timer | Accepted plan assigned and retained at least 15 minutes; actual interval was 15 minutes 4 seconds |
+| Lock indication and lock-loss behavior | Manual plus observable indication | Application reported `Device Ok`; all 151 passive NMEA sentences had valid checksums, last GGA fix quality 2 and GSA fix type 3; no distinct PLL-lock field was available |
+| Holdover behavior | Manual; state whether holdover is permitted | Holdover was prohibited; continuous valid GNSS fixes and no status ambiguity were required, but no distinct internal holdover field was available |
+| Environmental limits | Manual and planned observation method | Exact run was stationary under operator-observed normal indoor conditions; broader environmental validity is not claimed |
 | Power supply and grounding | Manual and bench arrangement | Datasheet specifies USB-C, 5 V ±10%, 250 mA ±10%; USB reported 250 mA; exact bench supply/grounding record incomplete |
-| Traceability chain | Current calibration/specification evidence | Unverified |
-| Frequency uncertainty | Value, coverage, conditions, validity interval | Unverified |
+| Traceability chain | Current calibration/specification evidence | None independently established; classified `ad_hoc`, assurance ceiling 50 |
+| Frequency uncertainty | Value, coverage, conditions, validity interval | Conservative Type-B engineering assignment: standard 0.5 Hz; expanded 1.0 Hz using `k = 2`; no statistical confidence or traceability claim; valid only for the retained exact five-second conditions |
 
 An order page or nominal product specification may identify a candidate. It
 does not prove the received unit's identity, condition, configured output,
@@ -149,11 +158,13 @@ required_attenuation >= highest_source_level
                         + engineering_margin
 ```
 
-Retain the source-level tolerance, component-loss tolerance, instrument
-uncertainty, mismatch effects, and engineering margin separately. Independently
-show that the highest possible receiver level remains below the documented
-absolute maximum. A calculator result cannot replace a measured pre-connection
-level at the intended load.
+Use a published source level and path loss or justified conservative bounds,
+and retain the engineering margin separately. The operator must confirm that
+the calculated receiver level remains below the documented absolute maximum
+with a conservative margin. Independent measurement is required only when the
+available information cannot establish safety, the margin is small, or
+overload or compression is suspected. Power-meter uncertainty is a path-safety
+input, not a frequency-calibration uncertainty component.
 
 ## Gate 5: path inventory
 
@@ -165,7 +176,7 @@ level at the intended load.
 | Terminators | Asset ID, impedance, power rating, frequency range |
 | Cables and adapters | Endpoints, impedance, length, loss or bound, frequency and power ratings |
 | Switch or relay, if any | Isolation, unterminated-state behavior, sequencing, ratings |
-| Measurement instrument | Model, serial, calibration status, uncertainty, probe/load configuration |
+| Measurement instrument, when required or used | Model, serial, stated accuracy or assigned limitation, probe/load configuration |
 
 Every unused splitter port must have a reviewed disposition. Do not combine an
 antenna and local source without a separately reviewed combiner/isolation plan.
@@ -179,9 +190,11 @@ The later reviewer must answer every item positively:
 - Exact source, receiver, port, and component identities are recorded.
 - The selected topology is supported by authoritative documentation.
 - Units, load convention, impedances, and DC behavior are unambiguous.
-- Worst-case calculations include tolerances, uncertainty, and margin.
-- The assembled path has been checked into the intended load before an SDR is
-  connected.
+- The conservative level calculation uses published specifications or justified
+  conservative bounds and an explicit margin.
+- Independent level measurement is retained when the available information
+  cannot establish safety, the margin is small, or overload or compression is
+  suspected.
 - GPS lock, warm-up, environment, and holdover policy are observable.
 - The operator owns the hardware and test interval; conflicting users and
   processes are excluded.
@@ -190,7 +203,8 @@ The later reviewer must answer every item positively:
 - Abort, cleanup, post-run enumeration, and evidence paths are explicit.
 - The exact plan text has an immutable SHA-256 and separate authorization.
 
-Any negative or unknown answer keeps the path `NOT READY TO CONNECT`.
+Any unresolved safety item keeps the path not ready. Missing optional power
+measurement alone does not block the path.
 
 ## Future bounded diagnostic plan template
 
@@ -204,9 +218,10 @@ Reference class and evidence ceiling:
 Receiver identity, driver, platform, and input port:
 Selected topology:
 Complete connection order:
-Verified source level and uncertainty at intended load:
-Path components, losses, tolerances, and calculated receiver level:
+Published source level or conservative bound and load convention:
+Path components, loss bounds, and calculated receiver-level bound:
 Receiver safe limit, chosen operating level, and margin:
+Independent level measurement, if required or used, with its limitation:
 Warm-up start, minimum duration, and lock acceptance:
 Requested center frequency, sample rate, bandwidth, gain/AGC, antenna,
 clock source, and driver correction:
@@ -240,8 +255,9 @@ the diagnostic regardless of otherwise useful samples.
 ## Evidence and stop criteria
 
 Retain the approved plan digest, source and receiver dossiers, manuals and
-calibration-record identifiers, calculations, inventory, pre-connection
-measurements, photographs or diagrams as privacy permits, UTC and monotonic
+calibration-record identifiers, calculations, inventory, any required or
+optional pre-connection measurements, photographs or diagrams as privacy
+permits, UTC and monotonic
 timing, source lock evidence, requested/effective SDR settings, stream and
 cleanup results, artifact hashes, estimator/acceptance results, deviations, and
 independent review.
@@ -253,8 +269,9 @@ plan and authorization.
 
 ## Conditions for changing readiness
 
-Change this package from `NOT READY TO CONNECT` only after every gate is
-completed with retained evidence, no contradiction remains, and the exact
-bounded plan receives separate approval. A ready connection plan would still
-leave physical execution and every resulting qualification claim separately
-gated.
+This package is reference-suitable only for the retained five-second contract.
+Any longer duration, different output, topology, receiver, setting, reference
+condition, or uncertainty claim requires a new reviewed plan and evidence.
+Electrical readiness may rely on a conservative specification-based calculation
+under decision 0026. RC-01, RC-03, profile generation, and every broader support
+claim remain separately gated.

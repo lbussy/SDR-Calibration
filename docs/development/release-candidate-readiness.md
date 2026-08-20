@@ -63,7 +63,7 @@ distributable release.
 | ID | Gate | Current state | Dependency or unblock condition | Required retained evidence |
 | --- | --- | --- | --- | --- |
 | RC-01 | Matched receiver comparison | Blocked; separate captures do not control shared propagation and feed conditions | Install the splitter and approve a bounded simultaneous Airspy/RSP1B plan | Exact identities/configurations, common observation windows, port rotation, results, abort, and cleanup |
-| RC-02 | Reference suitability | Blocked; one exact unmeasured-path LBE-1421/Airspy diagnostic passed transport and production signal analysis, but did not establish electrical path or reference suitability | Complete source/path dossiers, independently verify loaded level and attenuation, retain reference authority/uncertainty and conditions, and approve a new bounded plan | Reference identity/authority, topology, measured levels, characterized attenuation, conditions, uncertainty, acceptance, and cleanup |
+| RC-02 | Reference suitability | Complete only for the exact five-second LBE-1421 OUT1/LBE-1710/-10 dB/Airspy contract; source is `ad_hoc`, ceiling 50, with assigned expanded uncertainty 1.0 Hz at `k = 2` | Complete for that exact scope; any longer duration, topology, receiver, setting, condition, or stronger authority claim requires a new plan | Exact identity and OUT1 topology, operator-confirmed 14.6 dB nominal RF margin, 15-minute warm-up, continuous GNSS evidence, five-second production acceptance, repeatability comparison, hashes, cleanup, and safe-state confirmation retained |
 | RC-03 | Physical end-to-end calibration | Not qualified | RC-01 and RC-02 must supply an accepted device/path/reference combination | Acquisition through profile evaluation, comparison error/uncertainty, assurance ceiling, exact artifacts, and cleanup |
 | RC-04 | macOS clean-host lifecycle | Passed by owner confirmation for exact DMG SHA-256 `94a831d4549b92edd85222c55e0cd64395dbe8acfd1f4bd5c57351f15bf80ad4` | Complete | Exact hash and owner-confirmed lifecycle record retained |
 | RC-05 | Windows Store certification and lifecycle | Exact `0.1.1` MSIX construction, WACK, and development-signed same-host lifecycle passed for SHA-256 `1d9828710dcec5c93862e217606a92f53c1470b5abb412a23725ebc811b1edc1`; screenshots and the certification fixture are retained; Store certification/delivery and clean-host evidence remain open | Submit the exact candidate under separate authorization, pass certification, then qualify Store installation on a clean Windows 11 host | Exact identity/version; certification result; Microsoft signature; Store install, GUI, CLI alias, removal, cleanup, listing/capability agreement, and retained evidence |
@@ -129,7 +129,8 @@ claiming that a candidate package has been assembled.
 ## Ordered resumption path
 
 1. Complete RC-01 after the splitter is installed.
-2. Complete RC-02 with the controlled reference path.
+2. Retain RC-02's completed five-second controlled-reference boundary; reopen
+   it before any broader-duration or stronger-authority claim.
 3. Run RC-03 for each exact device/reference/platform combination proposed for
    a positive support claim.
 4. Complete Windows Store certification/delivery and RC-06 applicable

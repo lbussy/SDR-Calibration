@@ -2,20 +2,27 @@
 
 ## Result
 
-**Suitable for the next bounded qualification step for this exact unmeasured
-path.**
+**RC-02 complete only for the exact five-second LBE-1421 OUT1/Airspy
+observation contract recorded here.**
 
-On 2026-08-20, one separately authorized five-second receive-only diagnostic
-completed at its exact bounds. The production carrier estimator and
-`signal-quality-v1` analyzer accepted the retained sample. This establishes
-bounded transport and coherent-signal suitability only for the exact run.
+RC-02 completion is based on the later accepted five-second OUT1 observation
+described below. An earlier separately authorized five-second receive-only
+diagnostic also completed at its exact bounds and passed the production carrier
+estimator and `signal-quality-v1` analyzer, but it did not retain the exact
+source output or complete reference conditions and did not close RC-02.
 
-The operator explicitly waived the readiness package's independent
-preconnection level measurement. The generic attenuator was not characterized.
-Consequently this record does not establish electrical safety, analog
-linearity, traceability, uncertainty, calibration accuracy, a native profile,
-general support, or completion of RC-01, RC-02, or RC-03. Durable connection
-readiness remains `NOT READY TO CONNECT`.
+The run did not independently measure RF power or characterize the generic
+attenuator. Under [decision 0026](decisions/0026-rf-level-safety-boundary.md),
+those are not calibration requirements and do not by themselves block a
+reference observation with a conservative operator-confirmed safety margin.
+The source is classified `ad_hoc`, with assurance ceiling 50, a conservative
+Type-B standard frequency uncertainty assignment of 0.5 Hz, and expanded
+uncertainty 1.0 Hz using the project's normal `k = 2` reporting convention.
+The assignment is not a statistical confidence claim and is not derived by
+treating the manufacturer's stability specification as absolute uncertainty.
+This record does not establish traceability, arbitrary-duration reference
+suitability, analog linearity, calibration accuracy, a native profile, general
+support, RC-01, or RC-03.
 
 ## Source and path
 
@@ -62,9 +69,9 @@ The nominal-only calculation was:
 ```
 
 The corresponding nominal separation from the published maximum is 14.6 dB.
-It is not a measured level or verified engineering margin. Source tolerance,
-attenuator tolerance and return loss, cable loss, mismatch, and measurement
-uncertainty remain unknown.
+This is a specification-based safety calculation, not a measured level or an
+accuracy-bearing calibration input. The operator remains responsible for
+confirming that the selected attenuation is safe for the exact SDR and source.
 
 ## Authorization and execution
 
@@ -146,22 +153,83 @@ and invoked the unchanged production APIs with default
 These values show one strongly coherent signal under the exact digital capture
 conditions. Zero digital-rail clipping cannot exclude analog front-end overload
 or AGC-masked compression. The offset and drift are observations, not a
-calibration result, because reference authority, path level, uncertainty, and
-the full calibration chain were not established.
+calibration result, because reference authority, frequency uncertainty, and the
+full calibration chain were not established.
+
+## RC-02 attempts and accepted five-second observation
+
+The first RC-02 plan, SHA-256
+`8c8eab5c19f820551f2d1b3ebc84db0b4a1261d8f2b87fac93dadbf6877392d5`,
+failed closed on one SoapySDR overflow near the end of its only authorized
+60-second capture. The next plan, SHA-256
+`08fb5966b63ee28f771adef314da2ab7573c19cc73671ef80082809ae5f27d1d`,
+completed a quiet-host 30-second capture. Its six five-second windows passed,
+with fitted-offset range 0.0833093609 Hz, but the complete buffer failed the
+10 dB SNR requirement at 5.211054 dB. Hardware-free diagnosis found slowly
+varying behavior outside one linear-drift model rather than an analyzer defect;
+short-window success did not override the complete-buffer failure. Neither run
+closed RC-02.
+
+The accepted plan had SHA-256
+`d16633ab22989b1e1e1c4013403e4f67092ffd32198d211d254c7cfeee231eeb`.
+It fixed the source output as OUT1, left OUT2 disconnected, retained the
+conducted component order documented above, and limited reference validity to one five-second
+observation. After 15 minutes 4 seconds of uninterrupted stationary warm-up,
+the manufacturer application reported the exact LBE-1421, firmware 1.09,
+`Device Ok`, OUT1 enabled at 10,000,000 Hz and Low Power, with 1 PPS disabled.
+The application was used read-only and closed before acquisition.
+
+Passive telemetry spanned the capture. All 151 NMEA sentences had valid
+checksums; the last GGA fix quality was 2, GSA fix type was 3, and satellites
+used was 8. No raw NMEA, location, altitude, source serial, or host device path
+is retained publicly. Continuous fixes and unambiguous status were required;
+the application exposed no distinct PLL-lock or internal holdover field, so the
+record makes no broader lock-semantics claim.
+
+The strict capture wrote exactly 960,000 CF32LE samples and 7,680,000 bytes.
+Center frequency and sample rate were applied and verified; bandwidth and gain
+were unrequested and unverified. It reported zero timeouts, overflows, and
+discontinuities. Deactivation, stream close, device release, post-run exact
+enumeration, and operator-confirmed reverse-order physical cleanup succeeded;
+final software state was `known_safe`.
+
+| Accepted artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Five-second CF32LE capture | 7,680,000 | `447091e5ade3f982f3f68656faee42d48fa1ae41bc30ba89ccae4f302e56f53f` |
+| Capture manifest | 2,977 | `39c567b2746b21d0ba10e994b0f40bef0b94b1727fc17de80deaaf2d5a1122ab` |
+| Privacy-redacted NMEA summary | 195 | `c3a19f2c28633e8bf5a3edc3fa7c88eba21c4581c766c9f8389a95a7d8df19d6` |
+| Offline-analysis record | 2,952 | `1f0f800bcdd08dd29a1e204c227e1ede09baa02b3b3261e41d0e6606ef2a13cb` |
+
+The unchanged production estimator and `signal-quality-v1` analyzer passed:
+
+| Metric | Result |
+| --- | ---: |
+| Fitted offset from requested center | +1.8046368506 Hz |
+| Fitted drift | +0.0247365805 Hz/s |
+| Model coherence | 0.9999999698 |
+| Residual phase RMS | 0.0002456560 rad |
+| Signal-to-noise ratio | 39.215317 dB |
+| Digital-rail clipped samples | 0 |
+| Frequency-instability metric | 0.0290189284 Hz |
+| Interference-to-carrier ratio | -86.417357 dB |
+| Instability windows / FFT samples | 937 / 65,536 |
+
+The new offset was 0.1286135430 Hz above the prior six-window range, within the
+assigned expanded limitation of 1.0 Hz. This supports bounded repeatability; it
+does not establish absolute traceability or reduce the assigned uncertainty.
+`observation-acceptance-v1` therefore passed only for the exact five-second
+conditions.
 
 ## Gate status and next step
 
 - RC-01 remains blocked: this run did not compare two receivers under a
   characterized, rotated splitter topology.
-- RC-02 remains blocked: source authority, unit-specific traceability,
-  measurement uncertainty, exact RF output-port identity, verified loaded
-  level, characterized attenuation, and complete environmental/lock evidence
-  remain incomplete.
+- RC-02 is complete only for the exact LBE-1421 OUT1, path, Airspy, settings,
+  assigned uncertainty, GNSS/warm-up conditions, and five-second observation
+  duration retained above. The source remains `ad_hoc`, ceiling 50.
 - RC-03 remains blocked: no calibration observation set, model, uncertainty
   budget, profile, or in-domain evaluation was produced.
 
-A later RC-02 attempt requires a new plan. Under the durable readiness contract
-it must close the missing source dossier, characterize the attenuation path,
-verify loaded level with suitable independent equipment, retain uncertainty and
-lock/holdover evidence, and receive separate authorization. This record itself
-does not authorize reconnection.
+Any longer duration, changed output, path, receiver, setting, condition, or
+stronger reference-authority claim requires a new plan and evidence. This
+record itself does not authorize reconnection or RC-03.

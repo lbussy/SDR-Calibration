@@ -66,18 +66,19 @@
   reliability-quotient policy output, in-domain evaluation and sign convention,
   and fail-closed tampering and extrapolation. This makes no physical accuracy
   or reference-suitability claim.
-- Documentation-only GPSDO and reference-path readiness package covering exact
+- GPSDO and reference-path package covering exact
   source and receiver dossiers, clock-versus-RF topology selection, worst-case
   level and attenuation calculations, component inventory, pre-connection
-  review, bounded-plan fields, abort/cleanup, evidence, and stop criteria. The
-  physical path remains explicitly not ready and no reference suitability or
-  calibration claim is established.
+  review, bounded-plan fields, abort/cleanup, evidence, and stop criteria. RC-02
+  is complete only for the exact five-second LBE-1421 OUT1/Airspy contract as
+  an `ad_hoc` reference with ceiling 50 and expanded uncertainty 1.0 Hz at
+  `k = 2`; broader reference suitability and calibration remain unqualified.
 - One exact, separately authorized LBE-1421/LBE-1710/generic-attenuator/Airspy
   diagnostic completed its five-second transport bound and passed the unchanged
-  production estimator and `signal-quality-v1` analyzer. Independent loaded-level
-  measurement was explicitly waived, so electrical path safety, analog linearity,
-  reference suitability, traceability, uncertainty, and calibration remain
-  unqualified as recorded in the [diagnostic report](lbe1421-airspy-reference-diagnostic.md).
+  production estimator and `signal-quality-v1` analyzer. A later exact OUT1 run
+  retained warm-up, GNSS, duration, uncertainty, safety-margin, and cleanup
+  evidence and closed only the five-second RC-02 boundary recorded in the
+  [diagnostic report](lbe1421-airspy-reference-diagnostic.md).
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

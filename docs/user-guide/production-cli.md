@@ -108,6 +108,13 @@ selected SDR. It should be done only under a separately reviewed device,
 reference, settings, duration, abort, cleanup, and evidence plan. Ordinary unit
 and integration tests use injected fake APIs and never access hardware.
 
+For a conducted RF reference, the operator must use a compatible 50-ohm path
+and enough attenuation to keep the source safely below the exact SDR's
+published input limit with a conservative margin. Independent RF power
+measurement is optional unless the available specifications cannot establish
+safety or overload is suspected. RF power is a safety and signal-quality
+condition; it is not part of the frequency-calibration uncertainty.
+
 ## Output transaction
 
 Success atomically publishes one new directory containing `profile.json`,
