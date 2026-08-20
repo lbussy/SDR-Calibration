@@ -61,6 +61,18 @@ def main() -> None:
         root,
         "evidence/windows-store/2026-08-17-partner-center-readonly/README.md",
     )
+    replacement_readme = read(
+        root,
+        "evidence/windows-store/2026-08-20-0.1.1-replacement/README.md",
+    )
+    replacement_artifact = json.loads(read(
+        root,
+        "evidence/windows-store/2026-08-20-0.1.1-replacement/artifact.json",
+    ))
+    replacement_lifecycle = json.loads(read(
+        root,
+        "evidence/windows-store/2026-08-20-0.1.1-replacement/lifecycle-result.json",
+    ))
     fixture_generator = read(root, "scripts/prepare-store-certification-fixture.py")
     lifecycle = read(root, "packaging/windows/qualify-store-msix.ps1")
     screenshot_dir = root / "evidence/windows-store/2026-08-17-0.1.1-screenshots"
@@ -259,7 +271,7 @@ def main() -> None:
         "required release ledger silently restored the MSI",
     )
     for marker in (
-        "Status: Store listing complete; first package rejected; replacement pending",
+        "Status: Store listing complete; replacement qualified; owner binding pending",
         "Four genuine Store screenshot candidates are retained",
         "evidence/windows-store/2026-08-17-0.1.1-screenshots/",
         "SDRCalibration-0.1.1-Store-Certification-Fixture.zip",
@@ -297,7 +309,7 @@ def main() -> None:
     ):
         require(marker in package_upload_prompt, f"Store package-upload prompt drift: {marker}")
     for marker in (
-        "Status: **Owner approved and saved; upload remains separately authorized**",
+        "Status: **Saved fields approved; replacement candidate binding pending**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
         "The publishing default is automatic after certification",
@@ -309,12 +321,42 @@ def main() -> None:
         "- Approval date (UTC): **2026-08-17**",
         "- Approving owner: **Lee Bussy**",
         "selection or upload remains a separate authorized slice",
+        "4406a82e01072afc0d61d2516c2fe9607c608ea4",
+        "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
+        "Pending renewed owner approval",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
-    require(owner_decisions.count("- [ ]") == 0,
-            "Store owner-decision packet must retain no pending attestations")
-    require(owner_decisions.count("- [x]") == 8,
-            "Store owner-decision packet must retain eight explicit approvals")
+    require(owner_decisions.count("- [ ]") == 1,
+            "Store owner-decision packet must retain one pending replacement binding")
+    require(owner_decisions.count("- [x]") == 7,
+            "Store owner-decision packet must retain seven saved-field approvals")
+    require(replacement_artifact["source_revision"] ==
+            "4406a82e01072afc0d61d2516c2fe9607c608ea4",
+            "replacement artifact revision drift")
+    require(replacement_artifact["sha256"] ==
+            "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
+            "replacement artifact hash drift")
+    require(replacement_artifact["size"] == 95910402,
+            "replacement artifact size drift")
+    require(replacement_artifact["publisher_display_name"] == "Lee Bussy" and
+            replacement_artifact["language"] == "en-us",
+            "replacement manifest identity or language drift")
+    require([(logo["width"], logo["height"]) for logo in
+             replacement_artifact["logos"]] == [(50, 50), (150, 150), (44, 44)],
+            "replacement logo dimension drift")
+    for gate in ("development_signature", "install", "cli_alias",
+                 "gui_first_launch", "gui_relaunch", "uninstall", "cleanup"):
+        require(replacement_lifecycle[gate].startswith("passed"),
+                f"replacement lifecycle gate drift: {gate}")
+    for marker in (
+        "all 19 hardware-free tests",
+        "zero installed",
+        "packages, zero GUI processes",
+        "No package was selected or uploaded",
+        "explicit renewed owner binding",
+    ):
+        require(marker in replacement_readme,
+                f"replacement evidence narrative drift: {marker}")
     for marker in (
         "product-list status was `Not started`",
         "application overview status was `In draft`",

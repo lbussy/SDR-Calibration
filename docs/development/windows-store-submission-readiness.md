@@ -1,8 +1,10 @@
 # Microsoft Store submission readiness
 
-Status: Store listing complete; first package rejected; replacement pending
+Status: Store listing complete; replacement qualified; owner binding pending
 
 Prepared: 2026-08-17
+
+Updated: 2026-08-20
 
 ## Boundary
 
@@ -292,7 +294,8 @@ but the four-shot set is the readiness exit.
    not the filename alone.
 7. The Packages page has Windows 10/11 Desktop checked; Mobile, Xbox, Team, and
    Mixed Reality unchecked; and Microsoft's future-device-family option
-   unchecked. No package has been selected or uploaded.
+   unchecked. The rejected first package was deleted; no replacement package
+   has been selected or uploaded.
 8. Package and fixture upload, certification submission, Microsoft signing,
    Store delivery, clean-host Store lifecycle, and MSI migration/coexistence
    remain open and separately authorized.
@@ -307,9 +310,16 @@ but the four-shot set is the readiness exit.
    dimensions. These checks prevent path or image drift but do not prove the
    Partner Center errors resolved. That proof requires acceptance of a new
    revision after rebuild, full requalification, and renewed owner binding.
+10. A fresh replacement at revision `4406a82` and SHA-256
+    `6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08`
+    passed all 19 hardware-free tests, package audit, MakeAppx pack/unpack,
+    exact unpacked language/publisher/logo inspection, development-signed
+    install, CLI alias, two GUI launches, uninstall, and cleanup. No Partner
+    Center action occurred. The replacement binding is pending explicit owner
+    approval before selection or upload.
 
-All owner gates are approved in `windows-store-owner-decisions.md`. That
-approval does not authorize package selection or upload, certification
-submission, or publication.
+Saved-field owner gates remain approved in `windows-store-owner-decisions.md`;
+the replacement artifact binding is pending. No prior approval authorizes its
+selection or upload, certification submission, or publication.
 
 No checkbox in this packet changes Partner Center state.

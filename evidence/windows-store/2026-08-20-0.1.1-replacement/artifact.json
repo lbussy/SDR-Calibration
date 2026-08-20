@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_revision": "4406a82e01072afc0d61d2516c2fe9607c608ea4",
+  "artifact": "SDRCalibration-0.1.1-Windows-Store-x64.msix",
+  "windows_path": "C:\\Users\\lee\\SDR-Calibration-Store-0.1.1-h-4406a82\\build\\windows-store-release\\windows-store-package\\SDRCalibration-0.1.1-Windows-Store-x64.msix",
+  "package_version": "0.1.1.0",
+  "architecture": "x64",
+  "size": 95910402,
+  "sha256": "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
+  "publisher_display_name": "Lee Bussy",
+  "language": "en-us",
+  "logos": [
+    {"declaration": "Properties/Logo", "path": "Assets\\StoreLogo.png", "width": 50, "height": 50, "format": "PNG", "sha256": "82ba9617f4244b9c157e44f4726001ae91d77de180750b176d968571c74b33cd"},
+    {"declaration": "Square150x150Logo", "path": "Assets\\Square150x150Logo.png", "width": 150, "height": 150, "format": "PNG", "sha256": "c84e018d84f265649d66c85d34fa7d3a5beed629046298f889f785372b710546"},
+    {"declaration": "Square44x44Logo", "path": "Assets\\Square44x44Logo.png", "width": 44, "height": 44, "format": "PNG", "sha256": "730a5228f2410679c06ed5527907e87afc7ec1ea2e0931875df2da1632da6401"}
+  ],
+  "store_signing_observed": false,
+  "certification_state": "not submitted"
+}

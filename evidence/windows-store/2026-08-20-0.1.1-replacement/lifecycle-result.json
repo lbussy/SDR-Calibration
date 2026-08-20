@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "artifact_source_revision": "4406a82e01072afc0d61d2516c2fe9607c608ea4",
+  "harness_source_revision": "4406a82e01072afc0d61d2516c2fe9607c608ea4",
+  "unsigned_artifact": "SDRCalibration-0.1.1-Windows-Store-x64.msix",
+  "unsigned_sha256": "6d6998bb2130b9f137ac2847c8449f24259f5a526f1f8c67d66f7953f9327f08",
+  "package_version": "0.1.1.0",
+  "development_signature": "passed; temporary locally trusted certificate only",
+  "install": "passed",
+  "cli_alias": "passed",
+  "gui_first_launch": "passed",
+  "gui_relaunch": "passed",
+  "uninstall": "passed",
+  "cleanup": "passed",
+  "independent_cleanup": "passed; package=false gui_process=false temporary_certificate=false",
+  "microsoft_store_signing_observed": false,
+  "store_delivery_qualified": false,
+  "device_qualified": false
+}
