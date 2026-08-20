@@ -85,6 +85,12 @@
   independently qualified reference frequency. RC-01 remains blocked and
   mandatory for receiver-equivalence, cross-device, or general support claims;
   RC-03 remains `Not qualified`.
+- The first separately authorized 20 MHz LBE-1421/two-attenuator/Airspy
+  candidate completed exact five-second transport and cleanup but was rejected
+  by `observation-acceptance-v1`: frequency instability was 5.514993 Hz against
+  the 0.5 Hz maximum. No retry occurred. The accepted 10 MHz RC-02 scope is
+  unchanged, no accepted second-frequency observation exists, and RC-03 remains
+  `Not qualified`.
 - Production `sdrcal calibrate` CLI for strict, bounded, digest-verified
   recorded CF32LE observations, with an independent local registry-signature
   pin file, canonical terminal JSON, stable exit categories, progress,

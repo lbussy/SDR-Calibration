@@ -233,3 +233,53 @@ conditions.
 Any longer duration, changed output, path, receiver, setting, condition, or
 stronger reference-authority claim requires a new plan and evidence. This
 record itself does not authorize reconnection or RC-03.
+
+## Rejected 20 MHz different-frequency attempt
+
+A separately authorized execution of the immutable
+[20 MHz reference plan](lbe1421-airspy-20mhz-reference-execution-plan.md),
+SHA-256 `e15d46611d7280aefd2d9b09f04427bc02632bce43ac5941b828ebdb4f70a1a9`,
+used the same private-serial LBE-1421 OUT1 and Airspy serial, two generic nominal
+-10 dB attenuators, and no LBE-1710 or external DC block. The manufacturer
+application reported firmware 1.09, OUT1 at 20 MHz Low Power, 1 PPS disabled,
+Stationary, and `Device Ok`. The application was closed before Airspy access.
+
+The only authorized five-second capture completed with exact 20,000,000 Hz and
+192,000 samples/s readback, 960,000 CF32LE samples, 7,680,000 bytes, zero
+timeouts, overflows, or discontinuities, final state `known_safe`, and exact
+pre-run and post-run serial-filtered Airspy enumeration. No retry occurred. The
+operator subsequently confirmed reverse-order physical cleanup and `Hardware
+safe`.
+
+The unchanged production estimator and `signal-quality-v1` analyzer produced:
+
+| Metric | Result |
+| --- | ---: |
+| Fitted offset from requested center | +3.1951333656 Hz |
+| Fitted drift | +0.0602400846 Hz/s |
+| Model coherence | 0.9999998560 |
+| Residual phase RMS | 0.0005366622 rad |
+| Signal-to-noise ratio | 19.064248 dB |
+| Digital-rail clipped samples | 0 |
+| Frequency-instability metric | 5.514993 Hz |
+| Interference/carrier | -78.237621 dB |
+| Instability windows / FFT samples | 937 / 65,536 |
+
+`observation-acceptance-v1` rejected the observation because frequency
+instability exceeded the 0.5 Hz maximum. The successful transport, estimator,
+SNR, clipping, drift, and interference checks do not override that rejection.
+This run does not qualify the 20 MHz reference path and supplies no accepted
+second-frequency observation for RC-03.
+
+Private artifacts remain outside Git and are content-addressed by:
+
+| Artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Five-second CF32LE capture | 7,680,000 | `38408580ec22971ee27ffac0ae6aea1ea58a669ee311e41aa6d516fa4a2d58ee` |
+| Capture manifest | 2,983 | `fbd8bcdda5e0052da0ec09bda6e8a81cf04d0da305675c283626535099c66d69` |
+| Offline-analysis record | 2,425 | `bfbc8e0a6fe7f2c0c101882fe3e0c89cb1d358c57525776d2ec650ec9e16bb70` |
+| Cleanup record | 722 | `5cf004e18b552c19f779db9f292e4ae42c0a8fae2bb71ddc8aa9308fa8d206c7` |
+
+The accepted 10 MHz RC-02 scope remains unchanged. Any diagnosis, repeat,
+changed attenuation, changed duration, or alternative frequency requires a new
+plan and authorization.
