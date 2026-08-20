@@ -48,6 +48,7 @@ def main() -> None:
         "docs/development/windows-store-submission-readiness.md",
     )
     owner_decisions = read(root, "docs/development/windows-store-owner-decisions.md")
+    privacy_policy = read(root, "PRIVACY.md")
     listing_prompt = read(
         root, "docs/development/windows-store-listing-text-execution-prompt.md"
     )
@@ -60,6 +61,10 @@ def main() -> None:
     replacement_upload_prompt = read(
         root,
         "docs/development/windows-store-replacement-upload-execution-prompt.md",
+    )
+    post_upload_prompt = read(
+        root,
+        "docs/development/windows-store-post-upload-readiness-execution-prompt.md",
     )
     partner_center_inspection = read(
         root,
@@ -284,6 +289,7 @@ def main() -> None:
         "`runFullTrust` justification",
         "Publishing is held for manual owner action.",
         "Approved and saved",
+        "https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md",
     ):
         require(
             marker in submission_readiness,
@@ -324,6 +330,15 @@ def main() -> None:
         require(marker in replacement_upload_prompt,
                 f"Store replacement-upload prompt drift: {marker}")
     for marker in (
+        "complete only fields already covered by explicit owner",
+        "provide a policy until",
+        "owner approves one exact URL or exact policy text",
+        "Do not submit for certification",
+        "Adversarial review",
+    ):
+        require(marker in post_upload_prompt,
+                f"Store post-upload prompt drift: {marker}")
+    for marker in (
         "Status: **Replacement upload completed; certification remains separate**",
         "Preparing or committing a proposed value is not approval of that",
         "Manual publication hold; no automatic publication",
@@ -342,12 +357,23 @@ def main() -> None:
         "- Replacement approval date (UTC): **2026-08-20**",
         "> I authorize selecting and uploading the exact approved replacement package.",
         "- Upload authorization date (UTC): **2026-08-20**",
+        "https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md",
     ):
         require(marker in owner_decisions, f"Store owner-decision gate drift: {marker}")
     require(owner_decisions.count("- [ ]") == 0,
             "Store owner-decision packet must retain no pending attestations")
     require(owner_decisions.count("- [x]") == 8,
             "Store owner-decision packet must retain eight explicit approvals")
+    for marker in (
+        "Effective date: August 20, 2026",
+        "Processing occurs locally on your device.",
+        "project telemetry",
+        "does not send your selected",
+        "GitHub Issue",
+        "Microsoft and your operating system may independently process",
+        "SDR Calibration Issues page",
+    ):
+        require(marker in privacy_policy, f"Store privacy policy drift: {marker}")
     require(replacement_artifact["source_revision"] ==
             "4406a82e01072afc0d61d2516c2fe9607c608ea4",
             "replacement artifact revision drift")

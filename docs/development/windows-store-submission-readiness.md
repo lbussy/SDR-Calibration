@@ -64,6 +64,7 @@ identified explicitly below. The approval record is the
 | Properties | Xbox | Not supported | Approved and saved |
 | Properties | Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
 | Properties | Support | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
+| Properties | Privacy policy | `https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md` | Repository-hosted policy created; Partner Center entry pending |
 | Listing | Language | English (United States) only for the first submission | Approved and saved |
 | Listing | Product name | `SDR Calibration` | Approved and saved |
 | Listing | Description | Exact English listing copy below | Approved and saved |
@@ -332,5 +333,11 @@ but the four-shot set is the readiness exit.
 Saved-field owner gates, the replacement artifact binding, and the separate
 upload authorization are recorded in `windows-store-owner-decisions.md`.
 Certification submission and publication remain unauthorized.
+
+Partner Center's package-derived privacy assessment requires a policy despite
+the Store build's local-only processing. The owner authorized the
+repository-hosted policy at
+`https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md`; entering and
+saving that URL remains the next separate Partner Center action.
 
 No checkbox in this packet changes Partner Center state.

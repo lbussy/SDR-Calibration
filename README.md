@@ -25,6 +25,7 @@ obligations; see [Third-party notices](THIRD_PARTY_NOTICES.md).
 - [Implementation status](docs/development/status.md)
 - [Platform and device matrix](docs/development/platform-and-device-matrix.md)
 - [Contributing](CONTRIBUTING.md)
+- [Privacy policy](PRIVACY.md)
 
 The native calibration profile is authoritative. External formats such as
 WSJT-X settings and `fmt.all` are explicitly lossy interoperability adapters.

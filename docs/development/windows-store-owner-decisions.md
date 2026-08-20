@@ -55,8 +55,8 @@ has not approved that value in this record.
 | Listing language | English (United States) only for the first submission | Approved and saved |
 | Website | `https://github.com/lbussy/SDR-Calibration` | Approved and saved |
 | Support channel | `https://github.com/lbussy/SDR-Calibration/issues` | Approved and saved |
-| Privacy answer | No | Approved and saved |
-| Privacy policy | Omit unless Partner Center requires one | Approved; no URL entered |
+| Privacy answer | Yes; the app accesses user-selected local files that may contain personal information, without project collection or transmission | Package-derived Partner Center selection observed; save pending |
+| Privacy policy | `https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md` | Repository-hosted policy owner-authorized; Partner Center entry pending |
 | Age rating | All Other App Types; No for every exposed content/interaction question; all-ages/3+ mappings | Approved and saved |
 | Publishing schedule | Manual publication hold; no automatic publication | Approved and saved |
 | Device families | Windows 10/11 Desktop only; Mobile, Xbox, Team, and Mixed Reality disabled | Approved and saved |
@@ -193,6 +193,15 @@ The separate replacement upload authorization is recorded as:
 - Approving owner: **Lee Bussy**
 - Scope: the exact approved replacement only; no certification submission or
   publication.
+
+After Partner Center required a privacy policy for the accepted package, the
+owner authorized creation of a repository-hosted policy on 2026-08-20 UTC. Its
+intended Partner Center URL is:
+
+`https://github.com/lbussy/SDR-Calibration/blob/main/PRIVACY.md`
+
+Creating and publishing the policy does not authorize entering or saving the
+URL in Partner Center or submitting the product for certification.
 
 Do not record an email address, phone number, postal address, account
 credential, notification recipient, or verification material in this file.
